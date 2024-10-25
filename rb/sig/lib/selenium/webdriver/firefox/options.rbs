@@ -6,7 +6,7 @@ module Selenium
 
         @profile: untyped
 
-        @options: untyped
+        @options: Hash[Symbol, untyped]
 
         attr_accessor debugger_address: untyped
 
