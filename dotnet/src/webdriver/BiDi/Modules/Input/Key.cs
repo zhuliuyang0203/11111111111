@@ -1,8 +1,8 @@
-namespace OpenQA.Selenium.BiDi.Modules.Input;
+//namespace OpenQA.Selenium.BiDi.Modules.Input;
 
-partial record Key
-{
-    public const char Shift = '\uE008';
+//partial record Key
+//{
+//    public const char Shift = '\uE008';
 
-    public const char Pause = '\uE00B';
-}
+//    public const char Pause = '\uE00B';
+//}
