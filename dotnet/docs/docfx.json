@@ -49,6 +49,7 @@
     ],
     "globalMetadata": {
       "_appName": "Selenium .NET API Docs",
+      "_appLogoPath": "images/logo.svg",
       "_appFaviconPath": "images/favicon.ico",
       "_enableSearch": true
     }
