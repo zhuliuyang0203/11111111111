@@ -170,7 +170,7 @@ namespace OpenQA.Selenium
         /// </list>
         /// </remarks>
         /// <exception cref="StaleElementReferenceException">Thrown when the target element is no longer valid in the document DOM.</exception>
-        [Obsolete("Use GetDomAttribute(string attributeName) or GetDomProperty(string propertyName). GetAttribute() is schedule for removal in Selenium v6"]
+        [Obsolete("Use GetDomAttribute(string attributeName) or GetDomProperty(string propertyName). GetAttribute(string attributeName) will be removed in Selenium 6."]
         string GetAttribute(string attributeName);
 
         /// <summary>
