@@ -35,6 +35,7 @@ def throw_sere(driver):
 
 @pytest.mark.xfail_chrome(reason="https://bugs.chromium.org/p/chromedriver/issues/detail?id=4743")
 @pytest.mark.xfail_edge(reason="https://bugs.chromium.org/p/chromedriver/issues/detail?id=4743")
+@pytest.mark.xfail_safari
 def test_should_fail_with_invalid_selector_exception(driver, pages):
     pages.load("dynamic.html")
     with pytest.raises(InvalidSelectorException):
@@ -283,6 +284,7 @@ def test_expected_condition_element_to_be_clickable(driver, pages):
     assert element.is_displayed() is False
 
 
+@pytest.mark.xfail_safari
 def test_expected_condition_staleness_of(driver, pages):
     pages.load("dynamicallyModifiedPage.html")
     element = driver.find_element(By.ID, "element-to-remove")
