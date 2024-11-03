@@ -20,36 +20,44 @@ import trio
 from selenium.webdriver.common.bidi.cdp import open_cdp
 from selenium.webdriver.common.bidi.network import BeforeRequestSentParameters
 from selenium.webdriver.common.bidi.network import ContinueRequestParameters
+from selenium.webdriver.common.bidi.network import UrlPatternString
+from selenium.webdriver.common.bidi.browsing_context import BrowsingContext
 
 
 @pytest.mark.xfail_firefox
 @pytest.mark.xfail_safari
 @pytest.mark.xfail_edge
-async def test_add_request_handler(driver, pages):
+async def test_request_handler(driver, pages):
 
-    target = pages.url("simpleTest.html")
+    url1 = pages.url("simpleTest.html")
+    url2 = pages.url("clicks.html")
+    url3 = pages.url("formPage.html")
 
-    def request_filter(params: BeforeRequestSentParameters):
-        return params.request["url"] == target
+    pattern1 = [UrlPatternString(url1)]
+    pattern2 = [UrlPatternString(url2)]
 
-    def request_handler(params: BeforeRequestSentParameters):
-        request = params.request["request"]
-        json = {"request": request, "url": pages.url("formPage.html")}
-        return ContinueRequestParameters(**json)
+    def request_handler(params):
+        request = params["request"]
+        json = {"request": request, "url": url3}
+        return json
 
     ws_url = driver.caps.get("webSocketUrl")
     async with open_cdp(ws_url) as conn:
         async with trio.open_nursery() as nursery:
-            nursery.start_soon(
-                driver.network.add_request_handler,
-                request_filter,
-                request_handler,
-                conn,
-            )
-            await trio.sleep(1)
-            await driver.network.get(target, conn)
-            assert "We Leave From Here" == driver.title
-            await trio.sleep(1)
-            await driver.network.remove_request_handler()
-            await driver.network.get(target, conn)
-            assert "Hello WebDriver" == driver.title
+            # Multiple intercepts
+            intercept1 = await nursery.start(driver.network.add_request_handler, request_handler, pattern1, conn)
+            intercept2 = await nursery.start(driver.network.add_request_handler, request_handler, pattern2, conn)
+            await driver.network.get(url1, conn)
+            assert driver.title ==  "We Leave From Here"
+            await driver.network.get(url2, conn)
+            assert  driver.title == "We Leave From Here"
+            
+            # Removal of a single intercept
+            await driver.network.remove_intercept(intercept2)
+            await driver.network.get(url2, conn)
+            assert  driver.title == "clicks"
+            await driver.network.get(url1, conn)
+            assert driver.title == "We Leave From Here"
+            
+            await driver.network.remove_intercept(intercept1)
+            assert driver.title == "We Leave From Here"

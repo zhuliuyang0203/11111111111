@@ -201,13 +201,23 @@ class RemoveIntercept(BidiCommand):
     method: typing.Literal["network.removeIntercept"] = "network.removeIntercept"
 
 
+@dataclass
+class SetCacheBehaviorParameters(BidiObject):
+    cacheBehavior: typing.Literal["default", "bypass"]
+    contexts: typing.Optional[typing.List[browsing_context.BrowsingContext]] = None
+
+
+@dataclass
+class SetCacheBehavior(BidiCommand):
+    params: SetCacheBehaviorParameters
+    method: typing.Literal["network.setCacheBehavior"] = "network.setCacheBehavior"
+
+
 class Network:
     def __init__(self, conn):
         self.conn = conn
-        self.callbacks = {}
 
-    async def add_intercept(self, event, params: AddInterceptParameters):
-        await self.conn.execute(session_subscribe(event.event_class))
+    async def add_intercept(self, params: AddInterceptParameters):
         result = await self.conn.execute(AddIntercept(params).cmd())
         return result
 
@@ -215,6 +225,5 @@ class Network:
         result = await self.conn.execute(ContinueRequest(params).cmd())
         return result
 
-    async def remove_intercept(self, event, params: RemoveInterceptParameters):
-        await self.conn.execute(session_unsubscribe(event.event_class))
+    async def remove_intercept(self, params: RemoveInterceptParameters):
         await self.conn.execute(RemoveIntercept(params).cmd())
