@@ -86,7 +86,7 @@ namespace OpenQA.Selenium
         /// <summary>
         /// Gets or sets the message from the response
         /// </summary>
-        public string? Message { get; } = string.Empty;
+        public string Message { get; } = string.Empty;
 
         /// <summary>
         /// Gets or sets the class name that threw the error
