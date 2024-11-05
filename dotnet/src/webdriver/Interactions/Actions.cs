@@ -36,7 +36,7 @@ namespace OpenQA.Selenium.Interactions
         /// Initializes a new instance of the <see cref="Actions"/> class.
         /// </summary>
         /// <param name="driver">The <see cref="IWebDriver"/> object on which the actions built will be performed.</param>
-        /// <exception cref="ArgumentException">If <paramref name="driver"/> does not implement IActionExecutor.</exception>
+        /// <exception cref="ArgumentException">If <paramref name="driver"/> does not implement <see cref="IActionExecutor"/>.</exception>
         public Actions(IWebDriver driver)
             : this(driver, TimeSpan.FromMilliseconds(250))
         {
@@ -47,7 +47,7 @@ namespace OpenQA.Selenium.Interactions
         /// </summary>
         /// <param name="driver">The <see cref="IWebDriver"/> object on which the actions built will be performed.</param>
         /// <param name="duration">How long durable action is expected to take.</param>
-        /// <exception cref="ArgumentException">If <paramref name="driver"/> does not implement IActionExecutor.</exception>
+        /// <exception cref="ArgumentException">If <paramref name="driver"/> does not implement <see cref="IActionExecutor"/>.</exception>
         public Actions(IWebDriver driver, TimeSpan duration)
         {
             IActionExecutor actionExecutor = GetDriverAs<IActionExecutor>(driver);
