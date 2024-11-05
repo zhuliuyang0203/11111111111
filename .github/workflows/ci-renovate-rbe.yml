@@ -12,7 +12,7 @@ jobs:
     if: github.repository_owner == 'seleniumhq'
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
       - name: Repin Dependencies
         run: |
           REPIN=1 bazel run @maven//:pin
@@ -26,21 +26,19 @@ jobs:
             git config --local user.name "Selenium CI Bot"
             git add ./java/maven_install.json
             git commit -m 'Repin maven dependencies'
-            echo "code_changes=true" >> $GITHUB_ENV
+            git push
           fi
-      - name: Push changes
-        if: ${{ env.code_changes }} == 'true'
-        uses: ad-m/github-push-action@master
-        with:
-          github_token: ${{ secrets.SELENIUM_CI_TOKEN }}
-          branch: ${{ github.head_ref }}
-      - name: Format
-        uses: ./.github/workflows/bazel.yml
-        with:
-          name: Check format script run
-          caching: false
-          ruby-version: jruby-9.4.8.0
-          run: ./scripts/github-actions/check-format.sh
+
+  check-format:
+    needs: format
+    name: Check format
+    if: github.repository_owner == 'DineshKumarRA'
+    uses: ./.github/workflows/bazel.yml
+    with:
+      name: Check format script run
+      caching: false
+      ruby-version: jruby-9.4.8.0
+      run: ./scripts/github-actions/check-format.sh
 
   test:
     name: Test
