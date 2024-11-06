@@ -15,6 +15,7 @@
 # specific language governing permissions and limitations
 # under the License.
 
+import os
 from unittest.mock import patch
 from urllib import parse
 
@@ -24,6 +25,8 @@ from urllib3.util import Retry
 from urllib3.util import Timeout
 
 from selenium import __version__
+from selenium.webdriver import Proxy
+from selenium.webdriver.common.proxy import ProxyType
 from selenium.webdriver.remote.remote_connection import ClientConfig
 from selenium.webdriver.remote.remote_connection import RemoteConnection
 
@@ -115,6 +118,54 @@ def test_get_proxy_url_https(mock_proxy_settings):
     remote_connection = RemoteConnection("https://remote", keep_alive=False)
     proxy_url = remote_connection._client_config.get_proxy_url()
     assert proxy_url == proxy
+
+
+def test_get_proxy_url_https_via_client_config():
+    client_config = ClientConfig(
+        remote_server_addr="https://localhost:4444",
+        proxy=Proxy({"proxyType": ProxyType.MANUAL, "sslProxy": "https://admin:admin@http_proxy.com:8080"}),
+    )
+    remote_connection = RemoteConnection(client_config=client_config)
+    proxy_url = remote_connection._client_config.get_proxy_url()
+    assert proxy_url == "https://admin:admin@http_proxy.com:8080"
+
+
+def test_get_proxy_url_http_via_client_config():
+    client_config = ClientConfig(
+        remote_server_addr="https://localhost:4444",
+        proxy=Proxy(
+            {
+                "proxyType": ProxyType.MANUAL,
+                "httpProxy": "http://admin:admin@http_proxy.com:8080",
+                "sslProxy": "https://admin:admin@http_proxy.com:8080",
+            }
+        ),
+    )
+    remote_connection = RemoteConnection(client_config=client_config)
+    proxy_url = remote_connection._client_config.get_proxy_url()
+    assert proxy_url == "https://admin:admin@http_proxy.com:8080"
+
+
+def test_get_proxy_direct_via_client_config():
+    client_config = ClientConfig(
+        remote_server_addr="http://localhost:4444", proxy=Proxy({"proxyType": ProxyType.DIRECT})
+    )
+    remote_connection = RemoteConnection(client_config=client_config)
+    proxy_url = remote_connection._client_config.get_proxy_url()
+    assert proxy_url is None
+
+
+def test_get_proxy_system_matches_no_proxy_via_client_config():
+    os.environ["HTTP_PROXY"] = "http://admin:admin@system_proxy.com:8080"
+    os.environ["NO_PROXY"] = "localhost,127.0.0.1"
+    client_config = ClientConfig(
+        remote_server_addr="http://localhost:4444", proxy=Proxy({"proxyType": ProxyType.SYSTEM})
+    )
+    remote_connection = RemoteConnection(client_config=client_config)
+    proxy_url = remote_connection._client_config.get_proxy_url()
+    assert proxy_url is None
+    os.environ.pop("HTTP_PROXY")
+    os.environ.pop("NO_PROXY")
 
 
 def test_get_proxy_url_none(mock_proxy_settings_missing):
