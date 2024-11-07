@@ -25,7 +25,7 @@ def test_launch_and_close_browser(clean_driver, clean_service):
 
 
 @pytest.mark.no_driver_after_test
-def test_we_can_launch_multiple_chrome_instances(clean_driver, clean_service):
+def test_we_can_launch_multiple_edge_instances(clean_driver, clean_service):
     driver1 = clean_driver(service=clean_service)
     driver2 = clean_driver(service=clean_service)
     driver3 = clean_driver(service=clean_service)
