@@ -1241,9 +1241,10 @@ class WebDriver(BaseWebDriver):
                 dialog_type = driver.fedcm.dialog_type
                 accounts = driver.fedcm.account_list
                 driver.fedcm.select_account(0)
-                driver.fedcm.click_dialog_button()
+                driver.fedcm.click_continue()
                 driver.fedcm.cancel_dialog()
-                driver.fedcm.set_delay(False)
+                driver.fedcm.enable_delay()
+                driver.fedcm.disable_delay()
                 driver.fedcm.reset_cooldown()
         """
         return self._fedcm
