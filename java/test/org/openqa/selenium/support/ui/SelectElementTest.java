@@ -149,7 +149,7 @@ class SelectElementTest extends JupiterTestBase {
 
     select.deselectAll();
     assertThatExceptionOfType(NoSuchElementException.class)
-      .isThrownBy(() -> select.selectByContainsVisibleText("select_12"));
+        .isThrownBy(() -> select.selectByContainsVisibleText("select_12"));
   }
 
   @Test

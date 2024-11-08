@@ -26,7 +26,6 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -162,8 +161,9 @@ class SelectTest {
     final WebElement firstOption = mockOption("first", false);
 
     final WebElement element = mockSelectWebElement("multiple");
-    when(element.findElements(By.xpath(".//option[contains(., " + Quotes.escape(parameterText) + ")]")))
-      .thenReturn(Collections.singletonList(firstOption));
+    when(element.findElements(
+            By.xpath(".//option[contains(., " + Quotes.escape(parameterText) + ")]")))
+        .thenReturn(Collections.singletonList(firstOption));
     when(firstOption.getText()).thenReturn("foo bar");
     when(firstOption.isEnabled()).thenReturn(true);
 
@@ -257,8 +257,9 @@ class SelectTest {
     final WebElement secondOption = mockOption("second", false);
 
     final WebElement element = mockSelectWebElement("multiple");
-    when(element.findElements(By.xpath(".//option[contains(., " + Quotes.escape(parameterText) + ")]")))
-      .thenReturn(Arrays.asList(firstOption, secondOption));
+    when(element.findElements(
+            By.xpath(".//option[contains(., " + Quotes.escape(parameterText) + ")]")))
+        .thenReturn(Arrays.asList(firstOption, secondOption));
 
     Select select = new Select(element);
     select.deSelectByContainsVisibleText(parameterText);
@@ -340,6 +341,6 @@ class SelectTest {
         .isThrownBy(() -> select.selectByVisibleText("also not there"));
 
     assertThatExceptionOfType(NoSuchElementException.class)
-      .isThrownBy(() -> select.selectByContainsVisibleText("also not there"));
+        .isThrownBy(() -> select.selectByContainsVisibleText("also not there"));
   }
 }
