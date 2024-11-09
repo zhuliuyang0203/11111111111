@@ -19,11 +19,9 @@
 
 using OpenQA.Selenium.Remote;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Text.Json;
-using System.Text.Json.Nodes;
 
 namespace OpenQA.Selenium
 {
@@ -36,6 +34,7 @@ namespace OpenQA.Selenium
         private const string AlwaysMatchCapabilityName = "alwaysMatch";
 
         private readonly List<string> reservedSettingNames = new List<string>() { FirstMatchCapabilityName, AlwaysMatchCapabilityName };
+        private DriverOptions mustMatchDriverOptions;
         private List<DriverOptions> firstMatchOptions = new List<DriverOptions>();
         private Dictionary<string, object> remoteMetadataSettings = new Dictionary<string, object>();
 
@@ -61,7 +60,7 @@ namespace OpenQA.Selenium
         /// </param>
         public RemoteSessionSettings(DriverOptions mustMatchDriverOptions, params DriverOptions[] firstMatchDriverOptions)
         {
-            this.MustMatchDriverOptions = mustMatchDriverOptions;
+            this.mustMatchDriverOptions = mustMatchDriverOptions;
             foreach (DriverOptions firstMatchOption in firstMatchDriverOptions)
             {
                 this.AddFirstMatchDriverOption(firstMatchOption);
@@ -71,7 +70,7 @@ namespace OpenQA.Selenium
         /// <summary>
         /// Gets a value indicating the options that must be matched by the remote end to create a session.
         /// </summary>
-        internal DriverOptions MustMatchDriverOptions { get; private set; }
+        internal DriverOptions MustMatchDriverOptions => this.mustMatchDriverOptions;
 
         /// <summary>
         /// Gets a value indicating the number of options that may be matched by the remote end to create a session.
@@ -143,9 +142,9 @@ namespace OpenQA.Selenium
         /// <param name="options">The <see cref="DriverOptions"/> to add to the list of "first matched" options.</param>
         public void AddFirstMatchDriverOption(DriverOptions options)
         {
-            if (MustMatchDriverOptions != null)
+            if (this.mustMatchDriverOptions != null)
             {
-                DriverOptionsMergeResult mergeResult = MustMatchDriverOptions.GetMergeResult(options);
+                DriverOptionsMergeResult mergeResult = this.mustMatchDriverOptions.GetMergeResult(options);
                 if (mergeResult.IsMergeConflict)
                 {
                     string msg = string.Format(CultureInfo.InvariantCulture, "You cannot request the same capability in both must-match and first-match capabilities. You are attempting to add a first-match driver options object that defines a capability, '{0}', that is already defined in the must-match driver options.", mergeResult.MergeConflictOptionName);
@@ -180,7 +179,7 @@ namespace OpenQA.Selenium
                 }
             }
 
-            this.MustMatchDriverOptions = options;
+            this.mustMatchDriverOptions = options;
         }
 
         /// <summary>
@@ -238,7 +237,7 @@ namespace OpenQA.Selenium
                 capabilitiesDictionary[remoteMetadataSetting.Key] = remoteMetadataSetting.Value;
             }
 
-            if (this.MustMatchDriverOptions != null)
+            if (this.mustMatchDriverOptions != null)
             {
                 capabilitiesDictionary["alwaysMatch"] = GetAlwaysMatchOptionsAsSerializableDictionary();
             }
@@ -274,7 +273,7 @@ namespace OpenQA.Selenium
 
         private IDictionary<string, object> GetAlwaysMatchOptionsAsSerializableDictionary()
         {
-            return this.MustMatchDriverOptions.ToDictionary();
+            return this.mustMatchDriverOptions.ToDictionary();
         }
 
         private List<object> GetFirstMatchOptionsAsSerializableList()
