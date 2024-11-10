@@ -222,5 +222,19 @@ namespace OpenQA.Selenium
 
             }, Throws.TypeOf<NoSuchElementException>().With.Message.EqualTo("Unable to find element; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#no-such-element-exception"));
         }
+
+        //------------------------------------------------------------------
+        // Tests below here are not included in the Java test suite
+        //------------------------------------------------------------------
+
+        [Test]
+        public void ShouldReturnEmptyListWhenNoElementsFound()
+        {
+            driver.Url = (EnvironmentManager.Instance.UrlBuilder.WhereIs("relative_locators.html"));
+
+            var elements = driver.FindElements(RelativeBy.WithLocator(By.TagName("does-not-exist")));
+
+            Assert.That(elements, Is.Empty);
+        }
     }
 }
