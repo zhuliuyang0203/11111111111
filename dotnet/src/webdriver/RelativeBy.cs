@@ -21,10 +21,8 @@ using OpenQA.Selenium.Internal;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.Globalization;
 using System.IO;
-using System.Linq;
 
 namespace OpenQA.Selenium
 {
@@ -129,12 +127,9 @@ namespace OpenQA.Selenium
                     return new List<IWebElement>().AsReadOnly();
 #endif
                 }
-
-                Debug.Fail("Unreachable");
-                return elementsObj.Select(element => (IWebElement)element).ToList().AsReadOnly();
             }
 
-            return (ReadOnlyCollection<IWebElement>)rawElements;
+            throw new WebDriverException($"Could not de-serialize element list response{Environment.NewLine}{rawElements}");
         }
 
         /// <summary>
