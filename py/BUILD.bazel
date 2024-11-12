@@ -502,6 +502,7 @@ py_test_suite(
     size = "large",
     srcs = glob([
         "test/selenium/webdriver/edge/**/*.py",
+        "test/selenium/webdriver/common/**/*.py",
     ]),
     args = [
         "--instafail",
