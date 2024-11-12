@@ -207,7 +207,7 @@ namespace OpenQA.Selenium.Firefox
                 }
             }
 
-            throw new WebDriverException("Value must be string, int or boolean");
+            throw new WebDriverException("Value must be string, number or boolean");
         }
     }
 }
