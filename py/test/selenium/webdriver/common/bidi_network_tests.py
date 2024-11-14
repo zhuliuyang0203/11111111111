@@ -44,6 +44,10 @@ def test_continue_with_auth(driver, network):
 
 def test_add_request_handler(driver, network):
     network.add_request_handler(callback=lambda event: network.continue_request(event['requestId'], url=url_for("basicAuth")))
+    driver.get(url_for("basicAuth"))
+    assert driver.find_element_by_tag_name('h1').text == 'authorized'
 
 def test_add_response_handler(driver, network):
     network.add_response_handler(callback=lambda event: network.continue_response(event['requestId'], 200))
+    driver.get(url_for("basicAuth"))
+    assert driver.find_element_by_tag_name('h1').text == 'authorized'
