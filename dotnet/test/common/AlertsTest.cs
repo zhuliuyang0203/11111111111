@@ -443,10 +443,9 @@ namespace OpenQA.Selenium
             driver.FindElement(By.Id("alert")).Click();
             WaitFor<IAlert>(AlertToBePresent, "No alert found");
 
-            Assert.That(() =>
-            {
-                _ = driver.Title;
-            }, Throws.InstanceOf<UnhandledAlertException>().With.Property(nameof(UnhandledAlertException.AlertText)).EqualTo("cheese"));
+            Assert.That(
+                () => driver.Title,
+                Throws.InstanceOf<UnhandledAlertException>().With.Property(nameof(UnhandledAlertException.AlertText)).EqualTo("cheese"));
         }
 
         [Test]
