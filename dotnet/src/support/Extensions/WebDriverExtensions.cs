@@ -38,29 +38,29 @@ namespace OpenQA.Selenium.Support.Extensions
         public static Screenshot TakeScreenshot(this IWebDriver driver)
         {
             ITakesScreenshot? screenshotDriver = GetDriverAs<ITakesScreenshot>(driver);
-            if (screenshotDriver != null)
+            if (screenshotDriver is null)
             {
-                return screenshotDriver.GetScreenshot();
+                IHasCapabilities capabilitiesDriver = driver as IHasCapabilities
+                        ?? throw new WebDriverException("Driver does not implement ITakesScreenshot or IHasCapabilities");
+
+                if (capabilitiesDriver.Capabilities.GetCapability(CapabilityType.TakesScreenshot) is not true)
+                {
+                    throw new WebDriverException("Driver capabilities do not support taking screenshots");
+                }
+
+                MethodInfo executeMethod = driver.GetType().GetMethod("Execute", BindingFlags.Instance | BindingFlags.NonPublic)!;
+
+                object? responseObject = executeMethod.Invoke(driver, new object[] { DriverCommand.Screenshot, null });
+                if (responseObject is not Response screenshotResponse)
+                {
+                    throw new WebDriverException($"Unexpected failure getting screenshot; response was not in the proper format: {responseObject}");
+                }
+
+                string screenshotResult = screenshotResponse.Value.ToString();
+                return new Screenshot(screenshotResult);
             }
 
-            IHasCapabilities capabilitiesDriver = driver as IHasCapabilities
-                    ?? throw new WebDriverException("Driver does not implement ITakesScreenshot or IHasCapabilities");
-
-            if (capabilitiesDriver.Capabilities.GetCapability(CapabilityType.TakesScreenshot) is not true)
-            {
-                throw new WebDriverException("Driver capabilities do not support taking screenshots");
-            }
-
-            MethodInfo executeMethod = driver.GetType().GetMethod("Execute", BindingFlags.Instance | BindingFlags.NonPublic)!;
-
-            object? responseObject = executeMethod.Invoke(driver, new object[] { DriverCommand.Screenshot, null });
-            if (responseObject is not Response screenshotResponse)
-            {
-                throw new WebDriverException($"Unexpected failure getting screenshot; response was not in the proper format: {responseObject}");
-            }
-
-            string screenshotResult = screenshotResponse.Value.ToString();
-            return new Screenshot(screenshotResult);
+            return screenshotDriver.GetScreenshot();
         }
 
         /// <summary>
