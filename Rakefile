@@ -586,6 +586,7 @@ namespace :py do
     new_version = updated_version(old_version, arguments[:version], nightly)
 
     ['py/setup.py',
+     'py/pyproject.toml',
      'py/BUILD.bazel',
      'py/selenium/__init__.py',
      'py/selenium/webdriver/__init__.py',
