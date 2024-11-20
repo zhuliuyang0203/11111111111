@@ -378,6 +378,7 @@ namespace OpenQA.Selenium
         {
             if (printOptions is null)
             {
+                // TODO the interface names this parameter 'options', but we will be throwing for 'printOptions'. Confusion for users?
                 throw new ArgumentNullException(nameof(printOptions));
             }
 
