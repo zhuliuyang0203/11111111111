@@ -1,31 +1,31 @@
 v4.27.0
 ======
---> [grid] cancel pending request on client timeout
---> [bidi][java] Fix the mode "closed" for a node
---> [java] allow to cancel a pending http request
---> [grid] prevent NPE in handling request with unsupported http method
---> [grid] check session ownership once
---> [java]: mark WebElement.getAttribute deprecated (#14666)
---> [java] Enhance error message for NoSuchElementException and return unmodifiable set for pinned scripts (#14707)
---> [java] remove toml parser warning (#14711)
---> [grid] TomlConfig: migrate TOML library to tomlj/tomlj (#14470)
---> [java] deleted the deprecated FormEncodedData (#14688)
---> Throw Error When Using Unsupported Linux ARM (#14616)
---> [java] case insensitive header names in http requests (#14095)
---> [java] feat: Add method to select options containing the provided text (#14426)
---> [java] simplify reading http headers
---> [grid] speed up the server shutdown
---> [grid] stop polling events on close
---> [grid] shutdown the server backend on stop
---> [bidi][java] Add network request handler APIs (#14424)
---> [java][js] Add Firefox CDP deprecation warnings
---> [java] Fix SpotBugs bugs in the Selenium manager (#14608)
---> [grid] detect a client timeout while session creation #14743
---> [grid] stop a stale session more graceful
---> [java] consume the input of the connection
---> [grid] retry creating a session in a distributed grid
---> Update supported versions for Chrome DevTools
---> [grid] avoid starting a session which will be disposed after start
+* Add CDP for Chrome 131 and remove 128
+* Throw Error When Using Unsupported Linux ARM (#14616)
+* Enhance error message for NoSuchElementException and return unmodifiable set for pinned scripts (#14707)
+* Fix SpotBugs bugs in the Selenium manager (#14608)
+* Allow to cancel a pending http request
+* Case insensitive header names in http requests (#14095)
+* Consume the input of the connection
+* Deleted the deprecated FormEncodedData (#14688)
+* Add method to select options containing the provided text (#14426)
+* Remove toml parser warning (#14711)
+* Simplify reading http headers
+* Mark WebElement.getAttribute deprecated (#14666)
+* Add Firefox CDP deprecation warnings
+* [bidi] Add network request handler APIs (#14424)
+* [bidi] Fix the mode "closed" for a node
+* [grid] TomlConfig: migrate TOML library to tomlj/tomlj (#14470)
+* [grid] Avoid starting a session which will be disposed after start
+* [grid] Cancel pending request on client timeout
+* [grid] Check session ownership once
+* [grid] Detect a client timeout while session creation #14743
+* [grid] Prevent NPE in handling request with unsupported http method
+* [grid] Retry creating a session in a distributed grid
+* [grid] Shutdown the server backend on stop
+* [grid] Speed up the server shutdown
+* [grid] Stop a stale session more graceful
+* [grid] Stop polling events on close
 
 v4.26.0
 ======

@@ -1,40 +1,12 @@
 4.27.0 (2024-11-21)
 =========================
---> [ci] Bumping version for nightly
-[skip ci]
---> [rb] Update minimum Ruby to 3.1 (#14685)
-3.0 is EOL in Apr 2024
---> [rb] Reduce RBS errors to 0 (#14661)
---> [rb] Add Bidi network commands for authentication and interception (#14523)
---> [rb] Handle graceful webdriver shutdown (#14430)
-When shutting down `Selenium::WebDriver::ServiceManager#stop_server`
-issues a `/shutdown` request against the webdriver server and the
-server exits cleanly, however the mechanism to assert if the child
-process is up or not cannot distinguish between busy or not found.
-`Selenium::WebDriver::ChildProcess#exited?` returns `false` when the
-process is still alive because
-`Selenium::WebDriver::ChildProcess#waitpid2` returns `nil`.
-However, by catching `Errno::ECHILD` and `Errno::ESRCH` and returning
-`nil` `#waitpid2` masks a not running pid as "running" delaying the
-shutdown procedure when the server was already gone.
-This patch moves the exception handling away from the `Process` wrappers
-so its closer to the decision points in
-`Selenium::WebDriver::ChildProcess#exited?` and
-`Selenium::WebDriver::ChildProcess#stop`.
-Addresses a similar inconsistency in #14032
---> [rb] Resolve `uri` gem deprecation warning (#14770)
-> /home/user/.rbenv/versions/3.3.6/lib/ruby/gems/3.3.0/gems/selenium-webdriver-4.26.0/lib/selenium/webdriver/remote/bridge.rb:679: warning: URI::RFC3986_PARSER.escape is obsoleted. Use URI::RFC2396_PARSER.escape explicitly.
-Ruby switches the default parser from RFC2396 to RFC3986. This parser contains
-all methods from the old parser but delegates to RFC2396 for a few and warns.
-Namely `extract`, `make_regexp`, `escape`, and `unescape`.
-selenium currently supports Ruby >= 3.1, so the current old compatibility code is unnecessary.
-`RFC2396_PARSER` is a somewhat new addition, so some kind of check is still needed.
-It is available in Ruby 3.1 but early patch versions are missing it.
---> Update supported versions for Chrome DevTools
---> [rb] implement navigation commands with BiDi (#14094)
-* [rb] create context manager and implement navigation with BiDi
-* replace BrowsingContext class instead of creating new context manager
-* Fix formatting issues
+* Add CDP for Chrome 131 and remove 128
+* Add Bidi network commands for authentication and interception (#14523)
+* Handle graceful webdriver shutdown (#14430)
+* Reduce RBS errors to 0 (#14661)
+* Resolve `uri` gem deprecation warning (#14770)
+* Update minimum Ruby to 3.1 (#14685)
+* Implement navigation commands with BiDi (#14094)
 
 4.26.0 (2024-10-28)
 =========================

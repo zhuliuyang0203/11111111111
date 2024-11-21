@@ -1,16 +1,11 @@
 ## 4.27.0
 
---> [ci] Bumping version for nightly
-[skip ci]
---> [bidi][js] Ensure start nodes are serialized
---> [bidi][js] Enable locate node tests for Chrome and Edge
---> Running format script
---> [JS] update pnpm workspace
---> chore: fix format and minor jsdoc comments
---> [bidi][js] Allow passing in uri for authentication handlers (#14386)
---> [java][js] Add Firefox CDP deprecation warnings
---> [rb][js] Add funding information to package.json and gemspec files (#14774)
---> Update supported versions for Chrome DevTools
+- Add CDP for Chrome 131 and remove 128
+- Add Firefox CDP deprecation warnings
+- Update supported versions for Chrome DevTools
+- [bidi] Allow passing in uri for authentication handlers (#14386)
+- [bidi] Enable locate node tests for Chrome and Edge
+- [bidi] Ensure start nodes are serialized
 
 ## 4.26.0
 

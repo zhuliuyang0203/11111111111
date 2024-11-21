@@ -1,15 +1,11 @@
 Selenium 4.27.0
---> [py] Bumping version for nightly
---> [py] Fix TypeError when init Safari webdriver (#14699)
-* [py] Fix TypeError when init Safari webdriver
-* Try to enable test safari in CI
---> [py] Added Deprecation of WebElement.get_attribute() per #13334 (#14675)
---> Cleaned up Py doc sphinx warnings/errors and added README (#14191)
-- Cleaned up various sphinx build error and warnings
-- Added py/docs/README.rst leaving some instructions for the next person
---> [py] Updated Handling for DetachedShadowRoot Exception (#14677)
---> [py] Set user_agent and extra_headers via ClientConfig (#14718)
---> [🚀 Feature] [py]: Support FedCM commands for python (#14710)
+* Add CDP for Chrome 131 and remove 128
+* Cleaned up Py doc sphinx warnings/errors and added README (#14191)
+* Added Deprecation of WebElement.get_attribute() per #13334 (#14675)
+* Fix TypeError when init Safari webdriver (#14699)
+* Set user_agent and extra_headers via ClientConfig (#14718)
+* Updated Handling for DetachedShadowRoot Exception (#14677)
+* Support FedCM commands (#14710)
 
 Selenium 4.26.1
 * DeprecationWarning raised in default webdriver init (#14690)
