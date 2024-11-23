@@ -15,7 +15,6 @@ namespace OpenQA.Selenium.Environment
     {
         string driverPath;
         string browserBinaryLocation;
-        private Dictionary<Browser, Type> serviceTypes = new Dictionary<Browser, Type>();
         private Dictionary<Browser, Type> optionsTypes = new Dictionary<Browser, Type>();
 
         public DriverFactory(string driverPath, string browserBinaryLocation)
@@ -23,7 +22,6 @@ namespace OpenQA.Selenium.Environment
             this.driverPath = driverPath;
             this.browserBinaryLocation = browserBinaryLocation;
 
-            this.PopulateServiceTypes();
             this.PopulateOptionsTypes();
         }
 
@@ -34,15 +32,6 @@ namespace OpenQA.Selenium.Environment
             this.optionsTypes[Browser.Firefox] = typeof(FirefoxOptions);
             this.optionsTypes[Browser.IE] = typeof(InternetExplorerOptions);
             this.optionsTypes[Browser.Safari] = typeof(SafariOptions);
-        }
-
-        private void PopulateServiceTypes()
-        {
-            this.serviceTypes[Browser.Chrome] = typeof(ChromeDriverService);
-            this.serviceTypes[Browser.Edge] = typeof(EdgeDriverService);
-            this.serviceTypes[Browser.Firefox] = typeof(FirefoxDriverService);
-            this.serviceTypes[Browser.IE] = typeof(InternetExplorerDriverService);
-            this.serviceTypes[Browser.Safari] = typeof(SafariDriverService);
         }
 
         public event EventHandler<DriverStartingEventArgs> DriverStarting;
@@ -143,17 +132,6 @@ namespace OpenQA.Selenium.Environment
             }
 
             this.OnDriverLaunching(service, options);
-
-            if (browser != Browser.All)
-            {
-                constructorArgTypeList.Add(this.serviceTypes[browser]);
-                constructorArgTypeList.Add(this.optionsTypes[browser]);
-                ConstructorInfo ctorInfo = driverType.GetConstructor(constructorArgTypeList.ToArray());
-                if (ctorInfo != null)
-                {
-                    return (IWebDriver)ctorInfo.Invoke(new object[] { service, options });
-                }
-            }
 
             driver = (IWebDriver)Activator.CreateInstance(driverType, service);
             return driver;
