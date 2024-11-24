@@ -107,6 +107,7 @@ namespace OpenQA.Selenium.Chromium
         public static readonly string SetPermissionCommand = "setPermission";
 
         private readonly ChromiumDriverService driverService;
+        private readonly bool disposeDriverService;
         private readonly string optionsCapabilityName;
         private DevToolsSession devToolsSession;
 
@@ -125,12 +126,14 @@ namespace OpenQA.Selenium.Chromium
         /// Initializes a new instance of the <see cref="ChromiumDriver"/> class using the specified <see cref="ChromiumDriverService"/>.
         /// </summary>
         /// <param name="service">The <see cref="ChromiumDriverService"/> to use.</param>
+        /// <param name="disposeService">Wheter to dispose the original <paramref name="service"/>.</param>
         /// <param name="options">The <see cref="ChromiumOptions"/> to be used with the ChromiumDriver.</param>
         /// <param name="commandTimeout">The maximum amount of time to wait for each command.</param>
-        protected ChromiumDriver(ChromiumDriverService service, ChromiumOptions options, TimeSpan commandTimeout)
+        protected ChromiumDriver(ChromiumDriverService service, bool disposeService, ChromiumOptions options, TimeSpan commandTimeout)
             : base(StartDriverServiceCommandExecutor(service, options, commandTimeout), ConvertOptionsToCapabilities(options))
         {
             this.driverService = service;
+            this.disposeDriverService = disposeService;
             this.optionsCapabilityName = options.CapabilityName;
         }
 
@@ -465,6 +468,11 @@ namespace OpenQA.Selenium.Chromium
                 {
                     this.devToolsSession.Dispose();
                     this.devToolsSession = null;
+                }
+
+                if (this.disposeDriverService)
+                {
+                    this.driverService.Dispose();
                 }
             }
 
