@@ -115,12 +115,12 @@ namespace OpenQA.Selenium.Interactions
 
         private class TypingInteraction : Interaction
         {
-            private readonly string _type;
+            private readonly string type;
 
             public TypingInteraction(InputDevice sourceDevice, string type, char codePoint)
                 : base(sourceDevice)
             {
-                this._type = type;
+                this.type = type;
                 this.Value = codePoint.ToString();
             }
 
@@ -130,7 +130,7 @@ namespace OpenQA.Selenium.Interactions
             {
                 Dictionary<string, object> toReturn = new Dictionary<string, object>();
 
-                toReturn["type"] = this._type;
+                toReturn["type"] = this.type;
                 toReturn["value"] = this.Value;
 
                 return toReturn;
