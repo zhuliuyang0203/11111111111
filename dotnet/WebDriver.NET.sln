@@ -23,6 +23,17 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebDriver.Safari.Tests", "t
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebDriver.Support.Tests", "test\support\WebDriver.Support.Tests.csproj", "{2136C695-2526-45E0-AE1D-68FBBC6A9DE2}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+		BUILD.bazel = BUILD.bazel
+		CHANGELOG = CHANGELOG
+		NuGet.Config = NuGet.Config
+		README.md = README.md
+		selenium-dotnet-version.bzl = selenium-dotnet-version.bzl
+		workspace.bzl = workspace.bzl
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
