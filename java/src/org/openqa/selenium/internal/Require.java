@@ -129,7 +129,8 @@ public final class Require {
       throw new IllegalArgumentException(String.format(MUST_BE_SET, argName));
     }
     if (number <= 0) {
-      throw new IllegalArgumentException(Objects.requireNonNullElseGet(message, () -> String.format(MUST_BE_POSITIVE, argName)));
+      throw new IllegalArgumentException(
+          Objects.requireNonNullElseGet(message, () -> String.format(MUST_BE_POSITIVE, argName)));
     }
     return number;
   }
@@ -139,7 +140,8 @@ public final class Require {
       throw new IllegalArgumentException(String.format(MUST_BE_SET, argName));
     }
     if (number <= 0) {
-      throw new IllegalArgumentException(Objects.requireNonNullElseGet(message, () -> String.format(MUST_BE_POSITIVE, argName)));
+      throw new IllegalArgumentException(
+          Objects.requireNonNullElseGet(message, () -> String.format(MUST_BE_POSITIVE, argName)));
     }
     return number;
   }
