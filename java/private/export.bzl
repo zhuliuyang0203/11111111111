@@ -6,7 +6,12 @@ load(
 load("@rules_jvm_external//private/rules:maven_bom_fragment.bzl", "maven_bom_fragment")
 load("@rules_jvm_external//private/rules:maven_project_jar.bzl", "maven_project_jar")
 load("@rules_jvm_external//private/rules:maven_publish.bzl", "maven_publish")
-load("//java/private:module.bzl", "java_module")
+load("@with_cfg.bzl", "with_cfg")
+load("//java/private:module.bzl", _java_module = "java_module")
+
+_builder = with_cfg(_java_module)
+_builder.set("java_language_version", "11").set("java_runtime_version", "remotejdk_11")
+java_module, _ = _builder.build()
 
 def java_export(
         name,
