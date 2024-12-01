@@ -56,8 +56,9 @@ namespace OpenQA.Selenium
             }
         }
 
-        internal Response(WebDriverResult status, object value)
+        internal Response(SessionId sessionId, WebDriverResult status, object value)
         {
+            this.SessionId = sessionId?.ToString();
             this.Status = status;
             this.Value = value;
         }
@@ -175,7 +176,7 @@ namespace OpenQA.Selenium
 
             var status = WebDriverError.ResultFromError(errorString);
 
-            return new Response(status, valueDictionary);
+            return new Response(sessionId: null, status, valueDictionary);
         }
 
         /// <summary>
