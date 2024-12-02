@@ -74,7 +74,12 @@ namespace OpenQA.Selenium
         /// <returns>The hash code of the key</returns>
         public override int GetHashCode()
         {
-            return this.sessionOpaqueKey?.GetHashCode() ?? 0;
+            if (this.sessionOpaqueKey is { } key)
+            {
+                return StringComparer.Ordinal.GetHashCode(key);
+            }
+
+            return 0;
         }
 
         /// <summary>
