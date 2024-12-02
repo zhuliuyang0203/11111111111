@@ -106,5 +106,32 @@ namespace OpenQA.Selenium
         {
             return string.Equals(this.sessionOpaqueKey, other, StringComparison.Ordinal);
         }
+
+        /// <summary>
+        /// Compares the two values to determine equality.
+        /// </summary>
+        /// <param name="left">The value to compare with <paramref name="right"/>.</param>
+        /// <param name="right">The value to compare with <paramref name="left"/>.</param>
+        /// <returns><see langword="true"/> if <paramref name="left"/> is equal to <paramref name="right"/>; otherwise, <see langword="false"/>.</returns>
+        public static bool operator ==(SessionId? left, SessionId? right)
+        {
+            if (left is null)
+            {
+                return right is null;
+            }
+
+            return left.Equals(right);
+        }
+
+        /// <summary>
+        /// Compares the two values to determine inequality.
+        /// </summary>
+        /// <param name="left">The value to compare with <paramref name="right"/>.</param>
+        /// <param name="right">The value to compare with <paramref name="left"/>.</param>
+        /// <returns><see langword="true"/> if <paramref name="left"/> is not equal to <paramref name="right"/>; otherwise, <see langword="false"/>.</returns>
+        public static bool operator !=(SessionId? left, SessionId? right)
+        {
+            return !(left == right);
+        }
     }
 }
