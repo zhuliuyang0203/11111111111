@@ -123,7 +123,10 @@ public class SeleniumManager {
     String output;
     int code;
     try {
-      ExternalProcess.Builder processBuilder = ExternalProcess.builder();
+      ExternalProcess.Builder processBuilder =
+          ExternalProcess.builder()
+              // keep all output of the process to avoid JSON syntax errors while parsing
+              .bufferSize(-1);
 
       Properties properties = System.getProperties();
       for (String name : properties.stringPropertyNames()) {
@@ -213,7 +216,7 @@ public class SeleniumManager {
         if (!binary.toFile().exists()) {
           String binaryPathInJar = String.format("%s/%s%s", folder, SELENIUM_MANAGER, extension);
           try (InputStream inputStream = this.getClass().getResourceAsStream(binaryPathInJar)) {
-            binary.getParent().toFile().mkdirs();
+            Files.createDirectories(binary.getParent());
             Files.copy(inputStream, binary);
           }
         }
