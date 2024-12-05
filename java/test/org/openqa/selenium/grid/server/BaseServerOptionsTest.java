@@ -55,9 +55,7 @@ class BaseServerOptionsTest {
     Exception exception =
         assertThrows(
             RuntimeException.class,
-            () -> {
-              options.getExternalUri();
-            });
+          options::getExternalUri);
 
     assertThat(exception.getMessage())
         .as("External URI must be parseable as URI.")

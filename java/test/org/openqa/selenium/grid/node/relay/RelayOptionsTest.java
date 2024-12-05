@@ -138,9 +138,7 @@ class RelayOptionsTest {
     RelayOptions relayOptions = new RelayOptions(config);
     assertThatExceptionOfType(ConfigException.class)
         .isThrownBy(
-            () -> {
-              relayOptions.getServiceProtocolVersion();
-            })
+          relayOptions::getServiceProtocolVersion)
         .withMessageContaining("Unsupported protocol version provided: HTTP/0.9");
   }
 
