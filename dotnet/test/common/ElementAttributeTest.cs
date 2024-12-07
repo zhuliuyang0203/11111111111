@@ -363,7 +363,7 @@ namespace OpenQA.Selenium
         {
             driver.Url = booleanAttributes;
             IWebElement element1 = driver.FindElement(By.Id("working"));
-            Assert.That(element1.GetAttribute("required"), Is.Null);
+            Assert.That(element1.GetDomAttribute("required"), Is.Null);
             IWebElement element2 = driver.FindElement(By.Id("wallace"));
             Assert.That(element2.GetAttribute("nowrap"), Is.Null);
         }
@@ -373,13 +373,13 @@ namespace OpenQA.Selenium
         {
             driver.Url = booleanAttributes;
             IWebElement element1 = driver.FindElement(By.Id("emailRequired"));
-            Assert.That(element1.GetAttribute("required"), Is.EqualTo("true"));
+            Assert.That(element1.GetDomAttribute("required"), Is.EqualTo("true"));
             IWebElement element2 = driver.FindElement(By.Id("emptyTextAreaRequired"));
-            Assert.That(element2.GetAttribute("required"), Is.EqualTo("true"));
+            Assert.That(element2.GetDomAttribute("required"), Is.EqualTo("true"));
             IWebElement element3 = driver.FindElement(By.Id("inputRequired"));
-            Assert.That(element3.GetAttribute("required"), Is.EqualTo("true"));
+            Assert.That(element3.GetDomAttribute("required"), Is.EqualTo("true"));
             IWebElement element4 = driver.FindElement(By.Id("textAreaRequired"));
-            Assert.That(element4.GetAttribute("required"), Is.EqualTo("true"));
+            Assert.That(element4.GetDomAttribute("required"), Is.EqualTo("true"));
             IWebElement element5 = driver.FindElement(By.Id("unwrappable"));
             Assert.That(element5.GetAttribute("nowrap"), Is.EqualTo("true"));
         }
