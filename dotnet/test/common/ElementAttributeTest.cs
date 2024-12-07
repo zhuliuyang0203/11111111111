@@ -93,7 +93,7 @@ namespace OpenQA.Selenium
 
             IWebElement multiSelect = driver.FindElement(By.Id("multi"));
             ReadOnlyCollection<IWebElement> options = multiSelect.FindElements(By.TagName("option"));
-            Assert.That(options[1].GetAttribute("index"), Is.EqualTo("1"));
+            Assert.That(options[1].GetDomProperty("index"), Is.EqualTo("1"));
         }
 
 
