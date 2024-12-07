@@ -292,7 +292,7 @@ namespace OpenQA.Selenium.Interactions
                 .SendKeys(element, "abc def")
                 .Perform();
 
-            Assert.That(element.GetAttribute("value"), Is.EqualTo("abc def"));
+            Assert.That(element.GetDomProperty("value"), Is.EqualTo("abc def"));
 
             //TODO: Figure out why calling sendKey(Key.CONTROL + "a") and then
             //sendKeys("x") does not work on Linux.
@@ -303,7 +303,7 @@ namespace OpenQA.Selenium.Interactions
             // Release keys before next step.
             new Actions(driver).SendKeys(Keys.Null).Perform();
 
-            Assert.That(element.GetAttribute("value"), Is.Empty);
+            Assert.That(element.GetDomProperty("value"), Is.Empty);
 
             new Actions(driver).KeyDown(controlModifier)
                 .SendKeys("v")
@@ -312,7 +312,7 @@ namespace OpenQA.Selenium.Interactions
 
             new Actions(driver).SendKeys(Keys.Null).Perform();
 
-            Assert.That(element.GetAttribute("value"), Is.EqualTo("abc defabc def"));
+            Assert.That(element.GetDomProperty("value"), Is.EqualTo("abc defabc def"));
         }
 
         [Test]

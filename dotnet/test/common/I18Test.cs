@@ -49,7 +49,7 @@ namespace OpenQA.Selenium
 
             input.SendKeys(shalom);
 
-            Assert.That(input.GetAttribute("value"), Is.EqualTo(shalom));
+            Assert.That(input.GetDomProperty("value"), Is.EqualTo(shalom));
         }
 
         [Test]
@@ -60,7 +60,7 @@ namespace OpenQA.Selenium
 
             input.SendKeys(tmunot);
 
-            Assert.That(input.GetAttribute("value"), Is.EqualTo(tmunot));
+            Assert.That(input.GetDomProperty("value"), Is.EqualTo(tmunot));
         }
 
         [Test]
@@ -86,7 +86,7 @@ namespace OpenQA.Selenium
             IWebElement el = driver.FindElement(By.Name("i18n"));
             el.SendKeys(input);
 
-            Assert.That(el.GetAttribute("value"), Is.EqualTo(input));
+            Assert.That(el.GetDomProperty("value"), Is.EqualTo(input));
         }
 
         [Test]

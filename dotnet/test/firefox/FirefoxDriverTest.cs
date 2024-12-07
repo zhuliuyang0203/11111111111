@@ -57,7 +57,7 @@ namespace OpenQA.Selenium.Firefox
             textarea.Clear();
             textarea.SendKeys(expectedText);
 
-            string seenText = textarea.GetAttribute("value");
+            string seenText = textarea.GetDomProperty("value");
             Assert.That(seenText, Is.EqualTo(expectedText));
         }
 
@@ -127,7 +127,7 @@ namespace OpenQA.Selenium.Firefox
             IWebElement keyReporter = driver.FindElement(By.Id("keyReporter"));
             keyReporter.SendKeys("ABC DEF");
 
-            Assert.That(keyReporter.GetAttribute("value"), Is.EqualTo("ABC DEF"));
+            Assert.That(keyReporter.GetDomProperty("value"), Is.EqualTo("ABC DEF"));
         }
 
         //[Test]
@@ -163,7 +163,7 @@ namespace OpenQA.Selenium.Firefox
 
             IWebElement keyReporter = driver.FindElement(By.Id("keyReporter"));
             keyReporter.SendKeys("ABC DEF");
-            Assert.That(keyReporter.GetAttribute("value"), Is.EqualTo("ABC DEF"));
+            Assert.That(keyReporter.GetDomProperty("value"), Is.EqualTo("ABC DEF"));
 
             // Key events in original window.
             driver.SwitchTo().Window(originalWinHandle);
@@ -172,7 +172,7 @@ namespace OpenQA.Selenium.Firefox
 
             IWebElement keyReporter2 = driver.FindElement(By.Id("keyReporter"));
             keyReporter2.SendKeys("QWERTY");
-            Assert.That(keyReporter2.GetAttribute("value"), Is.EqualTo("QWERTY"));
+            Assert.That(keyReporter2.GetDomProperty("value"), Is.EqualTo("QWERTY"));
         }
 
         //[Test]
@@ -211,7 +211,7 @@ namespace OpenQA.Selenium.Firefox
             driver.Url = javascriptPage;
             IWebElement keyReporter = driver.FindElement(By.Id("keyReporter"));
             keyReporter.SendKeys("ABC DEF");
-            Assert.That(keyReporter.GetAttribute("value"), Is.EqualTo("ABC DEF"));
+            Assert.That(keyReporter.GetDomProperty("value"), Is.EqualTo("ABC DEF"));
         }
 
         //[Test]

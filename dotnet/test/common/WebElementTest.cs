@@ -110,7 +110,7 @@ namespace OpenQA.Selenium
             IWebElement textbox = driver.FindElement(By.Id("keyUp"));
             textbox.SendKeys("a@#$ç.ó");
             textbox.Clear();
-            Assert.That(textbox.GetAttribute("value"), Is.Empty);
+            Assert.That(textbox.GetDomProperty("value"), Is.Empty);
         }
 
         [Test]
@@ -121,7 +121,7 @@ namespace OpenQA.Selenium
             IWebElement textbox = driver.FindElement(By.Id("keyUp"));
             textbox.SendKeys("a@#$ç.ó");
             textbox.Clear();
-            Assert.That(textbox.GetAttribute("value"), Is.Empty);
+            Assert.That(textbox.GetDomProperty("value"), Is.Empty);
         }
 
         [Test]
@@ -131,7 +131,7 @@ namespace OpenQA.Selenium
 
             IWebElement textbox = driver.FindElement(By.Id("keyUp"));
             textbox.SendKeys("a@#$ç.ó");
-            Assert.That(textbox.GetAttribute("value"), Is.EqualTo("a@#$ç.ó"));
+            Assert.That(textbox.GetDomProperty("value"), Is.EqualTo("a@#$ç.ó"));
         }
 
         [Test]

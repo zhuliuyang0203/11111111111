@@ -245,7 +245,7 @@ namespace OpenQA.Selenium
             IWebElement clicker = driver.FindElement(By.Id("clickField"));
             clicker.Click();
 
-            Assert.That(clicker.GetAttribute("value"), Is.EqualTo("Clicked"));
+            Assert.That(clicker.GetDomProperty("value"), Is.EqualTo("Clicked"));
         }
 
         [Test]

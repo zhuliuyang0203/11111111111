@@ -113,9 +113,9 @@ namespace OpenQA.Selenium
         {
             driver.Url = formsPage;
             IWebElement element = driver.FindElement(By.CssSelector("select[name='select-default'] option"));
-            Assert.That(element.GetAttribute("value"), Is.EqualTo("One"));
+            Assert.That(element.GetDomProperty("value"), Is.EqualTo("One"));
             element = driver.FindElement(By.Id("blankOption"));
-            Assert.That(element.GetAttribute("value"), Is.EqualTo(""));
+            Assert.That(element.GetDomProperty("value"), Is.EqualTo(""));
         }
 
         [Test]
@@ -123,7 +123,7 @@ namespace OpenQA.Selenium
         {
             driver.Url = formsPage;
             IWebElement element = driver.FindElement(By.Id("optionEmptyValueSet"));
-            Assert.That(element.GetAttribute("value"), Is.EqualTo(""));
+            Assert.That(element.GetDomProperty("value"), Is.EqualTo(""));
         }
 
         [Test]

@@ -222,7 +222,7 @@ namespace OpenQA.Selenium
         {
             driver.Url = formsPage;
 
-            String value = driver.FindElement(By.Id("withText")).GetAttribute("value");
+            String value = driver.FindElement(By.Id("withText")).GetDomProperty("value");
 
             Assert.That(value, Is.EqualTo("Example text"));
         }
@@ -333,9 +333,9 @@ namespace OpenQA.Selenium
         {
             driver.Url = formsPage;
             IWebElement element = driver.FindElement(By.Id("working"));
-            Assert.That(element.GetAttribute("value"), Is.Empty);
+            Assert.That(element.GetDomProperty("value"), Is.Empty);
             element.SendKeys("hello world");
-            Assert.That(element.GetAttribute("value"), Is.EqualTo("hello world"));
+            Assert.That(element.GetDomProperty("value"), Is.EqualTo("hello world"));
         }
 
         [Test]
@@ -343,9 +343,9 @@ namespace OpenQA.Selenium
         {
             driver.Url = formsPage;
             IWebElement element = driver.FindElement(By.Id("email"));
-            Assert.That(element.GetAttribute("value"), Is.Empty);
+            Assert.That(element.GetDomProperty("value"), Is.Empty);
             element.SendKeys("hello world");
-            Assert.That(element.GetAttribute("value"), Is.EqualTo("hello world"));
+            Assert.That(element.GetDomProperty("value"), Is.EqualTo("hello world"));
         }
 
         [Test]
@@ -353,9 +353,9 @@ namespace OpenQA.Selenium
         {
             driver.Url = formsPage;
             IWebElement element = driver.FindElement(By.Id("emptyTextArea"));
-            Assert.That(element.GetAttribute("value"), Is.Empty);
+            Assert.That(element.GetDomProperty("value"), Is.Empty);
             element.SendKeys("hello world");
-            Assert.That(element.GetAttribute("value"), Is.EqualTo("hello world"));
+            Assert.That(element.GetDomProperty("value"), Is.EqualTo("hello world"));
         }
 
         [Test]

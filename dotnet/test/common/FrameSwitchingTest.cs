@@ -93,7 +93,7 @@ namespace OpenQA.Selenium
             driver.Url = iframePage;
             driver.SwitchTo().Frame(0);
 
-            Assert.That(driver.FindElement(By.Name("id-name1")).GetAttribute("value"), Is.EqualTo("name"));
+            Assert.That(driver.FindElement(By.Name("id-name1")).GetDomProperty("value"), Is.EqualTo("name"));
         }
 
         [Test]
@@ -110,7 +110,7 @@ namespace OpenQA.Selenium
         {
             driver.Url = iframePage;
             driver.SwitchTo().Frame("iframe1-name");
-            Assert.That(driver.FindElement(By.Name("id-name1")).GetAttribute("value"), Is.EqualTo("name"));
+            Assert.That(driver.FindElement(By.Name("id-name1")).GetDomProperty("value"), Is.EqualTo("name"));
 
         }
 
@@ -128,7 +128,7 @@ namespace OpenQA.Selenium
         {
             driver.Url = iframePage;
             driver.SwitchTo().Frame("iframe1");
-            Assert.That(driver.FindElement(By.Name("id-name1")).GetAttribute("value"), Is.EqualTo("name"));
+            Assert.That(driver.FindElement(By.Name("id-name1")).GetDomProperty("value"), Is.EqualTo("name"));
         }
 
         [Test]
@@ -154,7 +154,7 @@ namespace OpenQA.Selenium
             driver.Url = iframePage;
             IWebElement frame = driver.FindElement(By.TagName("iframe"));
             driver.SwitchTo().Frame(frame);
-            Assert.That(driver.FindElement(By.Name("id-name1")).GetAttribute("value"), Is.EqualTo("name"));
+            Assert.That(driver.FindElement(By.Name("id-name1")).GetDomProperty("value"), Is.EqualTo("name"));
 
         }
 

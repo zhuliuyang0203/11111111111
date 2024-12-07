@@ -111,7 +111,7 @@ namespace OpenQA.Selenium
             IWebElement textarea = driver.FindElement(By.Id("keyUpArea"));
             string cheesey = "Brie and cheddar";
             textarea.SendKeys(cheesey);
-            Assert.That(textarea.GetAttribute("value"), Is.EqualTo(cheesey));
+            Assert.That(textarea.GetDomProperty("value"), Is.EqualTo(cheesey));
         }
 
         [Test]
@@ -121,7 +121,7 @@ namespace OpenQA.Selenium
             IWebElement textarea = driver.FindElement(By.Id("keyUpArea"));
             string cheesey = "BrIe And CheDdar";
             textarea.SendKeys(cheesey);
-            Assert.That(textarea.GetAttribute("value"), Is.EqualTo(cheesey));
+            Assert.That(textarea.GetDomProperty("value"), Is.EqualTo(cheesey));
         }
 
         [Test]
@@ -156,14 +156,14 @@ namespace OpenQA.Selenium
         {
             driver.Url = xhtmlTestPage;
             IWebElement element = driver.FindElement(By.XPath("//form[@name='someForm']/input[@id='username']"));
-            String originalValue = element.GetAttribute("value");
+            String originalValue = element.GetDomProperty("value");
             Assert.That(originalValue, Is.EqualTo("change"));
 
             element.Clear();
             element.SendKeys("some text");
 
             element = driver.FindElement(By.XPath("//form[@name='someForm']/input[@id='username']"));
-            String newFormValue = element.GetAttribute("value");
+            String newFormValue = element.GetDomProperty("value");
             Assert.That(newFormValue, Is.EqualTo("some text"));
         }
 
@@ -173,7 +173,7 @@ namespace OpenQA.Selenium
             string testFileName = string.Format("test-{0}.txt", Guid.NewGuid().ToString("D"));
             driver.Url = formsPage;
             IWebElement uploadElement = driver.FindElement(By.Id("upload"));
-            Assert.That(uploadElement.GetAttribute("value"), Is.Null.Or.Empty);
+            Assert.That(uploadElement.GetDomProperty("value"), Is.Null.Or.Empty);
 
             string filePath = System.IO.Path.Combine(EnvironmentManager.Instance.CurrentDirectory, testFileName);
             System.IO.FileInfo inputFile = new System.IO.FileInfo(filePath);
@@ -183,7 +183,7 @@ namespace OpenQA.Selenium
 
             uploadElement.SendKeys(inputFile.FullName);
 
-            string uploadElementValue = uploadElement.GetAttribute("value");
+            string uploadElementValue = uploadElement.GetDomProperty("value");
             System.IO.FileInfo outputFile = new System.IO.FileInfo(uploadElementValue.Replace('\\', System.IO.Path.DirectorySeparatorChar));
             Assert.That(inputFile.Name, Is.EqualTo(outputFile.Name));
             inputFile.Delete();
@@ -201,7 +201,7 @@ namespace OpenQA.Selenium
 
             driver.Url = xhtmlFormPage;
             IWebElement uploadElement = driver.FindElement(By.Id("file"));
-            Assert.That(uploadElement.GetAttribute("value"), Is.Empty);
+            Assert.That(uploadElement.GetDomProperty("value"), Is.Empty);
 
             string testFileName = string.Format("test-{0}.txt", Guid.NewGuid().ToString("D"));
             string filePath = System.IO.Path.Combine(EnvironmentManager.Instance.CurrentDirectory, testFileName);
@@ -212,7 +212,7 @@ namespace OpenQA.Selenium
 
             uploadElement.SendKeys(inputFile.FullName);
 
-            string uploadElementValue = uploadElement.GetAttribute("value");
+            string uploadElementValue = uploadElement.GetDomProperty("value");
             System.IO.FileInfo outputFile = new System.IO.FileInfo(uploadElementValue.Replace('\\', System.IO.Path.DirectorySeparatorChar));
             Assert.That(outputFile.Name, Is.EqualTo(inputFile.Name));
             inputFile.Delete();
@@ -233,7 +233,7 @@ namespace OpenQA.Selenium
             {
                 driver.Url = formsPage;
                 IWebElement uploadElement = driver.FindElement(By.Id("upload"));
-                Assert.That(uploadElement.GetAttribute("value"), Is.Null.Or.EqualTo(string.Empty));
+                Assert.That(uploadElement.GetDomProperty("value"), Is.Null.Or.EqualTo(string.Empty));
 
                 uploadElement.SendKeys(inputFile.FullName);
                 uploadElement.Submit();
@@ -252,11 +252,11 @@ namespace OpenQA.Selenium
             driver.Url = formsPage;
             IWebElement element = driver.FindElement(By.Id("working"));
             element.SendKeys("Some");
-            String value = element.GetAttribute("value");
+            String value = element.GetDomProperty("value");
             Assert.That(value, Is.EqualTo("Some"));
 
             element.SendKeys(" text");
-            value = element.GetAttribute("value");
+            value = element.GetDomProperty("value");
             Assert.That(value, Is.EqualTo("Some text"));
         }
 
@@ -266,7 +266,7 @@ namespace OpenQA.Selenium
             driver.Url = formsPage;
             IWebElement element = driver.FindElement(By.Id("inputWithText"));
             element.SendKeys(". Some text");
-            string value = element.GetAttribute("value");
+            string value = element.GetDomProperty("value");
 
             Assert.That(value, Is.EqualTo("Example text. Some text"));
         }
@@ -278,7 +278,7 @@ namespace OpenQA.Selenium
             IWebElement element = driver.FindElement(By.Id("withText"));
 
             element.SendKeys(". Some text");
-            String value = element.GetAttribute("value");
+            String value = element.GetDomProperty("value");
 
             Assert.That(value, Is.EqualTo("Example text. Some text"));
         }
@@ -288,10 +288,10 @@ namespace OpenQA.Selenium
         {
             driver.Url = formsPage;
             IWebElement emptyTextBox = driver.FindElement(By.Id("working"));
-            Assert.That(emptyTextBox.GetAttribute("value"), Is.Empty);
+            Assert.That(emptyTextBox.GetDomProperty("value"), Is.Empty);
 
             IWebElement emptyTextArea = driver.FindElement(By.Id("emptyTextArea"));
-            Assert.That(emptyTextBox.GetAttribute("value"), Is.Empty);
+            Assert.That(emptyTextBox.GetDomProperty("value"), Is.Empty);
         }
 
         [Test]
@@ -390,11 +390,11 @@ namespace OpenQA.Selenium
             driver.Url = formsPage;
             IWebElement element = driver.FindElement(By.Id("working"));
             element.SendKeys("Some text");
-            String value = element.GetAttribute("value");
+            String value = element.GetDomProperty("value");
             Assert.That(value, Is.Not.Empty);
 
             element.Clear();
-            value = element.GetAttribute("value");
+            value = element.GetDomProperty("value");
 
             Assert.That(value, Is.Empty);
         }
@@ -405,11 +405,11 @@ namespace OpenQA.Selenium
             driver.Url = formsPage;
             IWebElement element = driver.FindElement(By.Id("withText"));
             element.SendKeys("Some text");
-            String value = element.GetAttribute("value");
+            String value = element.GetDomProperty("value");
             Assert.That(value, Is.Not.Empty);
 
             element.Clear();
-            value = element.GetAttribute("value");
+            value = element.GetDomProperty("value");
 
             Assert.That(value, Is.Empty);
         }

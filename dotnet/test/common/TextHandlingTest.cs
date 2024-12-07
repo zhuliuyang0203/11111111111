@@ -194,7 +194,7 @@ namespace OpenQA.Selenium
             string expectedText = "I like cheese" + NewLine + NewLine + "It's really nice";
             textarea.SendKeys(expectedText);
 
-            string seenText = textarea.GetAttribute("value");
+            string seenText = textarea.GetDomProperty("value");
             Assert.That(seenText, Is.EqualTo(expectedText));
         }
 
@@ -205,7 +205,7 @@ namespace OpenQA.Selenium
             IWebElement input = driver.FindElement(By.Id("working"));
             string expectedValue = "10/03/2007 to 30/07/1993";
             input.SendKeys(expectedValue);
-            string seenValue = input.GetAttribute("value");
+            string seenValue = input.GetDomProperty("value");
 
             Assert.That(expectedValue, Is.EqualTo(seenValue));
         }
@@ -354,7 +354,7 @@ namespace OpenQA.Selenium
         {
             driver.Url = formsPage;
             IWebElement area = driver.FindElement(By.Id("withText"));
-            string oldText = area.GetAttribute("value");
+            string oldText = area.GetDomProperty("value");
             ((IJavaScriptExecutor)driver).ExecuteScript("arguments[0].value = arguments[1]", area, "New Text");
             Assert.That(area.Text, Is.EqualTo(oldText));
         }

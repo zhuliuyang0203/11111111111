@@ -77,7 +77,7 @@ namespace OpenQA.Selenium.Interactions
 
             sendLowercase.Perform();
 
-            Assert.That(keyReporter.GetAttribute("value"), Is.EqualTo("abc def"));
+            Assert.That(keyReporter.GetDomProperty("value"), Is.EqualTo("abc def"));
 
         }
 
@@ -154,7 +154,7 @@ namespace OpenQA.Selenium.Interactions
 
             AssertThatFormEventsFiredAreExactly("focus keydown keydown keypress keyup keydown keypress keyup keyup");
 
-            Assert.That(keysEventInput.GetAttribute("value"), Is.EqualTo("AB"));
+            Assert.That(keysEventInput.GetDomProperty("value"), Is.EqualTo("AB"));
         }
 
         [Test]
@@ -210,7 +210,7 @@ namespace OpenQA.Selenium.Interactions
 
             new Actions(driver).Click(input).SendKeys("abc def").Perform();
 
-            WaitFor(() => input.GetAttribute("value") == "abc def", "did not send initial keys");
+            WaitFor(() => input.GetDomProperty("value") == "abc def", "did not send initial keys");
 
             if (!TestUtilities.IsInternetExplorer(driver))
             {
@@ -235,7 +235,7 @@ namespace OpenQA.Selenium.Interactions
                 .SendKeys(Keys.Delete)
                 .Perform();
 
-            Assert.That(input.GetAttribute("value"), Is.EqualTo("abc d"));
+            Assert.That(input.GetDomProperty("value"), Is.EqualTo("abc d"));
         }
 
         [Test]
@@ -253,7 +253,7 @@ namespace OpenQA.Selenium.Interactions
 
             new Actions(driver).Click(input).SendKeys("abc def").Perform();
 
-            WaitFor(() => input.GetAttribute("value") == "abc def", "did not send initial keys");
+            WaitFor(() => input.GetDomProperty("value") == "abc def", "did not send initial keys");
 
             if (!TestUtilities.IsInternetExplorer(driver))
             {
@@ -279,7 +279,7 @@ namespace OpenQA.Selenium.Interactions
                 .SendKeys(Keys.Delete)
                 .Perform();
 
-            WaitFor(() => input.GetAttribute("value") == "abc ", "did not send editing keys");
+            WaitFor(() => input.GetDomProperty("value") == "abc ", "did not send editing keys");
         }
 
         [Test]
@@ -297,7 +297,7 @@ namespace OpenQA.Selenium.Interactions
 
             new Actions(driver).Click(input).SendKeys("abc def").Perform();
 
-            WaitFor(() => input.GetAttribute("value") == "abc def", "did not send initial keys");
+            WaitFor(() => input.GetDomProperty("value") == "abc def", "did not send initial keys");
 
             new Actions(driver).Click(input)
                 .KeyDown(controlModifier)
@@ -306,7 +306,7 @@ namespace OpenQA.Selenium.Interactions
                 .SendKeys(Keys.Delete)
                 .Perform();
 
-            Assert.That(input.GetAttribute("value"), Is.EqualTo(string.Empty));
+            Assert.That(input.GetDomProperty("value"), Is.EqualTo(string.Empty));
         }
 
         //------------------------------------------------------------------
@@ -333,7 +333,7 @@ namespace OpenQA.Selenium.Interactions
 
             AssertThatFormEventsFiredAreExactly("focus keydown keydown keypress keyup keydown keypress keyup keyup");
 
-            Assert.That(keysEventInput.GetAttribute("value"), Is.EqualTo("AB"));
+            Assert.That(keysEventInput.GetDomProperty("value"), Is.EqualTo("AB"));
         }
 
         private void AssertThatFormEventsFiredAreExactly(string message, string expected)

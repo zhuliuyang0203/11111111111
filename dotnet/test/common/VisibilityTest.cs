@@ -100,7 +100,7 @@ namespace OpenQA.Selenium
             IWebElement element = driver.FindElement(By.Id("unclickable"));
             Assert.That(() => element.SendKeys("You don't see me"), Throws.InstanceOf<ElementNotInteractableException>());
 
-            Assert.That(element.GetAttribute("value"), Is.Not.EqualTo("You don't see me"));
+            Assert.That(element.GetDomProperty("value"), Is.Not.EqualTo("You don't see me"));
         }
 
         [Test]

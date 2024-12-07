@@ -69,7 +69,7 @@ namespace OpenQA.Selenium
             IWebElement element = driver.FindElement(By.Id("upload"));
             element.SendKeys(testFile.FullName);
             element.Clear();
-            Assert.That(element.GetAttribute("value"), Is.Empty);
+            Assert.That(element.GetDomProperty("value"), Is.Empty);
         }
 
         [Test]

@@ -34,7 +34,7 @@
 //            .PointerUp(0)
 //            .Type("abc def"));
 
-//        Assert.That(driver.FindElement(By.Id("textInput")).GetAttribute("value"), Is.EqualTo("abc def"));
+//        Assert.That(driver.FindElement(By.Id("textInput")).GetDomProperty("value"), Is.EqualTo("abc def"));
 //    }
 
 //    [Test]
@@ -86,7 +86,7 @@
 //            .KeyUp(Key.Shift));
 
 //        Assert.That(driver.FindElement(By.Id("result")).Text, Does.EndWith("keydown keydown keypress keyup keydown keypress keyup keyup"));
-//        Assert.That(driver.FindElement(By.Id("theworks")).GetAttribute("value"), Is.EqualTo("AB"));
+//        Assert.That(driver.FindElement(By.Id("theworks")).GetDomProperty("value"), Is.EqualTo("AB"));
 //    }
 
 //    [Test]

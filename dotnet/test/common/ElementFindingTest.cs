@@ -135,7 +135,7 @@ namespace OpenQA.Selenium
         {
             driver.Url = formsPage;
             IWebElement element = driver.FindElement(By.Name("checky"));
-            Assert.That(element.GetAttribute("value"), Is.EqualTo("furrfu"));
+            Assert.That(element.GetDomProperty("value"), Is.EqualTo("furrfu"));
         }
 
         [Test]
@@ -417,7 +417,7 @@ namespace OpenQA.Selenium
             IWebElement element = driver.FindElement(
                 By.XPath("//form[@name='optional']/input[@type='submit' and @value='Click!']"));
             Assert.That(element.TagName.ToLower(), Is.EqualTo("input"));
-            Assert.That(element.GetAttribute("value"), Is.EqualTo("Click!"));
+            Assert.That(element.GetDomProperty("value"), Is.EqualTo("Click!"));
         }
 
         [Test]
@@ -594,7 +594,7 @@ namespace OpenQA.Selenium
         {
             driver.Url = (EnvironmentManager.Instance.UrlBuilder.WhereIs("locators_tests/boolean_attribute_selected.html"));
             IWebElement element = driver.FindElement(By.CssSelector("option[selected='selected']"));
-            Assert.That(element.GetAttribute("value"), Is.EqualTo("two"));
+            Assert.That(element.GetDomProperty("value"), Is.EqualTo("two"));
         }
 
         [Test]
@@ -602,7 +602,7 @@ namespace OpenQA.Selenium
         {
             driver.Url = (EnvironmentManager.Instance.UrlBuilder.WhereIs("locators_tests/boolean_attribute_selected.html"));
             IWebElement element = driver.FindElement(By.CssSelector("option[selected]"));
-            Assert.That(element.GetAttribute("value"), Is.EqualTo("two"));
+            Assert.That(element.GetDomProperty("value"), Is.EqualTo("two"));
         }
 
         [Test]
@@ -610,7 +610,7 @@ namespace OpenQA.Selenium
         {
             driver.Url = (EnvironmentManager.Instance.UrlBuilder.WhereIs("locators_tests/boolean_attribute_selected_html4.html"));
             IWebElement element = driver.FindElement(By.CssSelector("option[selected]"));
-            Assert.That(element.GetAttribute("value"), Is.EqualTo("two"));
+            Assert.That(element.GetDomProperty("value"), Is.EqualTo("two"));
         }
 
         // By.CssSelector negative
@@ -798,16 +798,16 @@ namespace OpenQA.Selenium
             driver.Url = formsPage;
 
             IWebElement element = driver.FindElement(By.Name("id-name1"));
-            Assert.That(element.GetAttribute("value"), Is.EqualTo("name"));
+            Assert.That(element.GetDomProperty("value"), Is.EqualTo("name"));
 
             element = driver.FindElement(By.Id("id-name1"));
-            Assert.That(element.GetAttribute("value"), Is.EqualTo("id"));
+            Assert.That(element.GetDomProperty("value"), Is.EqualTo("id"));
 
             element = driver.FindElement(By.Name("id-name2"));
-            Assert.That(element.GetAttribute("value"), Is.EqualTo("name"));
+            Assert.That(element.GetDomProperty("value"), Is.EqualTo("name"));
 
             element = driver.FindElement(By.Id("id-name2"));
-            Assert.That(element.GetAttribute("value"), Is.EqualTo("id"));
+            Assert.That(element.GetDomProperty("value"), Is.EqualTo("id"));
         }
 
         [Test]
@@ -912,7 +912,7 @@ namespace OpenQA.Selenium
 
             IWebElement element = driver.FindElement(By.Name("checky"));
 
-            Assert.That(element.GetAttribute("value"), Is.EqualTo("furrfu"));
+            Assert.That(element.GetDomProperty("value"), Is.EqualTo("furrfu"));
         }
 
         [Test]
