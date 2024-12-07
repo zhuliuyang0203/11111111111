@@ -151,7 +151,7 @@ namespace OpenQA.Selenium
         {
             driver.Url = nestedPage;
             IWebElement element = driver.FindElement(By.Name("div1"));
-            Assert.That(element.GetAttribute("name"), Is.EqualTo("div1"));
+            Assert.That(element.GetDomAttribute("name"), Is.EqualTo("div1"));
         }
 
         // By.Name negative
@@ -815,7 +815,7 @@ namespace OpenQA.Selenium
         {
             driver.Url = formsPage;
             IWebElement element = driver.FindElement(By.Name("hidden"));
-            Assert.That(element.GetAttribute("name"), Is.EqualTo("hidden"));
+            Assert.That(element.GetDomAttribute("name"), Is.EqualTo("hidden"));
         }
 
         [Test]

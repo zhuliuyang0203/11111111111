@@ -113,7 +113,7 @@ namespace OpenQA.Selenium
             IWebElement element = driver.FindElement(By.Name("form2"));
 
             IWebElement child = element.FindElement(By.Id("2"));
-            Assert.That(child.GetAttribute("name"), Is.EqualTo("selectomatic"));
+            Assert.That(child.GetDomAttribute("name"), Is.EqualTo("selectomatic"));
         }
 
 
@@ -177,7 +177,7 @@ namespace OpenQA.Selenium
             IWebElement element = driver.FindElement(By.Name("div1"));
 
             IWebElement child = element.FindElement(By.LinkText("hello world"));
-            Assert.That(child.GetAttribute("name"), Is.EqualTo("link1"));
+            Assert.That(child.GetDomAttribute("name"), Is.EqualTo("link1"));
         }
 
 
@@ -189,8 +189,8 @@ namespace OpenQA.Selenium
             ReadOnlyCollection<IWebElement> elements = element.FindElements(By.LinkText("hello world"));
 
             Assert.That(elements, Has.Exactly(2).Items);
-            Assert.That(elements[0].GetAttribute("name"), Is.EqualTo("link1"));
-            Assert.That(elements[1].GetAttribute("name"), Is.EqualTo("link2"));
+            Assert.That(elements[0].GetDomAttribute("name"), Is.EqualTo("link1"));
+            Assert.That(elements[1].GetDomAttribute("name"), Is.EqualTo("link2"));
         }
 
         [Test]
@@ -246,7 +246,7 @@ namespace OpenQA.Selenium
 
             IWebElement element = parent.FindElement(By.TagName("a"));
 
-            Assert.That(element.GetAttribute("name"), Is.EqualTo("link1"));
+            Assert.That(element.GetDomAttribute("name"), Is.EqualTo("link1"));
         }
 
 

@@ -138,7 +138,7 @@ namespace OpenQA.Selenium
 
             IWebElement element = driver.SwitchTo().ActiveElement();
 
-            Assert.That(element.GetAttribute("name"), Is.EqualTo("body"));
+            Assert.That(element.GetDomAttribute("name"), Is.EqualTo("body"));
         }
 
         [Test]

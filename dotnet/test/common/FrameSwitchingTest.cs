@@ -101,7 +101,7 @@ namespace OpenQA.Selenium
         {
             driver.Url = framesetPage;
             driver.SwitchTo().Frame("fourth");
-            Assert.That(driver.FindElement(By.TagName("frame")).GetAttribute("name"), Is.EqualTo("child1"));
+            Assert.That(driver.FindElement(By.TagName("frame")).GetDomAttribute("name"), Is.EqualTo("child1"));
 
         }
 
