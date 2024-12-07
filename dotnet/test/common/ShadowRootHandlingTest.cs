@@ -43,7 +43,7 @@ namespace OpenQA.Selenium
             IWebElement element = driver.FindElement(By.CssSelector("custom-checkbox-element"));
             ISearchContext shadowRoot = element.GetShadowRoot();
             IWebElement elementInShadow = shadowRoot.FindElement(By.CssSelector("input"));
-            Assert.That(elementInShadow.GetAttribute("type"), Is.EqualTo("checkbox"), "Did not find element in shadow root");
+            Assert.That(elementInShadow.GetDomAttribute("type"), Is.EqualTo("checkbox"), "Did not find element in shadow root");
         }
 
         [Test]

@@ -618,7 +618,7 @@ namespace OpenQA.Selenium
         /// <exception cref="StaleElementReferenceException">Thrown when the target element is no longer valid in the document DOM.</exception>
         public virtual void Submit()
         {
-            string elementType = this.GetAttribute("type");
+            string elementType = this.GetDomAttribute("type");
             if (elementType != null && elementType == "submit")
             {
                 this.Click();
