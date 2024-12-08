@@ -31,7 +31,7 @@ namespace OpenQA.Selenium
         /// <summary>
         /// Gets the text of the alert.
         /// </summary>
-        string? Text { get; }
+        string Text { get; }
 
         /// <summary>
         /// Dismisses the alert.

@@ -43,12 +43,12 @@ namespace OpenQA.Selenium
         /// <summary>
         /// Gets the text of the alert.
         /// </summary>
-        public string? Text
+        public string Text
         {
             get
             {
                 Response commandResponse = this.driver.InternalExecute(DriverCommand.GetAlertText, null);
-                return commandResponse.Value?.ToString();
+                return (string)commandResponse.Value!;
             }
         }
 
@@ -75,7 +75,7 @@ namespace OpenQA.Selenium
         /// <exception cref="ArgumentNullException">If <paramref name="keysToSend" /> is <see langword="null"/>.</exception>
         public void SendKeys(string keysToSend)
         {
-            if (keysToSend == null)
+            if (keysToSend is null)
             {
                 throw new ArgumentNullException(nameof(keysToSend), "Keys to send must not be null.");
             }
