@@ -56,19 +56,29 @@ namespace OpenQA.Selenium
             }
         }
 
-        private Response(Dictionary<string, object> rawResponse)
+        /// <summary>
+        /// Returns a new <see cref="Response"/> from a JSON-encoded string.
+        /// </summary>
+        /// <param name="responseJson">The JSON string to deserialize into a <see cref="Response"/>.</param>
+        /// <returns>A <see cref="Response"/> object described by the JSON string.</returns>
+        public static Response FromJson(string responseJson)
         {
+            Dictionary<string, object> rawResponse = JsonSerializer.Deserialize<Dictionary<string, object>>(responseJson, s_jsonSerializerOptions)
+                ?? throw new WebDriverException("JSON success response returned \"null\" value");
+
+            var @this = new Response();
+
             if (rawResponse.ContainsKey("sessionId"))
             {
                 if (rawResponse["sessionId"] != null)
                 {
-                    this.SessionId = rawResponse["sessionId"].ToString();
+                    @this.SessionId = rawResponse["sessionId"].ToString();
                 }
             }
 
             if (rawResponse.TryGetValue("value", out object value))
             {
-                this.Value = value;
+                @this.Value = value;
             }
 
             // If the returned object does *not* have a "value" property
@@ -76,37 +86,39 @@ namespace OpenQA.Selenium
             // TODO: Remove this if statement altogether; there should
             // never be a spec-compliant response that does not contain a
             // value property.
-            if (!rawResponse.ContainsKey("value") && this.Value == null)
+            if (!rawResponse.ContainsKey("value") && @this.Value == null)
             {
                 // Special-case for the new session command, where the "capabilities"
                 // property of the response is the actual value we're interested in.
                 if (rawResponse.ContainsKey("capabilities"))
                 {
-                    this.Value = rawResponse["capabilities"];
+                    @this.Value = rawResponse["capabilities"];
                 }
                 else
                 {
-                    this.Value = rawResponse;
+                    @this.Value = rawResponse;
                 }
             }
 
-            if (this.Value is Dictionary<string, object> valueDictionary)
+            if (@this.Value is Dictionary<string, object> valueDictionary)
             {
                 // Special case code for the new session command. If the response contains
                 // sessionId and capabilities properties, fix up the session ID and value members.
                 if (valueDictionary.ContainsKey("sessionId"))
                 {
-                    this.SessionId = valueDictionary["sessionId"].ToString();
+                    @this.SessionId = valueDictionary["sessionId"].ToString();
                     if (valueDictionary.TryGetValue("capabilities", out object capabilities))
                     {
-                        this.Value = capabilities;
+                        @this.Value = capabilities;
                     }
                     else
                     {
-                        this.Value = valueDictionary["value"];
+                        @this.Value = valueDictionary["value"];
                     }
                 }
             }
+
+            return @this;
         }
 
         /// <summary>
@@ -124,18 +136,6 @@ namespace OpenQA.Selenium
         /// </summary>
         public WebDriverResult Status { get; set; }
 
-        /// <summary>
-        /// Returns a new <see cref="Response"/> from a JSON-encoded string.
-        /// </summary>
-        /// <param name="value">The JSON string to deserialize into a <see cref="Response"/>.</param>
-        /// <returns>A <see cref="Response"/> object described by the JSON string.</returns>
-        public static Response FromJson(string value)
-        {
-            Dictionary<string, object> deserializedResponse = JsonSerializer.Deserialize<Dictionary<string, object>>(value, s_jsonSerializerOptions)
-                ?? throw new WebDriverException("JSON success response returned \"null\" value");
-
-            return new Response(deserializedResponse);
-        }
 
         /// <summary>
         /// Returns a new <see cref="Response"/> from a JSON-encoded string.
