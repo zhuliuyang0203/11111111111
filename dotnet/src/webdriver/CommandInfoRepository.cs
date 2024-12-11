@@ -89,12 +89,13 @@ namespace OpenQA.Selenium
         /// <returns>The <see cref="HttpCommandInfo"/> for the specified command, or <see langword="null"/> if not found or value is not <typeparamref name="T"/>.</returns>
         public T? GetCommandInfo<T>(string commandName) where T : CommandInfo
         {
+            T? toReturn = default;
             if (this.commandDictionary.TryGetValue(commandName, out CommandInfo? info))
             {
-                return info as T;
+                toReturn = info as T;
             }
 
-            return default;
+            return toReturn;
         }
 
         /// <summary>
