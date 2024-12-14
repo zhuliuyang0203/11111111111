@@ -13,6 +13,8 @@ module Selenium
 
       def add_request_handler: -> Integer
 
+      def add_response_handler: -> String
+
       def clear_handlers: -> Hash[nil, nil]
 
       def remove_handler: (Integer id) -> nil

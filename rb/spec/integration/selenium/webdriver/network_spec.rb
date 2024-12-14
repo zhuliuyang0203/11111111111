@@ -79,6 +79,33 @@ module Selenium
           expect(network.callbacks.count).to be 0
         end
       end
+
+      it 'adds a response handler' do
+        reset_driver!(web_socket_url: true) do |driver|
+          network = described_class.new(driver)
+          network.add_response_handler
+          expect(network.callbacks.count).to be 1
+        end
+      end
+
+      it 'removes a response handler' do
+        reset_driver!(web_socket_url: true) do |driver|
+          network = described_class.new(driver)
+          id = network.add_response_handler
+          network.remove_handler(id)
+          expect(network.callbacks.count).to be 0
+        end
+      end
+
+      it 'clears all response handlers' do
+        reset_driver!(web_socket_url: true) do |driver|
+          network = described_class.new(driver)
+          network.add_response_handler
+          network.add_response_handler
+          network.clear_handlers
+          expect(network.callbacks.count).to be 0
+        end
+      end
     end
   end
 end

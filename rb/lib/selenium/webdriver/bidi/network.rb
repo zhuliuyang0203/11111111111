@@ -72,6 +72,18 @@ module Selenium
           )
         end
 
+        def continue_with_response(**args)
+          @bidi.send_cmd(
+            'network.continueWithResponse',
+            response: args[:response_id],
+            'body' => args[:body],
+            'cookies' => args[:cookies],
+            'credentials' => args[:credentials],
+            'headers' => args[:headers],
+            'status' => args[:status]
+          )
+        end
+
         def on(event, &)
           event = EVENTS[event] if event.is_a?(Symbol)
           @bidi.add_callback(event, &)

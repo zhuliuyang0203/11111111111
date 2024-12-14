@@ -17,7 +17,6 @@
 # specific language governing permissions and limitations
 # under the License.
 
-
 require_relative '../spec_helper'
 
 module Selenium
@@ -64,6 +63,20 @@ module Selenium
             network.on(:before_request) do |event|
               request_id = event['requestId']
               network.continue_with_request(request_id: request_id)
+            end
+
+            driver.navigate.to url_for('formPage.html')
+            expect(driver.find_element(name: 'login')).to be_displayed
+          end
+        end
+
+        it 'continues with response' do
+          reset_driver!(web_socket_url: true) do |driver|
+            network = described_class.new(driver.bidi)
+            network.add_intercept(phases: [described_class::PHASES[:response_started]])
+            network.on(:response_started) do |event|
+              request_id = event['requestId']
+              network.continue_with_response(request_id: request_id)
             end
 
             driver.navigate.to url_for('formPage.html')

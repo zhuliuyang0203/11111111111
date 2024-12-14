@@ -12,7 +12,9 @@ module Selenium
 
         def add_intercept: (?phases: Array[String], ?contexts: BrowsingContext?, ?url_patterns: untyped?) -> Hash[String, String]
 
-        def continue_with_request: -> untyped
+        def continue_with_request: (**untyped args) -> untyped
+
+        def continue_with_response: (**untyped args) -> untyped
 
         def remove_intercept: (String intercept) -> untyped
 
