@@ -679,7 +679,7 @@ namespace OpenQA.Selenium
             ReturnedCapabilities returnedCapabilities = new ReturnedCapabilities(rawCapabilities);
             this.capabilities = returnedCapabilities;
 
-            string sessionId = response.SessionId ?? throw new WebDriverException("The remote end did not respond with ID of a session when it was required.");
+            string sessionId = response.SessionId ?? throw new WebDriverException($"The remote end did not respond with ID of a session when it was required. {response.Value}");
             this.SessionId = new SessionId(sessionId);
         }
 
