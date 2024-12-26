@@ -17,9 +17,10 @@
 
 package org.openqa.selenium.grid.data;
 
+import java.io.Serializable;
 import java.util.Comparator;
 
-public class SemanticVersionComparator implements Comparator<String> {
+public class SemanticVersionComparator implements Comparator<String>, Serializable {
 
   @Override
   public int compare(String v1, String v2) {
