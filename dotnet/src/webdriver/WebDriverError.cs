@@ -177,7 +177,6 @@ namespace OpenQA.Selenium
         /// <summary>
         /// Represents the element not visible error.
         /// </summary>
-        /// TODO: Remove this string; it is no longer valid in the specification.
         [Obsolete("This error status is no longer returned by the WebDriver Specification https://www.w3.org/TR/webdriver2/#errors")]
         public const string ElementNotVisible = "element not visible";
 
