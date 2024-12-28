@@ -34,6 +34,7 @@ import javax.management.MBeanInfo;
 import javax.management.MBeanOperationInfo;
 import javax.management.MalformedObjectNameException;
 import javax.management.ObjectName;
+import org.jspecify.annotations.Nullable;
 
 public class MBean implements DynamicMBean {
 
@@ -57,6 +58,7 @@ public class MBean implements DynamicMBean {
       this.setter = setter;
     }
 
+    @Nullable
     MBeanAttributeInfo getMBeanAttributeInfo() {
       try {
         return new MBeanAttributeInfo(name, description, getter, setter);
