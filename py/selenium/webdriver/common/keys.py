@@ -90,8 +90,5 @@ class Keys:
     META = "\ue03d"
     COMMAND = "\ue03d"
     ZENKAKU_HANKAKU = "\ue040"
-
-    @staticmethod
-    def ctrl_or_command():
-        """Returns the control (if Linux/Windows) or command (if Mac) key value."""
-        return Keys.COMMAND if sys.platform == "darwin" else Keys.CONTROL
+    
+    CONTROL_OR_COMMAND = COMMAND if sys.platform == "darwin" else CONTROL
