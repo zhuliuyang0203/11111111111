@@ -91,4 +91,4 @@ class Keys:
     COMMAND = "\ue03d"
     ZENKAKU_HANKAKU = "\ue040"
     
-    CONTROL_OR_COMMAND = COMMAND if sys.platform == "darwin" else CONTROL
+    COMMAND_OR_CONTROL = COMMAND if sys.platform == "darwin" else CONTROL
