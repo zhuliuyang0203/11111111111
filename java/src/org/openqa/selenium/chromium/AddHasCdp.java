@@ -53,8 +53,7 @@ public abstract class AddHasCdp implements AugmenterProvider<HasCdp>, Additional
 
       Map<String, Object> toReturn =
           (Map<String, Object>)
-              executeMethod.execute(
-                  EXECUTE_CDP, Map.of("cmd", commandName, "params", parameters));
+              executeMethod.execute(EXECUTE_CDP, Map.of("cmd", commandName, "params", parameters));
 
       return Map.copyOf(toReturn);
     };
