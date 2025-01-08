@@ -75,7 +75,7 @@ namespace OpenQA.Selenium.DevTools
                 {
                     var bytes = reader.ValueSpan;
                     var sb = new StringBuilder(bytes.Length);
-                    foreach (var b in bytes)
+                    foreach (byte b in bytes)
                         sb.Append(Convert.ToChar(b));
                     return sb.ToString();
                 }
