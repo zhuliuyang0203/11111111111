@@ -25,7 +25,10 @@ internal sealed class StringConverter : JsonConverter<string>
             var bytes = reader.ValueSpan;
             var sb = new StringBuilder(bytes.Length);
             foreach (byte b in bytes)
+            {
                 sb.Append(Convert.ToChar(b));
+            }
+            
             return sb.ToString();
         }
     }
