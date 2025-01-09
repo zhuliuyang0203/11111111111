@@ -464,19 +464,35 @@ class WebDriver(BaseWebDriver):
 
     def pin_script(self, script: str, script_key=None) -> ScriptKey:
         """Store common javascript scripts to be executed later by a unique
-        hashable ID."""
+        hashable ID.
+        
+        Example:
+        --------
+        >>> script = "return document.getElementById('foo').value"
+        """
         script_key_instance = ScriptKey(script_key)
         self.pinned_scripts[script_key_instance.id] = script
         return script_key_instance
 
     def unpin(self, script_key: ScriptKey) -> None:
-        """Remove a pinned script from storage."""
+        """Remove a pinned script from storage.
+        
+        Example:
+        --------
+        >>> driver.unpin(script_key)
+        """
         try:
             self.pinned_scripts.pop(script_key.id)
         except KeyError:
             raise KeyError(f"No script with key: {script_key} existed in {self.pinned_scripts}") from None
 
     def get_pinned_scripts(self) -> List[str]:
+        """Return a list of all pinned scripts.
+        
+        Example:
+        --------
+        >>> pinned_scripts = driver.get_pinned_scripts()
+        """
         return list(self.pinned_scripts)
 
     def execute_script(self, script, *args):
