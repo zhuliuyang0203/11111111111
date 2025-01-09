@@ -29,10 +29,12 @@ import java.time.Duration;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.chromium.ChromiumDriverLogLevel;
+import org.openqa.selenium.remote.service.DriverFinder;
 import org.openqa.selenium.remote.service.DriverService;
 
 /** Manages the life and death of a ChromeDriver server. */
@@ -128,8 +130,8 @@ public class ChromeDriverService extends DriverService {
   /**
    * Configures and returns a new {@link ChromeDriverService} using the default configuration. In
    * this configuration, the service will use the ChromeDriver executable identified by {@link
-   * org.openqa.selenium.remote.service.DriverFinder#getResult(DriverService, Capabilities)}. Each
-   * service created by this method will be configured to use a free port on the current system.
+   * DriverFinder#getDriverPath()} (DriverService, Capabilities)}. Each service created by this
+   * method will be configured to use a free port on the current system.
    *
    * @return A new ChromeDriverService using the default configuration.
    */
@@ -299,7 +301,7 @@ public class ChromeDriverService extends DriverService {
       }
 
       if (logLevel != null) {
-        args.add(String.format("--log-level=%s", logLevel.toString().toUpperCase()));
+        args.add(String.format("--log-level=%s", logLevel.toString().toUpperCase(Locale.ENGLISH)));
       }
       if (allowedListIps != null) {
         args.add(String.format("--allowed-ips=%s", allowedListIps));

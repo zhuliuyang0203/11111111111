@@ -1,3 +1,80 @@
+## 4.27.0
+
+- Add CDP for Chrome 131 and remove 128
+- Add Firefox CDP deprecation warnings
+- Update supported versions for Chrome DevTools
+- [bidi] Allow passing in uri for authentication handlers (#14386)
+- [bidi] Enable locate node tests for Chrome and Edge
+- [bidi] Ensure start nodes are serialized
+
+## 4.26.0
+
+- Add CDP for Chrome 130 and remove 127
+- Fix sendKeys command fail on FileDetector.handleFile error (#14663)
+- Update dependencies to latest versions to resolve security alerts
+- Close BiDi websocket connection (#14507)
+
+## 4.25.0
+
+- Add CDP for Chrome 129 and remove 126
+
+## 4.24.1
+
+- Close CDP websocket connection on driver.quit (#14501)
+
+## 4.24.0
+
+- [js] expose selenium version for node.js (#14325)
+- [bidi] Add authentication handlers
+- [bidi] Add high-level script command (#14293)
+- Handle optional dependency for @bazel/runfiles
+- remove console msg and safe exit if runfiles never found
+- fix rbe build(use global node process)
+- Fix error handling for missing runfiles
+- [ci] Use a tag to figure out what we might want to release (#14378)
+- Add CDP for Chrome 128 and remove 125
+
+## 4.23.0
+
+- Expose pnpm as a tool we can use
+- [bidi] Fix the event unsubscribe method. Update modules to have close methods. (#14192)
+- Run Node browser tests on the RBE (#14194)
+- [bidi] Add methods to add/remove handlers in Script module (#14230)
+- [bidi] Add source type to log entry (#14244)
+- [bidi] Add dom mutation handlers (#14238)
+- [bidi] Add high-level script pinning APIs (#14250)
+- [bidi] Deprecate argument value wrapper class (#14251)
+- Add CDP for Chrome 127 and remove 124
+
+## 4.22.0
+
+- [bidi] Add types for user prompt related events (#14097)
+- Add preference to enable CDP in Firefox by default (#14091)
+- [bidi] Add callback handlers for logging APIs (#14120)
+- [bidi] Add high-level logging API (#14135)
+- Add CDP for Chrome 126 and remove 123
+
+## 4.21.0
+
+- Add CDP for Chrome 125 and remove 122
+- Ensure 'selectVisibleByText' method is same as other languages (#13899)
+- Ensure parity in the locators used by methods (#13902)
+
+## 4.20.0
+
+- Add CDP for Chrome 124 and remove 121
+- [bidi] Update capture screenshot APIs to include all parameters and remove scroll parameter (
+  #13744)
+- [bidi] Implement functionality to retrieve all top-level browsing contexts
+- Set browserName by default when browserOptions are used
+- Implement fullPageScreenshot functionality for Firefox (#13301)
+- Nightly JS builds are now pushed to GitHub packages
+- Making Selenium Manager a thin wrapper (#13853)
+  - This change has been made to make it easier to maintain and improve, the interface has
+    changed and if users were invoking it, they might experience issues. Selenium Manager is
+    still in beta and these type of changes are expected.
+- [bidi] Update browsing context create method (#13766)
+
 ## 4.19.0
 
 - Add CDP for Chrome 123 and remove 120

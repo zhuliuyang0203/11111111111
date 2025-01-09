@@ -18,8 +18,6 @@
 package org.openqa.selenium.bidi.input;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.openqa.selenium.testing.drivers.Browser.IE;
-import static org.openqa.selenium.testing.drivers.Browser.SAFARI;
 
 import java.io.File;
 import java.io.IOException;
@@ -31,30 +29,23 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.bidi.module.Input;
 import org.openqa.selenium.bidi.script.RemoteReference;
-import org.openqa.selenium.environment.webserver.AppServer;
-import org.openqa.selenium.environment.webserver.NettyAppServer;
 import org.openqa.selenium.remote.RemoteWebElement;
 import org.openqa.selenium.testing.JupiterTestBase;
-import org.openqa.selenium.testing.NotYetImplemented;
+import org.openqa.selenium.testing.NeedsFreshDriver;
 
 public class SetFilesCommandTest extends JupiterTestBase {
   private Input input;
 
   private String windowHandle;
 
-  private AppServer server;
-
   @BeforeEach
   public void setUp() {
     windowHandle = driver.getWindowHandle();
     input = new Input(driver);
-    server = new NettyAppServer();
-    server.start();
   }
 
   @Test
-  @NotYetImplemented(SAFARI)
-  @NotYetImplemented(IE)
+  @NeedsFreshDriver
   void canSetFiles() throws IOException {
     driver.get(pages.formPage);
     WebElement uploadElement = driver.findElement(By.id("upload"));
@@ -76,8 +67,7 @@ public class SetFilesCommandTest extends JupiterTestBase {
   }
 
   @Test
-  @NotYetImplemented(SAFARI)
-  @NotYetImplemented(IE)
+  @NeedsFreshDriver
   public void canSetFilesWithElementId() throws IOException {
     driver.get(pages.formPage);
     WebElement uploadElement = driver.findElement(By.id("upload"));
@@ -95,8 +85,7 @@ public class SetFilesCommandTest extends JupiterTestBase {
   }
 
   @Test
-  @NotYetImplemented(SAFARI)
-  @NotYetImplemented(IE)
+  @NeedsFreshDriver
   void canSetFile() throws IOException {
     driver.get(pages.formPage);
     WebElement uploadElement = driver.findElement(By.id("upload"));
@@ -115,8 +104,7 @@ public class SetFilesCommandTest extends JupiterTestBase {
   }
 
   @Test
-  @NotYetImplemented(SAFARI)
-  @NotYetImplemented(IE)
+  @NeedsFreshDriver
   void canSetFileWithElementId() throws IOException {
     driver.get(pages.formPage);
     WebElement uploadElement = driver.findElement(By.id("upload"));

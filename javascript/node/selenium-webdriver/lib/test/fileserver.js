@@ -94,6 +94,7 @@ const Pages = (function () {
   addPage('scrollingPage', 'scrollingPage.html')
   addPage('selectableItemsPage', 'selectableItems.html')
   addPage('selectPage', 'selectPage.html')
+  addPage('selectSpacePage', 'select_space.html')
   addPage('simpleTestPage', 'simpleTest.html')
   addPage('simpleXmlDocument', 'simple.xml')
   addPage('sleepingPage', 'sleep')
@@ -117,7 +118,7 @@ const Pages = (function () {
   addPage('emptyText', 'bidi/emptyText.txt')
   addPage('redirectedHttpEquiv', 'bidi/redirected_http_equiv.html')
   addPage('releaseAction', 'bidi/release_action.html')
-
+  addPage('fedcm', 'fedcm/fedcm_async_js.html')
   return pages
 })()
 

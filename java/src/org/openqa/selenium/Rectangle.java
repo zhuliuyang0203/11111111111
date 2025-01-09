@@ -17,8 +17,12 @@
 
 package org.openqa.selenium;
 
+import java.util.Map;
 import java.util.Objects;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
+@NullMarked
 public class Rectangle {
 
   public final int x;
@@ -64,8 +68,12 @@ public class Rectangle {
     return new Dimension(width, height);
   }
 
+  private Map<String, Object> toJson() {
+    return Map.of("width", width, "height", height, "x", x, "y", y);
+  }
+
   @Override
-  public boolean equals(Object o) {
+  public boolean equals(@Nullable Object o) {
     if (this == o) {
       return true;
     }

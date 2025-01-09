@@ -30,7 +30,6 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.time.Duration;
 import java.time.Instant;
-import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
@@ -109,6 +108,7 @@ class SessionQueueGridWithTimeoutTest {
             new DefaultSlotMatcher(),
             Duration.ofSeconds(1),
             Duration.ofSeconds(5), // low timeout to allow simulating it
+            Duration.ofSeconds(1),
             registrationSecret,
             5);
     handler.addHandler(queue);
@@ -163,7 +163,7 @@ class SessionQueueGridWithTimeoutTest {
     try {
       Callable<HttpResponse> sessionCreationTask = () -> createSession(caps);
       List<Future<HttpResponse>> futureList =
-          fixedThreadPoolService.invokeAll(Arrays.asList(sessionCreationTask));
+          fixedThreadPoolService.invokeAll(List.of(sessionCreationTask));
 
       for (Future<HttpResponse> future : futureList) {
         HttpResponse httpResponse = future.get(10, SECONDS);

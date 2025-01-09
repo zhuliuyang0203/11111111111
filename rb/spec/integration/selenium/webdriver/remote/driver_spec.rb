@@ -22,7 +22,7 @@ require_relative '../spec_helper'
 module Selenium
   module WebDriver
     module Remote
-      describe Driver, exclusive: {driver: :remote} do
+      describe Driver, exclusive: [{bidi: false, reason: 'Not yet implemented with BiDi'}, {driver: :remote}] do
         it 'exposes session_id' do
           expect(driver.session_id).to be_a(String)
         end
@@ -83,10 +83,12 @@ module Selenium
 
         it 'errors when not set', {except: {browser: :firefox, reason: 'grid always sets true and firefox returns it'},
                                    exclude: {browser: :safari, reason: 'grid hangs'}} do
-          expect {
-            driver.downloadable_files
-          }.to raise_exception(Error::WebDriverError,
-                               'You must enable downloads in order to work with downloadable files.')
+          reset_driver!(enable_downloads: false) do |driver|
+            expect {
+              driver.downloadable_files
+            }.to raise_exception(Error::WebDriverError,
+                                 'You must enable downloads in order to work with downloadable files.')
+          end
         end
 
         private

@@ -138,19 +138,19 @@ impl SeleniumManager for EdgeManager {
                 ),
                 (
                     BrowserPath::new(MACOS, STABLE),
-                    r#"/Applications/Microsoft Edge.app/Contents/MacOS/Microsoft Edge"#,
+                    "/Applications/Microsoft Edge.app/Contents/MacOS/Microsoft Edge",
                 ),
                 (
                     BrowserPath::new(MACOS, BETA),
-                    r#"/Applications/Microsoft Edge Beta.app/Contents/MacOS/Microsoft Edge Beta"#,
+                    "/Applications/Microsoft Edge Beta.app/Contents/MacOS/Microsoft Edge Beta",
                 ),
                 (
                     BrowserPath::new(MACOS, DEV),
-                    r#"/Applications/Microsoft Edge Dev.app/Contents/MacOS/Microsoft Edge Dev"#,
+                    "/Applications/Microsoft Edge Dev.app/Contents/MacOS/Microsoft Edge Dev",
                 ),
                 (
                     BrowserPath::new(MACOS, NIGHTLY),
-                    r#"/Applications/Microsoft Edge Canary.app/Contents/MacOS/Microsoft Edge Canary"#,
+                    "/Applications/Microsoft Edge Canary.app/Contents/MacOS/Microsoft Edge Canary",
                 ),
                 (BrowserPath::new(LINUX, STABLE), "/usr/bin/microsoft-edge"),
                 (
@@ -504,7 +504,7 @@ impl SeleniumManager for EdgeManager {
                     .to_string()
             } else {
                 format!(
-                    r#"Microsoft\Edge\Application\{}\msedge.exe"#,
+                    r"Microsoft\Edge\Application\{}\msedge.exe",
                     self.get_browser_version()
                 )
             };
@@ -555,42 +555,42 @@ impl SeleniumManager for EdgeManager {
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct EdgeProduct {
-    #[serde(rename = "Product")]
+    #[serde(rename = "Product", alias = "product")]
     pub product: String,
-    #[serde(rename = "Releases")]
+    #[serde(rename = "Releases", alias = "releases")]
     pub releases: Vec<Release>,
 }
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct Release {
-    #[serde(rename = "ReleaseId")]
+    #[serde(rename = "ReleaseId", alias = "releaseId")]
     pub release_id: u32,
-    #[serde(rename = "Platform")]
+    #[serde(rename = "Platform", alias = "platform")]
     pub platform: String,
-    #[serde(rename = "Architecture")]
+    #[serde(rename = "Architecture", alias = "architecture")]
     pub architecture: String,
-    #[serde(rename = "CVEs")]
+    #[serde(rename = "CVEs", alias = "cves")]
     pub cves: Vec<String>,
-    #[serde(rename = "ProductVersion")]
+    #[serde(rename = "ProductVersion", alias = "productVersion")]
     pub product_version: String,
-    #[serde(rename = "Artifacts")]
+    #[serde(rename = "Artifacts", alias = "artifacts")]
     pub artifacts: Vec<Artifact>,
-    #[serde(rename = "PublishedTime")]
+    #[serde(rename = "PublishedTime", alias = "publishedTime")]
     pub published_time: String,
-    #[serde(rename = "ExpectedExpiryDate")]
+    #[serde(rename = "ExpectedExpiryDate", alias = "expectedExpiryDate")]
     pub expected_expiry_date: String,
 }
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct Artifact {
-    #[serde(rename = "ArtifactName")]
+    #[serde(rename = "ArtifactName", alias = "artifactName")]
     pub artifact_name: String,
-    #[serde(rename = "Location")]
+    #[serde(rename = "Location", alias = "location")]
     pub location: String,
-    #[serde(rename = "Hash")]
+    #[serde(rename = "Hash", alias = "hash")]
     pub hash: String,
-    #[serde(rename = "HashAlgorithm")]
+    #[serde(rename = "HashAlgorithm", alias = "hashAlgorithm")]
     pub hash_algorithm: String,
-    #[serde(rename = "SizeInBytes")]
+    #[serde(rename = "SizeInBytes", alias = "sizeInBytes")]
     pub size_in_bytes: u32,
 }

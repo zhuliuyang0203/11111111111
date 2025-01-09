@@ -1,8 +1,10 @@
 # Selenium
 
 [![CI](https://github.com/SeleniumHQ/selenium/actions/workflows/ci.yml/badge.svg?branch=trunk&event=schedule)](https://github.com/SeleniumHQ/selenium/actions/workflows/ci.yml)
+[![CI - RBE](https://github.com/SeleniumHQ/selenium/actions/workflows/ci-rbe.yml/badge.svg?branch=trunk&event=schedule)](https://github.com/SeleniumHQ/selenium/actions/workflows/ci-rbe.yml)
+[![Releases downloads](https://img.shields.io/github/downloads/SeleniumHQ/selenium/total.svg)](https://github.com/SeleniumHQ/selenium/releases)
 
-<a href="https://selenium.dev"><img src="https://selenium.dev/images/selenium_logo_square_green.png" width="180" alt="Selenium"/></a>
+<a href="https://selenium.dev"><img src="common/images/selenium_logo_mark_green.svg" width="180" alt="Selenium Logo"/></a>
 
 Selenium is an umbrella project encapsulating a variety of tools and
 libraries enabling web browser automation. Selenium specifically
@@ -316,6 +318,18 @@ Run unit tests with:
 bazel test //py:unit
 ```
 
+To run common tests with a specific browser:
+
+```sh
+bazel test //py:common-<browsername>
+```
+
+To run common tests with a specific browser (include BiDi tests):
+
+```sh
+bazel test //py:common-<browsername>-bidi
+```
+
 To run tests with a specific browser:
 
 ```sh
@@ -370,7 +384,6 @@ Supported browsers:
 * `safari-preview`
 
 In addition to the [Common Options Examples](#common-options-examples), here are some additional Ruby specific ones:
-* `--test_arg "-tfocus"` - test only [focused specs](https://relishapp.com/rspec/rspec-core/v/3-12/docs/filtering/inclusion-filters)
 * `--test_arg "-eTimeouts"` - test only specs which name include "Timeouts"
 * `--test_arg "<any other RSpec argument>"` - pass any extra RSpec arguments (see `bazel run @bundle//bin:rspec -- --help`)
 

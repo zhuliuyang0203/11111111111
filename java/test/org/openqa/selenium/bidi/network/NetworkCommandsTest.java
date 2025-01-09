@@ -19,15 +19,12 @@ package org.openqa.selenium.bidi.network;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
-import static org.openqa.selenium.testing.Safely.safelyCall;
 import static org.openqa.selenium.testing.drivers.Browser.*;
 
 import java.time.Duration;
 import java.time.temporal.ChronoUnit;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.Alert;
@@ -36,25 +33,16 @@ import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.UsernameAndPassword;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.bidi.module.Network;
-import org.openqa.selenium.environment.webserver.AppServer;
-import org.openqa.selenium.environment.webserver.NettyAppServer;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.testing.JupiterTestBase;
+import org.openqa.selenium.testing.NeedsFreshDriver;
 import org.openqa.selenium.testing.NotYetImplemented;
 
 class NetworkCommandsTest extends JupiterTestBase {
   private String page;
-  private AppServer server;
-
-  @BeforeEach
-  public void setUp() {
-    server = new NettyAppServer();
-    server.start();
-  }
 
   @Test
-  @NotYetImplemented(SAFARI)
-  @NotYetImplemented(IE)
+  @NeedsFreshDriver
   @NotYetImplemented(EDGE)
   @NotYetImplemented(CHROME)
   void canAddIntercept() {
@@ -66,8 +54,7 @@ class NetworkCommandsTest extends JupiterTestBase {
   }
 
   @Test
-  @NotYetImplemented(SAFARI)
-  @NotYetImplemented(IE)
+  @NeedsFreshDriver
   @NotYetImplemented(EDGE)
   @NotYetImplemented(CHROME)
   void canContinueRequest() throws InterruptedException {
@@ -77,7 +64,7 @@ class NetworkCommandsTest extends JupiterTestBase {
 
       CountDownLatch latch = new CountDownLatch(1);
 
-      // String alternatePage = server.whereIs("printPage.html");
+      // String alternatePage = appServer.whereIs("printPage.html");
       // TODO: Test sending request to alternate page once it is supported by browsers
       network.onBeforeRequestSent(
           beforeRequestSent -> {
@@ -93,7 +80,7 @@ class NetworkCommandsTest extends JupiterTestBase {
 
       assertThat(intercept).isNotNull();
 
-      driver.get(server.whereIs("/bidi/logEntryAdded.html"));
+      driver.get(appServer.whereIs("/bidi/logEntryAdded.html"));
 
       boolean countdown = latch.await(5, TimeUnit.SECONDS);
       assertThat(countdown).isTrue();
@@ -101,8 +88,7 @@ class NetworkCommandsTest extends JupiterTestBase {
   }
 
   @Test
-  @NotYetImplemented(SAFARI)
-  @NotYetImplemented(IE)
+  @NeedsFreshDriver
   @NotYetImplemented(EDGE)
   @NotYetImplemented(CHROME)
   void canContinueResponse() throws InterruptedException {
@@ -123,7 +109,7 @@ class NetworkCommandsTest extends JupiterTestBase {
 
       assertThat(intercept).isNotNull();
 
-      driver.get(server.whereIs("/bidi/logEntryAdded.html"));
+      driver.get(appServer.whereIs("/bidi/logEntryAdded.html"));
 
       boolean countdown = latch.await(5, TimeUnit.SECONDS);
       assertThat(countdown).isTrue();
@@ -131,8 +117,7 @@ class NetworkCommandsTest extends JupiterTestBase {
   }
 
   @Test
-  @NotYetImplemented(SAFARI)
-  @NotYetImplemented(IE)
+  @NeedsFreshDriver
   @NotYetImplemented(EDGE)
   @NotYetImplemented(CHROME)
   void canProvideResponse() throws InterruptedException {
@@ -152,7 +137,7 @@ class NetworkCommandsTest extends JupiterTestBase {
 
       assertThat(intercept).isNotNull();
 
-      driver.get(server.whereIs("/bidi/logEntryAdded.html"));
+      driver.get(appServer.whereIs("/bidi/logEntryAdded.html"));
 
       boolean countdown = latch.await(5, TimeUnit.SECONDS);
       assertThat(countdown).isTrue();
@@ -160,8 +145,6 @@ class NetworkCommandsTest extends JupiterTestBase {
   }
 
   @Disabled
-  @NotYetImplemented(SAFARI)
-  @NotYetImplemented(IE)
   @NotYetImplemented(EDGE)
   @NotYetImplemented(FIREFOX)
   @NotYetImplemented(CHROME)
@@ -187,7 +170,7 @@ class NetworkCommandsTest extends JupiterTestBase {
 
       assertThat(intercept).isNotNull();
 
-      driver.get(server.whereIs("/bidi/logEntryAdded.html"));
+      driver.get(appServer.whereIs("/bidi/logEntryAdded.html"));
 
       boolean countdown = latch.await(5, TimeUnit.SECONDS);
       assertThat(countdown).isTrue();
@@ -197,8 +180,7 @@ class NetworkCommandsTest extends JupiterTestBase {
   }
 
   @Test
-  @NotYetImplemented(SAFARI)
-  @NotYetImplemented(IE)
+  @NeedsFreshDriver
   @NotYetImplemented(EDGE)
   @NotYetImplemented(CHROME)
   void canRemoveIntercept() {
@@ -212,8 +194,7 @@ class NetworkCommandsTest extends JupiterTestBase {
   }
 
   @Test
-  @NotYetImplemented(SAFARI)
-  @NotYetImplemented(IE)
+  @NeedsFreshDriver
   @NotYetImplemented(EDGE)
   @NotYetImplemented(CHROME)
   void canContinueWithAuthCredentials() {
@@ -225,15 +206,14 @@ class NetworkCommandsTest extends JupiterTestBase {
                   responseDetails.getRequest().getRequestId(),
                   new UsernameAndPassword("test", "test")));
 
-      page = server.whereIs("basicAuth");
+      page = appServer.whereIs("basicAuth");
       driver.get(page);
       assertThat(driver.findElement(By.tagName("h1")).getText()).isEqualTo("authorized");
     }
   }
 
   @Test
-  @NotYetImplemented(SAFARI)
-  @NotYetImplemented(IE)
+  @NeedsFreshDriver
   @NotYetImplemented(EDGE)
   @NotYetImplemented(CHROME)
   void canContinueWithoutAuthCredentials() {
@@ -243,7 +223,7 @@ class NetworkCommandsTest extends JupiterTestBase {
           responseDetails ->
               // Does not handle the alert
               network.continueWithAuthNoCredentials(responseDetails.getRequest().getRequestId()));
-      page = server.whereIs("basicAuth");
+      page = appServer.whereIs("basicAuth");
       driver.get(page);
       // This would fail if alert was handled
       Alert alert = wait.until(ExpectedConditions.alertIsPresent());
@@ -252,8 +232,7 @@ class NetworkCommandsTest extends JupiterTestBase {
   }
 
   @Test
-  @NotYetImplemented(SAFARI)
-  @NotYetImplemented(IE)
+  @NeedsFreshDriver
   @NotYetImplemented(EDGE)
   @NotYetImplemented(CHROME)
   void canCancelAuth() {
@@ -263,7 +242,7 @@ class NetworkCommandsTest extends JupiterTestBase {
           responseDetails ->
               // Does not handle the alert
               network.cancelAuth(responseDetails.getRequest().getRequestId()));
-      page = server.whereIs("basicAuth");
+      page = appServer.whereIs("basicAuth");
       driver.get(page);
       assertThatThrownBy(() -> wait.until(ExpectedConditions.alertIsPresent()))
           .isInstanceOf(TimeoutException.class);
@@ -271,8 +250,7 @@ class NetworkCommandsTest extends JupiterTestBase {
   }
 
   @Test
-  @NotYetImplemented(SAFARI)
-  @NotYetImplemented(IE)
+  @NeedsFreshDriver
   @NotYetImplemented(EDGE)
   @NotYetImplemented(CHROME)
   void canFailRequest() {
@@ -280,18 +258,10 @@ class NetworkCommandsTest extends JupiterTestBase {
       network.addIntercept(new AddInterceptParameters(InterceptPhase.BEFORE_REQUEST_SENT));
       network.onBeforeRequestSent(
           responseDetails -> network.failRequest(responseDetails.getRequest().getRequestId()));
-      page = server.whereIs("basicAuth");
+      page = appServer.whereIs("basicAuth");
       driver.manage().timeouts().pageLoadTimeout(Duration.of(5, ChronoUnit.SECONDS));
 
       assertThatThrownBy(() -> driver.get(page)).isInstanceOf(WebDriverException.class);
     }
-  }
-
-  @AfterEach
-  public void quitDriver() {
-    if (driver != null) {
-      driver.quit();
-    }
-    safelyCall(server::stop);
   }
 }

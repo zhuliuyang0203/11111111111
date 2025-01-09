@@ -18,34 +18,19 @@
 package org.openqa.selenium.bidi.network;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.openqa.selenium.testing.Safely.safelyCall;
 import static org.openqa.selenium.testing.drivers.Browser.EDGE;
-import static org.openqa.selenium.testing.drivers.Browser.IE;
-import static org.openqa.selenium.testing.drivers.Browser.SAFARI;
 
 import java.util.List;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.bidi.module.Network;
-import org.openqa.selenium.environment.webserver.AppServer;
-import org.openqa.selenium.environment.webserver.NettyAppServer;
 import org.openqa.selenium.testing.JupiterTestBase;
+import org.openqa.selenium.testing.NeedsFreshDriver;
 import org.openqa.selenium.testing.NotYetImplemented;
 
 class AddInterceptParametersTest extends JupiterTestBase {
 
-  private AppServer server;
-
-  @BeforeEach
-  public void setUp() {
-    server = new NettyAppServer();
-    server.start();
-  }
-
   @Test
-  @NotYetImplemented(SAFARI)
-  @NotYetImplemented(IE)
+  @NeedsFreshDriver
   @NotYetImplemented(EDGE)
   void canAddInterceptPhase() {
     try (Network network = new Network(driver)) {
@@ -56,8 +41,7 @@ class AddInterceptParametersTest extends JupiterTestBase {
   }
 
   @Test
-  @NotYetImplemented(SAFARI)
-  @NotYetImplemented(IE)
+  @NeedsFreshDriver
   @NotYetImplemented(EDGE)
   void canAddInterceptPhases() {
     try (Network network = new Network(driver)) {
@@ -70,8 +54,7 @@ class AddInterceptParametersTest extends JupiterTestBase {
   }
 
   @Test
-  @NotYetImplemented(SAFARI)
-  @NotYetImplemented(IE)
+  @NeedsFreshDriver
   @NotYetImplemented(EDGE)
   void canAddStringUrlPattern() {
     try (Network network = new Network(driver)) {
@@ -84,8 +67,7 @@ class AddInterceptParametersTest extends JupiterTestBase {
   }
 
   @Test
-  @NotYetImplemented(SAFARI)
-  @NotYetImplemented(IE)
+  @NeedsFreshDriver
   @NotYetImplemented(EDGE)
   void canAddStringUrlPatterns() {
     try (Network network = new Network(driver)) {
@@ -101,8 +83,7 @@ class AddInterceptParametersTest extends JupiterTestBase {
   }
 
   @Test
-  @NotYetImplemented(SAFARI)
-  @NotYetImplemented(IE)
+  @NeedsFreshDriver
   @NotYetImplemented(EDGE)
   void canAddUrlPattern() {
     try (Network network = new Network(driver)) {
@@ -122,8 +103,7 @@ class AddInterceptParametersTest extends JupiterTestBase {
   }
 
   @Test
-  @NotYetImplemented(SAFARI)
-  @NotYetImplemented(IE)
+  @NeedsFreshDriver
   @NotYetImplemented(EDGE)
   void canAddUrlPatterns() {
     try (Network network = new Network(driver)) {
@@ -149,13 +129,5 @@ class AddInterceptParametersTest extends JupiterTestBase {
                   .urlPatterns(List.of(pattern1, pattern2)));
       assertThat(intercept).isNotNull();
     }
-  }
-
-  @AfterEach
-  public void quitDriver() {
-    if (driver != null) {
-      driver.quit();
-    }
-    safelyCall(server::stop);
   }
 }

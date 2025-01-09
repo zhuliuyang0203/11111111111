@@ -18,8 +18,6 @@
 package org.openqa.selenium.bidi.input;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.openqa.selenium.testing.drivers.Browser.IE;
-import static org.openqa.selenium.testing.drivers.Browser.SAFARI;
 
 import java.util.List;
 import java.util.Map;
@@ -29,32 +27,25 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.bidi.module.Input;
-import org.openqa.selenium.environment.webserver.AppServer;
-import org.openqa.selenium.environment.webserver.NettyAppServer;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.testing.JupiterTestBase;
-import org.openqa.selenium.testing.NotYetImplemented;
+import org.openqa.selenium.testing.NeedsFreshDriver;
 
 public class ReleaseCommandTest extends JupiterTestBase {
   private Input input;
 
   private String windowHandle;
 
-  private AppServer server;
-
   @BeforeEach
   public void setUp() {
     windowHandle = driver.getWindowHandle();
     input = new Input(driver);
-    server = new NettyAppServer();
-    server.start();
   }
 
   @Test
-  @NotYetImplemented(SAFARI)
-  @NotYetImplemented(IE)
+  @NeedsFreshDriver
   public void testReleaseInBrowsingContext() {
-    driver.get(server.whereIs("/bidi/release_action.html"));
+    driver.get(appServer.whereIs("/bidi/release_action.html"));
 
     WebElement inputTextBox = driver.findElement(By.id("keys"));
 

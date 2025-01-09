@@ -19,9 +19,6 @@ package org.openqa.selenium.bidi.script;
 
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.openqa.selenium.testing.Safely.safelyCall;
-import static org.openqa.selenium.testing.drivers.Browser.IE;
-import static org.openqa.selenium.testing.drivers.Browser.SAFARI;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -33,8 +30,6 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import java.util.concurrent.atomic.AtomicReference;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriverException;
@@ -43,24 +38,14 @@ import org.openqa.selenium.bidi.log.ConsoleLogEntry;
 import org.openqa.selenium.bidi.log.LogLevel;
 import org.openqa.selenium.bidi.module.LogInspector;
 import org.openqa.selenium.bidi.module.Script;
-import org.openqa.selenium.environment.webserver.AppServer;
-import org.openqa.selenium.environment.webserver.NettyAppServer;
 import org.openqa.selenium.testing.JupiterTestBase;
-import org.openqa.selenium.testing.NotYetImplemented;
+import org.openqa.selenium.testing.NeedsFreshDriver;
 import org.openqa.selenium.testing.Pages;
 
 public class ScriptCommandsTest extends JupiterTestBase {
-  private AppServer server;
-
-  @BeforeEach
-  public void setUp() {
-    server = new NettyAppServer();
-    server.start();
-  }
 
   @Test
-  @NotYetImplemented(SAFARI)
-  @NotYetImplemented(IE)
+  @NeedsFreshDriver
   void canCallFunctionWithDeclaration() {
     String id = driver.getWindowHandle();
     Script script = new Script(id, driver);
@@ -79,8 +64,7 @@ public class ScriptCommandsTest extends JupiterTestBase {
   }
 
   @Test
-  @NotYetImplemented(SAFARI)
-  @NotYetImplemented(IE)
+  @NeedsFreshDriver
   void canCallFunctionWithArguments() {
     String id = driver.getWindowHandle();
     Script script = new Script(id, driver);
@@ -110,8 +94,7 @@ public class ScriptCommandsTest extends JupiterTestBase {
   }
 
   @Test
-  @NotYetImplemented(SAFARI)
-  @NotYetImplemented(IE)
+  @NeedsFreshDriver
   void canCallFunctionToGetIFrameBrowsingContext() {
     String url = appServer.whereIs("click_too_big_in_frame.html");
     driver.get(url);
@@ -145,8 +128,7 @@ public class ScriptCommandsTest extends JupiterTestBase {
   }
 
   @Test
-  @NotYetImplemented(SAFARI)
-  @NotYetImplemented(IE)
+  @NeedsFreshDriver
   void canCallFunctionToGetElement() {
     String url = appServer.whereIs("/bidi/logEntryAdded.html");
     driver.get(url);
@@ -176,8 +158,7 @@ public class ScriptCommandsTest extends JupiterTestBase {
   }
 
   @Test
-  @NotYetImplemented(SAFARI)
-  @NotYetImplemented(IE)
+  @NeedsFreshDriver
   void canCallFunctionWithAwaitPromise() {
     String id = driver.getWindowHandle();
     Script script = new Script(id, driver);
@@ -205,8 +186,7 @@ public class ScriptCommandsTest extends JupiterTestBase {
   }
 
   @Test
-  @NotYetImplemented(SAFARI)
-  @NotYetImplemented(IE)
+  @NeedsFreshDriver
   void canCallFunctionWithAwaitPromiseFalse() {
     String id = driver.getWindowHandle();
     Script script = new Script(id, driver);
@@ -232,8 +212,7 @@ public class ScriptCommandsTest extends JupiterTestBase {
   }
 
   @Test
-  @NotYetImplemented(SAFARI)
-  @NotYetImplemented(IE)
+  @NeedsFreshDriver
   void canCallFunctionWithThisParameter() {
     String id = driver.getWindowHandle();
     Script script = new Script(id, driver);
@@ -261,8 +240,7 @@ public class ScriptCommandsTest extends JupiterTestBase {
   }
 
   @Test
-  @NotYetImplemented(SAFARI)
-  @NotYetImplemented(IE)
+  @NeedsFreshDriver
   void canCallFunctionWithOwnershipRoot() {
     String id = driver.getWindowHandle();
     Script script = new Script(id, driver);
@@ -285,8 +263,7 @@ public class ScriptCommandsTest extends JupiterTestBase {
   }
 
   @Test
-  @NotYetImplemented(SAFARI)
-  @NotYetImplemented(IE)
+  @NeedsFreshDriver
   void canCallFunctionWithOwnershipNone() {
     String id = driver.getWindowHandle();
     Script script = new Script(id, driver);
@@ -309,8 +286,7 @@ public class ScriptCommandsTest extends JupiterTestBase {
   }
 
   @Test
-  @NotYetImplemented(SAFARI)
-  @NotYetImplemented(IE)
+  @NeedsFreshDriver
   void canCallFunctionThatThrowsException() {
     String id = driver.getWindowHandle();
     Script script = new Script(id, driver);
@@ -336,8 +312,7 @@ public class ScriptCommandsTest extends JupiterTestBase {
   }
 
   @Test
-  @NotYetImplemented(SAFARI)
-  @NotYetImplemented(IE)
+  @NeedsFreshDriver
   void canCallFunctionInASandBox() {
     String id = driver.getWindowHandle();
     Script script = new Script(id, driver);
@@ -398,6 +373,7 @@ public class ScriptCommandsTest extends JupiterTestBase {
   }
 
   @Test
+  @NeedsFreshDriver
   void canCallFunctionInARealm() {
     String firstTab = driver.getWindowHandle();
     String secondTab = driver.switchTo().newWindow(WindowType.TAB).getWindowHandle();
@@ -458,6 +434,7 @@ public class ScriptCommandsTest extends JupiterTestBase {
   }
 
   @Test
+  @NeedsFreshDriver
   void canEvaluateScript() {
     String id = driver.getWindowHandle();
     Script script = new Script(id, driver);
@@ -475,6 +452,7 @@ public class ScriptCommandsTest extends JupiterTestBase {
   }
 
   @Test
+  @NeedsFreshDriver
   void canEvaluateScriptThatThrowsException() {
     String id = driver.getWindowHandle();
     Script script = new Script(id, driver);
@@ -494,6 +472,7 @@ public class ScriptCommandsTest extends JupiterTestBase {
   }
 
   @Test
+  @NeedsFreshDriver
   void canEvaluateScriptWithResulWithOwnership() {
     String id = driver.getWindowHandle();
     Script script = new Script(id, driver);
@@ -512,6 +491,7 @@ public class ScriptCommandsTest extends JupiterTestBase {
   }
 
   @Test
+  @NeedsFreshDriver
   void canEvaluateInASandBox() {
     String id = driver.getWindowHandle();
     Script script = new Script(id, driver);
@@ -548,6 +528,7 @@ public class ScriptCommandsTest extends JupiterTestBase {
   }
 
   @Test
+  @NeedsFreshDriver
   void canEvaluateInARealm() {
     String firstTab = driver.getWindowHandle();
     String secondTab = driver.switchTo().newWindow(WindowType.TAB).getWindowHandle();
@@ -584,6 +565,7 @@ public class ScriptCommandsTest extends JupiterTestBase {
   }
 
   @Test
+  @NeedsFreshDriver
   void canDisownHandles() {
     String id = driver.getWindowHandle();
     Script script = new Script(id, driver);
@@ -640,6 +622,7 @@ public class ScriptCommandsTest extends JupiterTestBase {
   }
 
   @Test
+  @NeedsFreshDriver
   void canDisownHandlesInRealm() {
     String id = driver.getWindowHandle();
     Script script = new Script(id, driver);
@@ -696,6 +679,7 @@ public class ScriptCommandsTest extends JupiterTestBase {
   }
 
   @Test
+  @NeedsFreshDriver
   void canGetAllRealms() {
     String firstWindow = driver.getWindowHandle();
     String secondWindow = driver.switchTo().newWindow(WindowType.WINDOW).getWindowHandle();
@@ -720,6 +704,7 @@ public class ScriptCommandsTest extends JupiterTestBase {
   }
 
   @Test
+  @NeedsFreshDriver
   void canGetRealmByType() {
     String firstWindow = driver.getWindowHandle();
     String secondWindow = driver.switchTo().newWindow(WindowType.WINDOW).getWindowHandle();
@@ -744,6 +729,7 @@ public class ScriptCommandsTest extends JupiterTestBase {
   }
 
   @Test
+  @NeedsFreshDriver
   void canGetRealmInBrowsingContext() {
     String windowId = driver.getWindowHandle();
     String tabId = driver.switchTo().newWindow(WindowType.TAB).getWindowHandle();
@@ -760,6 +746,7 @@ public class ScriptCommandsTest extends JupiterTestBase {
   }
 
   @Test
+  @NeedsFreshDriver
   void canGetRealmInBrowsingContextByType() {
     String windowId = driver.getWindowHandle();
     driver.switchTo().newWindow(WindowType.TAB).getWindowHandle();
@@ -777,6 +764,7 @@ public class ScriptCommandsTest extends JupiterTestBase {
   }
 
   @Test
+  @NeedsFreshDriver
   void canAddPreloadScript() throws ExecutionException, InterruptedException, TimeoutException {
     Script script = new Script(driver);
     String id = script.addPreloadScript("() => {{ console.log('{preload_script_console_text}') }}");
@@ -788,7 +776,7 @@ public class ScriptCommandsTest extends JupiterTestBase {
       CompletableFuture<ConsoleLogEntry> future = new CompletableFuture<>();
       logInspector.onConsoleEntry(future::complete);
 
-      driver.get(new Pages(server).blankPage);
+      driver.get(new Pages(appServer).blankPage);
 
       ConsoleLogEntry logEntry = future.get(5, TimeUnit.SECONDS);
 
@@ -799,6 +787,7 @@ public class ScriptCommandsTest extends JupiterTestBase {
   }
 
   @Test
+  @NeedsFreshDriver
   void canAddPreloadScriptWithArguments() {
     Script script = new Script(driver);
     String id =
@@ -810,6 +799,7 @@ public class ScriptCommandsTest extends JupiterTestBase {
   }
 
   @Test
+  @NeedsFreshDriver
   void canAddPreloadScriptWithChannelOptions() {
     Script script = new Script(driver);
     SerializationOptions serializationOptions = new SerializationOptions();
@@ -823,13 +813,14 @@ public class ScriptCommandsTest extends JupiterTestBase {
   }
 
   @Test
+  @NeedsFreshDriver
   void canAddPreloadScriptInASandbox() {
     Script script = new Script(driver);
     String id = script.addPreloadScript("() => { window.bar=2; }", "sandbox");
     assertThat(id).isNotNull();
     assertThat(id).isNotEmpty();
 
-    driver.get(new Pages(server).blankPage);
+    driver.get(new Pages(appServer).blankPage);
 
     EvaluateResult result =
         script.evaluateFunctionInBrowsingContext(
@@ -839,13 +830,14 @@ public class ScriptCommandsTest extends JupiterTestBase {
   }
 
   @Test
+  @NeedsFreshDriver
   void canRemovePreloadedScript() {
     Script script = new Script(driver.getWindowHandle(), driver);
     String id = script.addPreloadScript("() => { window.bar=2; }");
     assertThat(id).isNotNull();
     assertThat(id).isNotEmpty();
 
-    driver.get(new Pages(server).blankPage);
+    driver.get(new Pages(appServer).blankPage);
 
     EvaluateResult result =
         script.evaluateFunctionInBrowsingContext(
@@ -861,13 +853,5 @@ public class ScriptCommandsTest extends JupiterTestBase {
     assertThat(resultAfterRemoval.getResultType()).isEqualTo(EvaluateResult.Type.SUCCESS);
     assertThat(((EvaluateResultSuccess) resultAfterRemoval).getResult().getValue().isPresent())
         .isFalse();
-  }
-
-  @AfterEach
-  public void quitDriver() {
-    if (driver != null) {
-      driver.quit();
-    }
-    safelyCall(server::stop);
   }
 }

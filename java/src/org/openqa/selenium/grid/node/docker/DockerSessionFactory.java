@@ -197,6 +197,7 @@ public class DockerSessionFactory implements SessionFactory {
             String.format(
                 "Unable to connect to docker server (container id: %s)", container.getId());
         LOG.warning(message);
+        client.close();
         return Either.left(new RetrySessionRequestException(message));
       }
       LOG.info(String.format("Server is ready (container id: %s)", container.getId()));
@@ -222,6 +223,7 @@ public class DockerSessionFactory implements SessionFactory {
         container.stop(Duration.ofMinutes(1));
         String message = "Unable to create session: " + e.getMessage();
         LOG.log(Level.WARNING, message, e);
+        client.close();
         return Either.left(new SessionNotCreatedException(message));
       }
 
@@ -301,23 +303,34 @@ public class DockerSessionFactory implements SessionFactory {
   }
 
   private Map<String, String> getBrowserContainerEnvVars(Capabilities sessionRequestCapabilities) {
-    Optional<Dimension> screenResolution =
-        ofNullable(getScreenResolution(sessionRequestCapabilities));
     Map<String, String> envVars = new HashMap<>();
-    if (screenResolution.isPresent()) {
-      envVars.put("SE_SCREEN_WIDTH", String.valueOf(screenResolution.get().getWidth()));
-      envVars.put("SE_SCREEN_HEIGHT", String.valueOf(screenResolution.get().getHeight()));
-    }
-    Optional<TimeZone> timeZone = ofNullable(getTimeZone(sessionRequestCapabilities));
-    timeZone.ifPresent(zone -> envVars.put("TZ", zone.getID()));
     // Passing env vars set to the child container
+    setEnvVarsToContainer(envVars);
+    // Capabilities set to env vars with higher precedence
+    setCapsToEnvVars(sessionRequestCapabilities, envVars);
+    return envVars;
+  }
+
+  private void setEnvVarsToContainer(Map<String, String> envVars) {
     Map<String, String> seEnvVars = System.getenv();
     seEnvVars.entrySet().stream()
         .filter(
             entry ->
                 entry.getKey().startsWith("SE_") || entry.getKey().equalsIgnoreCase("LANGUAGE"))
         .forEach(entry -> envVars.put(entry.getKey(), entry.getValue()));
-    return envVars;
+  }
+
+  private void setCapsToEnvVars(
+      Capabilities sessionRequestCapabilities, Map<String, String> envVars) {
+    Optional<Dimension> screenResolution =
+        ofNullable(getScreenResolution(sessionRequestCapabilities));
+    screenResolution.ifPresent(
+        dimension -> {
+          envVars.put("SE_SCREEN_WIDTH", String.valueOf(dimension.getWidth()));
+          envVars.put("SE_SCREEN_HEIGHT", String.valueOf(dimension.getHeight()));
+        });
+    Optional<TimeZone> timeZone = ofNullable(getTimeZone(sessionRequestCapabilities));
+    timeZone.ifPresent(zone -> envVars.put("TZ", zone.getID()));
   }
 
   private Container startVideoContainer(
@@ -337,9 +350,10 @@ public class DockerSessionFactory implements SessionFactory {
     Container videoContainer = docker.create(containerConfig);
     videoContainer.start();
     String videoContainerIp = runningInDocker ? videoContainer.inspect().getIp() : "localhost";
+    URI videoContainerUrl = URI.create(String.format("http://%s:%s", videoContainerIp, videoPort));
+    HttpClient videoClient =
+        clientFactory.createClient(ClientConfig.defaultConfig().baseUri(videoContainerUrl));
     try {
-      URL videoContainerUrl = new URL(String.format("http://%s:%s", videoContainerIp, videoPort));
-      HttpClient videoClient = clientFactory.createClient(videoContainerUrl);
       LOG.fine(String.format("Waiting for video recording... (id: %s)", videoContainer.getId()));
       waitForServerToStart(videoClient, Duration.ofMinutes(1));
     } catch (Exception e) {
@@ -349,6 +363,8 @@ public class DockerSessionFactory implements SessionFactory {
               "Unable to verify video recording started (container id: %s), %s",
               videoContainer.getId(), e.getMessage());
       LOG.warning(message);
+      videoClient.close();
+      return null;
     }
     LOG.info(String.format("Video container started (id: %s)", videoContainer.getId()));
     return videoContainer;
@@ -357,15 +373,32 @@ public class DockerSessionFactory implements SessionFactory {
   private Map<String, String> getVideoContainerEnvVars(
       Capabilities sessionRequestCapabilities, String containerIp) {
     Map<String, String> envVars = new HashMap<>();
+    // Passing env vars set to the child container
+    setEnvVarsToContainer(envVars);
+    // Capabilities set to env vars with higher precedence
+    setCapsToEnvVars(sessionRequestCapabilities, envVars);
     envVars.put("DISPLAY_CONTAINER_NAME", containerIp);
-    Optional<Dimension> screenResolution =
-        ofNullable(getScreenResolution(sessionRequestCapabilities));
-    screenResolution.ifPresent(
-        dimension -> {
-          envVars.put("SE_SCREEN_WIDTH", String.valueOf(dimension.getWidth()));
-          envVars.put("SE_SCREEN_HEIGHT", String.valueOf(dimension.getHeight()));
-        });
+    Optional<String> videoName =
+        ofNullable(getVideoFileName(sessionRequestCapabilities, "se:videoName"))
+            .or(() -> ofNullable(getVideoFileName(sessionRequestCapabilities, "se:name")));
+    videoName.ifPresent(name -> envVars.put("SE_VIDEO_FILE_NAME", String.format("%s.mp4", name)));
     return envVars;
+  }
+
+  private String getVideoFileName(Capabilities sessionRequestCapabilities, String capabilityName) {
+    Optional<Object> testName =
+        ofNullable(sessionRequestCapabilities.getCapability(capabilityName));
+    if (testName.isPresent()) {
+      String name = testName.get().toString();
+      if (!name.isEmpty()) {
+        name = name.replaceAll(" ", "_").replaceAll("[^a-zA-Z0-9_-]", "");
+        if (name.length() > 251) {
+          name = name.substring(0, 251);
+        }
+        return name;
+      }
+    }
+    return null;
   }
 
   private TimeZone getTimeZone(Capabilities sessionRequestCapabilities) {
@@ -421,9 +454,8 @@ public class DockerSessionFactory implements SessionFactory {
     String capsToJson = new Json().toJson(sessionRequestCapabilities);
     try {
       Files.createDirectories(Paths.get(path));
-      Files.write(
-          Paths.get(path, "sessionCapabilities.json"),
-          capsToJson.getBytes(Charset.defaultCharset()));
+      Files.writeString(
+          Paths.get(path, "sessionCapabilities.json"), capsToJson, Charset.defaultCharset());
     } catch (IOException e) {
       LOG.log(Level.WARNING, "Failed to save session capabilities", e);
     }

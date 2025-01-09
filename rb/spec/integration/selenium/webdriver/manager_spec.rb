@@ -21,7 +21,7 @@ require_relative 'spec_helper'
 
 module Selenium
   module WebDriver
-    describe Manager do
+    describe Manager, exclusive: {bidi: false, reason: 'Not yet implemented with BiDi'} do
       describe 'cookie management' do
         before { driver.navigate.to url_for('xhtmlTest.html') }
 
@@ -247,6 +247,11 @@ module Selenium
           driver.manage.add_cookie name: 'bar', value: 'foo'
           driver.manage.delete_all_cookies
           expect(driver.manage.all_cookies).to be_empty
+        end
+
+        it 'throws error when fetching non-existent cookie' do
+          expect { driver.manage.cookie_named('non-existent') }
+            .to raise_exception(Error::NoSuchCookieError)
         end
       end
     end # Options
