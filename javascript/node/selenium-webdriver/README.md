@@ -18,7 +18,7 @@ following path – /usr/bin/safaridriver. To enable automation on safari,
 you need to run command `safaridriver --enable`.
 
 | Browser           | Component                        |
-| :---------------- | :------------------------------- |
+|:------------------|:---------------------------------|
 | Chrome            | [chromedriver(.exe)][chrome]     |
 | Internet Explorer | [IEDriverServer.exe][release]    |
 | Edge              | [MicrosoftWebDriver.msi][edge]   |
@@ -32,9 +32,9 @@ The sample below and others are included in the `example` directory. You may
 also find the tests for selenium-webdriver informative.
 
 ```javascript
-const { Builder, Browser, By, Key, until } = require('selenium-webdriver')
+const { Builder, Browser, By, Key, until } = require('selenium-webdriver');
 
-;(async function example() {
+(async function example() {
   let driver = await new Builder().forBrowser(Browser.FIREFOX).build()
   try {
     await driver.get('https://www.google.com/ncr')
@@ -91,7 +91,7 @@ To use the Selenium Server, you will need to install the
 download the latest server from [Selenium][release]. Once downloaded, run the
 server with
 
-    java -jar selenium-server-4.4.0.jar standalone
+    java -jar selenium-server-4.27.0.jar standalone
 
 You may configure your tests to run against a remote server through the Builder
 API:
@@ -135,18 +135,17 @@ will also have "best effort" support. Releases older than the latest LTS,
 _semver-major_ releases, and all unstable release branches (e.g. "v.Next")
 are considered strictly unsupported.
 
-For example, suppose the current LTS and stable releases are v14.20.0 and
-v18.8.0,
+For example, suppose the current LTS and stable releases are v22.13.0 and
+v23.6.0,
 respectively. Then a Selenium release would have the following support levels:
 
-|  Version  |    Support    |
-| :-------: | :-----------: |
-| <= 14.19  | _unsupported_ |
-|  14.20.0  |   supported   |
-|  18.0-7   |  best effort  |
-|  18.8.0   |   supported   |
-| >= 18.8.0 |  best effort  |
-|  v.Next   | _unsupported_ |
+|  Version   |    Support    |
+|:----------:|:-------------:|
+| <= 16.20.2 | _unsupported_ |
+|  16.20.2   |   supported   |
+|   18.8.0   |   supported   |
+| >= 22.13.0 |  best effort  |
+|   v.Next   | _unsupported_ |
 
 ### Support Level Definitions
 
@@ -167,15 +166,16 @@ If Node releases a new [LTS] each October and a new major version every 6
 months, the support window for selenium-webdriver will be roughly:
 
 | Release |     Status      | END-OF-LIFE |
-| :-----: | :-------------: | :---------: |
-|  v14.x  | Maintenance LTS | 2023-04-30  |
-|  v16.x  |   Active LTS    | 2023-09-11  |
-|  v18.x  |     Current     | 2025-04-30  |
-|  v19.x  |     Pending     | 2023-06-01  |
-|   v20   |     Pending     | 2026-04-30  |
+|:-------:|:---------------:|:-----------:|
+|  v18.x  | Maintenance LTS | 2025-04-30  |
+|  v19.x  |   End-of-Life   | 2023-06-01  |
+|  v20.x  | Maintenance LTS | 2026-04-30  |
+|  v21.x  |   End-of-Life   | 2024-06-01  |
+|  V22.x  |   Active LTS    | 2027-04-30  |
+|  V23.x  |     Current     | 2025-06-01  |
 
 ## Issues
-
+ 
 Please report any issues using the [Selenium issue tracker][issues]. When using
 the issue tracker
 
