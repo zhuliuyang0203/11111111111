@@ -8,6 +8,17 @@ namespace OpenQA.Selenium
     class _TempSharedDriverServiceTest
     {
         [Test]
+        public void Implicitly()
+        {
+            using (var driver = new ChromeDriver())
+            {
+
+            }
+
+            Assert.That(Process.GetProcessesByName("chromedriver"), Is.Empty);
+        }
+
+        [Test]
         public void Normal()
         {
             using (var service = ChromeDriverService.CreateDefaultService())
