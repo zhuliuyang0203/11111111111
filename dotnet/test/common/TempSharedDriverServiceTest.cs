@@ -10,9 +10,10 @@ namespace OpenQA.Selenium
         [Test]
         public void Normal()
         {
-            var service = ChromeDriverService.CreateDefaultService();
-
-            using var driver = new ChromeDriver(service);
+            using (var service = ChromeDriverService.CreateDefaultService())
+            {
+                using var driver = new ChromeDriver(service);
+            }
 
             Assert.That(Process.GetProcessesByName("chromedriver"), Is.Empty);
         }
@@ -20,16 +21,17 @@ namespace OpenQA.Selenium
         [Test]
         public void Shared()
         {
-            var service = ChromeDriverService.CreateDefaultService();
-
-            using (var driver1 = new ChromeDriver(service))
+            using (var service = ChromeDriverService.CreateDefaultService())
             {
-                driver1.Url = "https://google.com";
-            }
+                using (var driver1 = new ChromeDriver(service))
+                {
+                    driver1.Url = "https://google.com";
+                }
 
-            using (var driver2 = new ChromeDriver(service))
-            {
-                driver2.Url = "https://google.com";
+                using (var driver2 = new ChromeDriver(service))
+                {
+                    driver2.Url = "https://google.com";
+                }
             }
 
             Assert.That(Process.GetProcessesByName("chromedriver"), Is.Empty);
