@@ -1,6 +1,7 @@
 using NUnit.Framework;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Firefox;
+using OpenQA.Selenium.IE;
 using OpenQA.Selenium.Safari;
 using System.Diagnostics;
 
@@ -10,6 +11,12 @@ namespace OpenQA.Selenium
     [Explicit]
     class _TempSharedDriverServiceTest
     {
+        [OneTimeSetUp]
+        public void Setup()
+        {
+            Internal.Logging.Log.SetLevel(Internal.Logging.LogEventLevel.Trace);
+        }
+
         [Test]
         public void ChromeImplicitly()
         {
@@ -41,12 +48,12 @@ namespace OpenQA.Selenium
             {
                 using (var driver1 = new ChromeDriver(service))
                 {
-                    driver1.Url = "https://google.com";
+                    
                 }
 
                 using (var driver2 = new ChromeDriver(service))
                 {
-                    driver2.Url = "https://google.com";
+                    
                 }
             }
 
@@ -84,12 +91,12 @@ namespace OpenQA.Selenium
             {
                 using (var driver1 = new FirefoxDriver(service))
                 {
-                    driver1.Url = "https://google.com";
+                    
                 }
 
                 using (var driver2 = new FirefoxDriver(service))
                 {
-                    driver2.Url = "https://google.com";
+                    
                 }
             }
 
@@ -127,16 +134,59 @@ namespace OpenQA.Selenium
             {
                 using (var driver1 = new SafariDriver(service))
                 {
-                    driver1.Url = "https://google.com";
+                    
                 }
 
                 using (var driver2 = new SafariDriver(service))
                 {
-                    driver2.Url = "https://google.com";
+                    
                 }
             }
 
             Assert.That(Process.GetProcessesByName("safaridriver"), Is.Empty);
+        }
+
+        [Test]
+        public void InternetExplorerImplicitly()
+        {
+            using (var driver = new InternetExplorerDriver())
+            {
+                driver.Close();
+                driver.Quit();
+                driver.Dispose();
+            }
+
+            Assert.That(Process.GetProcessesByName("IEDriverServer"), Is.Empty);
+        }
+
+        [Test]
+        public void InternetExplorerNormal()
+        {
+            using (var service = InternetExplorerDriverService.CreateDefaultService())
+            {
+                using var driver = new InternetExplorerDriver(service);
+            }
+
+            Assert.That(Process.GetProcessesByName("IEDriverServer"), Is.Empty);
+        }
+
+        [Test]
+        public void InternetExplorerShared()
+        {
+            using (var service = InternetExplorerDriverService.CreateDefaultService())
+            {
+                using (var driver1 = new InternetExplorerDriver(service))
+                {
+                    
+                }
+
+                using (var driver2 = new InternetExplorerDriver(service))
+                {
+                    
+                }
+            }
+
+            Assert.That(Process.GetProcessesByName("IEDriverServer"), Is.Empty);
         }
     }
 }
