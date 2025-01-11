@@ -147,9 +147,9 @@ module Selenium
           network.add_request_handler do |request|
             request.method = 'GET'
             request.url = url_for('formPage.html')
-            request.add_header('foo', 'bar')
-            request.add_header('baz', 'qux')
-            request.add_cookie('foo', 'bar')
+            request.headers['foo'] = 'bar'
+            request.headers['baz'] = 'qux'
+            request.cookies['foo'] = 'bar'
             request.body = ({test: 'example'})
             request.continue
           end
@@ -253,16 +253,19 @@ module Selenium
           network = described_class.new(driver)
           network.add_response_handler do |response|
             response.reason = 'OK'
-            response.add_header('foo', 'bar')
-            response.set_cookie_header(name: 'foo',
-                                       domain: 'localhost',
-                                       http_only: true,
-                                       expiry: '1_000_000',
-                                       max_age: 1_000,
-                                       path: '/',
-                                       same_site: 'none',
-                                       secure: false)
-            response.add_credentials('foo', 'bar')
+            response.headers['foo'] = 'bar'
+            response.credentials.username = 'foo'
+            response.credentials.password = 'bar'
+            response.set_cookie_headers({
+                                          name: 'foo',
+                                          domain: 'localhost',
+                                          http_only: true,
+                                          expiry: '1_000_000',
+                                          max_age: 1_000,
+                                          path: '/',
+                                          same_site: 'none',
+                                          secure: false
+                                        })
             response.continue
           end
           driver.navigate.to url_for('formPage.html')

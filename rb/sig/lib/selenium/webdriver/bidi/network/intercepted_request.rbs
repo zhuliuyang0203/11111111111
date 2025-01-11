@@ -2,23 +2,16 @@ module Selenium
   module WebDriver
     class BiDi
       class InterceptedRequest < InterceptedItem
-        @body: untyped
-
-        @cookies: untyped
-
-        @headers: untyped
-
+        # We now rely on the modules above to initialize @headers and @cookies as Hashes
         @method: untyped
 
         @url: untyped
 
-        include Cookies
+        @body: untyped
 
-        include Headers
+        @headers: untyped
 
-        attr_accessor cookies: untyped
-
-        attr_accessor headers: untyped
+        @cookies: untyped
 
         attr_accessor method: untyped
 
@@ -33,6 +26,10 @@ module Selenium
         def fail: () -> untyped
 
         def body=: (untyped value) -> untyped
+
+        def headers: () -> untyped
+
+        def cookies: () -> untyped
       end
     end
   end

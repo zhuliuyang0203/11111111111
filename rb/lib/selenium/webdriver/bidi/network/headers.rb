@@ -20,19 +20,45 @@
 module Selenium
   module WebDriver
     class BiDi
-      module Headers
+      class Headers
+        def initialize
+          @headers = {}
+        end
+
+        def all
+          @headers
+        end
+
         def add_header(name, value)
-          headers.push(
-            name: name,
-            value: {
-              type: 'string',
-              value: value
-            }
-          )
+          @headers[name] = value
         end
 
         def remove_header(name)
-          headers.delete_if { |header| header[:name] == name }
+          @headers.delete(name)
+        end
+
+        def []=(key, value)
+          add_header(key, value)
+        end
+
+        def [](key)
+          @headers[key]
+        end
+
+        def delete(key)
+          remove_header(key)
+        end
+
+        def serialize
+          @headers.map do |name, val|
+            {
+              name: name.to_s,
+              value: {
+                type: 'string',
+                value: val.to_s
+              }
+            }
+          end
         end
       end
     end # BiDi

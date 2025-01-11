@@ -1,12 +1,24 @@
 module Selenium
   module WebDriver
     class BiDi
-      module Cookies
-        def add_cookie: (String name, String value) -> Array[Hash[Symbol, String]]
+      class Cookies
+        @cookies: untyped
 
-        def remove_cookie: (String name) -> Array[Hash[Symbol, String]]
+        def initialize: () -> void
 
-        def set_cookie_header: (**Hash[Symbol, String | bool | Numeric] args) -> Array[Hash[Symbol, String | bool | Numeric]]
+        def all: () -> untyped
+
+        def add_cookie: (untyped name, untyped value) -> untyped
+
+        def remove_cookie: (untyped name) -> untyped
+
+        def []=: (untyped key, untyped value) -> untyped
+
+        def []: (untyped key) -> untyped
+
+        def delete: (untyped key) -> untyped
+
+        def serialize: () -> untyped
       end
     end
   end

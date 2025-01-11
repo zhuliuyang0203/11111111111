@@ -17,41 +17,25 @@
 # specific language governing permissions and limitations
 # under the License.
 
-require_relative 'credentials'
-require_relative 'headers'
-require_relative 'set_cookie_headers'
-
 module Selenium
   module WebDriver
     class BiDi
-      class InterceptedResponse < InterceptedItem
-        attr_accessor :reason
+      class Credentials
+        attr_accessor :username, :password
 
-        def initialize(network, request)
-          super
-          @reason = nil
+        def initialize(username: nil, password: nil)
+          @username = username
+          @password = password
         end
 
-        def continue
-          network.continue_response(
-            id: id,
-            cookies: set_cookie_headers.serialize,
-            headers: headers.serialize,
-            credentials: credentials.serialize,
-            reason: reason
-          )
-        end
+        def serialize
+          return nil unless username && password
 
-        def credentials(username: nil, password: nil)
-          @credentials ||= Credentials.new(username: username, password: password)
-        end
-
-        def headers
-          @headers ||= Headers.new
-        end
-
-        def set_cookie_headers(set_cookie_headers = nil)
-          @set_cookie_headers ||= SetCookieHeaders.new(set_cookie_headers)
+          {
+            type: 'password',
+            username: username,
+            password: password
+          }
         end
       end
     end # BiDi

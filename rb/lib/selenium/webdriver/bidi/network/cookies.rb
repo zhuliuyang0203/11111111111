@@ -20,36 +20,45 @@
 module Selenium
   module WebDriver
     class BiDi
-      module Cookies
+      class Cookies
+        def initialize
+          @cookies = {}
+        end
+
+        def all
+          @cookies
+        end
+
         def add_cookie(name, value)
-          cookies.push(
-            name: name,
-            value: {
-              type: 'string',
-              value: value
-            }
-          )
+          @cookies[name] = value
         end
 
         def remove_cookie(name)
-          cookies.delete_if { |cookie| cookie[:name] == name }
+          @cookies.delete(name)
         end
 
-        def set_cookie_header(**args)
-          cookies.push(
-            name: args[:name],
-            value: {
-              type: 'string',
-              value: 'input'
-            },
-            domain: args[:domain],
-            httpOnly: args[:http_only],
-            expiry: args[:expiry],
-            maxAge: args[:max_age],
-            path: args[:path],
-            sameSite: args[:same_site],
-            secure: args[:secure]
-          )
+        def []=(key, value)
+          add_cookie(key, value)
+        end
+
+        def [](key)
+          @cookies[key]
+        end
+
+        def delete(key)
+          remove_cookie(key)
+        end
+
+        def serialize
+          @cookies.map do |name, value|
+            {
+              name: name.to_s,
+              value: {
+                type: 'string',
+                value: value.to_s
+              }
+            }
+          end
         end
       end
     end # BiDi

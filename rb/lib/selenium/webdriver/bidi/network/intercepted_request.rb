@@ -24,23 +24,26 @@ module Selenium
   module WebDriver
     class BiDi
       class InterceptedRequest < InterceptedItem
-        include Cookies
-        include Headers
-
-        attr_accessor :cookies, :headers, :method, :url
+        attr_accessor :method, :url
         attr_reader :body
 
         def initialize(network, request)
           super
-          @body = nil
-          @cookies = []
-          @headers = []
+          # We now rely on the modules above to initialize @headers and @cookies as Hashes
           @method = nil
           @url = nil
+          @body = nil
         end
 
         def continue
-          network.continue_request(id:, body:, cookies:, headers:, method:, url:)
+          network.continue_request(
+            id: id,
+            body: body,
+            cookies: cookies.serialize,
+            headers: headers.serialize,
+            method: method,
+            url: url
+          )
         end
 
         def fail
@@ -52,6 +55,14 @@ module Selenium
             type: 'string',
             value: value.to_json
           }
+        end
+
+        def headers
+          @headers ||= Headers.new
+        end
+
+        def cookies
+          @cookies ||= Cookies.new
         end
       end
     end # BiDi
