@@ -82,7 +82,7 @@ class WebElement(BaseWebElement):
     @property
     def tag_name(self) -> str:
         """This element's ``tagName`` property.
-        
+
         Returns:
         --------
         str : The tag name of the element.
@@ -110,7 +110,7 @@ class WebElement(BaseWebElement):
 
     def click(self) -> None:
         """Clicks the element.
-        
+
         Example:
         --------
         >>> element = driver.find_element(By.ID, 'foo')
@@ -120,7 +120,7 @@ class WebElement(BaseWebElement):
 
     def submit(self) -> None:
         """Submits a form.
-        
+
         Example:
         --------
         >>> form = driver.find_element(By.NAME, 'login')
@@ -145,7 +145,7 @@ class WebElement(BaseWebElement):
 
     def clear(self) -> None:
         """Clears the text if it's a text entry element.
-        
+
         Example:
         --------
         >>> text_field = driver.find_element(By.NAME, 'username')
@@ -249,7 +249,7 @@ class WebElement(BaseWebElement):
 
     def is_enabled(self) -> bool:
         """Returns whether the element is enabled.
-        
+
         Example:
         --------
         >>> is_enabled = element.is_enabled()
@@ -327,7 +327,7 @@ class WebElement(BaseWebElement):
     # RenderedWebElement Items
     def is_displayed(self) -> bool:
         """Whether the element is visible to a user.
-        
+
         Example:
         --------
         >>> is_displayed = element.is_displayed()
@@ -339,8 +339,7 @@ class WebElement(BaseWebElement):
 
     @property
     def location_once_scrolled_into_view(self) -> dict:
-        """THIS PROPERTY MAY CHANGE WITHOUT WARNING. 
-        Use this to discover where
+        """THIS PROPERTY MAY CHANGE WITHOUT WARNING. Use this to discover where
         on the screen an element is so that we can click it. This method should
         cause the element to be scrolled into view.
 
@@ -436,7 +435,8 @@ class WebElement(BaseWebElement):
         
         Example:
         --------
-        >>> role = element.aria_role"""
+        >>> role = element.aria_role
+        """
         return self._execute(Command.GET_ELEMENT_ARIA_ROLE)["value"]
 
     @property
@@ -520,7 +520,7 @@ class WebElement(BaseWebElement):
     def parent(self):
         """Internal reference to the WebDriver instance this element was found
         from.
-        
+
         Example:
         --------
         >>> element = driver.find_element(By.ID, 'foo')
