@@ -80,10 +80,12 @@ public class JdkHttpClient implements HttpClient {
   private final ExecutorService executorService;
   private final Duration readTimeout;
   private final Duration connectTimeout;
+  private final ClientConfig config;
 
   JdkHttpClient(ClientConfig config) {
     Objects.requireNonNull(config, "Client config must be set");
-
+    
+    this.config = config;
     this.messages = new JdkHttpMessages(config);
     this.readTimeout = config.readTimeout();
     this.connectTimeout = config.connectionTimeout();
@@ -338,7 +340,7 @@ public class JdkHttpClient implements HttpClient {
                 throw new WebDriverException(cause);
               } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
-                throw new WebDriverException(e.getMessage());
+                throw new WebDriverException(e.getMessage(), e);
               } catch (java.util.concurrent.TimeoutException e) {
                 throw new TimeoutException(e);
               } finally {
@@ -520,6 +522,11 @@ public class JdkHttpClient implements HttpClient {
           "Ending request {0} in {1}ms",
           new Object[] {req, (System.currentTimeMillis() - start)});
     }
+  }
+
+  // Package-private method for testing
+  URI getBaseUri() {
+    return config.baseUri();
   }
 
   @Override
