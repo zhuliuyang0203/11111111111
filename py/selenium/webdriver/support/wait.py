@@ -48,7 +48,7 @@ class WebDriverWait(Generic[D]):
     ):
         """Constructor, takes a WebDriver instance and timeout in seconds.
 
-        Parameters:
+        Attributes:
         ----------
         driver
             - Instance of WebDriver (Ie, Firefox, Chrome or Remote) or
@@ -95,7 +95,7 @@ class WebDriverWait(Generic[D]):
         Calls the method provided with the driver as an argument until the
         return value does not evaluate to ``False``.
 
-        Parameters:
+        Attributes:
         ----------
         method: callable(WebDriver)
             - A callable object that takes a WebDriver instance as an argument.
@@ -147,7 +147,7 @@ class WebDriverWait(Generic[D]):
         Calls the method provided with the driver as an argument until the
         return value does not evaluate to ``False``.
 
-        Parameters:
+        Attributes:
         ----------
         method: callable(WebDriver)
             - A callable object that takes a WebDriver instance as an argument.
