@@ -158,6 +158,10 @@ def test_get_cookie_raises_value_error_for_empty_name(cookie, driver):
     driver.add_cookie(cookie)
     with pytest.raises(ValueError, match="Cookie name cannot be empty"):
         driver.get_cookie("")
+    with pytest.raises(ValueError, match="Cookie name cannot be empty"):
+        driver.get_cookie("   ")
+    with pytest.raises(ValueError, match="Cookie name cannot be empty"):
+        driver.get_cookie(None)
 
 
 def test_delete_cookie_raises_value_error_for_empty_name(cookie, driver):
@@ -168,6 +172,10 @@ def test_delete_cookie_raises_value_error_for_empty_name(cookie, driver):
 
     with pytest.raises(ValueError, match="Cookie name cannot be empty"):
         driver.delete_cookie("")
+    with pytest.raises(ValueError, match="Cookie name cannot be empty"):
+        driver.get_cookie("   ")
+    with pytest.raises(ValueError, match="Cookie name cannot be empty"):
+        driver.get_cookie(None)
 
     cookies = driver.get_cookies()
 
