@@ -151,21 +151,23 @@ module Selenium
             network.add_intercept(phases: [described_class::PHASES[:response_started]])
             network.on(:response_started) do |event|
               request_id = event['request']['request']
-              network.provide_response(id: request_id,
-                                       status: 200,
-                                       headers: [
-                                         {
-                                           name: 'foo',
-                                           value: {
-                                             type: 'string',
-                                             value: 'bar'
-                                           }
-                                         }
-                                       ],
-                                       body: {
-                                         type: 'string',
-                                         value: '<html><head><title>Hello World!</title></head><body/></html>'
-                                       })
+              network.provide_response(
+                id: request_id,
+                status: 200,
+                headers: [
+                  {
+                    name: 'foo',
+                    value: {
+                      type: 'string',
+                      value: 'bar'
+                    }
+                  }
+                ],
+                body: {
+                  type: 'string',
+                  value: '<html><head><title>Hello World!</title></head><body/></html>'
+                }
+              )
             end
 
             driver.navigate.to url_for('formPage.html')

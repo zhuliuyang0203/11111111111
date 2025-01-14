@@ -150,7 +150,7 @@ module Selenium
             request.headers['foo'] = 'bar'
             request.headers['baz'] = 'qux'
             request.cookies['foo'] = 'bar'
-            request.body = ({ test: 'example' })
+            request.body = ({test: 'example'})
             request.continue
           end
           driver.navigate.to url_for('formPage.html')

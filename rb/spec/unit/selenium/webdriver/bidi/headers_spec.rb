@@ -36,11 +36,11 @@ module Selenium
 
           accept_item = serialized.find { |h| h[:name] == 'Accept' }
           expect(accept_item).not_to be_nil
-          expect(accept_item[:value]).to eq({ type: 'string', value: 'application/json' })
+          expect(accept_item[:value]).to eq({type: 'string', value: 'application/json'})
 
           ua_item = serialized.find { |h| h[:name] == 'User-Agent' }
           expect(ua_item).not_to be_nil
-          expect(ua_item[:value]).to eq({ type: 'string', value: 'MyAgent/1.0' })
+          expect(ua_item[:value]).to eq({type: 'string', value: 'MyAgent/1.0'})
         end
       end
     end
