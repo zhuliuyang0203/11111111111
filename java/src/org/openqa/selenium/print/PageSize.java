@@ -26,16 +26,17 @@ public class PageSize {
   private final double height;
   private final double width;
 
-    // Reference for predefined page size constants: https://www.agooddaytoprint.com/page/paper-size-chart-faq
-    public static final PageSize ISO_A4 = new PageSize(29.7, 21.0); // ISO_A4 size in cm
-    public static final PageSize US_LEGAL = new PageSize(35.56, 21.59); // US_LEGAL size in cm
-    public static final PageSize ANSI_TABLOID = new PageSize(43.18, 27.94); // ANSI_TABLOID size in cm
-    public static final PageSize US_LETTER = new PageSize(27.94, 21.59); // US_LETTER size in cm
+  // Reference for predefined page size constants:
+  // https://www.agooddaytoprint.com/page/paper-size-chart-faq
+  public static final PageSize ISO_A4 = new PageSize(29.7, 21.0); // ISO_A4 size in cm
+  public static final PageSize US_LEGAL = new PageSize(35.56, 21.59); // US_LEGAL size in cm
+  public static final PageSize ANSI_TABLOID = new PageSize(43.18, 27.94); // ANSI_TABLOID size in cm
+  public static final PageSize US_LETTER = new PageSize(27.94, 21.59); // US_LETTER size in cm
 
   public PageSize() {
     // Initialize with defaults. ISO_A4 paper size defaults in cms.
     this(ISO_A4.getHeight(), ISO_A4.getWidth());
- }
+  }
 
   public PageSize(double height, double width) {
     this.height = height;
@@ -65,9 +66,8 @@ public class PageSize {
     return options;
   }
 
-    @Override
-    public String toString() {
+  @Override
+  public String toString() {
     return "PageSize[width=" + this.getWidth() + ", height=" + this.getHeight() + "]";
   }
-
 }
