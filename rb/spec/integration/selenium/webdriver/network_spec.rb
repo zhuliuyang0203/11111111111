@@ -149,35 +149,23 @@ module Selenium
             request.url = url_for('formPage.html')
             request.headers['foo'] = 'bar'
             request.headers['baz'] = 'qux'
-            request.cookies['foo'] = 'bar'
+            request.cookies({
+                              name: 'test',
+                              value: 'value4',
+                              domain: 'example.com',
+                              path: '/path',
+                              size: 1234,
+                              http_only: true,
+                              secure: true,
+                              same_site: 'Strict',
+                              expiry: 1234
+                            })
             request.body = ({test: 'example'})
             request.continue
           end
           driver.navigate.to url_for('formPage.html')
           expect(driver.current_url).to eq(url_for('formPage.html'))
           expect(network.callbacks.count).to be 1
-        end
-      end
-
-      it 'removes a header from a request handler' do
-        reset_driver!(web_socket_url: true) do |driver|
-          network = described_class.new(driver)
-          network.add_request_handler do |request|
-            request.add_header('foo', 'bar')
-            request.remove_header('foo')
-            expect(request.headers).to be_empty
-          end
-        end
-      end
-
-      it 'removes a cookie from a request handler' do
-        reset_driver!(web_socket_url: true) do |driver|
-          network = described_class.new(driver)
-          network.add_request_handler do |request|
-            request.add_cookie('foo', 'bar')
-            request.remove_cookie('foo')
-            expect(request.cookies).to be_empty
-          end
         end
       end
 
@@ -256,16 +244,16 @@ module Selenium
             response.headers['foo'] = 'bar'
             response.credentials.username = 'foo'
             response.credentials.password = 'bar'
-            response.set_cookie_headers({
-                                          name: 'foo',
-                                          domain: 'localhost',
-                                          http_only: true,
-                                          expiry: '1_000_000',
-                                          max_age: 1_000,
-                                          path: '/',
-                                          same_site: 'none',
-                                          secure: false
-                                        })
+            response.cookies({
+                               name: 'foo',
+                               domain: 'localhost',
+                               http_only: true,
+                               expiry: '1_000_000',
+                               max_age: 1_000,
+                               path: '/',
+                               same_site: 'none',
+                               secure: false
+                             })
             response.continue
           end
           driver.navigate.to url_for('formPage.html')

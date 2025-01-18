@@ -2,25 +2,25 @@ module Selenium
   module WebDriver
     class BiDi
       class InterceptedResponse < InterceptedItem
-        @reason: untyped
+        @cookies: Hash[Symbol, String | Integer]?
+
+        @reason: String
 
         @credentials: untyped
 
         @headers: untyped
 
-        @set_cookie_headers: untyped
-
-        attr_accessor reason: untyped
+        attr_accessor reason: String
 
         def initialize: (untyped network, untyped request) -> void
 
         def continue: () -> untyped
 
+        def cookies:(?Hash[Symbol, String | Integer]? set_cookie_headers) -> untyped
+
         def credentials: (?username: untyped?, ?password: untyped?) -> untyped
 
         def headers: () -> untyped
-
-        def set_cookie_headers: (?untyped? set_cookie_headers) -> untyped
       end
     end
   end

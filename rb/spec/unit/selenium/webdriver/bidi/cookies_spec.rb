@@ -24,24 +24,76 @@ module Selenium
   module WebDriver
     class BiDi
       describe Cookies do
-        let(:cookies) { described_class.new }
-
         it 'returns the cookies as json' do
+          cookies = described_class.new
           cookies['key4'] = 'value4'
           cookies['session_id'] = 'xyz123'
 
           formatted_cookies = cookies.as_json
           expect(formatted_cookies).to be_an(Array)
-          expect(formatted_cookies.size).to eq(2)
+          expect(formatted_cookies.first['key4']).to eq('value4')
+          expect(formatted_cookies.first['session_id']).to eq('xyz123')
+        end
 
-          key4_item = formatted_cookies.find { |h| h[:name] == 'key4' }
-          expect(key4_item).not_to be_nil
-          expect(key4_item[:value][:type]).to eq('string')
-          expect(key4_item[:value][:value]).to eq('value4')
+        it 'serializes the cookies needed for request' do
+          cookies =
+            described_class.new(
+              {
+                name: 'test',
+                value: 'value4',
+                domain: 'example.com',
+                path: '/path',
+                size: 1234,
+                http_only: true,
+                secure: true,
+                same_site: 'Strict',
+                expiry: 1234
+              }
+            )
 
-          session_item = formatted_cookies.find { |h| h[:name] == 'session_id' }
-          expect(session_item).not_to be_nil
-          expect(session_item[:value][:value]).to eq('xyz123')
+          formatted_cookies = cookies.as_json
+          expect(formatted_cookies).to be_an(Array)
+          expect(formatted_cookies.size).to eq(1)
+
+          request_cookies = formatted_cookies.first
+          expect(request_cookies[:name]).to eq('test')
+          expect(request_cookies[:value][:type]).to eq('string')
+          expect(request_cookies[:value][:value]).to eq('value4')
+          expect(request_cookies[:domain]).to eq('example.com')
+          expect(request_cookies[:path]).to eq('/path')
+          expect(request_cookies[:expiry]).to eq(1234)
+          expect(request_cookies[:httpOnly]).to be(true)
+          expect(request_cookies[:secure]).to be(true)
+          expect(request_cookies[:sameSite]).to eq('Strict')
+          expect(request_cookies[:size]).to eq(1234)
+        end
+
+        it 'serializes the cookies needed for response' do
+          cookies = described_class.new({
+                                          name: 'test',
+                                          value: 'bar',
+                                          domain: 'localhost',
+                                          http_only: true,
+                                          expiry: '1_000_000',
+                                          max_age: 1_000,
+                                          path: '/',
+                                          same_site: 'lax',
+                                          secure: false
+                                        })
+
+          formatted_cookies = cookies.as_json
+          expect(formatted_cookies).to be_an(Array)
+          expect(formatted_cookies.size).to eq(1)
+          response_cookies = formatted_cookies.first
+          expect(response_cookies[:value][:type]).to eq('string')
+          expect(response_cookies[:value][:value]).to eq('bar')
+          expect(response_cookies[:domain]).to eq('localhost')
+          expect(response_cookies[:path]).to eq('/')
+          expect(response_cookies[:expiry]).to eq('1_000_000')
+          expect(response_cookies[:httpOnly]).to be(true)
+          expect(response_cookies[:secure]).to be(false)
+          expect(response_cookies[:sameSite]).to eq('lax')
+          expect(response_cookies[:maxAge]).to eq(1_000)
         end
       end
     end

@@ -19,7 +19,7 @@
 
 require_relative 'credentials'
 require_relative 'headers'
-require_relative 'set_cookie_headers'
+require_relative 'cookies'
 
 module Selenium
   module WebDriver
@@ -35,7 +35,7 @@ module Selenium
         def continue
           network.continue_response(
             id: id,
-            cookies: set_cookie_headers.as_json,
+            cookies: cookies.as_json,
             headers: headers.as_json,
             credentials: credentials.as_json,
             reason: reason
@@ -50,8 +50,8 @@ module Selenium
           @headers ||= Headers.new
         end
 
-        def set_cookie_headers(set_cookie_headers = {})
-          @set_cookie_headers ||= SetCookieHeaders.new(set_cookie_headers)
+        def cookies(cookies = {})
+          @cookies ||= Cookies.new(cookies)
         end
       end
     end # BiDi
