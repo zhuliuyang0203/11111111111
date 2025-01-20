@@ -17,10 +17,13 @@
 
 package org.openqa.selenium.interactions;
 
+import org.jspecify.annotations.NullMarked;
+
 /** One of the allowing types for an {@link InputSource}. */
+@NullMarked
 public enum SourceType {
   KEY("key"),
-  NONE(null),
+  NONE("none"),
   POINTER("pointer"),
   WHEEL("wheel");
 
