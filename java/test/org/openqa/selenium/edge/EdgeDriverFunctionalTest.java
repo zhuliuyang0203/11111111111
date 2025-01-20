@@ -198,22 +198,14 @@ class EdgeDriverFunctionalTest extends JupiterTestBase {
 
   @Test
   @NoDriverBeforeTest
-  void shouldThrowNumberFormatException() {
+  void shouldLaunchSuccessfullyWithArabicDate() {
     Locale arabicLocale = new Locale("ar", "EG");
     Locale.setDefault(arabicLocale);
 
     int port = PortProber.findFreePort();
     EdgeDriverService.Builder builder = new EdgeDriverService.Builder();
     builder.usingPort(port);
-
-    assertThatExceptionOfType(NumberFormatException.class)
-        .isThrownBy(builder::build)
-        .withMessage(
-            "Couldn't format the port numbers because the System Language is arabic: \""
-                + String.format("--port=%d", port)
-                + "\", please make sure to add the required arguments \"-Duser.language=en"
-                + " -Duser.region=US\" to your JVM, for more info please visit :\n"
-                + "  https://www.selenium.dev/documentation/webdriver/browsers/");
+    builder.build();
 
     Locale.setDefault(Locale.US);
   }
