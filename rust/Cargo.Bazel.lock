@@ -1,5 +1,5 @@
 {
-  "checksum": "87f471e3241881a49b45fd55d0a4e812b38e0ee58bf72dfbc091df4f5fe87ef5",
+  "checksum": "a08d969b9eb28cc52fcc7f29ba017642cdc9c59d9c72e0cc08dd9b144ae6bca2",
   "crates": {
     "addr2line 0.21.0": {
       "name": "addr2line",
@@ -801,7 +801,7 @@
               "target": "rand"
             },
             {
-              "id": "reqwest 0.12.11",
+              "id": "reqwest 0.12.12",
               "target": "reqwest"
             },
             {
@@ -3310,7 +3310,7 @@
               "target": "pem"
             },
             {
-              "id": "reqwest 0.12.11",
+              "id": "reqwest 0.12.12",
               "target": "reqwest"
             },
             {
@@ -5008,10 +5008,106 @@
         "crate_features": {
           "common": [
             "alloc",
-            "default",
             "std"
           ],
-          "selects": {}
+          "selects": {
+            "aarch64-apple-darwin": [
+              "default"
+            ],
+            "aarch64-apple-ios": [
+              "default"
+            ],
+            "aarch64-apple-ios-sim": [
+              "default"
+            ],
+            "aarch64-linux-android": [
+              "default"
+            ],
+            "aarch64-pc-windows-msvc": [
+              "default"
+            ],
+            "aarch64-unknown-fuchsia": [
+              "default"
+            ],
+            "aarch64-unknown-linux-gnu": [
+              "default"
+            ],
+            "aarch64-unknown-nixos-gnu": [
+              "default"
+            ],
+            "aarch64-unknown-nto-qnx710": [
+              "default"
+            ],
+            "arm-unknown-linux-gnueabi": [
+              "default"
+            ],
+            "armv7-linux-androideabi": [
+              "default"
+            ],
+            "armv7-unknown-linux-gnueabi": [
+              "default"
+            ],
+            "i686-apple-darwin": [
+              "default"
+            ],
+            "i686-linux-android": [
+              "default"
+            ],
+            "i686-pc-windows-msvc": [
+              "default"
+            ],
+            "i686-unknown-freebsd": [
+              "default"
+            ],
+            "i686-unknown-linux-gnu": [
+              "default"
+            ],
+            "powerpc-unknown-linux-gnu": [
+              "default"
+            ],
+            "riscv32imc-unknown-none-elf": [
+              "default"
+            ],
+            "riscv64gc-unknown-none-elf": [
+              "default"
+            ],
+            "s390x-unknown-linux-gnu": [
+              "default"
+            ],
+            "thumbv7em-none-eabi": [
+              "default"
+            ],
+            "thumbv8m.main-none-eabi": [
+              "default"
+            ],
+            "x86_64-apple-darwin": [
+              "default"
+            ],
+            "x86_64-apple-ios": [
+              "default"
+            ],
+            "x86_64-linux-android": [
+              "default"
+            ],
+            "x86_64-pc-windows-msvc": [
+              "default"
+            ],
+            "x86_64-unknown-freebsd": [
+              "default"
+            ],
+            "x86_64-unknown-fuchsia": [
+              "default"
+            ],
+            "x86_64-unknown-linux-gnu": [
+              "default"
+            ],
+            "x86_64-unknown-nixos-gnu": [
+              "default"
+            ],
+            "x86_64-unknown-none": [
+              "default"
+            ]
+          }
         },
         "edition": "2018",
         "version": "0.3.30"
@@ -10848,14 +10944,14 @@
       ],
       "license_file": null
     },
-    "reqwest 0.12.11": {
+    "reqwest 0.12.12": {
       "name": "reqwest",
-      "version": "0.12.11",
+      "version": "0.12.12",
       "package_url": "https://github.com/seanmonstar/reqwest",
       "repository": {
         "Http": {
-          "url": "https://static.crates.io/crates/reqwest/0.12.11/download",
-          "sha256": "7fe060fe50f524be480214aba758c71f99f90ee8c83c5a36b5e9e1d568eb4eb3"
+          "url": "https://static.crates.io/crates/reqwest/0.12.12/download",
+          "sha256": "43e734407157c3c2034e0258f5e4473ddb361b1e85f95a66690d67264d7cd1da"
         }
       },
       "targets": [
@@ -10922,10 +11018,6 @@
             {
               "id": "sync_wrapper 1.0.1",
               "target": "sync_wrapper"
-            },
-            {
-              "id": "tower 0.5.2",
-              "target": "tower"
             },
             {
               "id": "tower-service 0.3.3",
@@ -11341,6 +11433,10 @@
               {
                 "id": "tokio 1.42.0",
                 "target": "tokio"
+              },
+              {
+                "id": "tower 0.5.2",
+                "target": "tower"
               }
             ],
             "cfg(target_arch = \"wasm32\")": [
@@ -11974,7 +12070,7 @@
           }
         },
         "edition": "2021",
-        "version": "0.12.11"
+        "version": "0.12.12"
       },
       "license": "MIT OR Apache-2.0",
       "license_ids": [
@@ -13287,7 +13383,7 @@
               "target": "regex"
             },
             {
-              "id": "reqwest 0.12.11",
+              "id": "reqwest 0.12.12",
               "target": "reqwest"
             },
             {
@@ -15824,7 +15920,6 @@
         ],
         "crate_features": {
           "common": [
-            "default",
             "libc",
             "macros",
             "mio",
@@ -15832,141 +15927,235 @@
             "rt",
             "rt-multi-thread",
             "socket2",
-            "sync",
-            "time",
             "tokio-macros"
           ],
           "selects": {
             "aarch64-apple-darwin": [
               "bytes",
-              "io-util"
+              "default",
+              "io-util",
+              "sync",
+              "time"
             ],
             "aarch64-apple-ios": [
               "bytes",
-              "io-util"
+              "default",
+              "io-util",
+              "sync",
+              "time"
             ],
             "aarch64-apple-ios-sim": [
               "bytes",
-              "io-util"
+              "default",
+              "io-util",
+              "sync",
+              "time"
             ],
             "aarch64-linux-android": [
               "bytes",
-              "io-util"
+              "default",
+              "io-util",
+              "sync",
+              "time"
             ],
             "aarch64-pc-windows-msvc": [
               "bytes",
+              "default",
               "io-util",
+              "sync",
+              "time",
               "windows-sys"
             ],
             "aarch64-unknown-fuchsia": [
               "bytes",
-              "io-util"
+              "default",
+              "io-util",
+              "sync",
+              "time"
             ],
             "aarch64-unknown-linux-gnu": [
               "bytes",
-              "io-util"
+              "default",
+              "io-util",
+              "sync",
+              "time"
             ],
             "aarch64-unknown-nixos-gnu": [
               "bytes",
-              "io-util"
+              "default",
+              "io-util",
+              "sync",
+              "time"
             ],
             "aarch64-unknown-nto-qnx710": [
               "bytes",
-              "io-util"
+              "default",
+              "io-util",
+              "sync",
+              "time"
             ],
             "arm-unknown-linux-gnueabi": [
               "bytes",
-              "io-util"
+              "default",
+              "io-util",
+              "sync",
+              "time"
             ],
             "armv7-linux-androideabi": [
               "bytes",
-              "io-util"
+              "default",
+              "io-util",
+              "sync",
+              "time"
             ],
             "armv7-unknown-linux-gnueabi": [
               "bytes",
-              "io-util"
+              "default",
+              "io-util",
+              "sync",
+              "time"
             ],
             "i686-apple-darwin": [
               "bytes",
-              "io-util"
+              "default",
+              "io-util",
+              "sync",
+              "time"
             ],
             "i686-linux-android": [
               "bytes",
-              "io-util"
+              "default",
+              "io-util",
+              "sync",
+              "time"
             ],
             "i686-pc-windows-msvc": [
               "bytes",
+              "default",
               "io-util",
+              "sync",
+              "time",
               "windows-sys"
             ],
             "i686-unknown-freebsd": [
               "bytes",
-              "io-util"
+              "default",
+              "io-util",
+              "sync",
+              "time"
             ],
             "i686-unknown-linux-gnu": [
               "bytes",
-              "io-util"
+              "default",
+              "io-util",
+              "sync",
+              "time"
             ],
             "powerpc-unknown-linux-gnu": [
               "bytes",
-              "io-util"
+              "default",
+              "io-util",
+              "sync",
+              "time"
             ],
             "riscv32imc-unknown-none-elf": [
               "bytes",
-              "io-util"
+              "default",
+              "io-util",
+              "sync",
+              "time"
             ],
             "riscv64gc-unknown-none-elf": [
               "bytes",
-              "io-util"
+              "default",
+              "io-util",
+              "sync",
+              "time"
             ],
             "s390x-unknown-linux-gnu": [
               "bytes",
-              "io-util"
+              "default",
+              "io-util",
+              "sync",
+              "time"
             ],
             "thumbv7em-none-eabi": [
               "bytes",
-              "io-util"
+              "default",
+              "io-util",
+              "sync",
+              "time"
             ],
             "thumbv8m.main-none-eabi": [
               "bytes",
-              "io-util"
+              "default",
+              "io-util",
+              "sync",
+              "time"
             ],
             "x86_64-apple-darwin": [
               "bytes",
-              "io-util"
+              "default",
+              "io-util",
+              "sync",
+              "time"
             ],
             "x86_64-apple-ios": [
               "bytes",
-              "io-util"
+              "default",
+              "io-util",
+              "sync",
+              "time"
             ],
             "x86_64-linux-android": [
               "bytes",
-              "io-util"
+              "default",
+              "io-util",
+              "sync",
+              "time"
             ],
             "x86_64-pc-windows-msvc": [
               "bytes",
+              "default",
               "io-util",
+              "sync",
+              "time",
               "windows-sys"
             ],
             "x86_64-unknown-freebsd": [
               "bytes",
-              "io-util"
+              "default",
+              "io-util",
+              "sync",
+              "time"
             ],
             "x86_64-unknown-fuchsia": [
               "bytes",
-              "io-util"
+              "default",
+              "io-util",
+              "sync",
+              "time"
             ],
             "x86_64-unknown-linux-gnu": [
               "bytes",
-              "io-util"
+              "default",
+              "io-util",
+              "sync",
+              "time"
             ],
             "x86_64-unknown-nixos-gnu": [
               "bytes",
-              "io-util"
+              "default",
+              "io-util",
+              "sync",
+              "time"
             ],
             "x86_64-unknown-none": [
               "bytes",
-              "io-util"
+              "default",
+              "io-util",
+              "sync",
+              "time"
             ]
           }
         },
@@ -22009,7 +22198,7 @@
     "infer 0.16.0",
     "log 0.4.22",
     "regex 1.11.1",
-    "reqwest 0.12.11",
+    "reqwest 0.12.12",
     "serde 1.0.217",
     "serde_json 1.0.134",
     "sevenz-rust 0.6.1",
