@@ -114,6 +114,8 @@ class Select:
         opts = self._el.find_elements(By.XPATH, xpath)
         matched = False
         for opt in opts:
+            if not self._has_css_property_and_visible(opt):
+                raise NoSuchElementException(f"Could not locate element with visible text: {text}")
             self._set_selected(opt)
             if not self.is_multiple:
                 return
@@ -202,6 +204,8 @@ class Select:
         xpath = f".//option[normalize-space(.) = {self._escape_string(text)}]"
         opts = self._el.find_elements(By.XPATH, xpath)
         for opt in opts:
+            if not self._has_css_property_and_visible(opt):
+                raise NoSuchElementException(f"Could not locate element with visible text: {text}")
             self._unset_selected(opt)
             matched = True
         if not matched:
@@ -241,3 +245,14 @@ class Select:
             if len(item) > len(longest):
                 longest = item
         return longest
+
+    def _has_css_property_and_visible(self, option) -> bool:
+        css_value_candidates = ["hidden", "none", "0", "0.0"]
+        css_property_candidates = ["visibility", "display", "opacity"]
+
+        for property in css_property_candidates:
+            css_value = option.value_of_css_property(property)
+            if css_value in css_value_candidates:
+                return False
+        return True
+
