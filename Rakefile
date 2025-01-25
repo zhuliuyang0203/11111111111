@@ -135,6 +135,7 @@ task tests: [
   '//java/test/org/openqa/selenium/ie:ie',
   '//java/test/org/openqa/selenium/chrome:chrome',
   '//java/test/org/openqa/selenium/edge:edge',
+  '//java/test/org/openqa/selenium/opera:opera',
   '//java/test/org/openqa/selenium/support:small-tests',
   '//java/test/org/openqa/selenium/support:large-tests',
   '//java/test/org/openqa/selenium/remote:small-tests',
@@ -184,6 +185,7 @@ task test_ie: [
 ]
 task test_jobbie: [:test_ie]
 task test_firefox: ['//java/test/org/openqa/selenium/firefox:marionette:run']
+task test_opera: ['//java/test/org/openqa/selenium/opera:opera:run']
 task test_remote_server: [
   '//java/test/org/openqa/selenium/remote/server:small-tests:run',
   '//java/test/org/openqa/selenium/remote/server/log:test:run'
@@ -208,6 +210,8 @@ task :test_java_webdriver do
     Rake::Task['test_chrome'].invoke
   elsif SeleniumRake::Checks.edge?
     Rake::Task['test_edge'].invoke
+  elsif SeleniumRake::Checks.opera?
+    Rake::Task['test_opera'].invoke
   else
     Rake::Task['test_htmlunit'].invoke
     Rake::Task['test_firefox'].invoke

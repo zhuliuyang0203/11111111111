@@ -34,6 +34,8 @@ import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.firefox.GeckoDriverInfo;
 import org.openqa.selenium.ie.InternetExplorerDriverInfo;
 import org.openqa.selenium.ie.InternetExplorerOptions;
+import org.openqa.selenium.opera.OperaDriverInfo;
+import org.openqa.selenium.opera.OperaOptions;
 import org.openqa.selenium.safari.SafariDriverInfo;
 import org.openqa.selenium.safari.SafariOptions;
 
@@ -140,6 +142,20 @@ public enum Browser {
       }
 
       options.enableBiDi();
+
+      return options;
+    }
+  },
+  LEGACY_OPERA(new OperaOptions(), new OperaDriverInfo().getDisplayName(), false),
+  OPERA(new OperaOptions(), new OperaDriverInfo().getDisplayName(), false) {
+    @Override
+    public Capabilities getCapabilities() {
+      OperaOptions options = new OperaOptions();
+      options.addArguments("disable-extensions");
+      String operaPath = System.getProperty("webdriver.opera.binary");
+      if (operaPath != null) {
+        options.setBinary(new File(operaPath));
+      }
 
       return options;
     }

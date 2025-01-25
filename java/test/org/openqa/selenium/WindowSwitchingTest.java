@@ -27,6 +27,8 @@ import static org.openqa.selenium.testing.TestUtilities.isInternetExplorer;
 import static org.openqa.selenium.testing.drivers.Browser.CHROME;
 import static org.openqa.selenium.testing.drivers.Browser.FIREFOX;
 import static org.openqa.selenium.testing.drivers.Browser.IE;
+import static org.openqa.selenium.testing.drivers.Browser.LEGACY_OPERA;
+import static org.openqa.selenium.testing.drivers.Browser.OPERA;
 import static org.openqa.selenium.testing.drivers.Browser.SAFARI;
 
 import java.util.Set;
@@ -204,6 +206,9 @@ class WindowSwitchingTest extends JupiterTestBase {
   @Test
   @Ignore(SAFARI)
   public void testCanCallGetWindowHandlesAfterClosingAWindow() {
+    assumeFalse(Browser.detect() == Browser.LEGACY_OPERA &&
+                getEffectivePlatform(driver).is(Platform.WINDOWS));
+
     driver.get(pages.xhtmlTestPage);
 
     Set<String> currentWindowHandles = driver.getWindowHandles();
