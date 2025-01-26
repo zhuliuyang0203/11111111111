@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Licensed to the Software Freedom Conservancy (SFC) under one
 # or more contributor license agreements.  See the NOTICE file
 # distributed with this work for additional information
@@ -15,5 +17,27 @@
 # specific language governing permissions and limitations
 # under the License.
 
+module Selenium
+  module WebDriver
+    class BiDi
+      class Credentials
+        attr_accessor :username, :password
 
-__version__ = "4.29.0.202501231718"
+        def initialize(username: nil, password: nil)
+          @username = username
+          @password = password
+        end
+
+        def as_json
+          return nil unless username && password
+
+          {
+            type: 'password',
+            username: username,
+            password: password
+          }
+        end
+      end
+    end # BiDi
+  end # WebDriver
+end # Selenium

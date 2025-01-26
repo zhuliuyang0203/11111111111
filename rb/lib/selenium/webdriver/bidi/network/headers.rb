@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Licensed to the Software Freedom Conservancy (SFC) under one
 # or more contributor license agreements.  See the NOTICE file
 # distributed with this work for additional information
@@ -15,5 +17,22 @@
 # specific language governing permissions and limitations
 # under the License.
 
-
-__version__ = "4.29.0.202501231718"
+module Selenium
+  module WebDriver
+    class BiDi
+      class Headers < Hash
+        def as_json
+          map do |name, val|
+            {
+              name: name.to_s,
+              value: {
+                type: 'string',
+                value: val.to_s
+              }
+            }
+          end
+        end
+      end
+    end # BiDi
+  end # WebDriver
+end # Selenium

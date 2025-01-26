@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Licensed to the Software Freedom Conservancy (SFC) under one
 # or more contributor license agreements.  See the NOTICE file
 # distributed with this work for additional information
@@ -15,5 +17,22 @@
 # specific language governing permissions and limitations
 # under the License.
 
+module Selenium
+  module WebDriver
+    class BiDi
+      class InterceptedAuth < InterceptedItem
+        def authenticate(username, password)
+          network.continue_with_auth(id, username, password)
+        end
 
-__version__ = "4.29.0.202501231718"
+        def skip
+          network.continue_without_auth(id)
+        end
+
+        def cancel
+          network.cancel_auth(id)
+        end
+      end
+    end # BiDi
+  end # WebDriver
+end # Selenium
