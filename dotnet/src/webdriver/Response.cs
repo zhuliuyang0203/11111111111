@@ -220,6 +220,6 @@ namespace OpenQA.Selenium
     }
 
     [JsonSerializable(typeof(Dictionary<string, object>))]
-    [JsonSourceGenerationOptions(Converters = [typeof(ResponseValueJsonConverter)])]
+    [JsonSourceGenerationOptions(Converters = [typeof(ResponseValueJsonConverter)])] // we still need it to make `Object` as `Dictionary`
     internal sealed partial class ResponseJsonSerializerContext : JsonSerializerContext;
 }
