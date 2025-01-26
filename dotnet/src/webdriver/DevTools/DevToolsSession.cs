@@ -411,7 +411,7 @@ namespace OpenQA.Selenium.DevTools
                     rawVersionInfo = await client.GetStringAsync("/json/version").ConfigureAwait(false);
                 }
 
-                var versionInfo = JsonSerializer.Deserialize<DevToolsVersionInfo>(rawVersionInfo, Json.DevToolsJsonOptions.DevToolsSerializerContext.Default.DevToolsVersionInfo);
+                var versionInfo = JsonSerializer.Deserialize<DevToolsVersionInfo>(rawVersionInfo, DevToolsJsonOptions.DevToolsSerializerContext.Default.DevToolsVersionInfo);
                 this.websocketAddress = versionInfo.WebSocketDebuggerUrl;
 
                 if (requestedProtocolVersion == AutoDetectDevToolsProtocolVersion)
