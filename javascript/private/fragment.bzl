@@ -7,8 +7,8 @@ def _internal_closure_fragment_export_impl(ctx):
         output = ctx.outputs.out,
         content = """
 goog.require('%s');
-goog.exportSymbol(EXPORT_FUNCTION_NAME, %s);
-""" % (ctx.attr.module, ctx.attr.function),
+goog.exportSymbol('%s', %s);
+""" % (ctx.attr.module, EXPORT_FUNCTION_NAME, ctx.attr.function),
     )
 
 _internal_closure_fragment_export = rule(
