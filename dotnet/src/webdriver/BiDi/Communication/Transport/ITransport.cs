@@ -32,5 +32,5 @@ interface ITransport : IDisposable
 
     Task<T> ReceiveAsJsonAsync<T>(JsonSerializerContext jsonSerializerContext, CancellationToken cancellationToken);
 
-    Task SendAsJsonAsync(Command command, JsonSerializerContext jsonSerializerContext, CancellationToken cancellationToken);
+    Task SendAsJsonAsync<T>(T command, JsonSerializerContext jsonSerializerContext, CancellationToken cancellationToken);
 }

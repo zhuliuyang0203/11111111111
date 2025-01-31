@@ -176,19 +176,22 @@ public class Broker : IAsyncDisposable
         }
     }
 
-    public async Task<TResult> ExecuteCommandAsync<TResult>(Command command, CommandOptions? options)
+    public async Task<TResult> ExecuteCommandAsync<TCommand, TResult>(TCommand command, CommandOptions? options)
+        where TCommand: Command
     {
         var result = await ExecuteCommandCoreAsync(command, options).ConfigureAwait(false);
 
         return (TResult)((JsonElement)result).Deserialize(typeof(TResult), _jsonSerializerContext)!;
     }
 
-    public async Task ExecuteCommandAsync(Command command, CommandOptions? options)
+    public async Task ExecuteCommandAsync<TCommand>(TCommand command, CommandOptions? options)
+        where TCommand: Command
     {
         await ExecuteCommandCoreAsync(command, options).ConfigureAwait(false);
     }
 
-    private async Task<object> ExecuteCommandCoreAsync(Command command, CommandOptions? options)
+    private async Task<object> ExecuteCommandCoreAsync<TCommand>(TCommand command, CommandOptions? options)
+        where TCommand: Command
     {
         command.Id = Interlocked.Increment(ref _currentCommandId);
 
