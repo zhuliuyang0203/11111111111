@@ -114,6 +114,11 @@ namespace OpenQA.Selenium.DevTools
                 return domains;
             }
 
+            return CreateFallbackDomain(protocolVersion, session, versionRange);
+        }
+
+        private static DevToolsDomains CreateFallbackDomain(int desiredVersion, DevToolsSession session, int versionRange)
+        {
             // Get the list of supported versions and sort descending
             List<int> supportedVersions = new List<int>(SupportedProtocolVersions);
             supportedVersions.Sort((first, second) => second.CompareTo(first));
@@ -123,13 +128,13 @@ namespace OpenQA.Selenium.DevTools
                 // Match the version with the desired version within the
                 // version range, using "The Price Is Right" style matching
                 // (that is, closest without going over).
-                if (protocolVersion >= supportedVersion && protocolVersion - supportedVersion < versionRange)
+                if (desiredVersion >= supportedVersion && desiredVersion - supportedVersion < versionRange)
                 {
                     return CreateDevToolsDomain(supportedVersion, session)!;
                 }
             }
 
-            throw new WebDriverException($"DevTools version is not in the supported range. Desired version={protocolVersion}, range={versionRange}. Supported versions: {string.Join(", ", supportedVersions)}");
+            throw new WebDriverException($"DevTools version is not in the supported range. Desired version={desiredVersion}, range={versionRange}. Supported versions: {string.Join(", ", supportedVersions)}");
         }
     }
 }
