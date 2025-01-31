@@ -19,7 +19,8 @@
 
 using System;
 using System.Collections.Generic;
-using System.Reflection;
+
+#nullable enable
 
 namespace OpenQA.Selenium.DevTools
 {
@@ -30,17 +31,26 @@ namespace OpenQA.Selenium.DevTools
     {
         // By default, we will look for a supported version within this
         // number of versions, as that will most likely still work.
-        private static readonly int DefaultVersionRange = 5;
+        private const int DefaultVersionRange = 5;
 
         // This is the list of known supported DevTools version implementation.
         // When new versions are implemented for support, new types must be
         // added to this dictionary.
-        private static readonly Dictionary<int, Type> SupportedDevToolsVersions = new Dictionary<int, Type>()
+        private static int[] SupportedProtocolVersions =>
+        [
+            130,
+            132,
+            131,
+            85
+        ];
+
+        private static DevToolsDomains? CreateDevToolsDomain(int protocolVersion, DevToolsSession session) => protocolVersion switch
         {
-            { 130, typeof(V130.V130Domains) },
-            { 132, typeof(V132.V132Domains) },
-            { 131, typeof(V131.V131Domains) },
-            { 85, typeof(V85.V85Domains) }
+            130 => new V130.V130Domains(session),
+            132 => new V132.V132Domains(session),
+            131 => new V131.V131Domains(session),
+            85 => new V85.V85Domains(session),
+            _ => null
         };
 
         /// <summary>
@@ -74,6 +84,8 @@ namespace OpenQA.Selenium.DevTools
         /// <param name="protocolVersion">The version of the DevTools Protocol to use.</param>
         /// <param name="session">The <see cref="DevToolsSession"/> for which to initialiize the domains.</param>
         /// <returns>The <see cref="DevToolsDomains"/> object containing the version-specific domains.</returns>
+        /// <exception cref="ArgumentOutOfRangeException">If <paramref name="protocolVersion"/> is negative.</exception>
+        /// <exception cref="WebDriverException">If the desired protocol version is not supported.</exception>
         public static DevToolsDomains InitializeDomains(int protocolVersion, DevToolsSession session)
         {
             return InitializeDomains(protocolVersion, session, DefaultVersionRange);
@@ -86,34 +98,24 @@ namespace OpenQA.Selenium.DevTools
         /// <param name="session">The <see cref="DevToolsSession"/> for which to initialiize the domains.</param>
         /// <param name="versionRange">The range of versions within which to match the provided version number. Defaults to 5 versions.</param>
         /// <returns>The <see cref="DevToolsDomains"/> object containing the version-specific domains.</returns>
+        /// <exception cref="ArgumentOutOfRangeException">If <paramref name="protocolVersion"/> is negative.</exception>
+        /// <exception cref="WebDriverException">If the desired protocol version is not in the supported range.</exception>
         public static DevToolsDomains InitializeDomains(int protocolVersion, DevToolsSession session, int versionRange)
         {
             if (versionRange < 0)
             {
-                throw new ArgumentException("Version range must be positive", nameof(versionRange));
+                throw new ArgumentOutOfRangeException(nameof(versionRange), "Version range must not be negative");
             }
 
-            DevToolsDomains domains = null;
-            Type domainType = MatchDomainsVersion(protocolVersion, versionRange);
-            ConstructorInfo constructor = domainType.GetConstructor(new Type[] { typeof(DevToolsSession) });
-            if (constructor != null)
-            {
-                domains = constructor.Invoke(new object[] { session }) as DevToolsDomains;
-            }
-
-            return domains;
-        }
-
-        private static Type MatchDomainsVersion(int desiredVersion, int versionRange)
-        {
             // Return fast on an exact match
-            if (SupportedDevToolsVersions.ContainsKey(desiredVersion))
+            DevToolsDomains? domains = CreateDevToolsDomain(protocolVersion, session);
+            if (domains is not null)
             {
-                return SupportedDevToolsVersions[desiredVersion];
+                return domains;
             }
 
             // Get the list of supported versions and sort descending
-            List<int> supportedVersions = new List<int>(SupportedDevToolsVersions.Keys);
+            List<int> supportedVersions = new List<int>(SupportedProtocolVersions);
             supportedVersions.Sort((first, second) => second.CompareTo(first));
 
             foreach (int supportedVersion in supportedVersions)
@@ -121,13 +123,13 @@ namespace OpenQA.Selenium.DevTools
                 // Match the version with the desired version within the
                 // version range, using "The Price Is Right" style matching
                 // (that is, closest without going over).
-                if (desiredVersion >= supportedVersion && desiredVersion - supportedVersion < versionRange)
+                if (protocolVersion >= supportedVersion && protocolVersion - supportedVersion < versionRange)
                 {
-                    return SupportedDevToolsVersions[supportedVersion];
+                    return CreateDevToolsDomain(supportedVersion, session)!;
                 }
             }
 
-            throw new WebDriverException($"DevTools version is not in the supported range. Desired version={desiredVersion}, range={versionRange}. Supported versions: {string.Join(", ", supportedVersions)}");
+            throw new WebDriverException($"DevTools version is not in the supported range. Desired version={protocolVersion}, range={versionRange}. Supported versions: {string.Join(", ", supportedVersions)}");
         }
     }
 }
