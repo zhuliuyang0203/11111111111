@@ -84,7 +84,7 @@ namespace OpenQA.Selenium.DevTools
         /// <param name="protocolVersion">The version of the DevTools Protocol to use.</param>
         /// <param name="session">The <see cref="DevToolsSession"/> for which to initialiize the domains.</param>
         /// <returns>The <see cref="DevToolsDomains"/> object containing the version-specific domains.</returns>
-        /// <exception cref="ArgumentOutOfRangeException">If <paramref name="protocolVersion"/> is negative.</exception>
+        /// <exception cref="ArgumentException">If <paramref name="protocolVersion"/> is negative.</exception>
         /// <exception cref="WebDriverException">If the desired protocol version is not supported.</exception>
         public static DevToolsDomains InitializeDomains(int protocolVersion, DevToolsSession session)
         {
@@ -98,13 +98,13 @@ namespace OpenQA.Selenium.DevTools
         /// <param name="session">The <see cref="DevToolsSession"/> for which to initialiize the domains.</param>
         /// <param name="versionRange">The range of versions within which to match the provided version number. Defaults to 5 versions.</param>
         /// <returns>The <see cref="DevToolsDomains"/> object containing the version-specific domains.</returns>
-        /// <exception cref="ArgumentOutOfRangeException">If <paramref name="protocolVersion"/> is negative.</exception>
+        /// <exception cref="ArgumentException">If <paramref name="protocolVersion"/> is negative.</exception>
         /// <exception cref="WebDriverException">If the desired protocol version is not in the supported range.</exception>
         public static DevToolsDomains InitializeDomains(int protocolVersion, DevToolsSession session, int versionRange)
         {
             if (versionRange < 0)
             {
-                throw new ArgumentOutOfRangeException(nameof(versionRange), "Version range must not be negative");
+                throw new ArgumentException("Version range must be positive", nameof(versionRange));
             }
 
             // Return fast on an exact match
