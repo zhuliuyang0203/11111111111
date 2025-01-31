@@ -20,6 +20,7 @@
 using OpenQA.Selenium.DevTools;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
 
 namespace OpenQA.Selenium
@@ -38,6 +39,8 @@ namespace OpenQA.Selenium
         /// Initializes a new instance of the <see cref="NetworkManager"/> class.
         /// </summary>
         /// <param name="driver">The <see cref="IWebDriver"/> instance on which the network should be monitored.</param>
+        [UnconditionalSuppressMessage("Trimming", "IL2026", Justification = "Warnings are added to StartMonitoring and StopMonitoring")]
+        [UnconditionalSuppressMessage("Trimming", "IL3050", Justification = "Warnings are added to StartMonitoring and StopMonitoring")]
         public NetworkManager(IWebDriver driver)
         {
             // Use of Lazy<T> means this exception won't be thrown until the user first
@@ -69,6 +72,8 @@ namespace OpenQA.Selenium
         /// Asynchronously starts monitoring for network traffic.
         /// </summary>
         /// <returns>A task that represents the asynchronous operation.</returns>
+        [RequiresUnreferencedCode("NetworkManager is currently implemented with CDP. When it is implemented with BiDi, AOT will be supported")]
+        [RequiresDynamicCode("NetworkManager is currently implemented with CDP. When it is implemented with BiDi, AOT will be supported.")]
         public async Task StartMonitoring()
         {
             this.session.Value.Domains.Network.RequestPaused += OnRequestPaused;
@@ -83,6 +88,8 @@ namespace OpenQA.Selenium
         /// Asynchronously stops monitoring for network traffic.
         /// </summary>
         /// <returns>A task that represents the asynchronous operation.</returns>
+        [RequiresUnreferencedCode("Network monitoring is currently implemented with CDP. When it is implemented with BiDi, AOT will be supported")]
+        [RequiresDynamicCode("Network monitoring is currently implemented with CDP. When it is implemented with BiDi, AOT will be supported.")]
         public async Task StopMonitoring()
         {
             this.session.Value.Domains.Network.ResponsePaused -= OnResponsePaused;

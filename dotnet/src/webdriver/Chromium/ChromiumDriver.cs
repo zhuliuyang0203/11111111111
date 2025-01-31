@@ -22,6 +22,7 @@ using OpenQA.Selenium.Remote;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Threading.Tasks;
 
@@ -278,6 +279,8 @@ namespace OpenQA.Selenium.Chromium
         /// Creates a session to communicate with a browser using the Chromium Developer Tools debugging protocol.
         /// </summary>
         /// <returns>The active session to use to communicate with the Chromium Developer Tools debugging protocol.</returns>
+        [RequiresUnreferencedCode("CDP is not compatible with trimming or AOT.")]
+        [RequiresDynamicCode("CDP is not compatible with trimming or AOT.")]
         public DevToolsSession GetDevToolsSession()
         {
             return GetDevToolsSession(new DevToolsOptions() { ProtocolVersion = DevToolsSession.AutoDetectDevToolsProtocolVersion });
@@ -287,6 +290,8 @@ namespace OpenQA.Selenium.Chromium
         /// Creates a session to communicate with a browser using the Chromium Developer Tools debugging protocol.
         /// </summary>
         /// <returns>The active session to use to communicate with the Chromium Developer Tools debugging protocol.</returns>
+        [RequiresUnreferencedCode("CDP is not compatible with trimming or AOT.")]
+        [RequiresDynamicCode("CDP is not compatible with trimming or AOT.")]
         public DevToolsSession GetDevToolsSession(DevToolsOptions options)
         {
             if (this.devToolsSession == null)
@@ -329,6 +334,8 @@ namespace OpenQA.Selenium.Chromium
         /// <param name="devToolsProtocolVersion">The version of the Chromium Developer Tools protocol to use. Defaults to autodetect the protocol version.</param>
         /// <returns>The active session to use to communicate with the Chromium Developer Tools debugging protocol.</returns>
         [Obsolete("Use GetDevToolsSession(DevToolsOptions options)")]
+        [RequiresUnreferencedCode("CDP is not compatible with trimming or AOT.")]
+        [RequiresDynamicCode("CDP is not compatible with trimming or AOT.")]
         public DevToolsSession GetDevToolsSession(int devToolsProtocolVersion)
         {
             return GetDevToolsSession(new DevToolsOptions() { ProtocolVersion = devToolsProtocolVersion });

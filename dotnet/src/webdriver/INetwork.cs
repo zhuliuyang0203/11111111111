@@ -18,6 +18,7 @@
 // </copyright>
 
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
 
 namespace OpenQA.Selenium
@@ -77,12 +78,16 @@ namespace OpenQA.Selenium
         /// Asynchronously starts monitoring for network traffic.
         /// </summary>
         /// <returns>A task that represents the asynchronous operation.</returns>
+        [RequiresUnreferencedCode("Network monitoring is currently implemented with CDP. When it is implemented with BiDi, AOT will be supported")]
+        [RequiresDynamicCode("Network monitoring is currently implemented with CDP. When it is implemented with BiDi, AOT will be supported.")]
         Task StartMonitoring();
 
         /// <summary>
         /// Asynchronously stops monitoring for network traffic.
         /// </summary>
         /// <returns>A task that represents the asynchronous operation.</returns>
+        [RequiresUnreferencedCode("Network monitoring is currently implemented with CDP. When it is implemented with BiDi, AOT will be supported")]
+        [RequiresDynamicCode("Network monitoring is currently implemented with CDP. When it is implemented with BiDi, AOT will be supported.")]
         Task StopMonitoring();
     }
 }

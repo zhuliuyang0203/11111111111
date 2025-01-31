@@ -20,6 +20,7 @@
 using OpenQA.Selenium.Internal;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -210,6 +211,9 @@ namespace OpenQA.Selenium
         /// Returns this object as a JSON-encoded string.
         /// </summary>
         /// <returns>A JSON-encoded string representing this <see cref="Response"/> object.</returns>
+
+        [RequiresUnreferencedCode("Free-form JSON serialization.")]
+        [RequiresDynamicCode("Free-form JSON serialization.")]
         public string ToJson()
         {
             return JsonSerializer.Serialize(this);

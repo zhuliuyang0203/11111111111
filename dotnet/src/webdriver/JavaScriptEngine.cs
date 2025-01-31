@@ -21,6 +21,7 @@ using OpenQA.Selenium.DevTools;
 using OpenQA.Selenium.Internal;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -32,6 +33,8 @@ namespace OpenQA.Selenium
     /// <summary>
     /// Provides methods allowing the user to manage settings in the browser's JavaScript engine.
     /// </summary>
+    [RequiresUnreferencedCode("JavaScriptEngine is currently implemented with CDP. When it is implemented with BiDi, AOT will be supported")]
+    [RequiresDynamicCode("JavaScriptEngine is currently implemented with CDP. When it is implemented with BiDi, AOT will be supported.")]
     public class JavaScriptEngine : IJavaScriptEngine
     {
         private readonly string MonitorBindingName = "__webdriver_attribute";
