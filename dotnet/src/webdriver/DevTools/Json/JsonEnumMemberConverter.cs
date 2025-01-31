@@ -27,8 +27,8 @@ using System.Text.Json.Serialization;
 
 namespace OpenQA.Selenium.DevTools.Json
 {
-    internal class JsonEnumMemberConverter<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicFields)] TEnum>
-        : JsonConverter<TEnum> where TEnum : struct, Enum
+    internal sealed class JsonEnumMemberConverter<TEnum> : JsonConverter<TEnum>
+        where TEnum : struct, Enum
     {
         private readonly Dictionary<TEnum, string> _enumToString = new Dictionary<TEnum, string>();
         private readonly Dictionary<string, TEnum> _stringToEnum = new Dictionary<string, TEnum>();
