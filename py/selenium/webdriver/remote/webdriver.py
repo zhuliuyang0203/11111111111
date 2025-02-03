@@ -1201,11 +1201,7 @@ class WebDriver(BaseWebDriver):
 
                 devtools = cdp.import_devtools(version)
                 if self.caps["browserName"].lower() == "firefox":
-                    warnings.warn(
-                        "CDP support for Firefox is deprecated and will be removed in future versions. Please switch to WebDriver BiDi.",
-                        DeprecationWarning,
-                        stacklevel=2,
-                    )
+                    raise RuntimeError("CDP support for Firefox has been removed. Please switch to WebDriver BiDi.")
             self._websocket_connection = WebSocketConnection(ws_url)
             targets = self._websocket_connection.execute(devtools.target.get_targets())
             target_id = targets[0].target_id
@@ -1257,14 +1253,11 @@ class WebDriver(BaseWebDriver):
         import urllib3
 
         http = urllib3.PoolManager()
-        _firefox = False
         if self.caps.get("browserName") == "chrome":
             debugger_address = self.caps.get("goog:chromeOptions").get("debuggerAddress")
         elif self.caps.get("browserName") == "MicrosoftEdge":
             debugger_address = self.caps.get("ms:edgeOptions").get("debuggerAddress")
-        else:
-            _firefox = True
-            debugger_address = self.caps.get("moz:debuggerAddress")
+
         res = http.request("GET", f"http://{debugger_address}/json/version")
         data = json.loads(res.data)
 
@@ -1273,12 +1266,7 @@ class WebDriver(BaseWebDriver):
 
         import re
 
-        if _firefox:
-            # Mozilla Automation Team asked to only support 85
-            # until WebDriver Bidi is available.
-            version = 85
-        else:
-            version = re.search(r".*/(\d+)\.", browser_version).group(1)
+        version = re.search(r".*/(\d+)\.", browser_version).group(1)
 
         return version, websocket_url
 
