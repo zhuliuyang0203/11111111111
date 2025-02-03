@@ -35,6 +35,7 @@ namespace OpenQA.Selenium
         /// <param name="driverCommandToExecute">The name of the command to execute. The command name must be registered with the command executor, and must not be a command name known to this driver type.</param>
         /// <param name="parameters">A <see cref="Dictionary{K, V}"/> containing the names and values of the parameters of the command.</param>
         /// <returns>An object that contains the value returned by the command, if any.</returns>
+        /// <exception cref="WebDriverException">The command returned an exceptional value.</exception>
         object? ExecuteCustomDriverCommand(string driverCommandToExecute, Dictionary<string, object> parameters);
 
         /// <summary>
