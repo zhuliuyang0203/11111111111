@@ -183,6 +183,8 @@ namespace OpenQA.Selenium
         /// </summary>
         public SessionId SessionId { get; private set; }
 
+#nullable enable
+
         /// <summary>
         /// Gets or sets the <see cref="IFileDetector"/> responsible for detecting
         /// sequences of keystrokes representing file paths and names.
@@ -194,10 +196,7 @@ namespace OpenQA.Selenium
             set => this.fileDetector = value ?? throw new ArgumentNullException(nameof(value), "FileDetector cannot be null");
         }
 
-        internal INetwork Network
-        {
-            get { return this.network; }
-        }
+        internal INetwork Network => this.network;
 
         /// <summary>
         /// Gets or sets the factory object used to create instances of <see cref="WebElement"/>
@@ -234,7 +233,7 @@ namespace OpenQA.Selenium
         /// <param name="script">The JavaScript code to execute.</param>
         /// <param name="args">The arguments to the script.</param>
         /// <returns>The value returned by the script.</returns>
-        public object ExecuteAsyncScript(string script, params object[] args)
+        public object? ExecuteAsyncScript(string script, params object?[]? args)
         {
             return this.ExecuteScriptCommand(script, DriverCommand.ExecuteAsyncScript, args);
         }
@@ -245,7 +244,7 @@ namespace OpenQA.Selenium
         /// <param name="script">The JavaScript code to execute.</param>
         /// <param name="args">The arguments to the script.</param>
         /// <returns>The value returned by the script.</returns>
-        public object ExecuteScript(string script, params object[] args)
+        public object? ExecuteScript(string script, params object?[]? args)
         {
             return this.ExecuteScriptCommand(script, DriverCommand.ExecuteScript, args);
         }
@@ -257,7 +256,7 @@ namespace OpenQA.Selenium
         /// <param name="args">The arguments to the script.</param>
         /// <returns>The value returned by the script.</returns>
         /// <exception cref="ArgumentNullException">If <paramref name="script" /> is <see langword="null"/>.</exception>
-        public object ExecuteScript(PinnedScript script, params object[] args)
+        public object? ExecuteScript(PinnedScript script, params object?[]? args)
         {
             if (script == null)
             {
@@ -266,6 +265,8 @@ namespace OpenQA.Selenium
 
             return this.ExecuteScript(script.MakeExecutionScript(), args);
         }
+
+#nullable restore
 
         /// <summary>
         /// Finds the first element in the page that matches the <see cref="By"/> object
@@ -344,6 +345,8 @@ namespace OpenQA.Selenium
             return this.GetElementsFromResponse(commandResponse);
         }
 
+#nullable enable
+
         /// <summary>
         /// Gets a <see cref="Screenshot"/> object representing the image of the page on the screen.
         /// </summary>
@@ -352,7 +355,7 @@ namespace OpenQA.Selenium
         {
             Response screenshotResponse = this.Execute(DriverCommand.Screenshot, null);
 
-            string base64 = screenshotResponse.Value.ToString();
+            string base64 = screenshotResponse.Value?.ToString() ?? throw new WebDriverException("Screenshot command returned successfully, but response was empty");
             return new Screenshot(base64);
         }
 
@@ -371,7 +374,7 @@ namespace OpenQA.Selenium
 
             Response commandResponse = this.Execute(DriverCommand.Print, printOptions.ToDictionary());
 
-            string base64 = commandResponse.Value.ToString();
+            string base64 = commandResponse.Value?.ToString() ?? throw new WebDriverException("Print command returned successfully, but response was empty");
             return new PrintDocument(base64);
         }
 
@@ -392,13 +395,11 @@ namespace OpenQA.Selenium
                 objectList.Add(sequence.ToDictionary());
             }
 
-            Dictionary<string, object> parameters = new Dictionary<string, object>();
+            Dictionary<string, object?> parameters = new Dictionary<string, object?>();
             parameters["actions"] = objectList;
 
             this.Execute(DriverCommand.Actions, parameters);
         }
-
-#nullable enable
 
         /// <summary>
         /// Resets the input state of the action executor.
@@ -458,7 +459,7 @@ namespace OpenQA.Selenium
         /// <param name="parameters">A <see cref="Dictionary{K, V}"/> containing the names and values of the parameters of the command.</param>
         /// <returns>A <see cref="Response"/> containing information about the success or failure of the command and any data returned by the command.</returns>
         /// <exception cref="WebDriverException">The command returned an exceptional value.</exception>
-        public object? ExecuteCustomDriverCommand(string driverCommandToExecute, Dictionary<string, object> parameters)
+        public object? ExecuteCustomDriverCommand(string driverCommandToExecute, Dictionary<string, object?>? parameters)
         {
             if (this.registeredCommands.Contains(driverCommandToExecute))
             {
@@ -526,7 +527,7 @@ namespace OpenQA.Selenium
                 throw new NoSuchElementException();
             }
 
-            if (response.Value is Dictionary<string, object> elementDictionary)
+            if (response.Value is Dictionary<string, object?> elementDictionary)
             {
                 return this.elementFactory.CreateElement(elementDictionary);
             }
@@ -546,7 +547,7 @@ namespace OpenQA.Selenium
             {
                 foreach (object? elementObject in elements)
                 {
-                    if (elementObject is Dictionary<string, object> elementDictionary)
+                    if (elementObject is Dictionary<string, object?> elementDictionary)
                     {
                         WebElement element = this.elementFactory.CreateElement(elementDictionary);
                         toReturn.Add(element);
@@ -557,15 +558,13 @@ namespace OpenQA.Selenium
             return toReturn.AsReadOnly();
         }
 
-#nullable restore
-
         /// <summary>
         /// Executes commands with the driver
         /// </summary>
         /// <param name="driverCommandToExecute">Command that needs executing</param>
         /// <param name="parameters">Parameters needed for the command</param>
         /// <returns>WebDriver Response</returns>
-        internal Response InternalExecute(string driverCommandToExecute, Dictionary<string, object> parameters)
+        internal Response InternalExecute(string driverCommandToExecute, Dictionary<string, object?>? parameters)
         {
             return Task.Run(() => this.InternalExecuteAsync(driverCommandToExecute, parameters)).GetAwaiter().GetResult();
         }
@@ -577,7 +576,7 @@ namespace OpenQA.Selenium
         /// <param name="parameters">Parameters needed for the command</param>
         /// <returns>A task object representing the asynchronous operation</returns>
         internal Task<Response> InternalExecuteAsync(string driverCommandToExecute,
-            Dictionary<string, object> parameters)
+            Dictionary<string, object?>? parameters)
         {
             return this.ExecuteAsync(driverCommandToExecute, parameters);
         }
@@ -589,7 +588,7 @@ namespace OpenQA.Selenium
         /// <param name="parameters">A <see cref="Dictionary{K, V}"/> containing the names and values of the parameters of the command.</param>
         /// <returns>A <see cref="Response"/> containing information about the success or failure of the command and any data returned by the command.</returns>
         protected virtual Response Execute(string driverCommandToExecute,
-            Dictionary<string, object> parameters)
+            Dictionary<string, object?>? parameters)
         {
             return Task.Run(() => this.ExecuteAsync(driverCommandToExecute, parameters)).GetAwaiter().GetResult();
         }
@@ -600,7 +599,7 @@ namespace OpenQA.Selenium
         /// <param name="driverCommandToExecute">A <see cref="DriverCommand"/> value representing the command to execute.</param>
         /// <param name="parameters">A <see cref="Dictionary{K, V}"/> containing the names and values of the parameters of the command.</param>
         /// <returns>A <see cref="Response"/> containing information about the success or failure of the command and any data returned by the command.</returns>
-        protected virtual async Task<Response> ExecuteAsync(string driverCommandToExecute, Dictionary<string, object> parameters)
+        protected virtual async Task<Response> ExecuteAsync(string driverCommandToExecute, Dictionary<string, object?>? parameters)
         {
             Command commandToExecute = new Command(SessionId, driverCommandToExecute, parameters);
 
@@ -613,6 +612,8 @@ namespace OpenQA.Selenium
 
             return commandResponse;
         }
+
+#nullable restore
 
         /// <summary>
         /// Starts a session with the driver
@@ -861,8 +862,6 @@ namespace OpenQA.Selenium
             }
         }
 
-#nullable restore
-
         /// <summary>
         /// Executes JavaScript in the context of the currently selected frame or window using a specific command.
         /// </summary>
@@ -870,11 +869,11 @@ namespace OpenQA.Selenium
         /// <param name="commandName">The name of the command to execute.</param>
         /// <param name="args">The arguments to the script.</param>
         /// <returns>The value returned by the script.</returns>
-        protected object ExecuteScriptCommand(string script, string commandName, params object[] args)
+        protected object? ExecuteScriptCommand(string script, string commandName, params object?[]? args)
         {
-            object[] convertedArgs = ConvertArgumentsToJavaScriptObjects(args);
+            object?[] convertedArgs = ConvertArgumentsToJavaScriptObjects(args);
 
-            Dictionary<string, object> parameters = new Dictionary<string, object>();
+            Dictionary<string, object?> parameters = new Dictionary<string, object?>();
             parameters.Add("script", script);
 
             if (convertedArgs != null && convertedArgs.Length > 0)
@@ -890,16 +889,16 @@ namespace OpenQA.Selenium
             return this.ParseJavaScriptReturnValue(commandResponse.Value);
         }
 
-        private static object ConvertObjectToJavaScriptObject(object arg)
+        private static object? ConvertObjectToJavaScriptObject(object? arg)
         {
-            IWebDriverObjectReference argAsObjectReference = arg as IWebDriverObjectReference;
+            IWebDriverObjectReference? argAsObjectReference = arg as IWebDriverObjectReference;
 
             if (argAsObjectReference == null && arg is IWrapsElement argAsWrapsElement)
             {
                 argAsObjectReference = argAsWrapsElement.WrappedElement as IWebDriverObjectReference;
             }
 
-            object converted;
+            object? converted;
 
             if (arg is string || arg is float || arg is double || arg is int || arg is long || arg is bool || arg == null)
             {
@@ -916,18 +915,18 @@ namespace OpenQA.Selenium
                 // checking for IEnumerable, since dictionaries also implement IEnumerable.
                 // Additionally, JavaScript objects have property names as strings, so all
                 // keys will be converted to strings.
-                Dictionary<string, object> dictionary = new Dictionary<string, object>();
-                foreach (var key in argAsDictionary.Keys)
+                Dictionary<string, object?> dictionary = new Dictionary<string, object?>();
+                foreach (DictionaryEntry argEntry in argAsDictionary)
                 {
-                    dictionary.Add(key.ToString(), ConvertObjectToJavaScriptObject(argAsDictionary[key]));
+                    dictionary.Add(argEntry.Key.ToString()!, ConvertObjectToJavaScriptObject(argEntry.Value));
                 }
 
                 converted = dictionary;
             }
             else if (arg is IEnumerable argAsEnumerable)
             {
-                List<object> objectList = new List<object>();
-                foreach (object item in argAsEnumerable)
+                List<object?> objectList = new List<object?>();
+                foreach (object? item in argAsEnumerable)
                 {
                     objectList.Add(ConvertObjectToJavaScriptObject(item));
                 }
@@ -947,11 +946,11 @@ namespace OpenQA.Selenium
         /// </summary>
         /// <param name="args">The arguments.</param>
         /// <returns>The list of the arguments converted to JavaScript objects.</returns>
-        private static object[] ConvertArgumentsToJavaScriptObjects(object[] args)
+        private static object?[] ConvertArgumentsToJavaScriptObjects(object?[]? args)
         {
             if (args == null)
             {
-                return new object[] { null };
+                return new object?[] { null };
             }
 
             for (int i = 0; i < args.Length; i++)
@@ -962,17 +961,17 @@ namespace OpenQA.Selenium
             return args;
         }
 
-        private object ParseJavaScriptReturnValue(object responseValue)
+        private object? ParseJavaScriptReturnValue(object? responseValue)
         {
-            object returnValue;
+            object? returnValue;
 
-            if (responseValue is Dictionary<string, object> resultAsDictionary)
+            if (responseValue is Dictionary<string, object?> resultAsDictionary)
             {
                 if (this.elementFactory.ContainsElementReference(resultAsDictionary))
                 {
                     returnValue = this.elementFactory.CreateElement(resultAsDictionary);
                 }
-                else if (ShadowRoot.TryCreate(this, resultAsDictionary, out ShadowRoot shadowRoot))
+                else if (ShadowRoot.TryCreate(this, resultAsDictionary, out ShadowRoot? shadowRoot))
                 {
                     returnValue = shadowRoot;
                 }
@@ -989,13 +988,13 @@ namespace OpenQA.Selenium
                     returnValue = resultAsDictionary;
                 }
             }
-            else if (responseValue is object[] resultAsArray)
+            else if (responseValue is object?[] resultAsArray)
             {
                 bool allElementsAreWebElements = true;
-                List<object> toReturn = new List<object>();
-                foreach (object item in resultAsArray)
+                List<object?> toReturn = new List<object?>();
+                foreach (object? item in resultAsArray)
                 {
-                    object parsedItem = this.ParseJavaScriptReturnValue(item);
+                    object? parsedItem = this.ParseJavaScriptReturnValue(item);
                     if (parsedItem is not IWebElement parsedItemAsElement)
                     {
                         allElementsAreWebElements = false;
@@ -1007,10 +1006,9 @@ namespace OpenQA.Selenium
                 if (toReturn.Count > 0 && allElementsAreWebElements)
                 {
                     List<IWebElement> elementList = new List<IWebElement>();
-                    foreach (object listItem in toReturn)
+                    foreach (object? listItem in toReturn)
                     {
-                        IWebElement itemAsElement = listItem as IWebElement;
-                        elementList.Add(itemAsElement);
+                        elementList.Add((IWebElement)listItem!);
                     }
 
                     returnValue = elementList.AsReadOnly();
@@ -1027,8 +1025,6 @@ namespace OpenQA.Selenium
 
             return returnValue;
         }
-
-#nullable enable
 
         /// <summary>
         /// Creates a Virtual Authenticator.
@@ -1061,7 +1057,7 @@ namespace OpenQA.Selenium
                 throw new ArgumentNullException(nameof(authenticatorId));
             }
 
-            Dictionary<string, object> parameters = new Dictionary<string, object>();
+            Dictionary<string, object?> parameters = new Dictionary<string, object?>();
             parameters.Add("authenticatorId", authenticatorId);
 
             this.Execute(DriverCommand.RemoveVirtualAuthenticator, parameters);
@@ -1088,7 +1084,7 @@ namespace OpenQA.Selenium
 
             string authenticatorId = this.AuthenticatorId ?? throw new InvalidOperationException("Virtual Authenticator needs to be added before it can perform operations");
 
-            Dictionary<string, object> parameters = new Dictionary<string, object>(credential.ToDictionary());
+            Dictionary<string, object?> parameters = new Dictionary<string, object?>(credential.ToDictionary());
             parameters.Add("authenticatorId", authenticatorId);
 
             this.Execute(driverCommandToExecute: DriverCommand.AddCredential, parameters);
@@ -1103,7 +1099,7 @@ namespace OpenQA.Selenium
         {
             string authenticatorId = this.AuthenticatorId ?? throw new InvalidOperationException("Virtual Authenticator needs to be added before it can perform operations");
 
-            Dictionary<string, object> parameters = new Dictionary<string, object>();
+            Dictionary<string, object?> parameters = new Dictionary<string, object?>();
             parameters.Add("authenticatorId", authenticatorId);
 
             Response getCredentialsResponse = this.Execute(driverCommandToExecute: DriverCommand.GetCredentials, parameters);
@@ -1149,7 +1145,7 @@ namespace OpenQA.Selenium
 
             string authenticatorId = this.AuthenticatorId ?? throw new InvalidOperationException("Virtual Authenticator needs to be added before it can perform operations");
 
-            Dictionary<string, object> parameters = new Dictionary<string, object>();
+            Dictionary<string, object?> parameters = new Dictionary<string, object?>();
             parameters.Add("authenticatorId", authenticatorId);
             parameters.Add("credentialId", credentialId);
 
@@ -1164,7 +1160,7 @@ namespace OpenQA.Selenium
         {
             string authenticatorId = this.AuthenticatorId ?? throw new InvalidOperationException("Virtual Authenticator needs to be added before it can perform operations");
 
-            Dictionary<string, object> parameters = new Dictionary<string, object>();
+            Dictionary<string, object?> parameters = new Dictionary<string, object?>();
             parameters.Add("authenticatorId", authenticatorId);
 
             this.Execute(driverCommandToExecute: DriverCommand.RemoveAllCredentials, parameters);
@@ -1178,7 +1174,7 @@ namespace OpenQA.Selenium
         {
             string authenticatorId = this.AuthenticatorId ?? throw new InvalidOperationException("Virtual Authenticator needs to be added before it can perform operations");
 
-            Dictionary<string, object> parameters = new Dictionary<string, object>();
+            Dictionary<string, object?> parameters = new Dictionary<string, object?>();
             parameters.Add("authenticatorId", authenticatorId);
             parameters.Add("isUserVerified", verified);
 
