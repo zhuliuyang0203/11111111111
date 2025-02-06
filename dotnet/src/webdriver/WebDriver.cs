@@ -1004,11 +1004,11 @@ namespace OpenQA.Selenium
             else if (responseValue is object?[] resultAsArray)
             {
                 bool allElementsAreWebElements = true;
-                List<object?> toReturn = new List<object?>();
+                List<object?> toReturn = new List<object?>(resultAsArray.Length);
                 foreach (object? item in resultAsArray)
                 {
                     object? parsedItem = this.ParseJavaScriptReturnValue(item);
-                    if (parsedItem is not IWebElement parsedItemAsElement)
+                    if (parsedItem is not IWebElement)
                     {
                         allElementsAreWebElements = false;
                     }
@@ -1018,7 +1018,7 @@ namespace OpenQA.Selenium
 
                 if (toReturn.Count > 0 && allElementsAreWebElements)
                 {
-                    List<IWebElement> elementList = new List<IWebElement>();
+                    List<IWebElement> elementList = new List<IWebElement>(resultAsArray.Length);
                     foreach (object? listItem in toReturn)
                     {
                         elementList.Add((IWebElement)listItem!);
