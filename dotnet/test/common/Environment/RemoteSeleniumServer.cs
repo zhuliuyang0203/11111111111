@@ -30,8 +30,8 @@ namespace OpenQA.Selenium.Environment
     {
         private Process webserverProcess;
         private string serverJarName = @"java/src/org/openqa/selenium/grid/selenium_server_deploy.jar";
-        private string projectRootPath;
-        private bool autoStart;
+        private readonly string projectRootPath;
+        private readonly bool autoStart;
 
         public RemoteSeleniumServer(string projectRoot, bool autoStartServer)
         {

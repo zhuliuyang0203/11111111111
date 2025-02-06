@@ -69,7 +69,7 @@ namespace OpenQA.Selenium.DevTools
         }
 
         [Test]
-        [IgnorePlatform("Windows", "Thread time is not supported on this platform")]
+        [IgnorePlatform(IgnorePlatformAttribute.Windows, "Thread time is not supported on this platform")]
         [IgnoreBrowser(Selenium.Browser.IE, "IE does not support Chrome DevTools Protocol")]
         [IgnoreBrowser(Selenium.Browser.Firefox, "Firefox does not support Chrome DevTools Protocol")]
         [IgnoreBrowser(Selenium.Browser.Safari, "Safari does not support Chrome DevTools Protocol")]
@@ -107,7 +107,7 @@ namespace OpenQA.Selenium.DevTools
         }
 
         [Test]
-        [IgnorePlatform("Windows", "Thread time is not supported on this platform")]
+        [IgnorePlatform(IgnorePlatformAttribute.Windows, "Thread time is not supported on this platform")]
         [IgnoreBrowser(Selenium.Browser.IE, "IE does not support Chrome DevTools Protocol")]
         [IgnoreBrowser(Selenium.Browser.Firefox, "Firefox does not support Chrome DevTools Protocol")]
         [IgnoreBrowser(Selenium.Browser.Safari, "Safari does not support Chrome DevTools Protocol")]

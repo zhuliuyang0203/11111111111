@@ -22,115 +22,92 @@ using NUnit.Framework.Interfaces;
 using NUnit.Framework.Internal;
 using OpenQA.Selenium.Environment;
 using System;
-using System.Collections.Generic;
 
 namespace OpenQA.Selenium
 {
     [AttributeUsage(AttributeTargets.Method | AttributeTargets.Class, AllowMultiple = true)]
     public class IgnoreBrowserAttribute : NUnitAttribute, IApplyToTest
     {
-        private readonly Browser browser;
-        private readonly string ignoreReason = string.Empty;
-
         public IgnoreBrowserAttribute(Browser browser)
         {
-            this.browser = browser;
+            this.Value = browser;
         }
 
         public IgnoreBrowserAttribute(Browser browser, string reason)
             : this(browser)
         {
-            this.ignoreReason = reason;
+            this.Reason = reason;
         }
 
-        public Browser Value
-        {
-            get { return browser; }
-        }
+        public Browser Value { get; }
 
-        public string Reason
-        {
-            get { return ignoreReason; }
-        }
+        public string Reason { get; } = string.Empty;
 
         public void ApplyToTest(Test test)
         {
             if (test.RunState != RunState.NotRunnable)
             {
-                List<Attribute> ignoreAttributes = new List<Attribute>();
+                Attribute[] ignoreAttributes;
                 if (test.IsSuite)
                 {
-                    Attribute[] ignoreClassAttributes = test.TypeInfo.GetCustomAttributes<IgnoreBrowserAttribute>(true);
-                    if (ignoreClassAttributes.Length > 0)
-                    {
-                        ignoreAttributes.AddRange(ignoreClassAttributes);
-                    }
+                    ignoreAttributes = test.TypeInfo.GetCustomAttributes<IgnoreBrowserAttribute>(true);
                 }
                 else
                 {
-                    IgnoreBrowserAttribute[] ignoreMethodAttributes = test.Method.GetCustomAttributes<IgnoreBrowserAttribute>(true);
-                    if (ignoreMethodAttributes.Length > 0)
-                    {
-                        ignoreAttributes.AddRange(ignoreMethodAttributes);
-                    }
+                    ignoreAttributes = test.Method.GetCustomAttributes<IgnoreBrowserAttribute>(true);
                 }
 
                 foreach (Attribute attr in ignoreAttributes)
                 {
-                    IgnoreBrowserAttribute browserToIgnoreAttr = attr as IgnoreBrowserAttribute;
-                    if (browserToIgnoreAttr != null && IgnoreTestForBrowser(browserToIgnoreAttr.Value))
+                    if (attr is IgnoreBrowserAttribute browserToIgnoreAttr
+                        && IgnoreTestForBrowser(browserToIgnoreAttr.Value))
                     {
-                        string ignoreReason = "Ignoring browser " + EnvironmentManager.Instance.Browser.ToString() + ".";
+                        string ignoreReason = $"Ignoring browser {EnvironmentManager.Instance.Browser}.";
                         if (!string.IsNullOrEmpty(browserToIgnoreAttr.Reason))
                         {
                             ignoreReason = ignoreReason + " " + browserToIgnoreAttr.Reason;
                         }
 
                         test.RunState = RunState.Ignored;
-                        test.Properties.Set(PropertyNames.SkipReason, browserToIgnoreAttr.Reason);
+                        test.Properties.Set(PropertyNames.SkipReason, ignoreReason);
                     }
                 }
             }
         }
 
-        private bool IgnoreTestForBrowser(Browser browserToIgnore)
+        private static bool IgnoreTestForBrowser(Browser browserToIgnore)
         {
             return browserToIgnore.Equals(EnvironmentManager.Instance.Browser) || browserToIgnore.Equals(Browser.All) || IsRemoteInstanceOfBrowser(browserToIgnore);
         }
 
-        private bool IsRemoteInstanceOfBrowser(Browser desiredBrowser)
+        private static bool IsRemoteInstanceOfBrowser(Browser desiredBrowser)
         {
-            bool isRemoteInstance = false;
-            switch (desiredBrowser)
+            return (desiredBrowser, EnvironmentManager.Instance.RemoteCapabilities) switch
             {
-                case Browser.IE:
-                    if (EnvironmentManager.Instance.RemoteCapabilities == "internet explorer")
-                    {
-                        isRemoteInstance = true;
-                    }
-                    break;
+                (Browser.IE, "internet explorer") => true,
+                (Browser.Firefox, "firefox") => true,
+                (Browser.Chrome, "chrome") => true,
+                (Browser.Edge, "MicrosoftEdge") => true,
+                _ => false,
+            };
+        }
+    }
+}
 
-                case Browser.Firefox:
-                    if (EnvironmentManager.Instance.RemoteCapabilities == "firefox")
-                    {
-                        isRemoteInstance = true;
-                    }
-                    break;
+class C
+{
+    public static bool AreDefault(int i, string j)
+    {
+        switch (i, j)
+        {
+            case (0, _):
+                return true;
 
-                case Browser.Chrome:
-                    if (EnvironmentManager.Instance.RemoteCapabilities == "chrome")
-                    {
-                        isRemoteInstance = true;
-                    }
-                    break;
-                case Browser.Edge:
-                    if (EnvironmentManager.Instance.RemoteCapabilities == "MicrosoftEdge")
-                    {
-                        isRemoteInstance = true;
-                    }
-                    break;
-            }
-            return isRemoteInstance;
+            case (_, null):
+                return true;
+
+            default:
+                return false;
         }
     }
 }

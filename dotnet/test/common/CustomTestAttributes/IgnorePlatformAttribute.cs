@@ -22,105 +22,86 @@ using NUnit.Framework.Interfaces;
 using NUnit.Framework.Internal;
 using OpenQA.Selenium.Environment;
 using System;
-using System.Collections.Generic;
 using System.Runtime.InteropServices;
-using OSPlatform = System.Runtime.InteropServices.OSPlatform;
-
 
 namespace OpenQA.Selenium
 {
     [AttributeUsage(AttributeTargets.Method | AttributeTargets.Class, AllowMultiple = true)]
     public class IgnorePlatformAttribute : NUnitAttribute, IApplyToTest
     {
-        private readonly String platform;
-        private readonly string ignoreReason = string.Empty;
+        public const string Windows = nameof(Windows);
+        public const string Linux = nameof(Linux);
+        public const string Mac = nameof(Mac);
 
         public IgnorePlatformAttribute(string platform)
         {
-            this.platform = platform.ToLower();
+            this.Value = platform.ToLowerInvariant();
         }
 
         public IgnorePlatformAttribute(string platform, string reason)
             : this(platform)
         {
-            this.ignoreReason = reason;
+            this.Reason = reason;
         }
 
-        public string Value
-        {
-            get { return platform; }
-        }
+        public string Value { get; }
 
-        public string Reason
-        {
-            get { return ignoreReason; }
-        }
+        public string Reason { get; } = string.Empty;
 
         public void ApplyToTest(Test test)
         {
             if (test.RunState != RunState.NotRunnable)
             {
-                List<Attribute> ignoreAttributes = new List<Attribute>();
+                Attribute[] ignoreAttributes;
                 if (test.IsSuite)
                 {
-                    Attribute[] ignoreClassAttributes =
-                        test.TypeInfo.GetCustomAttributes<IgnorePlatformAttribute>(true);
-                    if (ignoreClassAttributes.Length > 0)
-                    {
-                        ignoreAttributes.AddRange(ignoreClassAttributes);
-                    }
+                    ignoreAttributes = test.TypeInfo.GetCustomAttributes<IgnorePlatformAttribute>(true);
                 }
                 else
                 {
-                    IgnorePlatformAttribute[] ignoreMethodAttributes =
-                        test.Method.GetCustomAttributes<IgnorePlatformAttribute>(true);
-                    if (ignoreMethodAttributes.Length > 0)
-                    {
-                        ignoreAttributes.AddRange(ignoreMethodAttributes);
-                    }
+                    ignoreAttributes = test.Method.GetCustomAttributes<IgnorePlatformAttribute>(true);
                 }
 
                 foreach (Attribute attr in ignoreAttributes)
                 {
-                    IgnorePlatformAttribute platformToIgnoreAttr = attr as IgnorePlatformAttribute;
-                    if (platformToIgnoreAttr != null && IgnoreTestForPlatform(platformToIgnoreAttr.Value))
+                    if (attr is IgnorePlatformAttribute platformToIgnoreAttr
+                        && IgnoreTestForPlatform(platformToIgnoreAttr.Value))
                     {
-                        string ignoreReason =
-                            "Ignoring platform " + EnvironmentManager.Instance.Browser.ToString() + ".";
+                        string ignoreReason = $"Ignoring platform {EnvironmentManager.Instance.Browser}.";
                         if (!string.IsNullOrEmpty(platformToIgnoreAttr.Reason))
                         {
                             ignoreReason = ignoreReason + " " + platformToIgnoreAttr.Reason;
                         }
 
                         test.RunState = RunState.Ignored;
-                        test.Properties.Set(PropertyNames.SkipReason, platformToIgnoreAttr.Reason);
+                        test.Properties.Set(PropertyNames.SkipReason, ignoreReason);
                     }
                 }
             }
         }
 
-        private bool IgnoreTestForPlatform(string platformToIgnore)
+        private static bool IgnoreTestForPlatform(string platformToIgnore)
         {
-            return CurrentPlatform() != null && platformToIgnore.Equals(CurrentPlatform());
+            return platformToIgnore.Equals(CurrentPlatform(), StringComparison.OrdinalIgnoreCase);
         }
 
-        private string CurrentPlatform()
+        private static string CurrentPlatform()
         {
-            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            if (OperatingSystem.IsWindows())
             {
-                return "windows";
+                return Windows;
             }
-            else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+            else if (OperatingSystem.IsLinux())
             {
-                return "linux";
+                return Linux;
             }
-            else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+            else if (OperatingSystem.IsMacOS())
             {
-                return "mac";
+                return Mac;
             }
             else
             {
-                throw new WebDriverException("Selenium Manager did not find supported operating system");
+                throw new PlatformNotSupportedException($"Selenium Manager did not find supported operating system: {RuntimeInformation.OSDescription}");
             }
         }
     }

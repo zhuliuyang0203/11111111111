@@ -29,38 +29,26 @@ namespace OpenQA.Selenium.Environment
 {
     public class UrlBuilder
     {
-        string protocol;
-        string hostName;
-        string port;
-        string securePort;
-        string path;
-        string alternateHostName;
+        private readonly string protocol;
+        private readonly string port;
+        private readonly string securePort;
 
-        public string AlternateHostName
-        {
-            get { return alternateHostName; }
-        }
+        public string AlternateHostName { get; }
 
-        public string HostName
-        {
-            get { return hostName; }
-        }
+        public string HostName { get; }
 
-        public string Path
-        {
-            get { return path; }
-        }
+        public string Path { get; }
 
         public UrlBuilder(WebsiteConfig config)
         {
             protocol = config.Protocol;
-            hostName = config.HostName;
+            HostName = config.HostName;
             port = config.Port;
             securePort = config.SecurePort;
-            path = config.Folder;
+            Path = config.Folder;
             //Use the first IPv4 address that we find
             IPAddress ipAddress = IPAddress.Parse("127.0.0.1");
-            foreach (IPAddress ip in Dns.GetHostEntry(hostName).AddressList)
+            foreach (IPAddress ip in Dns.GetHostEntry(HostName).AddressList)
             {
                 if (ip.AddressFamily == AddressFamily.InterNetwork)
                 {
@@ -68,31 +56,22 @@ namespace OpenQA.Selenium.Environment
                     break;
                 }
             }
-            alternateHostName = ipAddress.ToString();
+            AlternateHostName = ipAddress.ToString();
         }
 
         public string LocalWhereIs(string page)
         {
-            string location = string.Empty;
-            location = "http://localhost:" + port + "/" + path + "/" + page;
-
-            return location;
+            return $"http://localhost:{port}/{Path}/{page}";
         }
 
         public string WhereIs(string page)
         {
-            string location = string.Empty;
-            location = "http://" + hostName + ":" + port + "/" + path + "/" + page;
-
-            return location;
+            return $"http://{HostName}:{port}/{Path}/{page}";
         }
 
         public string WhereElseIs(string page)
         {
-            string location = string.Empty;
-            location = "http://" + alternateHostName + ":" + port + "/" + path + "/" + page;
-
-            return location;
+            return $"http://{AlternateHostName}:{port}/{Path}/{page}";
         }
 
         public string WhereIsViaNonLoopbackAddress(string page)
@@ -108,19 +87,14 @@ namespace OpenQA.Selenium.Environment
                 }
             }
 
-            string location = string.Empty;
-            location = "http://" + hostNameAsIPAddress + ":" + port + "/" + path + "/" + page;
-
-            return location;
+            return $"http://{hostNameAsIPAddress}:{port}/{Path}/{page}";
         }
 
         public string WhereIsSecure(string page)
         {
-            string location = string.Empty;
-            location = "https://" + hostName + ":" + securePort + "/" + path + "/" + page;
-
-            return location;
+            return $"https://{HostName}:{securePort}/{Path}/{page}";
         }
+
         public string CreateInlinePage(InlinePage page)
         {
             Uri createPageUri = new Uri(new Uri(WhereIs(string.Empty)), "createPage");
@@ -142,14 +116,14 @@ namespace OpenQA.Selenium.Environment
 
             // The response string from the Java remote server has trailing null
             // characters. This is due to the fix for issue 288.
-            if (responseString.IndexOf('\0') >= 0)
+            if (responseString.Contains('\0'))
             {
-                responseString = responseString.Substring(0, responseString.IndexOf('\0'));
+                responseString = responseString[..responseString.IndexOf('\0')];
             }
 
             if (responseString.Contains("localhost"))
             {
-                responseString = responseString.Replace("localhost", this.hostName);
+                responseString = responseString.Replace("localhost", this.HostName);
             }
 
             return responseString;

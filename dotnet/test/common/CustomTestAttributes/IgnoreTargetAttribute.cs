@@ -32,7 +32,7 @@ namespace OpenQA.Selenium
     {
         public IgnoreTargetAttribute(string target)
         {
-            this.Value = target.ToLower();
+            this.Value = target.ToLowerInvariant();
         }
 
         public IgnoreTargetAttribute(string target, string reason)
