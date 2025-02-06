@@ -31,7 +31,7 @@ internal class GetClientWindowsResultConverter : JsonConverter<GetClientWindowsR
 {
     public override GetClientWindowsResult Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
-        var doc = JsonDocument.ParseValue(ref reader);
+        using var doc = JsonDocument.ParseValue(ref reader);
         var clientWindows = doc.RootElement.GetProperty("clientWindows").Deserialize<IReadOnlyList<ClientWindowInfo>>(options);
 
         return new GetClientWindowsResult(clientWindows!);
