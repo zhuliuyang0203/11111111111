@@ -32,7 +32,7 @@ namespace OpenQA.Selenium.Remote
         /// <summary>
         /// Starts the server.
         /// </summary>
-        [Obsolete("Use the asynchronous overload IsInitializedAsync. The synchronous version will be removed in Selenium 4.31")]
+        [Obsolete("Use the asynchronous method StartAsync")]
         void Start();
 
         /// <summary>

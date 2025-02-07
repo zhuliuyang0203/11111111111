@@ -172,7 +172,7 @@ namespace OpenQA.Selenium
         /// <summary>
         /// Gets a value indicating whether the service is responding to HTTP requests.
         /// </summary>
-        [Obsolete("Use the asynchronous overload IsInitializedAsync. The synchronous version will be removed in Selenium 4.31")]
+        [Obsolete("Use the asynchronous method IsInitializedAsync")]
         protected virtual bool IsInitialized
         {
             get
@@ -225,7 +225,7 @@ namespace OpenQA.Selenium
         /// <summary>
         /// Starts the DriverService if it is not already running.
         /// </summary>
-        [Obsolete("Use the asynchronous overload IsInitializedAsync. The synchronous version will be removed in Selenium 4.31")]
+        [Obsolete("Use the asynchronous method StartAsync")]
         public void Start()
         {
             Task.Run(async () => await StartAsync()).GetAwaiter().GetResult();
