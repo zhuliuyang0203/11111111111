@@ -187,6 +187,7 @@ namespace OpenQA.Selenium
         /// <returns>A task that represents the asynchronous initialization check operation.</returns>
         protected async virtual Task<bool> IsInitializedAsync()
         {
+            bool isInitialized = false;
             try
             {
                 using (var httpClient = new HttpClient())
@@ -201,16 +202,16 @@ namespace OpenQA.Selenium
                         // that the HTTP status returned is a 200 status, and that the response has the correct
                         // Content-Type header. A more sophisticated check would parse the JSON response and
                         // validate its values. At the moment we do not do this more sophisticated check.
-                        bool isInitialized = response.StatusCode == HttpStatusCode.OK && response.Content.Headers.ContentType is { MediaType: string mediaType } && mediaType.StartsWith("application/json", StringComparison.OrdinalIgnoreCase);
-
-                        return isInitialized;
+                        isInitialized = response.StatusCode == HttpStatusCode.OK && response.Content.Headers.ContentType is { MediaType: string mediaType } && mediaType.StartsWith("application/json", StringComparison.OrdinalIgnoreCase);
                     }
                 }
             }
             catch (Exception ex) when (ex is HttpRequestException || ex is TaskCanceledException)
             {
-                return false;
+                // Do nothing. The exception is expected, meaning driver service is not initialized.
             }
+
+            return isInitialized;
         }
 
         /// <summary>
