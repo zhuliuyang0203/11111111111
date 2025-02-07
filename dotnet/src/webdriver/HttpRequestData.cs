@@ -19,6 +19,8 @@
 
 using System.Collections.Generic;
 
+#nullable enable
+
 namespace OpenQA.Selenium
 {
     /// <summary>
@@ -26,6 +28,23 @@ namespace OpenQA.Selenium
     /// </summary>
     public class HttpRequestData
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="HttpRequestData"/> type.
+        /// </summary>
+        /// <param name="method">The method of the HTTP request.</param>
+        /// <param name="url">The URL of the HTTP request.</param>
+        /// <param name="postData">The POST data of the HTTP request.</param>
+        /// <param name="headers">The headers of the HTTP request.</param>
+        /// <param name="requestId">The ID of the HTTP request.</param>
+        public HttpRequestData(string method, string url, string? postData, Dictionary<string, string> headers, string requestId)
+        {
+            this.Method = method;
+            this.Url = url;
+            this.PostData = postData;
+            this.Headers = headers;
+            this.RequestId = requestId;
+        }
+
         /// <summary>
         /// Gets the method of the HTTP request.
         /// </summary>
@@ -37,9 +56,9 @@ namespace OpenQA.Selenium
         public string Url { get; set; }
 
         /// <summary>
-        /// Gets the POST data of the HTTP request.
+        /// Gets the POST data of the HTTP request, if any.
         /// </summary>
-        public string PostData { get; set; }
+        public string? PostData { get; set; }
 
         /// <summary>
         /// Gets the headers of the HTTP request.
@@ -49,6 +68,6 @@ namespace OpenQA.Selenium
         /// <summary>
         /// Gets the ID of the HTTP request.
         /// </summary>
-        public string RequestId { get; internal set; }
+        public string RequestId { get; }
     }
 }
