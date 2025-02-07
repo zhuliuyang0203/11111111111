@@ -118,7 +118,9 @@ public class Broker : IAsyncDisposable
     {
         while (!cancellationToken.IsCancellationRequested)
         {
-            var message = await _transport.ReceiveAsJsonAsync<Message>(_jsonSerializerContext, cancellationToken);
+            var data = await _transport.ReceiveAsync(cancellationToken).ConfigureAwait(false);
+
+            var message = JsonSerializer.Deserialize(new ReadOnlySpan<byte>(data), _jsonSerializerContext.Message);
 
             switch (message)
             {
@@ -208,7 +210,9 @@ public class Broker : IAsyncDisposable
 
         _pendingCommands[command.Id] = tcs;
 
-        await _transport.SendAsJsonAsync(command, _jsonSerializerContext, cts.Token).ConfigureAwait(false);
+        var data = JsonSerializer.SerializeToUtf8Bytes(command, typeof(TCommand), _jsonSerializerContext);
+
+        await _transport.SendAsync(data, cts.Token).ConfigureAwait(false);
 
         return await tcs.Task.ConfigureAwait(false);
     }
