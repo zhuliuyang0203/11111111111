@@ -1,4 +1,4 @@
-// <copyright file="SubscribeCommand.cs" company="Selenium Committers">
+// <copyright file="SubscriptionConverter.cs" company="Selenium Committers">
 // Licensed to the Software Freedom Conservancy (SFC) under one
 // or more contributor license agreements.  See the NOTICE file
 // distributed with this work for additional information
@@ -17,24 +17,25 @@
 // under the License.
 // </copyright>
 
-using OpenQA.Selenium.BiDi.Communication;
-using System.Collections.Generic;
+using System;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 
 #nullable enable
 
-namespace OpenQA.Selenium.BiDi.Modules.Session;
+namespace OpenQA.Selenium.BiDi.Communication.Json.Converters;
 
-internal class SubscribeCommand(SubscribeCommandParameters @params)
-    : Command<SubscribeCommandParameters>(@params, "session.subscribe");
-
-internal record SubscribeCommandParameters(IEnumerable<string> Events) : CommandParameters
+internal class SubscriptionConverter : JsonConverter<Modules.Session.Subscription>
 {
-    public IEnumerable<BrowsingContext.BrowsingContext>? Contexts { get; set; }
-}
+    public override Modules.Session.Subscription? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+    {
+        var id = reader.GetString();
 
-public record SubscribeOptions : CommandOptions
-{
-    public IEnumerable<BrowsingContext.BrowsingContext>? Contexts { get; set; }
-}
+        return new Modules.Session.Subscription(id!);
+    }
 
-internal record SubscribeResult(Subscription Subscription);
+    public override void Write(Utf8JsonWriter writer, Modules.Session.Subscription value, JsonSerializerOptions options)
+    {
+        writer.WriteStringValue(value.Id);
+    }
+}
