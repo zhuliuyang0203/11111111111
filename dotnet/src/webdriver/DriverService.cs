@@ -239,12 +239,6 @@ namespace OpenQA.Selenium
         {
             if (this.driverServiceProcess != null)
             {
-                bool serviceAvailable = await this.WaitForServiceInitializationAsync().ConfigureAwait(false);
-                if (!serviceAvailable)
-                {
-                    throw new WebDriverException($"Cannot start the driver service on {this.ServiceUrl}");
-                }
-
                 return;
             }
 
@@ -274,14 +268,6 @@ namespace OpenQA.Selenium
                 this.OnDriverProcessStarting(eventArgs);
 
                 driverServiceProcess.Start();
-                bool serviceAvailable = await this.WaitForServiceInitializationAsync().ConfigureAwait(false);
-                DriverProcessStartedEventArgs processStartedEventArgs = new DriverProcessStartedEventArgs(driverServiceProcess);
-                this.OnDriverProcessStarted(processStartedEventArgs);
-
-                if (!serviceAvailable)
-                {
-                    throw new WebDriverException($"Cannot start the driver service on {this.ServiceUrl}");
-                }
             }
             catch
             {
@@ -290,6 +276,15 @@ namespace OpenQA.Selenium
             }
 
             this.driverServiceProcess = driverServiceProcess;
+
+            bool serviceAvailable = await this.WaitForServiceInitializationAsync().ConfigureAwait(false);
+            DriverProcessStartedEventArgs processStartedEventArgs = new DriverProcessStartedEventArgs(driverServiceProcess);
+            this.OnDriverProcessStarted(processStartedEventArgs);
+
+            if (!serviceAvailable)
+            {
+                throw new WebDriverException($"Cannot start the driver service on {this.ServiceUrl}");
+            }
         }
 
         /// <summary>
