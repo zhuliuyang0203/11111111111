@@ -286,7 +286,7 @@ namespace OpenQA.Selenium
             }
 
             bool serviceAvailable = await this.WaitForServiceInitializationAsync().ConfigureAwait(false);
-            DriverProcessStartedEventArgs processStartedEventArgs = new DriverProcessStartedEventArgs(driverServiceProcess);
+            DriverProcessStartedEventArgs processStartedEventArgs = new DriverProcessStartedEventArgs(this.driverServiceProcess);
             this.OnDriverProcessStarted(processStartedEventArgs);
 
             if (!serviceAvailable)
