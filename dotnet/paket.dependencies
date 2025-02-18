@@ -1,5 +1,6 @@
 group nuget
 framework: net8.0,netstandard2.0
+strategy: min
 source https://api.nuget.org/v3/index.json
 
 nuget BenderProxy 1.0.0
@@ -25,4 +26,4 @@ nuget System.Drawing.Common 7.0.0
 nuget System.Runtime 4.3.1
 nuget System.Runtime.InteropServices 4.3.0
 nuget System.Text.Json 8.0.5
-nuget Runfiles 0.12.0
+nuget Runfiles 0.14.0
