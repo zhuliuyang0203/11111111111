@@ -44,10 +44,11 @@ const FFMPEG_MACOS_RELEASE_URL: &str = "https://evermeet.cx/ffmpeg/ffmpeg-{}.zip
 const FFMPEG_RECORD_FRAME_RATE: &str = "30";
 const FFMPEG_RECORD_DESKTOP_WINDOWS_COMMAND: &str = "{} -f gdigrab -i desktop -r {} -q:v 1 -y {}";
 const FFMPEG_RECORD_DESKTOP_LINUX_COMMAND: &str =
-    "{} -f x11grab -i {}:0 -r {} -vcodec huffyuv -y {}";
+    "{} -f x11grab -i {}+0,0 -r {} -vcodec huffyuv -y {}";
 const FFMPEG_RECORD_DESKTOP_MACOS_COMMAND: &str = r#"{} -f avfoundation -i "0:0" -r {} -y {}"#;
 const FFMPEG_RECORDING_EXTENSION: &str = "avi";
 const FFMPEG_RECORDING_FOLDER: &str = "recordings";
+const FFMPEG_DEFAULT_DISPLAY: &str = ":0";
 
 pub fn download_ffmpeg(
     ffmpeg_version: String,
@@ -211,7 +212,7 @@ pub fn record_desktop_with_ffmpeg(
         FFMPEG_NAME, &recording_name
     ));
     let command = if LINUX.is(os) {
-        let env_display = env::var(ENV_DISPLAY).unwrap_or_default();
+        let env_display = env::var(ENV_DISPLAY).unwrap_or(FFMPEG_DEFAULT_DISPLAY.to_string());
         Command::new_single(format_four_args(
             get_recording_command(os),
             &path_to_string(&ffmpeg_path),
