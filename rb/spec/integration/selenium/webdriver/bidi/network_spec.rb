@@ -145,7 +145,8 @@ module Selenium
           end
         end
 
-        it 'provides response' do
+        it 'provides response', except: {browser: :firefox,
+                                         reason: 'Provide response parameters are not supported in Firefox'} do
           reset_driver!(web_socket_url: true) do |driver|
             network = described_class.new(driver.bidi)
             network.add_intercept(phases: [described_class::PHASES[:response_started]])
