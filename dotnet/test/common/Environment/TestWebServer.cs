@@ -33,7 +33,7 @@ namespace OpenQA.Selenium.Environment
     {
         private Process webserverProcess;
 
-        private string standaloneAppserverPath;
+        private string standaloneAppserverPath = @"_main/java/test/org/openqa/selenium/environment/appserver";
         private string projectRootPath;
         private bool captureWebServerOutput;
         private bool hideCommandPrompt;
