@@ -72,7 +72,7 @@ namespace OpenQA.Selenium.Edge
         /// <summary>
         /// Creates a default instance of the EdgeDriverService using a specified path to the EdgeDriver executable.
         /// </summary>
-        /// <param name="driverPath">The directory containing the EdgeDriver executable.</param>
+        /// <param name="driverPath">The path to the executable or the directory containing the EdgeDriver executable.</param>
         /// <returns>An EdgeDriverService using a random port.</returns>
         public static EdgeDriverService CreateDefaultService(string? driverPath)
         {
