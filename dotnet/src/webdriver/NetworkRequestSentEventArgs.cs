@@ -41,26 +41,29 @@ namespace OpenQA.Selenium
             this.RequestUrl = requestData.Url;
             this.RequestMethod = requestData.Method;
             this.RequestPostData = requestData.PostData;
-            foreach (KeyValuePair<string, string> header in requestData.Headers)
+            if (requestData.Headers != null)
             {
-                this.requestHeaders[header.Key] = header.Value;
+                foreach (KeyValuePair<string, string> header in requestData.Headers)
+                {
+                    this.requestHeaders[header.Key] = header.Value;
+                }
             }
         }
 
         /// <summary>
         /// Gets the internal request ID of the network request.
         /// </summary>
-        public string RequestId { get; }
+        public string? RequestId { get; }
 
         /// <summary>
         /// Gets the URL of the network request.
         /// </summary>
-        public string RequestUrl { get; }
+        public string? RequestUrl { get; }
 
         /// <summary>
         /// Gets the HTTP method of the network request.
         /// </summary>
-        public string RequestMethod { get; }
+        public string? RequestMethod { get; }
 
         /// <summary>
         /// Gets the post data of the network request, if any.

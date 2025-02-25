@@ -153,7 +153,7 @@ namespace OpenQA.Selenium.DevTools.V85
                 Url = requestData.Url,
             };
 
-            if (requestData.Headers.Count > 0)
+            if (requestData.Headers?.Count > 0)
             {
                 List<HeaderEntry> headers = new List<HeaderEntry>();
                 foreach (KeyValuePair<string, string> headerPair in requestData.Headers)
@@ -304,7 +304,7 @@ namespace OpenQA.Selenium.DevTools.V85
         }
 
         /// <summary>
-        /// Asynchronously contines an intercepted network response without modification.
+        /// Asynchronously contiunes an intercepted network response without modification.
         /// </summary>
         /// <param name="responseData">The <see cref="HttpResponseData"/> of the network response.</param>
         /// <returns>A task that represents the asynchronous operation.</returns>
@@ -335,13 +335,13 @@ namespace OpenQA.Selenium.DevTools.V85
             if (e.ResponseErrorReason == null && e.ResponseStatusCode == null)
             {
                 var requestData = new HttpRequestData
-                (
-                    requestId: e.RequestId,
-                    method: e.Request.Method,
-                    url: e.Request.Url,
-                    postData: e.Request.PostData,
-                    headers: new Dictionary<string, string>(e.Request.Headers)
-                );
+                {
+                    RequestId = e.RequestId,
+                    Method = e.Request.Method,
+                    Url = e.Request.Url,
+                    PostData = e.Request.PostData,
+                    Headers = new Dictionary<string, string>(e.Request.Headers)
+                };
 
                 RequestPausedEventArgs wrapped = new RequestPausedEventArgs(null, requestData);
                 this.OnRequestPaused(wrapped);
@@ -349,13 +349,13 @@ namespace OpenQA.Selenium.DevTools.V85
             else
             {
                 var responseData = new HttpResponseData
-                (
-                    requestId: e.RequestId,
-                    url: e.Request.Url,
-                    resourceType: e.ResourceType.ToString(),
-                    statusCode: e.ResponseStatusCode.GetValueOrDefault(),
-                    errorReason: e.ResponseErrorReason?.ToString()
-                );
+                {
+                    RequestId = e.RequestId,
+                    Url = e.Request.Url,
+                    ResourceType = e.ResourceType.ToString(),
+                    StatusCode = e.ResponseStatusCode.GetValueOrDefault(),
+                    ErrorReason = e.ResponseErrorReason?.ToString()
+                };
 
                 if (e.ResponseHeaders != null)
                 {
