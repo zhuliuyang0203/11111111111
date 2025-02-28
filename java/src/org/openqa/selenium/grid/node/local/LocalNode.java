@@ -355,7 +355,7 @@ public class LocalNode extends Node implements Closeable {
         if (notification.wasEvicted() && notification.getCause() == RemovalCause.EXPIRED) {
           // Session is timing out, stopping it by sending a DELETE
           LOG.log(Level.INFO, () -> String.format("Session id %s timed out, stopping...", id));
-          span.setStatus(Status.ABORTED);
+          span.setStatus(Status.CANCELLED);
           span.addEvent(String.format("Stopping the the timed session %s", id), attributeMap);
         } else {
           LOG.log(Level.INFO, () -> String.format("Session id %s is stopping on demand...", id));
