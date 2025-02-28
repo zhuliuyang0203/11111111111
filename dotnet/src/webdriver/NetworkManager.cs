@@ -199,9 +199,9 @@ namespace OpenQA.Selenium
             bool successfullyAuthenticated = false;
             foreach (var authenticationHandler in this.authenticationHandlers)
             {
-                if (authenticationHandler.UriMatcher.Invoke(uri))
+                if (authenticationHandler.UriMatcher!.Invoke(uri))
                 {
-                    PasswordCredentials credentials = (PasswordCredentials)authenticationHandler.Credentials;
+                    PasswordCredentials credentials = (PasswordCredentials)authenticationHandler.Credentials!;
                     await this.session.Value.Domains.Network.ContinueWithAuth(e.RequestId, credentials.UserName, credentials.Password).ConfigureAwait(false);
                     successfullyAuthenticated = true;
                     break;
@@ -223,7 +223,7 @@ namespace OpenQA.Selenium
 
             foreach (var handler in this.requestHandlers)
             {
-                if (handler.RequestMatcher.Invoke(e.RequestData))
+                if (handler.RequestMatcher!.Invoke(e.RequestData))
                 {
                     if (handler.RequestTransformer != null)
                     {
@@ -257,14 +257,14 @@ namespace OpenQA.Selenium
 
             foreach (var handler in this.responseHandlers)
             {
-                if (handler.ResponseMatcher.Invoke(e.ResponseData))
+                if (handler.ResponseMatcher!.Invoke(e.ResponseData))
                 {
                     // NOTE: We create a dummy HttpRequestData object here, because the ContinueRequestWithResponse
                     // method demands one; however, the only property used by that method is the RequestId property.
                     // It might be better to refactor that method signature to simply pass the request ID, or
                     // alternatively, just pass the response data, which should also contain the request ID anyway.
                     HttpRequestData requestData = new HttpRequestData { RequestId = e.ResponseData.RequestId };
-                    await this.session.Value.Domains.Network.ContinueRequestWithResponse(requestData, handler.ResponseTransformer(e.ResponseData)).ConfigureAwait(false);
+                    await this.session.Value.Domains.Network.ContinueRequestWithResponse(requestData, handler.ResponseTransformer!(e.ResponseData)).ConfigureAwait(false);
                     return;
                 }
             }

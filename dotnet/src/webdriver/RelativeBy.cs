@@ -33,16 +33,16 @@ namespace OpenQA.Selenium
     /// </summary>
     public class RelativeBy : By
     {
-        private string wrappedAtom;
-        private object root;
-        private List<object> filters = new List<object>();
+        private readonly string wrappedAtom;
+        private readonly object root;
+        private readonly List<object> filters = new List<object>();
 
         /// <summary>
         /// Prevents a default instance of the <see cref="RelativeBy"/> class.
         /// </summary>
         protected RelativeBy() : base()
         {
-            string atom = string.Empty;
+            string atom;
             using (Stream atomStream = ResourceUtilities.GetResourceStream("find-elements.js", "find-elements.js"))
             {
                 using (StreamReader atomReader = new StreamReader(atomStream))
@@ -56,7 +56,7 @@ namespace OpenQA.Selenium
 
         private RelativeBy(object root, List<object>? filters = null) : this()
         {
-            this.root = this.GetSerializableRoot(root);
+            this.root = GetSerializableRoot(root);
 
             if (filters != null)
             {
@@ -105,7 +105,7 @@ namespace OpenQA.Selenium
             IJavaScriptExecutor js = GetExecutor(context);
             Dictionary<string, object> parameters = new Dictionary<string, object>();
             Dictionary<string, object> filterParameters = new Dictionary<string, object>();
-            filterParameters["root"] = this.GetSerializableObject(this.root);
+            filterParameters["root"] = GetSerializableObject(this.root);
             filterParameters["filters"] = this.filters;
             parameters["relative"] = filterParameters;
             object rawElements = js.ExecuteScript(wrappedAtom, parameters);
@@ -279,6 +279,7 @@ namespace OpenQA.Selenium
         /// <param name="atMostDistanceInPixels">The maximum distance from the element to be considered "near."</param>
         /// <returns>A <see cref="RelativeBy"/> object for use in finding the elements.</returns>
         /// <exception cref="ArgumentNullException">If <paramref name="element"/> is null.</exception>
+        /// <exception cref="ArgumentOutOfRangeException">If <paramref name="atMostDistanceInPixels"/> is not a positive value.</exception>
         public RelativeBy Near(IWebElement element, int atMostDistanceInPixels)
         {
             return Near((object)element, atMostDistanceInPixels);
@@ -302,6 +303,7 @@ namespace OpenQA.Selenium
         /// <param name="atMostDistanceInPixels">The maximum distance from the element to be considered "near."</param>
         /// <returns>A <see cref="RelativeBy"/> object for use in finding the elements.</returns>
         /// <exception cref="ArgumentNullException">If <paramref name="locator"/> is null.</exception>
+        /// <exception cref="ArgumentOutOfRangeException">If <paramref name="atMostDistanceInPixels"/> is not a positive value.</exception>
         public RelativeBy Near(By locator, int atMostDistanceInPixels)
         {
             return Near((object)locator, atMostDistanceInPixels);
@@ -316,7 +318,7 @@ namespace OpenQA.Selenium
 
             if (atMostDistanceInPixels <= 0)
             {
-                throw new ArgumentException("Distance must be greater than zero", nameof(atMostDistanceInPixels));
+                throw new ArgumentOutOfRangeException(nameof(atMostDistanceInPixels), "Distance must be greater than zero");
             }
 
             Dictionary<string, object> filter = new Dictionary<string, object>();
@@ -347,25 +349,24 @@ namespace OpenQA.Selenium
             return new RelativeBy(this.root, this.filters);
         }
 
-        private object GetSerializableRoot(object toSerialize)
+        private static object GetSerializableRoot(object root)
         {
-            if (toSerialize == null)
+            if (root == null)
             {
-                throw new ArgumentNullException(nameof(toSerialize), "object to serialize must not be null");
+                throw new ArgumentNullException(nameof(root), "object to serialize must not be null");
             }
 
-            By? asBy = toSerialize as By;
-            if (asBy != null)
+            if (root is By asBy)
             {
                 return asBy;
             }
 
-            if (toSerialize is IWebElement element)
+            if (root is IWebElement element)
             {
                 return element;
             }
 
-            if (toSerialize is IWrapsElement wrapper)
+            if (root is IWrapsElement wrapper)
             {
                 return wrapper.WrappedElement;
             }
@@ -373,27 +374,26 @@ namespace OpenQA.Selenium
             throw new WebDriverException("Serializable locator must be a By, an IWebElement, or a wrapped element using IWrapsElement");
         }
 
-        private object GetSerializableObject(object toSerialize)
+        private static object GetSerializableObject(object root)
         {
-            if (toSerialize == null)
+            if (root == null)
             {
-                throw new ArgumentNullException(nameof(toSerialize), "object to serialize must not be null");
+                throw new ArgumentNullException(nameof(root), "object to serialize must not be null");
             }
 
-            By? asBy = toSerialize as By;
-            if (asBy != null)
+            if (root is By asBy)
             {
                 Dictionary<string, object> serializedBy = new Dictionary<string, object>();
                 serializedBy[asBy.Mechanism] = asBy.Criteria;
                 return serializedBy;
             }
 
-            if (toSerialize is IWebElement element)
+            if (root is IWebElement element)
             {
                 return element;
             }
 
-            if (toSerialize is IWrapsElement wrapper)
+            if (root is IWrapsElement wrapper)
             {
                 return wrapper.WrappedElement;
             }
@@ -401,7 +401,7 @@ namespace OpenQA.Selenium
             throw new WebDriverException("Serializable locator must be a By, an IWebElement, or a wrapped element using IWrapsElement");
         }
 
-        private IJavaScriptExecutor GetExecutor(ISearchContext context)
+        private static IJavaScriptExecutor GetExecutor(ISearchContext context)
         {
             IJavaScriptExecutor? executor = context as IJavaScriptExecutor;
             if (executor != null)

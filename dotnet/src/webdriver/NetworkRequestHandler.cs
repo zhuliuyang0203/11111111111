@@ -18,6 +18,7 @@
 // </copyright>
 
 using System;
+using System.Diagnostics.CodeAnalysis;
 
 #nullable enable
 
@@ -32,7 +33,8 @@ namespace OpenQA.Selenium
         /// Gets or sets a function that evaluates request data in an <see cref="HttpRequestData"/> object,
         /// and returns a value indicating whether the data matches the specified criteria.
         /// </summary>
-        public Func<HttpRequestData, bool> RequestMatcher { get; set; } = null!;
+        [DisallowNull]
+        public Func<HttpRequestData, bool>? RequestMatcher { get; set; }
 
         /// <summary>
         /// Gets or sets a function that accepts an <see cref="HttpRequestData"/> object describing a network
