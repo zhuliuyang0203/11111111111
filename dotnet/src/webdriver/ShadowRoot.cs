@@ -110,7 +110,7 @@ namespace OpenQA.Selenium
             parameters.Add("value", value);
 
             Response commandResponse = this.driver.InternalExecute(DriverCommand.FindShadowChildElement, parameters);
-            return this.driver.GetElementFromResponse(commandResponse);
+            return this.driver.GetElementFromResponse(commandResponse)!;
         }
 
         /// <summary>
