@@ -8,6 +8,8 @@ module Selenium
 
         def initialize: (Remote::Bridge bridge) -> void
 
+        def handle_user_prompt: (String context, bool accept, String text) -> untyped
+
         def activate: (String? context_id) -> Hash[nil, nil]
 
         def navigate: (String url, String? context_id) -> void

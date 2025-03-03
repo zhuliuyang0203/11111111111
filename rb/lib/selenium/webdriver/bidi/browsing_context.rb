@@ -101,6 +101,10 @@ module Selenium
           @bidi.send_cmd('browsingContext.setViewport', **params)
         end
 
+        def handle_user_prompt(context_id, accept: true, text: nil)
+          @bidi.send_cmd('browsingContext.handleUserPrompt', context: context_id, accept: accept, text: text)
+        end
+
         def activate(context_id: nil)
           context_id ||= @bridge.window_handle
           @bidi.send_cmd('browsingContext.activate', context: context_id)
