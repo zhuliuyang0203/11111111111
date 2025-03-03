@@ -22,7 +22,8 @@ require_relative '../spec_helper'
 module Selenium
   module WebDriver
     class BiDi
-      describe BrowsingContext do
+      describe BrowsingContext, exclusive: {bidi: true, reason: 'only executed when bidi is enabled'},
+                                only: {browser: %i[chrome edge firefox]} do
         after { |example| reset_driver!(example: example) }
 
         let(:bridge) { driver.instance_variable_get(:@bridge) }
@@ -71,6 +72,15 @@ module Selenium
           handles = driver.window_handles
           expect(handles).to include(window1)
           expect(handles).not_to include(window2)
+        end
+
+        it 'sets the viewport' do
+          reset_driver!(web_socket_url: true) do |driver|
+            browsing_context = described_class.new(driver)
+            browsing_context.set_viewport(width: 800, height: 600, device_pixel_ratio: 2.0)
+            expect(driver.execute_script('return [window.innerWidth, window.innerHeight]')).to eq([800, 600])
+            expect(driver.execute_script('return window.devicePixelRatio')).to eq(2.0)
+          end
         end
 
         it 'activates a browser context' do

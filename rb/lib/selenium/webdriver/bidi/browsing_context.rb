@@ -95,6 +95,12 @@ module Selenium
           result['context']
         end
 
+        def set_viewport(context_id: nil, width: nil, height: nil, device_pixel_ratio: nil)
+          context_id ||= @bridge.window_handle
+          params = {context: context_id, viewport: {width:, height:}, device_pixel_ratio:}
+          @bidi.send_cmd('browsingContext.setViewport', **params)
+        end
+
         def activate(context_id: nil)
           context_id ||= @bridge.window_handle
           @bidi.send_cmd('browsingContext.activate', context: context_id)
