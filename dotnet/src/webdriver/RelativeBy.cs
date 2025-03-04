@@ -108,7 +108,7 @@ namespace OpenQA.Selenium
             filterParameters["root"] = GetSerializableObject(this.root);
             filterParameters["filters"] = this.filters;
             parameters["relative"] = filterParameters;
-            object rawElements = js.ExecuteScript(wrappedAtom, parameters);
+            object? rawElements = js.ExecuteScript(wrappedAtom, parameters);
 
             if (rawElements is ReadOnlyCollection<IWebElement> elements)
             {

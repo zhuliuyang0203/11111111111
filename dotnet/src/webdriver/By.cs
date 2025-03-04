@@ -99,7 +99,7 @@ namespace OpenQA.Selenium
         protected string Description { get; set; } = "OpenQA.Selenium.By";
 
         /// <summary>
-        /// Gets or sets the method used to find a single element matching specified criteria.
+        /// Gets or sets the method used to find a single element matching specified criteria, or throws <see cref="NoSuchElementException"/> if no element is found.
         /// </summary>
         protected Func<ISearchContext, IWebElement>? FindElementMethod { get; set; }
 
@@ -324,6 +324,7 @@ namespace OpenQA.Selenium
         /// </summary>
         /// <param name="context">An <see cref="ISearchContext"/> object to use to search for the elements.</param>
         /// <returns>The first matching <see cref="IWebElement"/> on the current context.</returns>
+        /// <exception cref="NoSuchElementException">If no element matches the criteria.</exception>
         public virtual IWebElement FindElement(ISearchContext context)
         {
             if (this.FindElementMethod is not { } findElementMethod)
