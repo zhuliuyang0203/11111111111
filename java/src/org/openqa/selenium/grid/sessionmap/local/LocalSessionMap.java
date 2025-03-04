@@ -59,23 +59,45 @@ public class LocalSessionMap extends SessionMap {
 
     bus.addListener(
         NodeRemovedEvent.listener(
-            nodeStatus ->
+            nodeStatus -> {
+              try (Span span =
+                  tracer
+                      .getCurrentContext()
+                      .createSpan("local_sessionmap.remove_session_node_removed")) {
+                AttributeMap attributeMap = tracer.createAttributeMap();
+                attributeMap.put(AttributeKey.LOGGER_CLASS.getKey(), getClass().getName());
+                span.addEvent(
+                    "Node removed event received. Removing sessions associated with the node",
+                    attributeMap);
                 nodeStatus.getSlots().stream()
                     .filter(slot -> slot.getSession() != null)
                     .map(slot -> slot.getSession().getId())
-                    .forEach(this::remove)));
+                    .forEach(this::remove);
+              }
+            }));
 
     bus.addListener(
         NodeRestartedEvent.listener(
             previousNodeStatus -> {
-              List<SessionId> toRemove =
-                  knownSessions.entrySet().stream()
-                      .filter(
-                          (e) -> e.getValue().getUri().equals(previousNodeStatus.getExternalUri()))
-                      .map(Map.Entry::getKey)
-                      .collect(Collectors.toList());
+              try (Span span =
+                  tracer
+                      .getCurrentContext()
+                      .createSpan("local_sessionmap.remove_session_node_restarted")) {
+                AttributeMap attributeMap = tracer.createAttributeMap();
+                attributeMap.put(AttributeKey.LOGGER_CLASS.getKey(), getClass().getName());
+                span.addEvent(
+                    "Node restarted event received. Removing sessions associated with the node",
+                    attributeMap);
+                List<SessionId> toRemove =
+                    knownSessions.entrySet().stream()
+                        .filter(
+                            (e) ->
+                                e.getValue().getUri().equals(previousNodeStatus.getExternalUri()))
+                        .map(Map.Entry::getKey)
+                        .collect(Collectors.toList());
 
-              toRemove.forEach(this::remove);
+                toRemove.forEach(this::remove);
+              }
             }));
   }
 
