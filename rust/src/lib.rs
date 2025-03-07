@@ -1700,6 +1700,8 @@ pub extern "C" fn get_dummy_webdriver_path(driver_name: *const std::ffi::c_char,
             log(i, message.as_ptr());
         }
 
+        //panic!("Intentional panic for testing");
+
         let driver = unsafe { std::ffi::CStr::from_ptr(driver_name).to_str().unwrap() };
 
         return std::ffi::CString::new("This is dummy driver path for ".to_owned() + driver).unwrap().into_raw();
