@@ -1693,8 +1693,9 @@ pub struct WebDriverPathResult {
 #[no_mangle]
 pub extern "C" fn get_dummy_webdriver_path(driver_name: *const std::ffi::c_char, log: LogCallback) -> WebDriverPathResult {
     for i in 1..6 {
-        //let message = std::ffi::CString::new("Hello, I am logging message").unwrap();
-        //log(i, message.as_ptr());
+        let message = std::ffi::CString::new("Hello, I am logging message").unwrap();
+        //let message = std::ffi::CString::new(String::from("A").repeat(10_000_000)).unwrap();
+        log(i, message.as_ptr());
     }
 
     let driver = unsafe { std::ffi::CStr::from_ptr(driver_name).to_str().unwrap() };
