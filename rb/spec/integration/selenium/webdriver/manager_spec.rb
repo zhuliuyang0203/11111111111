@@ -255,12 +255,12 @@ module Selenium
 
         it 'throws an error when cookie name is an empty string' do
           expect { driver.manage.delete_cookie('') }
-            .to raise_error(ArgumentError, /Cookie name cannot be empty/)
+            .to raise_error(ArgumentError, /Cookie name cannot be null or empty/)
         end
 
         it 'throws an error when cookie name is a nil string' do
           expect { driver.manage.delete_cookie(nil) }
-            .to raise_error(ArgumentError, /Cookie name cannot be null/)
+            .to raise_error(ArgumentError, /Cookie name cannot be null or empty/)
         end
       end
     end # Options
