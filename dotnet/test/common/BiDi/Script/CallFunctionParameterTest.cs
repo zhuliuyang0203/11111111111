@@ -225,7 +225,7 @@ class CallFunctionParameterTest : BiDiTestFixture
 
     [Test]
     [TestCaseSource(nameof(RoundtripOptions))]
-    public async Task CanCallFunctionAndRoundtrip_Five(LocalValue local, RemoteValue returned, string javaScriptAssert)
+    public async Task CanCallFunctionAndRoundtrip_Five(LocalValue local, RemoteValue expected, string javaScriptAssert)
     {
         var response = await context.Script.CallFunctionAsync($$"""
             (arg) => {
@@ -237,27 +237,31 @@ class CallFunctionParameterTest : BiDiTestFixture
             }
             """, false, new() { Arguments = [local] });
 
-        if (response.Result is RemoteValue.Array arrayResponse && returned is RemoteValue.Array expectedArray)
+        if (response.Result is RemoteValue.Array actualArray && expected is RemoteValue.Array expectedArray)
         {
-            Assert.That(arrayResponse.Value, Is.EqualTo(expectedArray.Value));
+            Assert.That(actualArray.Value, Is.EqualTo(expectedArray.Value));
         }
-        else if (response.Result is RemoteValue.Object objectResponse && returned is RemoteValue.Object expectedObject)
+        else if (response.Result is RemoteValue.Object actualObject && expected is RemoteValue.Object expectedObject)
         {
-            Assert.That(objectResponse.Value, Is.EqualTo(expectedObject.Value));
+            Assert.That(actualObject.Value, Is.EqualTo(expectedObject.Value));
         }
-        else if (response.Result is RemoteValue.Map mapResponse && returned is RemoteValue.Map expectedMap)
+        else if (response.Result is RemoteValue.Map actualMap && expected is RemoteValue.Map expectedMap)
         {
-            Assert.That(mapResponse.Value, Is.EqualTo(expectedMap.Value));
+            Assert.That(actualMap.Value, Is.EqualTo(expectedMap.Value));
         }
-        else if (response.Result is RemoteValue.Date dateResponse && returned is RemoteValue.Date expectedDate)
+        else if (response.Result is RemoteValue.Set actualSet && expected is RemoteValue.Set expectedSet)
         {
-            var actualDate = DateTime.SpecifyKind(DateTime.Parse(dateResponse.Value, CultureInfo.InvariantCulture), DateTimeKind.Utc);
-            Assert.That(actualDate.Kind, Is.EqualTo(DateTimeKind.Utc));
-            Assert.That(actualDate, Is.EqualTo(DateTime.Parse(expectedDate.Value)).Within(TimeSpan.FromMilliseconds(1)));
+            Assert.That(actualSet.Value, Is.EqualTo(expectedSet.Value));
+        }
+        else if (response.Result is RemoteValue.Date actualDate && expected is RemoteValue.Date expectedDate)
+        {
+            var actualDateParsed = DateTime.SpecifyKind(DateTime.Parse(actualDate.Value, CultureInfo.InvariantCulture), DateTimeKind.Utc);
+            Assert.That(actualDateParsed.Kind, Is.EqualTo(DateTimeKind.Utc));
+            Assert.That(actualDateParsed, Is.EqualTo(DateTime.Parse(expectedDate.Value)).Within(TimeSpan.FromMilliseconds(1)));
         }
         else
         {
-            Assert.That(response.Result, Is.EqualTo(returned));
+            Assert.That(response.Result, Is.EqualTo(expected));
         }
     }
     private const string PinnedDateTimeString = "2025-03-09T00:30:33.083Z";
@@ -356,6 +360,17 @@ class CallFunctionParameterTest : BiDiTestFixture
         )
         {
             TestName = nameof(CanCallFunctionAndRoundtrip_Five) + "(Map({'key': 'value'}))",
+        };
+
+        yield return new TestCaseData
+        (
+            new LocalValue.Set([new LocalValue.String("key")]),
+            new RemoteValue.Set { Value = [new RemoteValue.String("key")] },
+            "arg.has('key') && arg.size === 1"
+        )
+        {
+            TestName = nameof(CanCallFunctionAndRoundtrip_Five) + "(Set({'key'}))",
+
         };
     }
 }
