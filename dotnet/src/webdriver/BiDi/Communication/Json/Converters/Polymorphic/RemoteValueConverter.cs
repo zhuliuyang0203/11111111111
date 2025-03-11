@@ -40,6 +40,7 @@ internal class RemoteValueConverter : JsonConverter<RemoteValue>
         {
             "number" => jsonDocument.Deserialize<RemoteValue.Number>(options),
             "boolean" => jsonDocument.Deserialize<RemoteValue.Boolean>(options),
+            "bigint" => jsonDocument.Deserialize<RemoteValue.BigInt>(options),
             "string" => jsonDocument.Deserialize<RemoteValue.String>(options),
             "null" => jsonDocument.Deserialize<RemoteValue.Null>(options),
             "undefined" => jsonDocument.Deserialize<RemoteValue.Undefined>(options),

@@ -19,6 +19,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Numerics;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
@@ -28,6 +29,7 @@ namespace OpenQA.Selenium.BiDi.Modules.Script;
 //[JsonPolymorphic(TypeDiscriminatorPropertyName = "type")]
 //[JsonDerivedType(typeof(Number), "number")]
 //[JsonDerivedType(typeof(Boolean), "boolean")]
+//[JsonDerivedType(typeof(BigInt), "bigint")]
 //[JsonDerivedType(typeof(String), "string")]
 //[JsonDerivedType(typeof(Null), "null")]
 //[JsonDerivedType(typeof(Undefined), "undefined")]
@@ -94,6 +96,27 @@ public abstract record RemoteValue
     public record Number(double Value) : PrimitiveProtocolRemoteValue;
 
     public record Boolean(bool Value) : PrimitiveProtocolRemoteValue;
+
+    public record BigInt : PrimitiveProtocolRemoteValue
+    {
+        [JsonIgnore]
+        public BigInteger Value { get; }
+
+        [JsonInclude]
+        [JsonPropertyName("value")]
+        public string ValueAsString => Value.ToString();
+
+        public BigInt(BigInteger value)
+        {
+            Value = value;
+        }
+
+        [JsonConstructor]
+        internal BigInt(string valueAsString)
+        {
+            Value = BigInteger.Parse(valueAsString);
+        }
+    }
 
     public record String(string Value) : PrimitiveProtocolRemoteValue;
 

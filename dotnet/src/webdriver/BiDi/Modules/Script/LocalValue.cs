@@ -24,6 +24,7 @@ using System.Numerics;
 using System.Text.Json;
 using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
+using System.Text.RegularExpressions;
 
 namespace OpenQA.Selenium.BiDi.Modules.Script;
 
@@ -44,7 +45,7 @@ namespace OpenQA.Selenium.BiDi.Modules.Script;
 public abstract record LocalValue
 {
     public static implicit operator LocalValue(int value) { return new Number(value); }
-    public static implicit operator LocalValue(string value) { return new String(value); }
+    public static implicit operator LocalValue(string? value) { return value is null ? new Null() : new String(value); }
 
     // TODO: Extend converting from types
     public static LocalValue ConvertFrom(object? value)
@@ -77,7 +78,7 @@ public abstract record LocalValue
         }
     }
 
-    public static LocalValue ConvertFrom(JsonNode? node)
+    public static LocalValue FromNode(JsonNode? node)
     {
         if (node is null)
         {
@@ -112,28 +113,41 @@ public abstract record LocalValue
                 return new String(node.GetValue<string>());
 
             case JsonValueKind.Array:
-                return new Array(node.AsArray().Select(ConvertFrom));
+                return new Array(node.AsArray().Select(FromNode));
 
             case JsonValueKind.Object:
-                return new Map(node.AsObject().ToDictionary(m => m.Key, m => ConvertFrom(m.Value)));
+                return new Map(node.AsObject().ToDictionary(m => m.Key, m => FromNode(m.Value)));
 
             default:
                 throw new InvalidCastException($"Could not convert node {node}");
         }
     }
 
-    public abstract record PrimitiveProtocolLocalValue : LocalValue
+    public abstract record PrimitiveProtocolLocalValue : LocalValue;
+
+    public record BigInt : PrimitiveProtocolLocalValue
     {
+        [JsonIgnore]
+        public BigInteger Value { get; }
 
+        [JsonInclude]
+        [JsonPropertyName("value")]
+        public string ValueAsString => Value.ToString();
+
+        public BigInt(BigInteger value)
+        {
+            Value = value;
+        }
     }
-
-    public record BigInt(BigInteger Value) : PrimitiveProtocolLocalValue;
 
     public record Boolean(bool Value) : PrimitiveProtocolLocalValue;
 
     public record Number(double Value) : PrimitiveProtocolLocalValue
     {
         public static explicit operator Number(double n) => new Number(n);
+        public static Number PositiveInfinity { get; } = new Number(double.PositiveInfinity);
+        public static Number NegativeInfinity { get; } = new Number(double.NegativeInfinity);
+        public static Number NaN { get; } = new Number(double.NaN);
     }
 
     public record String(string Value) : PrimitiveProtocolLocalValue;
@@ -157,17 +171,101 @@ public abstract record LocalValue
 
     public record Array(IEnumerable<LocalValue> Value) : LocalValue;
 
-    public record Date(string Value) : LocalValue;
+    public record Date(string Value) : LocalValue
+    {
+        public static Date FromDateTime(DateTime value)
+        {
+            return new Date(value.ToString("o"));
+        }
+    }
 
     public record Map(IDictionary<string, LocalValue> Value) : LocalValue; // seems to implement IDictionary
 
-    public record Object(IEnumerable<IEnumerable<LocalValue>> Value) : LocalValue;
+    public record Object(IEnumerable<IEnumerable<LocalValue>> Value) : LocalValue
+    {
+        public static Object FromDictionary(IDictionary<string, LocalValue> values)
+        {
+            return new Object([.. values.Select(PairAsList)]);
+        }
+
+        private static IEnumerable<LocalValue> PairAsList(KeyValuePair<string, LocalValue> pair)
+        {
+            return [new String(pair.Key), pair.Value ?? new Null()];
+        }
+    }
 
     public record RegExp(RegExp.RegExpValue Value) : LocalValue
     {
         public record RegExpValue(string Pattern)
         {
             public string? Flags { get; set; }
+        }
+
+        /// <summary>
+        /// Converts a .NET Regex into a BiDi Regex
+        /// </summary>
+        /// <param name="regex">A .NET Regex.</param>
+        /// <returns>A BiDi Regex.</returns>
+        /// <remarks>
+        /// Note that the .NET regular expression engine does not work the same as the JavaScript engine.
+        /// To minimize the differences between the two engines, it is recommended to enabled the <see cref="RegexOptions.ECMAScript"/> option.
+        /// </remarks>
+        public static RegExp FromRegex(Regex regex)
+        {
+            RegexOptions options = regex.Options;
+
+            if (options == RegexOptions.None)
+            {
+                return new RegExp(new RegExpValue(regex.ToString()));
+            }
+
+            string flags = string.Empty;
+
+            const RegexOptions NonBacktracking = (RegexOptions)1024;
+#if NET8_0_OR_GREATER
+            System.Diagnostics.Debug.Assert(NonBacktracking == RegexOptions.NonBacktracking);
+#endif
+
+            const RegexOptions NonApplicableOptions = RegexOptions.Compiled | NonBacktracking;
+
+            const RegexOptions UnsupportedOptions =
+                RegexOptions.ExplicitCapture |
+                RegexOptions.IgnorePatternWhitespace |
+                RegexOptions.RightToLeft |
+                RegexOptions.CultureInvariant;
+
+            options &= ~NonApplicableOptions;
+
+            if ((options & UnsupportedOptions) != 0)
+            {
+                throw new NotSupportedException($"The selected RegEx options are not supported in BiDi: {options & UnsupportedOptions}");
+            }
+
+            if ((options & RegexOptions.IgnoreCase) != 0)
+            {
+                flags += "i";
+                options = options & ~RegexOptions.IgnoreCase;
+            }
+
+            if ((options & RegexOptions.Multiline) != 0)
+            {
+                options = options & ~RegexOptions.Multiline;
+                flags += "m";
+            }
+
+            if ((options & RegexOptions.Singleline) != 0)
+            {
+                options = options & ~RegexOptions.Singleline;
+                flags += "s";
+            }
+
+            if (options != RegexOptions.None)
+            {
+                // Consider logging?
+            }
+
+            return new RegExp(new RegExpValue(regex.ToString()) { Flags = flags });
+
         }
     }
 

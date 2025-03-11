@@ -32,6 +32,7 @@ namespace OpenQA.Selenium.BiDi.Communication.Json;
 
 [JsonSerializable(typeof(Modules.Script.RemoteValue.Number), TypeInfoPropertyName = "Script_RemoteValue_Number")]
 [JsonSerializable(typeof(Modules.Script.RemoteValue.Boolean), TypeInfoPropertyName = "Script_RemoteValue_Boolean")]
+[JsonSerializable(typeof(Modules.Script.RemoteValue.BigInt), TypeInfoPropertyName = "Script_RemoteValue_BigInt")]
 [JsonSerializable(typeof(Modules.Script.RemoteValue.String), TypeInfoPropertyName = "Script_RemoteValue_String")]
 [JsonSerializable(typeof(Modules.Script.RemoteValue.Null), TypeInfoPropertyName = "Script_RemoteValue_Null")]
 [JsonSerializable(typeof(Modules.Script.RemoteValue.Undefined), TypeInfoPropertyName = "Script_RemoteValue_Undefined")]
@@ -141,6 +142,8 @@ namespace OpenQA.Selenium.BiDi.Communication.Json;
 [JsonSerializable(typeof(Modules.Network.AuthRequiredEventArgs))]
 
 [JsonSerializable(typeof(Modules.Script.Channel), TypeInfoPropertyName = "Script_Channel")]
+[JsonSerializable(typeof(Modules.Script.LocalValue.Boolean), TypeInfoPropertyName = "Script_LocalValue_Boolean")]
+[JsonSerializable(typeof(Modules.Script.LocalValue.BigInt), TypeInfoPropertyName = "Script_LocalValue_BigInt")]
 [JsonSerializable(typeof(Modules.Script.LocalValue.String), TypeInfoPropertyName = "Script_LocalValue_String")]
 [JsonSerializable(typeof(Modules.Script.Target.Realm), TypeInfoPropertyName = "Script_Target_Realm")]
 [JsonSerializable(typeof(Modules.Script.Target.Context), TypeInfoPropertyName = "Script_Target_Context")]
