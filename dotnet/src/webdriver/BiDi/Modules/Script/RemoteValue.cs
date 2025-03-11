@@ -17,6 +17,7 @@
 // under the License.
 // </copyright>
 
+using OpenQA.Selenium.BiDi.Communication.Json.Converters;
 using System;
 using System.Collections.Generic;
 using System.Text.Json;
@@ -91,7 +92,7 @@ public abstract record RemoteValue
         throw new BiDiException("Cannot convert .....");
     }
 
-    public record Number(double Value) : PrimitiveProtocolRemoteValue;
+    public record Number([property: JsonConverter(typeof(DoubleConverter))] double Value) : PrimitiveProtocolRemoteValue;
 
     public record Boolean(bool Value) : PrimitiveProtocolRemoteValue;
 
