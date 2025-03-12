@@ -64,6 +64,9 @@ public class Broker : IAsyncDisposable
             PropertyNameCaseInsensitive = true,
             PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
             DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
+
+            // BiDi returns special numbers such as "NaN" as strings
+            // Additionally, -0 is returned as a string "-0"
             NumberHandling = JsonNumberHandling.AllowNamedFloatingPointLiterals | JsonNumberHandling.AllowReadingFromString,
             Converters =
             {
