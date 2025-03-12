@@ -22,13 +22,14 @@ const { Pages, suite } = require('../../lib/test')
 const { Browser } = require('selenium-webdriver')
 const BrowserBiDi = require('selenium-webdriver/bidi/browser')
 const getScriptManager = require('selenium-webdriver/bidi/scriptManager')
+const { ignore } = require('../../lib/test')
 const { getPermissionInstance, PermissionState } = require('selenium-webdriver/bidi/permissions')
 const BrowsingContext = require('selenium-webdriver/bidi/browsingContext')
 const { CreateContextParameters } = require('selenium-webdriver/bidi/createContextParameters')
 
 suite(
   function (env) {
-    describe('BiDi Permissions', function () {
+    ignore(env.browsers(Browser.CHROME)).describe('BiDi Permissions', function () {
       let driver, permission, browser, script
 
       const GET_GEOLOCATION_PERMISSION =
