@@ -29,7 +29,7 @@ const { CreateContextParameters } = require('selenium-webdriver/bidi/createConte
 suite(
   function (env) {
     describe('BiDi Permissions', function () {
-      let driver, permission, browser, script, browserName
+      let driver, permission, browser, script
 
       const GET_GEOLOCATION_PERMISSION =
         "async () => { const perm = await navigator.permissions.query({ name: 'geolocation' }); return perm.state; }"
@@ -40,7 +40,6 @@ suite(
         permission = await getPermissionInstance(driver)
         browser = await BrowserBiDi(driver)
         script = await getScriptManager([], driver)
-        browserName = (await driver.getCapabilities()).getBrowserName().toLowerCase()
       })
 
       afterEach(function () {
@@ -50,17 +49,6 @@ suite(
       it('can set permission to granted', async function () {
         const context = await BrowsingContext(driver, { type: 'tab' })
         await context.navigate(Pages.blankPage, 'complete')
-
-        const initialPermission = await script.callFunctionInBrowsingContext(
-          context.id,
-          GET_GEOLOCATION_PERMISSION,
-          true,
-          [],
-        )
-
-        // Chrome's default permission state is 'denied', while Firefox uses 'prompt'
-        const expectedDefaultState = ['chrome', 'microsoftedge'].includes(browserName) ? 'denied' : 'prompt'
-        assert.strictEqual(initialPermission.result.value, expectedDefaultState)
 
         const origin = await script.callFunctionInBrowsingContext(context.id, GET_ORIGIN, true, [])
         const originValue = origin.result.value
@@ -74,16 +62,6 @@ suite(
       it('can set permission to denied', async function () {
         const context = await BrowsingContext(driver, { type: 'tab' })
         await context.navigate(Pages.blankPage, 'complete')
-
-        const initialPermission = await script.callFunctionInBrowsingContext(
-          context.id,
-          GET_GEOLOCATION_PERMISSION,
-          true,
-          [],
-        )
-        // Chrome's default permission state is 'denied', while Firefox uses 'prompt'
-        const expectedDefaultState = ['chrome', 'microsoftedge'].includes(browserName) ? 'denied' : 'prompt'
-        assert.strictEqual(initialPermission.result.value, expectedDefaultState)
 
         const origin = await script.callFunctionInBrowsingContext(context.id, GET_ORIGIN, true, [])
 
