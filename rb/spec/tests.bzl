@@ -128,7 +128,7 @@ BROWSERS = {
         "data": [],
         "deps": ["//rb/lib/selenium/webdriver:ie"],
         "tags": [
-            "skip-remote", # RBE is Linux-only.
+            "skip-remote",  # RBE is Linux-only.
         ],
         "target_compatible_with": ["@platforms//os:windows"],
         "env": {
@@ -140,8 +140,8 @@ BROWSERS = {
         "data": [],
         "deps": ["//rb/lib/selenium/webdriver:safari"],
         "tags": [
-            "exclusive-if-local", # Safari cannot run in parallel.
-            "skip-remote", # RBE is Linux-only.
+            "exclusive-if-local",  # Safari cannot run in parallel.
+            "skip-remote",  # RBE is Linux-only.
         ],
         "target_compatible_with": ["@platforms//os:macos"],
         "env": {
@@ -153,8 +153,8 @@ BROWSERS = {
         "data": [],
         "deps": ["//rb/lib/selenium/webdriver:safari"],
         "tags": [
-            "exclusive-if-local", # Safari cannot run in parallel.
-            "skip-remote", # RBE is Linux-only.
+            "exclusive-if-local",  # Safari cannot run in parallel.
+            "skip-remote",  # RBE is Linux-only.
         ],
         "target_compatible_with": ["@platforms//os:macos"],
         "env": {
@@ -165,7 +165,7 @@ BROWSERS = {
 }
 
 def rb_integration_test(name, srcs, deps = [], data = [], browsers = BROWSERS.keys(), tags = []):
-  # Generate a library target that is used by //rb/spec:spec to expose all tests to //rb:lint.
+    # Generate a library target that is used by //rb/spec:spec to expose all tests to //rb:lint.
     rb_library(
         name = name,
         srcs = srcs,
@@ -173,7 +173,7 @@ def rb_integration_test(name, srcs, deps = [], data = [], browsers = BROWSERS.ke
     )
 
     for browser in browsers:
-      # Generate a test target for local browser execution.
+        # Generate a test target for local browser execution.
         rb_test(
             name = "{}-{}".format(name, browser),
             size = "large",
@@ -238,7 +238,7 @@ def rb_unit_test(name, srcs, deps, data = []):
         args = ["rb/spec/"],
         main = "@bundle//bin:rspec",
         data = data,
-        tags = ["no-sandbox"], # TODO: Do we need this?
+        tags = ["no-sandbox"],  # TODO: Do we need this?
         deps = ["//rb/spec/unit/selenium/webdriver:spec_helper"] + deps,
         visibility = ["//rb:__subpackages__"],
     )
