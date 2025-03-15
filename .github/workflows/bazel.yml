@@ -61,11 +61,16 @@ on:
         required: false
         type: string
         default: ''
-      artifact-name:
+      upload-name:
         description: Name of artifact to upload
         required: false
         type: string
-        default: 'ignore-artifacts'
+        default: ''
+      upload-path:
+        description: path of artifact to upload
+        required: false
+        type: string
+        default: ''
 
 jobs:
   bazel:
@@ -171,14 +176,10 @@ jobs:
           title: "Nightly"
           prerelease: true
           files: ${{ inputs.nightly-release-files }}
-      - name: Save changes
-        if: ${{ always() && inputs.artifact-name != 'ignore-artifacts' }}
-        run: |
-          git diff > changes.patch
-      - name: "Upload changes"
-        if: ${{ always() && inputs.artifact-name != 'ignore-artifacts' }}
+      - name: "Upload artifact"
+        if: ${{ always() && inputs.upload-name != '' && inputs.upload-path != '' }}
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ inputs.artifact-name }}
-          path: changes.patch
+          name: ${{ inputs.upload-name }}
+          path: ${{ inputs.upload-path }}
           retention-days: 6

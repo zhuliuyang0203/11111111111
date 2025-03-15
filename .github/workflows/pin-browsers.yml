@@ -11,8 +11,11 @@ jobs:
     with:
       name: Pin Browsers
       cache-key: pin-browsers
-      run: bazel run //scripts:pinned_browsers
-      artifact-name: pinned-browsers
+      upload-name: pinned-browsers
+      upload-path: changes.patch
+      run: |
+        bazel run //scripts:pinned_browsers
+        git diff > changes.patch
 
   pull-request:
     if: github.repository_owner == 'seleniumhq'
