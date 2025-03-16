@@ -27,6 +27,7 @@ namespace OpenQA.Selenium.BiDi.Modules.Script;
 [JsonDerivedType(typeof(StringLocalValue), "string")]
 [JsonDerivedType(typeof(NullLocalValue), "null")]
 [JsonDerivedType(typeof(UndefinedLocalValue), "undefined")]
+[JsonDerivedType(typeof(BooleanLocalValue), "boolean")]
 [JsonDerivedType(typeof(ChannelLocalValue), "channel")]
 [JsonDerivedType(typeof(ArrayLocalValue), "array")]
 [JsonDerivedType(typeof(DateLocalValue), "date")]
@@ -83,6 +84,8 @@ public record StringLocalValue(string Value) : PrimitiveProtocolLocalValue;
 public record NullLocalValue : PrimitiveProtocolLocalValue;
 
 public record UndefinedLocalValue : PrimitiveProtocolLocalValue;
+
+public record BooleanLocalValue(bool Value) : PrimitiveProtocolLocalValue;
 
 public record ChannelLocalValue(ChannelLocalValue.ChannelProperties Value) : LocalValue
 {
