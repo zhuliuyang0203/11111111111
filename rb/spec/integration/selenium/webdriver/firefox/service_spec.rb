@@ -38,7 +38,7 @@ module Selenium
           expect(service_manager.uri).to be_a(URI)
         end
 
-        context 'with BiDi enabled (websocket port)' do
+        context 'with BiDi enabled', exclusive: {bidi: true, reason: 'only executed when bidi is enabled'} do
           it 'ensures two service instances use different websocket port' do
             service1 = described_class.new
             service2 = described_class.new
