@@ -22,15 +22,15 @@ require_relative 'spec_helper'
 module Selenium
   module WebDriver
     describe Driver, exclusive: {bidi: false, reason: 'Not yet implemented with BiDi'} do
-      it_behaves_like 'driver that can be started concurrently', exclude: [
-        {browser: %i[safari safari_preview]},
-        {browser: :firefox, rbe: true, reason: 'https://github.com/mozilla/geckodriver/issues/2219'},
-        {driver: :remote, rbe: true, reason: 'Cannot start 2+ drivers at once.' }
-      ]
-
       after { reset_driver! if GlobalTestEnv.rbe? && GlobalTestEnv.browser == :chrome }
 
-      it 'creates default capabilities', exclude: { browser: %i[safari safari_preview] } do
+      it_behaves_like 'driver that can be started concurrently', exclude: [
+        {browser: %i[safari safari_preview]},
+        {browser: :firefox, reason: 'https://github.com/SeleniumHQ/selenium/issues/15451'},
+        {driver: :remote, rbe: true, reason: 'Cannot start 2+ drivers at once.'}
+      ]
+
+      it 'creates default capabilities', exclude: {browser: %i[safari safari_preview]} do
         reset_driver! do |driver|
           caps = driver.capabilities
           expect(caps.proxy).to be_nil

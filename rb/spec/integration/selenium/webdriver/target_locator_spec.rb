@@ -31,6 +31,9 @@ module Selenium
         (handles - [driver.window_handle]).each do |handle|
           driver.switch_to.window(handle) { driver.close }
         end
+      rescue Selenium::WebDriver::Error::WebDriverError
+        # https://issues.chromium.org/issues/400087471
+        reset_driver!
       end
 
       let(:new_window) { driver.window_handles.find { |handle| handle != driver.window_handle } }
@@ -310,25 +313,25 @@ module Selenium
           wait_for_no_alert
         end
 
-        it 'raises when calling #text on a closed alert' do
-          driver.navigate.to url_for('alerts.html')
-          wait_for_element(id: 'alert')
-
-          driver.find_element(id: 'alert').click
-
-          alert = wait_for_alert
-          alert.accept
-
-          wait_for_no_alert
-          expect { alert.text }.to raise_error(Selenium::WebDriver::Error::NoSuchAlertError)
-        end
-
-        it 'raises NoAlertOpenError if no alert is present' do
-          expect { driver.switch_to.alert }.to raise_error(Selenium::WebDriver::Error::NoSuchAlertError)
-        end
-
-        describe 'unhandled alert error' do
+        describe 'errors' do
           after { |example| reset_driver!(example: example) }
+
+          it 'raises when calling #text on a closed alert' do
+            driver.navigate.to url_for('alerts.html')
+            wait_for_element(id: 'alert')
+
+            driver.find_element(id: 'alert').click
+
+            alert = wait_for_alert
+            alert.accept
+
+            wait_for_no_alert
+            expect { alert.text }.to raise_error(Selenium::WebDriver::Error::NoSuchAlertError)
+          end
+
+          it 'raises NoAlertOpenError if no alert is present' do
+            expect { driver.switch_to.alert }.to raise_error(Selenium::WebDriver::Error::NoSuchAlertError)
+          end
 
           it 'raises an UnexpectedAlertOpenError if an alert has not been dealt with' do
             driver.navigate.to url_for('alerts.html')
