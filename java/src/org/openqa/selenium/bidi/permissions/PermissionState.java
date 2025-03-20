@@ -15,21 +15,32 @@
 // specific language governing permissions and limitations
 // under the License.
 
-package org.openqa.selenium.bidi;
+package org.openqa.selenium.bidi.permissions;
 
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+public enum PermissionState {
+  GRANTED("granted"),
+  DENIED("denied"),
+  PROMPT("prompt");
 
-import org.junit.jupiter.api.Test;
-import org.openqa.selenium.testing.JupiterTestBase;
+  private final String state;
 
-class BiDiSessionTest extends JupiterTestBase {
+  PermissionState(String state) {
+    this.state = state;
+  }
 
-  @Test
-  void shouldBeAbleToCreateABiDiSession() {
-    BiDi biDi = ((HasBiDi) driver).getBiDi();
+  @Override
+  public String toString() {
+    return state;
+  }
 
-    BiDiSessionStatus status = biDi.getBidiSessionStatus();
-    assertThat(status).isNotNull();
-    assertThat(status.getMessage()).isNotEmpty();
+  public static PermissionState findByName(String name) {
+    PermissionState result = null;
+    for (PermissionState state : values()) {
+      if (state.toString().equalsIgnoreCase(name)) {
+        result = state;
+        break;
+      }
+    }
+    return result;
   }
 }
