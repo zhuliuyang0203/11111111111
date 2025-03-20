@@ -76,8 +76,8 @@ test.suite(function (env) {
     await driver.switchTo().frame(frame)
     const txt = await driver.findElement(By.css('body')).getText()
 
-    assert.match(txt, new RegExp(fp1.split('/').pop())) // eslint-disable-line
-    assert.match(txt, new RegExp(fp2.split('/').pop())) // eslint-disable-line
+    assert.match(txt, new RegExp(fp1.split('/').pop()))
+    assert.match(txt, new RegExp(fp2.split('/').pop()))
   })
 
   test.ignore(env.browsers(Browser.SAFARI)).it('can upload files', async function () {
