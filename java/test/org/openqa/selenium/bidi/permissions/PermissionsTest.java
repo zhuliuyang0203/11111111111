@@ -44,7 +44,7 @@ public class PermissionsTest extends JupiterTestBase {
       "() => {return navigator.permissions.query({ name: 'geolocation' })"
           + ".then(val => val.state, err => err.message)}";
   private static final String GET_ORIGIN = "() => {return window.location.origin;}";
-  
+
   @BeforeEach
   public void setUp() {
     permission = new Permission(driver);
@@ -133,10 +133,10 @@ public class PermissionsTest extends JupiterTestBase {
             originalTab, GET_ORIGIN, true, Optional.empty(), Optional.empty(), Optional.empty());
 
     String originValue = (String) ((EvaluateResultSuccess) origin).getResult().getValue().get();
-    
+
     permission.setPermission(
         Map.of("name", "geolocation"), PermissionState.GRANTED, originValue, userContext);
-    
+
     EvaluateResult newTabUpdatedPermission =
         script.callFunctionInBrowsingContext(
             newTab,
