@@ -24,6 +24,8 @@ module Selenium
     class BiDi
       describe Network, exclusive: {bidi: true, reason: 'only executed when bidi is enabled'},
                         only: {browser: %i[chrome edge firefox]} do
+        after { |example| reset_driver!(example: example) }
+
         it 'adds an intercept' do
           network = described_class.new(driver.bidi)
           intercept = network.add_intercept(phases: [described_class::PHASES[:before_request]])
