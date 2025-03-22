@@ -118,9 +118,9 @@ public class BiDiConnection : IAsyncDisposable
                     _pendingEvents.Add(messageEvent);
                     break;
 
-                case MessageError messageError:
-                    _pendingCommands[messageError.Id].SetException(new BiDiException($"{messageError.Error}: {messageError.Message}"));
-                    _pendingCommands.TryRemove(messageError.Id, out _);
+                case MessageError mesageError:
+                    _pendingCommands[mesageError.Id].SetException(new BiDiException($"{mesageError.Error}: {mesageError.Message}"));
+                    _pendingCommands.TryRemove(mesageError.Id, out _);
                     break;
 
                 default:
