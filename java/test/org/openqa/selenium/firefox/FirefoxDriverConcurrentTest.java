@@ -172,28 +172,38 @@ class FirefoxDriverConcurrentTest extends JupiterTestBase {
     FirefoxOptions options1 = new FirefoxOptions().enableBiDi();
     FirefoxOptions options2 = new FirefoxOptions().enableBiDi();
 
-    FirefoxDriver driver1;
-    FirefoxDriver driver2;
+    WebDriver driver1 = null;
+    WebDriver driver2 = null;
 
-    // Start the first Firefox instance
-    driver1 = new FirefoxDriver(options1);
-    BiDi biDi1 = driver1.getBiDi();
-    assertThat(biDi1).isNotNull();
+    try {
+      driver1 = new WebDriverBuilder().get(options1);
+      BiDi biDi1 = ((FirefoxDriver) driver1).getBiDi();
+      assertThat(biDi1).isNotNull();
 
-    // Extract the BiDi websocket URL and port for the first instance
-    String webSocketUrl1 = (String) driver1.getCapabilities().getCapability("webSocketUrl");
-    String port1 = webSocketUrl1.replaceAll("^ws://[^:]+:(\\d+)/.*$", "$1");
+      // Extract the BiDi websocket URL and port for the first instance
+      String webSocketUrl1 =
+          (String) ((FirefoxDriver) driver1).getCapabilities().getCapability("webSocketUrl");
+      String port1 = webSocketUrl1.replaceAll("^ws://[^:]+:(\\d+)/.*$", "$1");
 
-    // Start the second Firefox instance
-    driver2 = new FirefoxDriver(options2);
-    BiDi biDi2 = driver2.getBiDi();
-    assertThat(biDi2).isNotNull();
+      driver2 = new WebDriverBuilder().get(options2);
+      BiDi biDi2 = ((FirefoxDriver) driver2).getBiDi();
+      assertThat(biDi2).isNotNull();
 
-    // Extract the BiDi websocket URL and port for the second instance
-    String webSocketUrl2 = (String) driver2.getCapabilities().getCapability("webSocketUrl");
-    String port2 = webSocketUrl2.replaceAll("^ws://[^:]+:(\\d+)/.*$", "$1");
+      // Extract the BiDi websocket URL and port for the second instance
+      String webSocketUrl2 =
+          (String) ((FirefoxDriver) driver2).getCapabilities().getCapability("webSocketUrl");
+      String port2 = webSocketUrl2.replaceAll("^ws://[^:]+:(\\d+)/.*$", "$1");
 
-    // Verify that the ports are different
-    assertThat(port1).isNotEqualTo(port2);
+      // Verify that the ports are different
+      assertThat(port1).isNotEqualTo(port2);
+    } finally {
+      // Clean up
+      if (driver1 != null) {
+        driver1.quit();
+      }
+      if (driver2 != null) {
+        driver2.quit();
+      }
+    }
   }
 }
