@@ -383,7 +383,7 @@ class CallFunctionLocalValueTest : BiDiTestFixture
     public void CanConvertNullBoolToLocalValue()
     {
         bool? arg = null;
-        LocalValue result = (LocalValue)arg;
+        var result = (LocalValue)arg;
         Assert.That(result, Is.TypeOf<NullLocalValue>());
     }
 
@@ -391,7 +391,7 @@ class CallFunctionLocalValueTest : BiDiTestFixture
     public void CanConvertTrueToLocalValue()
     {
         bool arg = true;
-        LocalValue result = (LocalValue)arg;
+        var result = (LocalValue)arg;
         Assert.That(result, Is.TypeOf<BooleanLocalValue>());
         Assert.That((result as BooleanLocalValue).Value, Is.True);
     }
@@ -400,7 +400,7 @@ class CallFunctionLocalValueTest : BiDiTestFixture
     public void CanConvertFalseToLocalValue()
     {
         bool arg = false;
-        LocalValue result = (LocalValue)arg;
+        var result = (LocalValue)arg;
         Assert.That(result, Is.TypeOf<BooleanLocalValue>());
         Assert.That((result as BooleanLocalValue).Value, Is.False);
     }
@@ -409,7 +409,7 @@ class CallFunctionLocalValueTest : BiDiTestFixture
     public void CanConvertNullIntToLocalValue()
     {
         int? arg = null;
-        LocalValue result = (LocalValue)arg;
+        var result = (LocalValue)arg;
         Assert.That(result, Is.TypeOf<NullLocalValue>());
     }
 
@@ -417,7 +417,7 @@ class CallFunctionLocalValueTest : BiDiTestFixture
     public void CanConvertZeroIntToLocalValue()
     {
         int arg = 0;
-        LocalValue result = (LocalValue)arg;
+        var result = (LocalValue)arg;
         Assert.That(result, Is.TypeOf<NumberLocalValue>());
         Assert.That((result as NumberLocalValue).Value, Is.Zero);
     }
@@ -426,7 +426,7 @@ class CallFunctionLocalValueTest : BiDiTestFixture
     public void CanConvertNullDoubleToLocalValue()
     {
         double? arg = null;
-        LocalValue result = (LocalValue)arg;
+        var result = (LocalValue)arg;
         Assert.That(result, Is.TypeOf<NullLocalValue>());
     }
 
@@ -434,7 +434,7 @@ class CallFunctionLocalValueTest : BiDiTestFixture
     public void CanConvertZeroDoubleToLocalValue()
     {
         double arg = 0;
-        LocalValue result = (LocalValue)arg;
+        var result = (LocalValue)arg;
         Assert.That(result, Is.TypeOf<NumberLocalValue>());
         Assert.That((result as NumberLocalValue).Value, Is.Zero);
     }
@@ -443,7 +443,7 @@ class CallFunctionLocalValueTest : BiDiTestFixture
     public void CanConvertNullStringToLocalValue()
     {
         string arg = null;
-        LocalValue result = (LocalValue)arg;
+        var result = (LocalValue)arg;
         Assert.That(result, Is.TypeOf<NullLocalValue>());
     }
 
@@ -451,7 +451,7 @@ class CallFunctionLocalValueTest : BiDiTestFixture
     public void CanConvertStringToLocalValue()
     {
         string arg = "value";
-        LocalValue result = (LocalValue)arg;
+        var result = (LocalValue)arg;
         Assert.That(result, Is.TypeOf<StringLocalValue>());
         Assert.That((result as StringLocalValue).Value, Is.EqualTo(arg));
     }
