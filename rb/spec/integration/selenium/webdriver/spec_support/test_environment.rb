@@ -80,11 +80,11 @@ module Selenium
 
         def app_server
           @app_server ||= begin
-            app_server = RackServer.new(root.join('common/src/web').to_s, random_port)
-            app_server.start
+                            app_server = RackServer.new(root.join('common/src/web').to_s, random_port)
+                            app_server.start
 
-            app_server
-          end
+                            app_server
+                          end
         end
 
         def remote_server
@@ -166,12 +166,7 @@ module Selenium
         def create_driver!(listener: nil, **opts, &block)
           check_for_previous_error
 
-          if driver == :chrome_beta
-            opts[:browser_version] = 'beta'
-            method = :chrome_driver
-          else
-            method = driver
-          end
+          method = select_driver(opts)
 
           instance = if private_methods.include?(method)
                        send(method, listener: listener, options: build_options(**opts))
@@ -261,13 +256,13 @@ module Selenium
         end
 
         def safari_driver(**opts)
-          service_opts = WebDriver.logger.debug? ? {args: '--diagnose'} : {}
+          service_opts = WebDriver.logger.debug? ? { args: '--diagnose' } : {}
           service = WebDriver::Service.safari(**service_opts)
           WebDriver::Driver.for(:safari, service: service, **opts)
         end
 
         def safari_preview_driver(**opts)
-          service_opts = WebDriver.logger.debug? ? {args: '--diagnose'} : {}
+          service_opts = WebDriver.logger.debug? ? { args: '--diagnose' } : {}
           service = WebDriver::Service.safari(**service_opts)
           WebDriver::Driver.for(:safari, service: service, **opts)
         end
@@ -319,6 +314,15 @@ module Selenium
           sock.local_address.ip_port
         ensure
           sock.close
+        end
+
+        def select_driver(opts)
+          if driver == :chrome_beta
+            opts[:browser_version] = 'beta'
+            :chrome_driver
+          else
+            driver
+          end
         end
       end
     end # SpecSupport
