@@ -369,8 +369,8 @@ use_repo(
 pin_browsers_extension = use_extension("//common:repositories.bzl", "pin_browsers_extension")
 use_repo(
     pin_browsers_extension,
-    "linux_beta_firefox",
     "linux_beta_chrome",
+    "linux_beta_firefox",
     "linux_chrome",
     "linux_chromedriver",
     "linux_edge",
