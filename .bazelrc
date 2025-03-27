@@ -8,6 +8,9 @@ try-import %workspace%/.bazelrc.windows.local
 # https://github.com/bazelbuild/bazel/issues/20369
 # https://github.com/bazelbuild/bazel/issues/21491
 
+# Required to enable pinned browsers locally. Remove this once we get rid of `$(location)` macros
+common --legacy_external_runfiles
+
 # Required for rules_closure
 common --enable_workspace
 common --noincompatible_disallow_struct_provider_syntax
