@@ -457,31 +457,177 @@ bot.dom.getCascadedStyle_ = function(elem, styleName) {
  * @return {boolean} Whether or not the element is visible.
  * @private
  */
-bot.dom.isShown_ = function(elem, ignoreOpacity, parentsDisplayedFn) {
-  if (!bot.dom.isElement(elem)) {
-    throw new Error('Argument to isShown must be of type Element');
+bot.dom.isShown_ = function (elem, ignoreOpacity, parentsDisplayedFn) {
+
+  const isMap = (elem) => {
+    const getAreaRelativeRect = (area) => {
+      const shape = area.shape.toLowerCase();
+      const coords = area.coords.split(',');
+      if (shape == 'rect' && coords.length == 4) {
+        const [x, y] = coords;
+        return new DOMRect(x, y,coords[2] - x, coords[3] - y);
+      } else if (shape == 'circle' && coords.length == 3) {
+        const [centerX, centerY, radius] = coords;
+        return new DOMRect(centerX - radius, centerY - radius, 2 * radius, 2 * radius);
+      } else if (shape == 'poly' && coords.length > 2) {
+        let [minX, minY] = coords, maxX = minX, maxY = minY;
+        for (var i = 2; i + 1 < coords.length; i += 2) {
+          minX = Math.min(minX, coords[i]);
+          maxX = Math.max(maxX, coords[i]);
+          minY = Math.min(minY, coords[i + 1]);
+          maxY = Math.max(maxY, coords[i + 1]);
+        }
+        return new DOMRect(minX, minY, maxX - minX, maxY - minY);
+      }
+      return new DOMRect();
+    };
+
+    // If not a <map> or <area>, return null indicating so.
+    const isMap = elem instanceof HTMLMapElement;
+    if (!isMap && !(elem instanceof HTMLAreaElement)) {
+      return null;
+    }
+
+    // Get the <map> associated with this element, or null if none.
+    const map = isMap ? elem : elem.closest('map');
+
+    let image = null, rect = null;
+    if (map && map.name) {
+      const mapDoc = map.ownerDocument;
+      image = mapDoc.querySelector(`*[usemap="#${map.name}"]`);
+
+      if (image) {
+        rect = image.getBoundingClientRect();
+        if (!isMap && elem.shape.toLowerCase() !== 'default') {
+          // Shift and crop the relative area rectangle to the map.
+          const relRect = getAreaRelativeRect(elem);
+          const relX = Math.min(Math.max(relRect.left, 0), rect.width);
+          const relY = Math.min(Math.max(relRect.top, 0), rect.height);
+          const width = Math.min(relRect.width, rect.width - relX);
+          const height = Math.min(relRect.height, rect.height - relY);
+          rect = new DOMRect(relX + rect.left, relY + rect.top, width, height);
+        }
+      }
+    }
+
+    return {image: image, rect: rect || new DOMRect()};
+  };
+
+  const checkIsHiddenByOverflow = (elem, style) => {
+    const htmlElement = elem.ownerDocument.documentElement;
+
+    const getNearestOverflowAncestor = (e, style) => {
+      const elementPosition = style.getPropertyValue('position');
+      const canBeOverflowed = (container) => {
+        const containerStyle = getComputedStyle(container);
+        if (container === htmlElement) {
+          return true;
+        }
+        const containerDisplay = containerStyle.getPropertyValue('display');
+        if (containerDisplay.startsWith('inline') || containerDisplay === 'contents') {
+          return false;
+        }
+        const containerPosition = containerStyle.getPropertyValue('position');
+        if (elementPosition === 'absolute' && containerPosition === 'static') {
+          return false;
+        }
+        return true;
+      };
+      if (elementPosition === 'fixed') {
+        return e === htmlElement ? null : htmlElement;
+      }
+      let container = e.parentElement;
+      while (container && !canBeOverflowed(container)) {
+        container = container.parentElement;
+      }
+      return container;
+    };
+
+    // Walk up the tree, examining each ancestor capable of displaying
+    // overflow.
+    let parentElement = getNearestOverflowAncestor(elem, style);
+    while (parentElement) {
+      const parentStyle = getComputedStyle(parentElement);
+      const parentOverflowX = parentStyle.getPropertyValue('overflow-x');
+      const parentOverflowY = parentStyle.getPropertyValue('overflow-y');
+
+      // If the container has overflow:visible, the element cannot be hidden in its overflow.
+      if (parentOverflowX !== 'visible' || parentOverflowY !== 'visible') {
+        const parentRect = parentElement.getBoundingClientRect();
+
+        // Zero-sized containers without overflow:visible hide all descendants.
+        if (parentRect.width === 0 || parentRect.height === 0) {
+          return true;
+        }
+
+        const elementRect = elem.getBoundingClientRect();
+
+        // Check "underflow": if an element is to the left or above the container
+        // and overflow is "hidden" in the proper direction, the element is hidden.
+        const isLeftOf = elementRect.x + elementRect.width < parentRect.x;
+        const isAbove = elementRect.y + elementRect.height < parentRect.y;
+        if ((isLeftOf && parentOverflowX === 'hidden') ||
+            (isAbove && parentOverflowY === 'hidden')) {
+          return true;
+        }
+
+        // Check "overflow": if an element is to the right or below a container
+        // and overflow is "hidden" in the proper direction, the element is hidden.
+        const isRightOf = elementRect.x >= parentRect.x + parentRect.width;
+        const isBelow = elementRect.y >= parentRect.y + parentRect.height;
+        if ((isRightOf && parentOverflowX === 'hidden') ||
+            (isBelow && parentOverflowY === 'hidden')) {
+          return true;
+        } else if ((isRightOf && parentOverflowX !== 'visible') ||
+            (isBelow && parentOverflowY !== 'visible')) {
+          // Special case for "fixed" elements: whether it is hidden by
+          // overflow depends on the scroll position of the parent element
+          if (style.getPropertyValue('position') === 'fixed') {
+            const scrollPosition = parentElement.tagName === 'HTML' ?
+              {
+                x: parentElement.ownerDocument.scrollingElement.scrollLeft,
+                y: parentElement.ownerDocument.scrollingElement.scrollTop
+              } :
+              {
+                x: parentElement.scrollLeft,
+                y: parentElement.scrollTop
+              };
+            if ((elementRect.x >= htmlElement.scrollWidth - scrollPosition.x) ||
+                (elementRect.y >= htmlElement.scrollHeight - scrollPosition.y)) {
+              return true;
+            }
+          }
+        }
+      }
+      parentElement = getNearestOverflowAncestor(parentElement, parentStyle);
+    }
+    return false;
+  };
+
+  if (elem.nodeType !== Node.ELEMENT_NODE) {
+    throw new Error(`Argument to isShown must be of type Element`);
   }
 
-  // By convention, BODY element is always shown: BODY represents the document
-  // and even if there's nothing rendered in there, user can always see there's
-  // the document.
-  if (bot.dom.isElement(elem, goog.dom.TagName.BODY)) {
+  // The <body> element is always visible
+  if (elem.tagName === 'BODY') {
     return true;
   }
 
-  // Option or optgroup is shown iff enclosing select is shown (ignoring the
-  // select's opacity).
-  if (bot.dom.isElement(elem, goog.dom.TagName.OPTION) ||
-      bot.dom.isElement(elem, goog.dom.TagName.OPTGROUP)) {
-    var select = /**@type {Element}*/ (goog.dom.getAncestor(elem, function(e) {
-      return bot.dom.isElement(e, goog.dom.TagName.SELECT);
-    }));
-    return !!select && bot.dom.isShown_(select, true, parentsDisplayedFn);
+  // <option> and <optgroup> elements are visible if their enclosing <select>
+  // is visible.
+  if (elem instanceof HTMLOptionElement || elem instanceof HTMLOptGroupElement) {
+    const select = elem.closest('select');
+    if (!select) {
+      return false;
+    }
+    if (select instanceof HTMLSelectElement) {
+      return bot.dom.isShown_(select, true, parentsDisplayedFn);
+    }
   }
 
-  // Image map elements are shown if image that uses it is shown, and
-  // the area of the element is positive.
-  var imageMap = bot.dom.maybeFindImageMap_(elem);
+  // <map> and <area> elements are visible if the images used by them are
+  // visible.
+  const imageMap = isMap(elem);
   if (imageMap) {
     return !!imageMap.image &&
            imageMap.rect.width > 0 && imageMap.rect.height > 0 &&
@@ -489,66 +635,69 @@ bot.dom.isShown_ = function(elem, ignoreOpacity, parentsDisplayedFn) {
                imageMap.image, ignoreOpacity, parentsDisplayedFn);
   }
 
-  // Any hidden input is not shown.
-  if (bot.dom.isElement(elem, goog.dom.TagName.INPUT) &&
-      elem.type.toLowerCase() == 'hidden') {
+  // Defined as a function because the Closure compiler does not understand
+  // the checkVisibility method on Element.
+  const checkElementVisibility = (elem) => {
+    return elem.checkVisibility({
+      visibilityProperty: true,
+      opacityProperty: !ignoreOpacity,
+      contentVisibilityAuto: true
+    });
+  };
+
+  const visibility = checkElementVisibility(elem);
+  if (!visibility) {
     return false;
   }
 
-  // Any NOSCRIPT element is not shown.
-  if (bot.dom.isElement(elem, goog.dom.TagName.NOSCRIPT)) {
-    return false;
+  const style = getComputedStyle(elem);
+  if (!style) {
+    return true;
   }
 
-  // Any element with hidden/collapsed visibility is not shown.
-  var visibility = bot.dom.getEffectiveStyle(elem, 'visibility');
-  if (visibility == 'collapse' || visibility == 'hidden') {
-    return false;
-  }
-
-  if (!parentsDisplayedFn(elem)) {
-    return false;
-  }
-
-  // Any transparent element is not shown.
-  if (!ignoreOpacity && bot.dom.getOpacity(elem) == 0) {
-    return false;
-  }
-
-  // Any element without positive size dimensions is not shown.
-  function positiveSize(e) {
-    var rect = bot.dom.getClientRect(e);
-    if (rect.height > 0 && rect.width > 0) {
+  const hasPositiveSize = (elem, style) => {
+    const rect = elem.getBoundingClientRect();
+    if (rect.width > 0 && rect.height > 0) {
       return true;
     }
+
     // A vertical or horizontal SVG Path element will report zero width or
     // height but is "shown" if it has a positive stroke-width.
-    if (bot.dom.isElement(e, 'PATH') && (rect.height > 0 || rect.width > 0)) {
-      var strokeWidth = bot.dom.getEffectiveStyle(e, 'stroke-width');
+    if (elem.tagName.toUpperCase() === 'PATH' && (rect.height > 0 || rect.width > 0)) {
+      const strokeWidth = style.getPropertyValue('stroke-width');
       return !!strokeWidth && (parseInt(strokeWidth, 10) > 0);
     }
+
     // Zero-sized elements should still be considered to have positive size
     // if they have a child element or text node with positive size, unless
     // the element has an 'overflow' style of 'hidden'.
-    return bot.dom.getEffectiveStyle(e, 'overflow') != 'hidden' &&
-        goog.array.some(e.childNodes, function(n) {
-          return n.nodeType == goog.dom.NodeType.TEXT ||
-                 (bot.dom.isElement(n) && positiveSize(n));
-        });
-  }
-  if (!positiveSize(elem)) {
+    return (style.getPropertyValue('overflow-x') !== 'hidden' || style.getPropertyValue('overflow-y') !== 'hidden') &&
+      [...elem.childNodes].filter(child => {
+        return child.nodeType === Node.TEXT_NODE ||
+          (child.nodeType === Node.ELEMENT_NODE && hasPositiveSize(child, getComputedStyle(child)));
+      }).length;
+  };
+
+  if (!hasPositiveSize(elem, style)) {
     return false;
   }
 
-  // Elements that are hidden by overflow are not shown.
-  function hiddenByOverflow(e) {
-    return bot.dom.getOverflowState(e) == bot.dom.OverflowState.HIDDEN &&
-        goog.array.every(e.childNodes, function(n) {
-          return !bot.dom.isElement(n) || hiddenByOverflow(n) ||
-                 !positiveSize(n);
-        });
-  }
-  return !hiddenByOverflow(elem);
+  // Elements are hidden by overflow if their an ancestor container has
+  // overflow hidden and all children are also hidden because the child node
+  // is not an element node, zero size, or are themselves hidden by overflow.
+  const hiddenByOverflow = (elem, style) => {
+    const children = [...elem.childNodes];
+    return checkIsHiddenByOverflow(elem, style) &&
+      children.filter(child => {
+        const isElement = child.nodeType === Node.ELEMENT_NODE;
+        const childStyle = isElement ? getComputedStyle(child) : null;
+        return !isElement ||
+          hiddenByOverflow(child, childStyle) ||
+          !hasPositiveSize(child, childStyle);
+      }).length === children.length;
+  };
+
+  return !hiddenByOverflow(elem, style);
 };
 
 
@@ -577,16 +726,17 @@ bot.dom.isShown = function(elem, opt_ignoreOpacity) {
    * @return {!boolean}
    */
   function displayed(e) {
-    if (bot.dom.isElement(e)) {
-      var elem = /** @type {!Element} */ (e);
-      if (bot.dom.getEffectiveStyle(elem, 'display') == 'none') {
+    if (e.nodeType === Node.ELEMENT_NODE) {
+      const elem = /** @type {!Element} */ (e);
+      const elemStyle = getComputedStyle(elem);
+      if (elemStyle && elemStyle.getPropertyValue('display') === 'none') {
         return false;
       }
     }
 
-    var parent = bot.dom.getParentNodeInComposedDom(e);
+    let parent = bot.dom.getParentNodeInComposedDom(e);
 
-    if (bot.dom.IS_SHADOW_DOM_ENABLED && (parent instanceof ShadowRoot)) {
+    if ((typeof ShadowRoot === 'function') && (parent instanceof ShadowRoot)) {
       if (parent.host.shadowRoot && parent.host.shadowRoot !== parent) {
         // There is a younger shadow root, which will take precedence over
         // the shadow this element is in, thus this element won't be
@@ -597,15 +747,15 @@ bot.dom.isShown = function(elem, opt_ignoreOpacity) {
       }
     }
 
-    if (parent && (parent.nodeType == goog.dom.NodeType.DOCUMENT ||
-        parent.nodeType == goog.dom.NodeType.DOCUMENT_FRAGMENT)) {
+    if (parent && (parent.nodeType === Node.DOCUMENT_NODE ||
+        parent.nodeType === Node.DOCUMENT_FRAGMENT_NODE)) {
       return true;
     }
 
     // Child of DETAILS element is not shown unless the DETAILS element is open
     // or the child is a SUMMARY element.
-    if (parent && bot.dom.isElement(parent, goog.dom.TagName.DETAILS) &&
-        !parent.open && !bot.dom.isElement(e, goog.dom.TagName.SUMMARY)) {
+    if (parent && parent.nodeType === Node.ELEMENT_NODE && parent.tagName.toUpperCase() === 'DETAILS' &&
+        !parent.open && !(e.nodeType === Node.ELEMENT_NODE && e.tagName.toUpperCase() === 'SUMMARY')) {
       return false;
     }
 
