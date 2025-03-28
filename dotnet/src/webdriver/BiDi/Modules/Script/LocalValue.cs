@@ -41,10 +41,10 @@ namespace OpenQA.Selenium.BiDi.Modules.Script;
 [JsonDerivedType(typeof(SetLocalValue), "set")]
 public abstract record LocalValue
 {
-    public static implicit operator LocalValue(bool? value) { return value is bool b ? new BooleanLocalValue(b) : new NullLocalValue(); }
-    public static implicit operator LocalValue(int? value) { return value is int i ? new NumberLocalValue(i) : new NullLocalValue(); }
-    public static implicit operator LocalValue(double? value) { return value is double d ? new NumberLocalValue(d) : new NullLocalValue(); }
-    public static implicit operator LocalValue(string? value) { return value is null ? new NullLocalValue() : new StringLocalValue(value); }
+    public static implicit operator LocalValue(bool? value) { return ConvertFrom(value); }
+    public static implicit operator LocalValue(int? value) { return ConvertFrom(value); }
+    public static implicit operator LocalValue(double? value) { return ConvertFrom(value); }
+    public static implicit operator LocalValue(string? value) { return ConvertFrom(value); }
 
     // TODO: Extend converting from types
     public static LocalValue ConvertFrom(object? value)
@@ -58,86 +58,242 @@ public abstract record LocalValue
                 return new NullLocalValue();
 
             case bool b:
-                return new BooleanLocalValue(b);
+                return ConvertFrom(b);
 
             case int i:
-                return new NumberLocalValue(i);
+                return ConvertFrom(i);
 
             case double d:
-                return new NumberLocalValue(d);
+                return ConvertFrom(d);
 
             case long l:
-                return new NumberLocalValue(l);
+                return ConvertFrom(l);
 
             case DateTime dt:
-                return new DateLocalValue(dt.ToString("o"));
+                return ConvertFrom(dt);
 
             case BigInteger bigInt:
-                return new BigIntLocalValue(bigInt.ToString());
+                return ConvertFrom(bigInt);
 
             case string str:
-                return new StringLocalValue(str);
+                return ConvertFrom(str);
 
             case IDictionary<string, string?> dictionary:
-                {
-                    var bidiObject = new List<List<LocalValue>>(dictionary.Count);
-                    foreach (var item in dictionary)
-                    {
-                        bidiObject.Add([new StringLocalValue(item.Key), ConvertFrom(item.Value)]);
-                    }
-
-                    return new ObjectLocalValue(bidiObject);
-                }
+                return ConvertFrom(dictionary);
 
             case IDictionary<string, object?> dictionary:
-                {
-                    var bidiObject = new List<List<LocalValue>>(dictionary.Count);
-                    foreach (var item in dictionary)
-                    {
-                        bidiObject.Add([new StringLocalValue(item.Key), ConvertFrom(item.Value)]);
-                    }
-
-                    return new ObjectLocalValue(bidiObject);
-                }
+                return ConvertFrom(dictionary);
 
             case IDictionary<int, object?> dictionary:
-                {
-                    var bidiObject = new List<List<LocalValue>>(dictionary.Count);
-                    foreach (var item in dictionary)
-                    {
-                        bidiObject.Add([ConvertFrom(item.Key), ConvertFrom(item.Value)]);
-                    }
-
-                    return new MapLocalValue(bidiObject);
-                }
+                return ConvertFrom(dictionary);
 
             case IEnumerable<object?> list:
-                return new ArrayLocalValue(list.Select(ConvertFrom).ToList());
+                return ConvertFrom(list);
 
-            case object:
-                {
-                    const System.Reflection.BindingFlags Flags = System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance;
-
-                    var properties = value.GetType().GetProperties(Flags);
-
-                    var values = new List<List<LocalValue>>(properties.Length);
-                    foreach (var property in properties)
-                    {
-                        object? propertyValue;
-                        try
-                        {
-                            propertyValue = property.GetValue(value);
-                        }
-                        catch (Exception ex)
-                        {
-                            throw new BiDiException($"Could not retrieve property {property.Name} from {property.DeclaringType}", ex);
-                        }
-                        values.Add([property.Name, ConvertFrom(propertyValue)]);
-                    }
-
-                    return new ObjectLocalValue(values);
-                }
+            default:
+                return ReflectionBasedConvertFrom(value);
         }
+    }
+
+    public static LocalValue ConvertFrom(bool value)
+    {
+        return new BooleanLocalValue(value);
+    }
+
+    public static LocalValue ConvertFrom(bool? value)
+    {
+        if (value is bool b)
+        {
+            return new BooleanLocalValue(b);
+        }
+
+        return new NullLocalValue();
+    }
+
+    public static LocalValue ConvertFrom(int value)
+    {
+        return new NumberLocalValue(value);
+    }
+
+    public static LocalValue ConvertFrom(int? value)
+    {
+        if (value is int b)
+        {
+            return new NumberLocalValue(b);
+        }
+
+        return new NullLocalValue();
+    }
+
+    public static LocalValue ConvertFrom(double value)
+    {
+        return new NumberLocalValue(value);
+    }
+
+    public static LocalValue ConvertFrom(double? value)
+    {
+        if (value is double b)
+        {
+            return new NumberLocalValue(b);
+        }
+
+        return new NullLocalValue();
+    }
+
+    public static LocalValue ConvertFrom(long value)
+    {
+        return new NumberLocalValue(value);
+    }
+
+    public static LocalValue ConvertFrom(long? value)
+    {
+        if (value is long b)
+        {
+            return new NumberLocalValue(b);
+        }
+
+        return new NullLocalValue();
+    }
+
+    public static LocalValue ConvertFrom(string? value)
+    {
+        if (value is not null)
+        {
+            return new StringLocalValue(value);
+        }
+
+        return new NullLocalValue();
+    }
+
+    public static LocalValue ConvertFrom(DateTime dateTime)
+    {
+        return new DateLocalValue(dateTime.ToString("o"));
+    }
+
+    public static LocalValue ConvertFrom(BigInteger bigInt)
+    {
+        return new BigIntLocalValue(bigInt.ToString());
+    }
+
+    public static LocalValue ConvertFrom(IEnumerable<object?>? values)
+    {
+        if (values is null)
+        {
+            return new NullLocalValue();
+        }
+
+        LocalValue[] convertedList = values.Select(ConvertFrom).ToArray();
+        return new ArrayLocalValue(convertedList);
+    }
+
+    public static LocalValue ConvertFrom(List<string?>? values)
+    {
+        if (values is null)
+        {
+            return new NullLocalValue();
+        }
+
+        List<LocalValue> convertedList = values.ConvertAll(ConvertFrom);
+        return new ArrayLocalValue(convertedList);
+    }
+
+    public static LocalValue ConvertFrom(object?[]? values)
+    {
+        if (values is null)
+        {
+            return new NullLocalValue();
+        }
+
+        LocalValue[] convertedArray = Array.ConvertAll(values, ConvertFrom);
+        return new ArrayLocalValue(Array.ConvertAll(values, ConvertFrom));
+    }
+
+    public static LocalValue ConvertFrom(IList<object?>? values)
+    {
+        if (values is null)
+        {
+            return new NullLocalValue();
+        }
+
+        List<LocalValue> convertedList = [.. values.Select(ConvertFrom)];
+        return new ArrayLocalValue(convertedList);
+    }
+
+    public static LocalValue ConvertFrom(IDictionary<string, string?>? dictionary)
+    {
+        if (dictionary is null)
+        {
+            return new NullLocalValue();
+        }
+
+        var bidiObject = new List<List<LocalValue>>(dictionary.Count);
+        foreach (KeyValuePair<string, string?> item in dictionary)
+        {
+            bidiObject.Add([ConvertFrom(item.Key), ConvertFrom(item.Value)]);
+        }
+
+        return new ObjectLocalValue(bidiObject);
+    }
+
+    public static LocalValue ConvertFrom(IDictionary<string, object?>? dictionary)
+    {
+        if (dictionary is null)
+        {
+            return new NullLocalValue();
+        }
+
+        var bidiObject = new List<List<LocalValue>>(dictionary.Count);
+        foreach (KeyValuePair<string, object?> item in dictionary)
+        {
+            bidiObject.Add([ConvertFrom(item.Key), ConvertFrom(item.Value)]);
+        }
+
+        return new ObjectLocalValue(bidiObject);
+    }
+
+    public static LocalValue ConvertFrom(IDictionary<int, object?>? dictionary)
+    {
+        if (dictionary is null)
+        {
+            return new NullLocalValue();
+        }
+
+        var bidiObject = new List<List<LocalValue>>(dictionary.Count);
+        foreach (KeyValuePair<int, object?> item in dictionary)
+        {
+            bidiObject.Add([ConvertFrom(item.Key), ConvertFrom(item.Value)]);
+        }
+
+        return new MapLocalValue(bidiObject);
+    }
+
+    private static LocalValue ReflectionBasedConvertFrom(object? value)
+    {
+        if (value is null)
+        {
+            return new NullLocalValue();
+        }
+
+        const System.Reflection.BindingFlags Flags = System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance;
+
+        System.Reflection.PropertyInfo[] properties = value.GetType().GetProperties(Flags);
+
+        var values = new List<List<LocalValue>>(properties.Length);
+        foreach (System.Reflection.PropertyInfo? property in properties)
+        {
+            object? propertyValue;
+            try
+            {
+                propertyValue = property.GetValue(value);
+            }
+            catch (Exception ex)
+            {
+                throw new BiDiException($"Could not retrieve property {property.Name} from {property.DeclaringType}", ex);
+            }
+            values.Add([property.Name, ConvertFrom(propertyValue)]);
+        }
+
+        return new ObjectLocalValue(values);
     }
 }
 
