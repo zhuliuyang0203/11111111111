@@ -87,6 +87,12 @@ public abstract record LocalValue
             case IDictionary<int, object?> dictionary:
                 return ConvertFrom(dictionary);
 
+            case ISet<object?> set:
+                return ConvertFrom(set);
+
+            case IList<object?> set:
+                return ConvertFrom(set);
+
             case IEnumerable<object?> list:
                 return ConvertFrom(list);
 
@@ -186,40 +192,23 @@ public abstract record LocalValue
         return new ArrayLocalValue(convertedList);
     }
 
-    public static LocalValue ConvertFrom(List<string?>? values)
+    public static LocalValue ConvertFrom<T>(IList<T?>? values)
     {
         if (values is null)
         {
             return new NullLocalValue();
         }
 
-        List<LocalValue> convertedList = values.ConvertAll(ConvertFrom);
+        List<LocalValue> convertedList = [.. values.Select(element => ConvertFrom(element))];
         return new ArrayLocalValue(convertedList);
     }
 
-    public static LocalValue ConvertFrom(object?[]? values)
+    public static LocalValue ConvertFrom<TValue>(IDictionary<string, TValue?>? dictionary)
     {
-        if (values is null)
-        {
-            return new NullLocalValue();
-        }
-
-        LocalValue[] convertedArray = Array.ConvertAll(values, ConvertFrom);
-        return new ArrayLocalValue(Array.ConvertAll(values, ConvertFrom));
+        return ConvertFrom<string, TValue>(dictionary);
     }
 
-    public static LocalValue ConvertFrom(IList<object?>? values)
-    {
-        if (values is null)
-        {
-            return new NullLocalValue();
-        }
-
-        List<LocalValue> convertedList = [.. values.Select(ConvertFrom)];
-        return new ArrayLocalValue(convertedList);
-    }
-
-    public static LocalValue ConvertFrom(IDictionary<string, string?>? dictionary)
+    public static LocalValue ConvertFrom<TKey, TValue>(IDictionary<TKey, TValue?>? dictionary)
     {
         if (dictionary is null)
         {
@@ -227,44 +216,28 @@ public abstract record LocalValue
         }
 
         var bidiObject = new List<List<LocalValue>>(dictionary.Count);
-        foreach (KeyValuePair<string, string?> item in dictionary)
+        foreach (KeyValuePair<TKey, TValue?> item in dictionary)
         {
             bidiObject.Add([ConvertFrom(item.Key), ConvertFrom(item.Value)]);
         }
 
-        return new ObjectLocalValue(bidiObject);
-    }
-
-    public static LocalValue ConvertFrom(IDictionary<string, object?>? dictionary)
-    {
-        if (dictionary is null)
+        if (typeof(TKey) == typeof(string))
         {
-            return new NullLocalValue();
-        }
-
-        var bidiObject = new List<List<LocalValue>>(dictionary.Count);
-        foreach (KeyValuePair<string, object?> item in dictionary)
-        {
-            bidiObject.Add([ConvertFrom(item.Key), ConvertFrom(item.Value)]);
-        }
-
-        return new ObjectLocalValue(bidiObject);
-    }
-
-    public static LocalValue ConvertFrom(IDictionary<int, object?>? dictionary)
-    {
-        if (dictionary is null)
-        {
-            return new NullLocalValue();
-        }
-
-        var bidiObject = new List<List<LocalValue>>(dictionary.Count);
-        foreach (KeyValuePair<int, object?> item in dictionary)
-        {
-            bidiObject.Add([ConvertFrom(item.Key), ConvertFrom(item.Value)]);
+            return new ObjectLocalValue(bidiObject);
         }
 
         return new MapLocalValue(bidiObject);
+    }
+
+    public static LocalValue ConvertFrom<T>(ISet<T?>? set)
+    {
+        if (set is null)
+        {
+            return new NullLocalValue();
+        }
+
+        LocalValue[] convertedValues = [.. set.Select(x => ConvertFrom(x))];
+        return new SetLocalValue(convertedValues);
     }
 
     private static LocalValue ReflectionBasedConvertFrom(object? value)
