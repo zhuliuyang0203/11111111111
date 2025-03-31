@@ -62,36 +62,7 @@ module Selenium
       # Gets the current page size.
       #
       # @return [Hash] The current page size hash with :width and :height.
-      def page_size
-        @page_size
-      end
-
-      # Sets the page size. Can be a predefined symbol or custom size hash.
-      #
-      # @param [Symbol, Hash] value The predefined size (:letter, :legal, :a4, :tabloid) or a custom hash.
-      def page_size=(value)
-        predefined_sizes = {
-          letter: {width: 21.59, height: 27.94},
-          legal: {width: 21.59, height: 35.56},
-          a4: {width: 21.0, height: 29.7},
-          tabloid: {width: 27.94, height: 43.18}
-        }
-
-        case value
-        when Symbol
-          raise ArgumentError, "Invalid page size: #{value}" unless predefined_sizes.key?(value)
-
-          @page_size = predefined_sizes[value]
-        when Hash
-          unless value.key?(:width) && value.key?(:height)
-            raise ArgumentError, 'Custom page size must include :width and :height'
-          end
-
-          @page_size = value
-        else
-          raise ArgumentError, 'Page size must be a Symbol or a Hash'
-        end
-      end
+      attr_reader :page_size
 
       # Sets the page size. Can be a predefined symbol or custom size hash.
       #
