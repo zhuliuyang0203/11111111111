@@ -38,7 +38,6 @@ import org.openqa.selenium.testing.Ignore;
 import org.openqa.selenium.testing.JupiterTestBase;
 import org.openqa.selenium.testing.NeedsSecureServer;
 import org.openqa.selenium.testing.NotWorkingInRemoteBazelBuilds;
-import org.openqa.selenium.testing.NotYetImplemented;
 import org.openqa.selenium.testing.SwitchToTopAfterTest;
 
 @NeedsSecureServer
