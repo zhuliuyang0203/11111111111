@@ -227,7 +227,6 @@ class CookieImplementationTest extends JupiterTestBase {
   }
 
   @Test
-
   public void testShouldNotGetCookieOnDifferentDomain() {
     assumeTrue(domainHelper.checkHasValidAlternateHostname());
 
@@ -280,7 +279,6 @@ class CookieImplementationTest extends JupiterTestBase {
   }
 
   @Test
-
   @NotWorkingInRemoteBazelBuilds(FIREFOX)
   public void testShouldBeAbleToSetDomainToTheCurrentDomain() throws Exception {
     URI url = new URI(driver.getCurrentUrl());
@@ -295,7 +293,6 @@ class CookieImplementationTest extends JupiterTestBase {
   }
 
   @Test
-
   @NotWorkingInRemoteBazelBuilds(CHROME)
   @NotWorkingInRemoteBazelBuilds(EDGE)
   @NotWorkingInRemoteBazelBuilds(FIREFOX)
@@ -327,7 +324,6 @@ class CookieImplementationTest extends JupiterTestBase {
   }
 
   @Test
-
   @NotWorkingInRemoteBazelBuilds(FIREFOX)
   public void testShouldIgnoreThePortNumberOfTheHostWhenSettingTheCookie() throws Exception {
     URI uri = new URI(driver.getCurrentUrl());
@@ -343,7 +339,6 @@ class CookieImplementationTest extends JupiterTestBase {
   }
 
   @Test
-
   @NotWorkingInRemoteBazelBuilds(CHROME)
   @NotWorkingInRemoteBazelBuilds(EDGE)
   @NotWorkingInRemoteBazelBuilds(FIREFOX)
@@ -374,7 +369,6 @@ class CookieImplementationTest extends JupiterTestBase {
   }
 
   @Test
-
   public void testRetainsCookieExpiry() {
     Cookie addedCookie =
         new Cookie.Builder("fish", "cod")
@@ -461,7 +455,6 @@ class CookieImplementationTest extends JupiterTestBase {
   }
 
   @Test
-
   public void testSettingACookieThatExpiredInThePast() {
     long expires = System.currentTimeMillis() - 1000;
     Cookie cookie = new Cookie.Builder("expired", "yes").expiresOn(new Date(expires)).build();
@@ -474,7 +467,6 @@ class CookieImplementationTest extends JupiterTestBase {
   }
 
   @Test
-
   public void testCanSetCookieWithoutOptionalFieldsSet() {
     String key = generateUniqueKey();
     String value = "foo";
@@ -487,7 +479,6 @@ class CookieImplementationTest extends JupiterTestBase {
   }
 
   @Test
-
   public void testDeleteNotExistedCookie() {
     String key = generateUniqueKey();
     assertCookieIsNotPresentWithName(key);
@@ -628,7 +619,6 @@ class CookieImplementationTest extends JupiterTestBase {
   }
 
   @Test
-
   public void deleteAllCookies() {
     assumeTrue(domainHelper.checkHasValidAlternateHostname());
 
