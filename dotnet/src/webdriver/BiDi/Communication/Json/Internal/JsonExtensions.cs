@@ -19,11 +19,11 @@
 
 using System.Text.Json;
 
-namespace OpenQA.Selenium.BiDi.Communication.Json.Converters.Polymorphic.Internal;
+namespace OpenQA.Selenium.BiDi.Communication.Json.Internal;
 
 internal static class JsonExtensions
 {
-    public static string? GetDiscriminator(this ref Utf8JsonReader reader, string propertyName)
+    public static string? GetDiscriminator(this ref Utf8JsonReader reader, string name)
     {
         Utf8JsonReader readerClone = reader;
 
@@ -35,10 +35,10 @@ internal static class JsonExtensions
         readerClone.Read();
         while (readerClone.TokenType == JsonTokenType.PropertyName)
         {
-            string? propName = readerClone.GetString();
+            string? propertyName = readerClone.GetString();
             readerClone.Read();
 
-            if (propName == propertyName)
+            if (propertyName == name)
             {
                 discriminator = readerClone.GetString();
                 break;
