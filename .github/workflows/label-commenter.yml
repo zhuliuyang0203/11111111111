@@ -1,10 +1,10 @@
-# Configuration for Label Commenter - https://github.com/peaceiris/actions-label-commenter
+# Configuration for Label Commenter - ./.github/label-commenter-config.yml
 name: Label Commenter
 
 on:
   issues:
     types: [ labeled ]
-  pull_request_target:
+  pull_request:
     types: [labeled]
 
 permissions:
@@ -16,6 +16,11 @@ jobs:
     if: github.repository_owner == 'seleniumhq'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout repo to get config file
+        uses: actions/checkout@v4
       - name: Label Commenter
         uses: peaceiris/actions-label-commenter@v1
+        with:
+          # The individual PAT is needed so commenter can auto-executes on PRs from Forks
+          # It expires 4/1/2026
+          github_token: ${{ secrets.LABEL_COMMENTER_PAT }}
