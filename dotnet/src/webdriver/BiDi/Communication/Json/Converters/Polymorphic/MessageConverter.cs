@@ -24,6 +24,7 @@ using System.Text.Json.Serialization;
 
 namespace OpenQA.Selenium.BiDi.Communication.Json.Converters.Polymorphic;
 
+// https://github.com/dotnet/runtime/issues/72604
 internal class MessageConverter : JsonConverter<Message>
 {
     public override Message? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
