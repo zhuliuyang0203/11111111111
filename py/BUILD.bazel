@@ -479,7 +479,7 @@ py_test_suite(
     ),
     args = [
         "--instafail",
-        "--headless=true",
+        "--headless",
     ] + BROWSERS["chrome"]["args"],
     data = BROWSERS["chrome"]["data"],
     env_inherit = ["DISPLAY"],
