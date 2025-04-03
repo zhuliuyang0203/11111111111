@@ -38,7 +38,7 @@ public sealed class ScriptModule(Broker broker) : Module(broker)
     {
         var result = await EvaluateAsync(expression, awaitPromise, target, options).ConfigureAwait(false);
 
-        return result.ThrowOnError().Result.ConvertTo<TResult>();
+        return result.AsSuccess().Result.ConvertTo<TResult>();
     }
 
     public async Task<EvaluateResult> CallFunctionAsync(string functionDeclaration, bool awaitPromise, Target target, CallFunctionOptions? options = null)
@@ -54,7 +54,7 @@ public sealed class ScriptModule(Broker broker) : Module(broker)
     {
         var result = await CallFunctionAsync(functionDeclaration, awaitPromise, target, options).ConfigureAwait(false);
 
-        return result.ThrowOnError().Result.ConvertTo<TResult>();
+        return result.AsSuccess().Result.ConvertTo<TResult>();
     }
 
     public async Task<GetRealmsResult> GetRealmsAsync(GetRealmsOptions? options = null)

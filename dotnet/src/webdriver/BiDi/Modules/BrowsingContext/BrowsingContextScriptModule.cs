@@ -60,7 +60,7 @@ public class BrowsingContextScriptModule(BrowsingContext context, ScriptModule s
     {
         var result = await EvaluateAsync(expression, awaitPromise, options, targetOptions).ConfigureAwait(false);
 
-        return result.ThrowOnError().Result.ConvertTo<TResult>();
+        return result.AsSuccess().Result.ConvertTo<TResult>();
     }
 
     public Task<EvaluateResult> CallFunctionAsync(string functionDeclaration, bool awaitPromise, CallFunctionOptions? options = null, ContextTargetOptions? targetOptions = null)
@@ -79,6 +79,6 @@ public class BrowsingContextScriptModule(BrowsingContext context, ScriptModule s
     {
         var result = await CallFunctionAsync(functionDeclaration, awaitPromise, options, targetOptions).ConfigureAwait(false);
 
-        return result.ThrowOnError().Result.ConvertTo<TResult>();
+        return result.AsSuccess().Result.ConvertTo<TResult>();
     }
 }

@@ -41,14 +41,16 @@ public record EvaluateOptions : CommandOptions
 //[JsonDerivedType(typeof(EvaluateResultException), "exception")]
 public abstract record EvaluateResult
 {
-    public EvaluateResultSuccess ThrowOnError()
+    public EvaluateResultSuccess AsSuccess()
     {
         if (this is EvaluateResultSuccess success)
         {
             return success;
         }
 
-        throw new ScriptEvaluateException((EvaluateResultException)this);
+        var exceptionResult = (EvaluateResultException)this;
+
+        throw new ScriptEvaluateException(exceptionResult.ExceptionDetails);
     }
 }
 

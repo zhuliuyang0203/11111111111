@@ -31,8 +31,8 @@ class CallFunctionParameterTest : BiDiTestFixture
         var res = await context.Script.CallFunctionAsync("() => { return 1 + 2; }", false);
 
         Assert.That(res, Is.Not.Null);
-        Assert.That(res.ThrowOnError().Realm, Is.Not.Null);
-        Assert.That((res.ThrowOnError().Result as NumberRemoteValue).Value, Is.EqualTo(3));
+        Assert.That(res.AsSuccess().Realm, Is.Not.Null);
+        Assert.That((res.AsSuccess().Result as NumberRemoteValue).Value, Is.EqualTo(3));
     }
 
     [Test]
@@ -75,9 +75,9 @@ class CallFunctionParameterTest : BiDiTestFixture
             Arguments = ["abc", 42]
         });
 
-        Assert.That(res.ThrowOnError().Result, Is.AssignableFrom<ArrayRemoteValue>());
-        Assert.That((string)(res.ThrowOnError().Result as ArrayRemoteValue).Value[0], Is.EqualTo("abc"));
-        Assert.That((int)(res.ThrowOnError().Result as ArrayRemoteValue).Value[1], Is.EqualTo(42));
+        Assert.That(res.AsSuccess().Result, Is.AssignableFrom<ArrayRemoteValue>());
+        Assert.That((string)(res.AsSuccess().Result as ArrayRemoteValue).Value[0], Is.EqualTo("abc"));
+        Assert.That((int)(res.AsSuccess().Result as ArrayRemoteValue).Value[1], Is.EqualTo(42));
     }
 
     [Test]
@@ -90,8 +90,8 @@ class CallFunctionParameterTest : BiDiTestFixture
             """, false);
 
         Assert.That(res, Is.Not.Null);
-        Assert.That(res.ThrowOnError().Result, Is.AssignableFrom<WindowProxyRemoteValue>());
-        Assert.That((res.ThrowOnError().Result as WindowProxyRemoteValue).Value, Is.Not.Null);
+        Assert.That(res.AsSuccess().Result, Is.AssignableFrom<WindowProxyRemoteValue>());
+        Assert.That((res.AsSuccess().Result as WindowProxyRemoteValue).Value, Is.Not.Null);
     }
 
     [Test]
@@ -104,8 +104,8 @@ class CallFunctionParameterTest : BiDiTestFixture
             """, false);
 
         Assert.That(res, Is.Not.Null);
-        Assert.That(res.ThrowOnError().Result, Is.AssignableFrom<NodeRemoteValue>());
-        Assert.That((res.ThrowOnError().Result as NodeRemoteValue).Value, Is.Not.Null);
+        Assert.That(res.AsSuccess().Result, Is.AssignableFrom<NodeRemoteValue>());
+        Assert.That((res.AsSuccess().Result as NodeRemoteValue).Value, Is.Not.Null);
     }
 
     [Test]
@@ -132,7 +132,7 @@ class CallFunctionParameterTest : BiDiTestFixture
             """, awaitPromise: false);
 
         Assert.That(res, Is.Not.Null);
-        Assert.That(res.ThrowOnError().Result, Is.AssignableFrom<PromiseRemoteValue>());
+        Assert.That(res.AsSuccess().Result, Is.AssignableFrom<PromiseRemoteValue>());
     }
 
     [Test]
@@ -156,9 +156,9 @@ class CallFunctionParameterTest : BiDiTestFixture
         });
 
         Assert.That(res, Is.Not.Null);
-        Assert.That((res.ThrowOnError().Result as ObjectRemoteValue).Handle, Is.Not.Null);
-        Assert.That((string)(res.ThrowOnError().Result as ObjectRemoteValue).Value[0][0], Is.EqualTo("a"));
-        Assert.That((int)(res.ThrowOnError().Result as ObjectRemoteValue).Value[0][1], Is.EqualTo(1));
+        Assert.That((res.AsSuccess().Result as ObjectRemoteValue).Handle, Is.Not.Null);
+        Assert.That((string)(res.AsSuccess().Result as ObjectRemoteValue).Value[0][0], Is.EqualTo("a"));
+        Assert.That((int)(res.AsSuccess().Result as ObjectRemoteValue).Value[0][1], Is.EqualTo(1));
     }
 
     [Test]
@@ -170,9 +170,9 @@ class CallFunctionParameterTest : BiDiTestFixture
         });
 
         Assert.That(res, Is.Not.Null);
-        Assert.That((res.ThrowOnError().Result as ObjectRemoteValue).Handle, Is.Null);
-        Assert.That((string)(res.ThrowOnError().Result as ObjectRemoteValue).Value[0][0], Is.EqualTo("a"));
-        Assert.That((int)(res.ThrowOnError().Result as ObjectRemoteValue).Value[0][1], Is.EqualTo(1));
+        Assert.That((res.AsSuccess().Result as ObjectRemoteValue).Handle, Is.Null);
+        Assert.That((string)(res.AsSuccess().Result as ObjectRemoteValue).Value[0][0], Is.EqualTo("a"));
+        Assert.That((int)(res.AsSuccess().Result as ObjectRemoteValue).Value[0][1], Is.EqualTo(1));
     }
 
     [Test]
@@ -192,7 +192,7 @@ class CallFunctionParameterTest : BiDiTestFixture
 
         var res = await context.Script.CallFunctionAsync("() => window.foo", true, targetOptions: new() { Sandbox = "sandbox" });
 
-        Assert.That(res.ThrowOnError().Result, Is.AssignableFrom<UndefinedRemoteValue>());
+        Assert.That(res.AsSuccess().Result, Is.AssignableFrom<UndefinedRemoteValue>());
 
         // Make changes in the sandbox
         await context.Script.CallFunctionAsync("() => { window.foo = 2; }", true, targetOptions: new() { Sandbox = "sandbox" });
@@ -200,8 +200,8 @@ class CallFunctionParameterTest : BiDiTestFixture
         // Check if the changes are present in the sandbox
         res = await context.Script.CallFunctionAsync("() => window.foo", true, targetOptions: new() { Sandbox = "sandbox" });
 
-        Assert.That(res.ThrowOnError().Result, Is.AssignableFrom<NumberRemoteValue>());
-        Assert.That((res.ThrowOnError().Result as NumberRemoteValue).Value, Is.EqualTo(2));
+        Assert.That(res.AsSuccess().Result, Is.AssignableFrom<NumberRemoteValue>());
+        Assert.That((res.AsSuccess().Result as NumberRemoteValue).Value, Is.EqualTo(2));
     }
 
     [Test]

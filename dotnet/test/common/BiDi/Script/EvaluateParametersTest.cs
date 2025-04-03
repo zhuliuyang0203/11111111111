@@ -31,8 +31,8 @@ class EvaluateParametersTest : BiDiTestFixture
         var res = await context.Script.EvaluateAsync("1 + 2", false);
 
         Assert.That(res, Is.Not.Null);
-        Assert.That(res.ThrowOnError().Realm, Is.Not.Null);
-        Assert.That((res.ThrowOnError().Result as NumberRemoteValue).Value, Is.EqualTo(3));
+        Assert.That(res.AsSuccess().Realm, Is.Not.Null);
+        Assert.That((res.AsSuccess().Result as NumberRemoteValue).Value, Is.EqualTo(3));
     }
 
     [Test]
@@ -85,9 +85,9 @@ class EvaluateParametersTest : BiDiTestFixture
         });
 
         Assert.That(res, Is.Not.Null);
-        Assert.That((res.ThrowOnError().Result as ObjectRemoteValue).Handle, Is.Not.Null);
-        Assert.That((string)(res.ThrowOnError().Result as ObjectRemoteValue).Value[0][0], Is.EqualTo("a"));
-        Assert.That((int)(res.ThrowOnError().Result as ObjectRemoteValue).Value[0][1], Is.EqualTo(1));
+        Assert.That((res.AsSuccess().Result as ObjectRemoteValue).Handle, Is.Not.Null);
+        Assert.That((string)(res.AsSuccess().Result as ObjectRemoteValue).Value[0][0], Is.EqualTo("a"));
+        Assert.That((int)(res.AsSuccess().Result as ObjectRemoteValue).Value[0][1], Is.EqualTo(1));
     }
 
     [Test]
@@ -98,7 +98,7 @@ class EvaluateParametersTest : BiDiTestFixture
 
         var res = await context.Script.EvaluateAsync("window.foo", true, targetOptions: new() { Sandbox = "sandbox" });
 
-        Assert.That(res.ThrowOnError().Result, Is.AssignableFrom<UndefinedRemoteValue>());
+        Assert.That(res.AsSuccess().Result, Is.AssignableFrom<UndefinedRemoteValue>());
 
         // Make changes in the sandbox
         await context.Script.EvaluateAsync("window.foo = 2", true, targetOptions: new() { Sandbox = "sandbox" });
@@ -106,8 +106,8 @@ class EvaluateParametersTest : BiDiTestFixture
         // Check if the changes are present in the sandbox
         res = await context.Script.EvaluateAsync("window.foo", true, targetOptions: new() { Sandbox = "sandbox" });
 
-        Assert.That(res.ThrowOnError().Result, Is.AssignableFrom<NumberRemoteValue>());
-        Assert.That((res.ThrowOnError().Result as NumberRemoteValue).Value, Is.EqualTo(2));
+        Assert.That(res.AsSuccess().Result, Is.AssignableFrom<NumberRemoteValue>());
+        Assert.That((res.AsSuccess().Result as NumberRemoteValue).Value, Is.EqualTo(2));
     }
 
     [Test]

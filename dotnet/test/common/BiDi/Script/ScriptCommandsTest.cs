@@ -164,6 +164,6 @@ class ScriptCommandsTest : BiDiTestFixture
 
         var resultAfterRemoval = await context.Script.EvaluateAsync("window.bar", true, targetOptions: new() { Sandbox = "sandbox" });
 
-        Assert.That(resultAfterRemoval.ThrowOnError().Result, Is.AssignableFrom<UndefinedRemoteValue>());
+        Assert.That(resultAfterRemoval.AsSuccess().Result, Is.AssignableFrom<UndefinedRemoteValue>());
     }
 }
