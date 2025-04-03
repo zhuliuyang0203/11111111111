@@ -47,7 +47,7 @@ module Selenium
             expect(driver.window_handles).to include(id)
           end
 
-          it 'errors on unknown type' do
+          it 'errors on unknown type', except: {browser: :firefox, reason: "Doesn't return the expected error"} do
             msg = /invalid argument: Invalid enum value. Expected 'tab' | 'window', received 'unknown'/
             expect {
               described_class.new(bridge).create(type: :unknown)
@@ -75,41 +75,52 @@ module Selenium
         end
 
         it 'sets the viewport' do
-          browsing_context = described_class.new(driver)
+          browsing_context = described_class.new(bridge)
           browsing_context.set_viewport(width: 800, height: 600, device_pixel_ratio: 2.0)
           expect(driver.execute_script('return [window.innerWidth, window.innerHeight]')).to eq([800, 600])
           expect(driver.execute_script('return window.devicePixelRatio')).to eq(2.0)
         end
 
         it 'accepts users prompts without text' do
-          browsing_context = described_class.new(driver)
-          window = browsing_context.create
+          browsing_context = described_class.new(bridge)
 
+          driver.navigate.to url_for('alerts.html')
+          driver.find_element(id: 'alert').click
+          wait.until { driver.switch_to.alert }
+          window = driver.window_handles.first
           browsing_context.handle_user_prompt(window, accept: true)
+          wait_for_no_alert
 
-          expect(driver.page_source).to include('hello')
+          expect(driver.title).to eq('Testing Alerts')
         end
 
         it 'accepts users prompts with text' do
-          browsing_context = described_class.new(driver)
-          window = browsing_context.create
-
+          browsing_context = described_class.new(bridge)
+          driver.navigate.to url_for('alerts.html')
+          driver.find_element(id: 'prompt').click
+          wait_for_alert
+          window = driver.window_handles.first
           browsing_context.handle_user_prompt(window, accept: true, text: 'Hello, world!')
+          wait_for_no_alert
 
-          expect(driver.page_source).to include('hello')
+          expect(driver.title).to eq('Testing Alerts')
         end
 
         it 'rejects users prompts' do
-          browsing_context = described_class.new(driver)
-          window = browsing_context.create
+          browsing_context = described_class.new(bridge)
+          driver.navigate.to url_for('alerts.html')
+          driver.find_element(id: 'alert').click
+          wait_for_alert
+          window = driver.window_handles.first
 
           browsing_context.handle_user_prompt(window, accept: false)
+          wait_for_no_alert
 
-          expect(driver.page_source).to include('goodbye')
+          expect(driver.title).to eq('Testing Alerts')
         end
 
         it 'activates a browser context' do
-          browsing_context = described_class.new(driver)
+          browsing_context = described_class.new(bridge)
           browsing_context.create
 
           expect(driver.execute_script('return document.hasFocus();')).to be_falsey

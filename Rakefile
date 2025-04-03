@@ -378,7 +378,7 @@ task ios_driver: [
 # ./go java:package['--config=release']
 desc 'Create stamped zipped assets for Java for uploading to GitHub'
 task :'java-release-zip' do
-  Rake::Task['java:package'].invoke('--config=remote_release')
+  Rake::Task['java:package'].invoke('--config=rbe_release')
 end
 
 task 'release-java': %i[java-release-zip publish-maven]
@@ -453,7 +453,7 @@ namespace :side do
 end
 
 def node_version
-  File.foreach('javascript/node/selenium-webdriver/package.json') do |line|
+  File.foreach('javascript/selenium-webdriver/package.json') do |line|
     return line.split(':').last.strip.tr('",', '') if line.include?('version')
   end
 end
@@ -465,7 +465,7 @@ namespace :node do
   ]
 
   task atoms: atom_list do
-    base_dir = 'javascript/node/selenium-webdriver/lib/atoms'
+    base_dir = 'javascript/selenium-webdriver/lib/atoms'
     mkdir_p base_dir
 
     ['bazel-bin/javascript/atoms/fragments/is-displayed.js',
@@ -485,50 +485,52 @@ namespace :node do
   desc 'Build Node npm package'
   task :build do |_task, arguments|
     args = arguments.to_a.compact
-    Bazel.execute('build', args, '//javascript/node/selenium-webdriver')
+    Bazel.execute('build', args, '//javascript/selenium-webdriver')
   end
 
   task :'dry-run' do
     Bazel.execute('run', ['--stamp'],
-                  '//javascript/node/selenium-webdriver:selenium-webdriver.publish  -- --dry-run=true')
+                  '//javascript/selenium-webdriver:selenium-webdriver.publish  -- --dry-run=true')
   end
 
   desc 'Release Node npm package'
-  task :release, [:nightly] do |_task, arguments|
-    nightly = arguments[:nightly]
+  task :release do |_task, arguments|
+    nightly = arguments.to_a.include?('nightly')
     if nightly
       puts 'Updating Node version to nightly...'
       Rake::Task['node:version'].invoke('nightly') if nightly
     end
 
     puts 'Running Node package release...'
-    Bazel.execute('run', ['--config=release'], '//javascript/node/selenium-webdriver:selenium-webdriver.publish')
+    Bazel.execute('run', ['--config=release'], '//javascript/selenium-webdriver:selenium-webdriver.publish')
   end
 
   desc 'Release Node npm package'
   task deploy: :release
 
   desc 'Generate Node documentation'
-  task :docs, [:skip_update] do |_task, arguments|
+  task :docs do |_task, arguments|
     abort('Aborting documentation update: nightly versions should not update docs.') if node_version.include?('nightly')
 
     puts 'Generating Node documentation'
     FileUtils.rm_rf('build/docs/api/javascript/')
     begin
-      sh 'npm install --prefix javascript/node/selenium-webdriver', verbose: true
-      sh 'npm run generate-docs --prefix javascript/node/selenium-webdriver', verbose: true
+      Dir.chdir('javascript/selenium-webdriver') do
+        sh 'pnpm install', verbose: true
+        sh 'pnpm run generate-docs', verbose: true
+      end
     rescue StandardError => e
       puts "Node documentation generation contains errors; continuing... #{e.message}"
     end
 
-    update_gh_pages unless arguments[:skip_update]
+    update_gh_pages unless arguments.to_a.include?('skip_update')
   end
 
   desc 'Update JavaScript changelog'
   task :changelog do
     header = "## #{node_version}\n"
-    update_changelog(node_version, 'javascript', 'javascript/node/selenium-webdriver/',
-                     'javascript/node/selenium-webdriver/CHANGES.md', header)
+    update_changelog(node_version, 'javascript', 'javascript/selenium-webdriver/',
+                     'javascript/selenium-webdriver/CHANGES.md', header)
   end
 
   desc 'Update Node version'
@@ -537,17 +539,11 @@ namespace :node do
     nightly = "-nightly#{Time.now.strftime('%Y%m%d%H%M')}"
     new_version = updated_version(old_version, arguments[:version], nightly)
 
-    %w[javascript/node/selenium-webdriver/package.json javascript/node/selenium-webdriver/BUILD.bazel].each do |file|
+    %w[javascript/selenium-webdriver/package.json javascript/selenium-webdriver/BUILD.bazel].each do |file|
       text = File.read(file).gsub(old_version, new_version)
       File.open(file, 'w') { |f| f.puts text }
       @git.add(file)
     end
-
-    # Update package-lock.json
-    Dir.chdir('javascript/node/selenium-webdriver') do
-      sh 'npm install --prefix javascript/node/selenium-webdriver', verbose: true
-    end
-    @git.add('javascript/node/selenium-webdriver/package-lock.json')
   end
 end
 
@@ -565,8 +561,8 @@ namespace :py do
   end
 
   desc 'Release Python wheel and sdist to pypi'
-  task :release, [:nightly] do |_task, arguments|
-    nightly = arguments[:nightly]
+  task :release do |_task, arguments|
+    nightly = arguments.to_a.include?('nightly')
     if nightly
       puts 'Updating Python version to nightly...'
       Rake::Task['py:version'].invoke('nightly')
@@ -611,7 +607,7 @@ namespace :py do
   end
 
   desc 'Generate Python documentation'
-  task :docs, [:skip_update] do |_task, arguments|
+  task :docs do |_task, arguments|
     if python_version.match?(/^\d+\.\d+\.\d+\.\d+$/)
       abort('Aborting documentation update: nightly versions should not update docs.')
     end
@@ -626,7 +622,7 @@ namespace :py do
       raise
     end
 
-    update_gh_pages unless arguments[:skip_update]
+    update_gh_pages unless arguments.to_a.include?('skip_update')
   end
 
   desc 'Install Python wheel locally'
@@ -733,6 +729,25 @@ namespace :rb do
     Bazel.execute('build', args, '//rb:selenium-devtools') if devtools || !webdriver
   end
 
+  task :atoms do
+    base_dir = 'rb/lib/selenium/webdriver/atoms'
+    mkdir_p base_dir
+
+    {
+      '//javascript/atoms/fragments:find-elements': 'findElements.js',
+      '//javascript/atoms/fragments:is-displayed': 'isDisplayed.js',
+      '//javascript/webdriver/atoms:get-attribute': 'getAttribute.js'
+    }.each do |target, name|
+      puts "Generating #{target} as #{name}"
+
+      atom = Bazel.execute('build', [], target.to_s)
+
+      File.open(File.join(base_dir, name), 'w') do |f|
+        f << File.read(atom).strip
+      end
+    end
+  end
+
   desc 'Update generated Ruby files for local development'
   task :local_dev do
     Bazel.execute('build', [], '@bundle//:bundle')
@@ -741,8 +756,8 @@ namespace :rb do
   end
 
   desc 'Push Ruby gems to rubygems'
-  task :release, [:nightly] do |_task, arguments|
-    nightly = arguments[:nightly]
+  task :release do |_task, arguments|
+    nightly = arguments.to_a.include?('nightly')
 
     if nightly
       puts 'Bumping Ruby nightly version...'
@@ -751,14 +766,16 @@ namespace :rb do
       puts 'Releasing nightly WebDriver gem...'
       Bazel.execute('run', ['--config=release'], '//rb:selenium-webdriver-release-nightly')
     else
+      patch_release = ruby_version.split('.').fetch(2, '0').to_i.positive?
+
       puts 'Releasing Ruby gems...'
       Bazel.execute('run', ['--config=release'], '//rb:selenium-webdriver-release')
-      Bazel.execute('run', ['--config=release'], '//rb:selenium-devtools-release')
+      Bazel.execute('run', ['--config=release'], '//rb:selenium-devtools-release') unless patch_release
     end
   end
 
   desc 'Generate Ruby documentation'
-  task :docs, [:skip_update] do |_task, arguments|
+  task :docs do |_task, arguments|
     abort('Aborting documentation update: nightly versions should not update docs.') if ruby_version.include?('nightly')
     puts 'Generating Ruby documentation'
 
@@ -767,7 +784,7 @@ namespace :rb do
     FileUtils.mkdir_p('build/docs/api')
     FileUtils.cp_r('bazel-bin/rb/docs.sh.runfiles/_main/docs/api/rb/.', 'build/docs/api/rb')
 
-    update_gh_pages unless arguments[:skip_update]
+    update_gh_pages unless arguments.to_a.include?('skip_update')
   end
 
   desc 'Update Ruby changelog'
@@ -823,8 +840,8 @@ namespace :dotnet do
   end
 
   desc 'Upload nupkg files to Nuget'
-  task :release, [:nightly] do |_task, arguments|
-    nightly = arguments[:nightly]
+  task :release do |_task, arguments|
+    nightly = arguments.to_a.include?('nightly')
     if nightly
       puts 'Updating .NET version to nightly...'
       Rake::Task['dotnet:version'].invoke('nightly')
@@ -854,7 +871,7 @@ namespace :dotnet do
   end
 
   desc 'Generate .NET documentation'
-  task :docs, [:skip_update] do |_task, arguments|
+  task :docs do |_task, arguments|
     if dotnet_version.include?('nightly')
       abort('Aborting documentation update: nightly versions should not update docs.')
     end
@@ -884,7 +901,7 @@ namespace :dotnet do
       end
     end
 
-    update_gh_pages unless arguments[:skip_update]
+    update_gh_pages unless arguments.to_a.include?('skip_update')
   end
 
   desc 'Update .NET changelog'
@@ -941,8 +958,8 @@ namespace :java do
   end
 
   desc 'Deploy all jars to Maven'
-  task :release, [:nightly] do |_task, arguments|
-    nightly = arguments[:nightly]
+  task :release do |_task, arguments|
+    nightly = arguments.to_a.include?('nightly')
 
     ENV['MAVEN_USER'] ||= ENV.fetch('SEL_M2_USER', nil)
     ENV['MAVEN_PASSWORD'] ||= ENV.fetch('SEL_M2_PASS', nil)
@@ -969,7 +986,7 @@ namespace :java do
   task install: :'maven-install'
 
   desc 'Generate Java documentation'
-  task :docs, [:skip_update] do |_task, arguments|
+  task :docs do |_task, arguments|
     if java_version.include?('SNAPSHOT')
       abort('Aborting documentation update: snapshot versions should not update docs.')
     end
@@ -977,7 +994,7 @@ namespace :java do
     puts 'Generating Java documentation'
     Rake::Task['javadocs'].invoke
 
-    update_gh_pages unless arguments[:skip_update]
+    update_gh_pages unless arguments.to_a.include?('skip_update')
   end
 
   desc 'Update Maven dependencies'
@@ -1106,7 +1123,7 @@ namespace :all do
      'dotnet/test/common/CustomDriverConfigs/',
      'dotnet/selenium-dotnet-version.bzl',
      'java/src/org/openqa/selenium/devtools/',
-     'javascript/node/selenium-webdriver/BUILD.bazel',
+     'javascript/selenium-webdriver/BUILD.bazel',
      'py/BUILD.bazel',
      'rb/lib/selenium/devtools/',
      'rb/Gemfile.lock',
@@ -1142,17 +1159,17 @@ namespace :all do
   end
 
   desc 'Release all artifacts for all language bindings'
-  task :release, [:nightly] do |_task, arguments|
+  task :release do |_task, arguments|
     Rake::Task['clean'].invoke
 
-    nightly = arguments[:nightly]
-    Rake::Task['java:release'].invoke(nightly)
-    Rake::Task['py:release'].invoke(nightly)
-    Rake::Task['rb:release'].invoke(nightly)
-    Rake::Task['dotnet:release'].invoke(nightly)
-    Rake::Task['node:release'].invoke(nightly)
+    args = arguments.to_a.include?('nightly') ? ['nightly'] : []
+    Rake::Task['java:release'].invoke(*args)
+    Rake::Task['py:release'].invoke(*args)
+    Rake::Task['rb:release'].invoke(*args)
+    Rake::Task['dotnet:release'].invoke(*args)
+    Rake::Task['node:release'].invoke(*args)
 
-    unless nightly
+    unless args.include?('nightly')
       puts 'bump all versions to nightly'
       Rake::Task['all:version'].invoke('nightly')
     end
@@ -1188,7 +1205,17 @@ namespace :all do
     Rake::Task['dotnet:version'].invoke(version)
     Rake::Task['rust:version'].invoke(version)
 
-    Rake::Task['all:changelogs'] unless version == 'nightly'
+    unless version == 'nightly'
+      Rake::Task['all:changelogs']
+
+      major_minor = arguments[:version][/^\d+\.\d+/]
+      file = '.github/ISSUE_TEMPLATE/bug-report.yml'
+      old_version_pattern = /The latest released version of Selenium is (\d+\.\d+)/
+
+      text = File.read(file).gsub(old_version_pattern, "The latest released version of Selenium is #{major_minor}")
+      File.write(file, text)
+      @git.add(file)
+    end
   end
 
   desc 'Update all changelogs'
@@ -1227,8 +1254,8 @@ def update_gh_pages(force: true)
   @git.fetch('https://github.com/seleniumhq/selenium.git', {ref: 'gh-pages'})
 
   unless force
-    puts 'Stashing current changes before checkout...'
-    Git::Stash.new(@git, 'stash wip')
+    puts 'Stash changes that are not docs...'
+    @git.lib.send(:command, 'stash', ['push', '-m', 'stash wip', '--', ':(exclude)build/docs/api/'])
   end
 
   @git.checkout('gh-pages', force: force)

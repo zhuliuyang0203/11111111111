@@ -23,8 +23,8 @@ using System.Text.Json.Serialization;
 namespace OpenQA.Selenium.BiDi.Communication.Json;
 
 #region https://github.com/dotnet/runtime/issues/72604
-[JsonSerializable(typeof(Modules.Script.EvaluateResult.Success))]
-[JsonSerializable(typeof(Modules.Script.EvaluateResult.Exception))]
+[JsonSerializable(typeof(Modules.Script.EvaluateResultSuccess))]
+[JsonSerializable(typeof(Modules.Script.EvaluateResultException))]
 
 [JsonSerializable(typeof(Modules.Script.NumberRemoteValue))]
 [JsonSerializable(typeof(Modules.Script.BooleanRemoteValue))]
