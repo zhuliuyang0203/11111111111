@@ -184,6 +184,7 @@ def test_should_allow_users_to_accept_an_alert_in_anested_frame(driver, pages):
 
     assert "Testing Alerts" == driver.title
 
+
 @pytest.mark.xfail_safari
 def test_should_throw_an_exception_if_an_alert_has_not_been_dealt_with_and_dismiss_the_alert(driver, pages):
     pages.load("alerts.html")
