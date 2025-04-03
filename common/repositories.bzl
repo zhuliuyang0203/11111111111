@@ -50,8 +50,8 @@ js_library(
 
     http_archive(
         name = "linux_beta_firefox",
-        url = "https://ftp.mozilla.org/pub/firefox/releases/138.0b1/linux-x86_64/en-US/firefox-138.0b1.tar.xz",
-        sha256 = "1a502b1deb0df5a9c80b3f3e9807c599d2416aaa5bf2628d4cfa1b01448e378a",
+        url = "https://ftp.mozilla.org/pub/firefox/releases/138.0b2/linux-x86_64/en-US/firefox-138.0b2.tar.xz",
+        sha256 = "6bc6101d9fdc19d9721cba6a4b8db786b984f7761563dfba697bb6ab9f4e6951",
         build_file_content = """
 load("@aspect_rules_js//js:defs.bzl", "js_library")
 package(default_visibility = ["//visibility:public"])
@@ -72,8 +72,8 @@ js_library(
 
     dmg_archive(
         name = "mac_beta_firefox",
-        url = "https://ftp.mozilla.org/pub/firefox/releases/138.0b1/mac/en-US/Firefox%20138.0b1.dmg",
-        sha256 = "ed7eb980a71333c1f3936510d85a45ca7d04289a05ba1e845e0335738a6489ae",
+        url = "https://ftp.mozilla.org/pub/firefox/releases/138.0b2/mac/en-US/Firefox%20138.0b2.dmg",
+        sha256 = "c7e7fcc1c72c2591ba9d64f76eedc060d777a2f00218e1eecc767cf71e7dfb53",
         build_file_content = """
 load("@aspect_rules_js//js:defs.bzl", "js_library")
 package(default_visibility = ["//visibility:public"])
@@ -123,10 +123,10 @@ js_library(
 
     pkg_archive(
         name = "mac_edge",
-        url = "https://msedge.sf.dl.delivery.mp.microsoft.com/filestreamingservice/files/7697fb1f-03b9-4c5b-a21a-db2973b936d9/MicrosoftEdge-134.0.3124.95.pkg",
-        sha256 = "0384868c1c3d97d60ff5da6500e6b48a9a47cadf46a509a2c6598b6d916a6b91",
+        url = "https://msedge.sf.dl.delivery.mp.microsoft.com/filestreamingservice/files/d3d754a3-4afc-4dc2-b1b9-5226894fdf12/MicrosoftEdge-135.0.3179.54.pkg",
+        sha256 = "7bb07e3722866a4b5e44f0efe42c204a72105cbcfd3abe96811d6f00d08e8a61",
         move = {
-            "MicrosoftEdge-134.0.3124.95.pkg/Payload/Microsoft Edge.app": "Edge.app",
+            "MicrosoftEdge-135.0.3179.54.pkg/Payload/Microsoft Edge.app": "Edge.app",
         },
         build_file_content = """
 load("@aspect_rules_js//js:defs.bzl", "js_library")
