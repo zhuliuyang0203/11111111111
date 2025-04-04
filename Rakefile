@@ -1195,8 +1195,6 @@ namespace :all do
     Rake::Task['rust:version'].invoke(version)
 
     unless version == 'nightly'
-      Rake::Task['all:changelogs'].invoke
-
       major_minor = arguments[:version][/^\d+\.\d+/]
       file = '.github/ISSUE_TEMPLATE/bug-report.yml'
       old_version_pattern = /The latest released version of Selenium is (\d+\.\d+)/
