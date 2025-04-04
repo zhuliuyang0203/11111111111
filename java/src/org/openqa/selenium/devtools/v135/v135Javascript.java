@@ -55,7 +55,7 @@ public class v135Javascript extends Javascript<ScriptIdentifier, BindingCalled> 
 
   @Override
   protected Command<Void> enablePage() {
-    return Page.enable();
+    return Page.enable(Optional.empty());
   }
 
   @Override

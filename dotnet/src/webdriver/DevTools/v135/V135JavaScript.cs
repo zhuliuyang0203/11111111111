@@ -72,7 +72,7 @@ namespace OpenQA.Selenium.DevTools.V135
         /// <returns>A task that represents the asynchronous operation.</returns>
         public override async Task EnablePage()
         {
-            await page.Enable().ConfigureAwait(false);
+            await page.Enable(new Page.EnableCommandSettings()).ConfigureAwait(false);
         }
 
         /// <summary>
