@@ -63,7 +63,7 @@ class Network:
         cmd = yield command
         return cmd
 
-    def add_intercept(self, phases=[], contexts=None, url_patterns=None):
+    def _add_intercept(self, phases=[], contexts=None, url_patterns=None):
         """Add an intercept to the network.
 
         Parameters:
@@ -94,7 +94,7 @@ class Network:
         self.intercepts.append(result["intercept"])
         return result
 
-    def remove_intercept(self, intercept=None):
+    def _remove_intercept(self, intercept=None):
         """Remove a specific intercept, or all intercepts.
 
         Parameters:
@@ -183,7 +183,7 @@ class Network:
         except KeyError:
             raise Exception(f"Event {event} not found")
 
-        result = self.add_intercept(phases=[phase_name], url_patterns=url_patterns, contexts=contexts)
+        result = self._add_intercept(phases=[phase_name], url_patterns=url_patterns, contexts=contexts)
         callback_id = self._on_request(event_name, callback)
 
         if event_name in self.subscriptions:
@@ -213,7 +213,7 @@ class Network:
         net_event = NetworkEvent(event_name)
 
         self.conn.remove_callback(net_event, callback_id)
-        self.remove_intercept(self.callbacks[callback_id])
+        self._remove_intercept(self.callbacks[callback_id])
         del self.callbacks[callback_id]
         self.subscriptions[event_name].remove(callback_id)
         if len(self.subscriptions[event_name]) == 0:
@@ -221,6 +221,20 @@ class Network:
             params["events"] = [event_name]
             self.conn.execute(self.command_builder("session.unsubscribe", params))
             del self.subscriptions[event_name]
+
+    def clear_request_handlers(self):
+        """Clear all request handlers from the network."""
+
+        for event_name in self.subscriptions:
+            net_event = NetworkEvent(event_name)
+            for callback_id in self.subscriptions[event_name]:
+                self.conn.remove_callback(net_event, callback_id)
+                self._remove_intercept(self.callbacks[callback_id])
+                del self.callbacks[callback_id]
+            params = {}
+            params["events"] = [event_name]
+            self.conn.execute(self.command_builder("session.unsubscribe", params))
+        self.subscriptions = {}
 
     def add_auth_handler(self, username, password):
         """Add an authentication handler to the network.
