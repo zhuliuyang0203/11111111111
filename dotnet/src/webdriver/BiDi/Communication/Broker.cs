@@ -41,6 +41,7 @@ public sealed class Broker : IAsyncDisposable
 
     private readonly ConcurrentDictionary<long, (Command, TaskCompletionSource<object>)> _pendingCommands = new();
     private readonly BlockingCollection<MessageEvent> _pendingEvents = [];
+    private readonly Dictionary<string, Type> _eventTypesMap = [];
 
     private readonly ConcurrentDictionary<string, List<EventHandler>> _eventHandlers = new();
 
@@ -216,6 +217,8 @@ public sealed class Broker : IAsyncDisposable
     public async Task<Subscription> SubscribeAsync<TEventArgs>(string eventName, Action<TEventArgs> action, SubscriptionOptions? options = null)
         where TEventArgs : EventArgs
     {
+        _eventTypesMap[eventName] = typeof(TEventArgs);
+
         var handlers = _eventHandlers.GetOrAdd(eventName, (a) => []);
 
         if (options is BrowsingContextsSubscriptionOptions browsingContextsOptions)
@@ -243,6 +246,8 @@ public sealed class Broker : IAsyncDisposable
     public async Task<Subscription> SubscribeAsync<TEventArgs>(string eventName, Func<TEventArgs, Task> func, SubscriptionOptions? options = null)
         where TEventArgs : EventArgs
     {
+        _eventTypesMap[eventName] = typeof(TEventArgs);
+
         var handlers = _eventHandlers.GetOrAdd(eventName, (a) => []);
 
         if (options is BrowsingContextsSubscriptionOptions browsingContextsOptions)
@@ -377,8 +382,7 @@ public sealed class Broker : IAsyncDisposable
                 break;
 
             case "event":
-                // TODO: Just get type info from existing subscribers, should be better
-                var eventType = _eventHandlers[method].First().EventArgsType;
+                var eventType = _eventTypesMap[method];
 
                 var eventArgs = (EventArgs)JsonSerializer.Deserialize(ref paramsReader, eventType, _jsonSerializerContext);
 
