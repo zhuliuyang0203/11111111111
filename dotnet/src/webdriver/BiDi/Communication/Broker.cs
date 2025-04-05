@@ -130,7 +130,7 @@ public sealed class Broker : IAsyncDisposable
             }
             catch (Exception ex)
             {
-                if (cancellationToken.IsCancellationRequested is not true)
+                if (cancellationToken.IsCancellationRequested is not true && _logger.IsEnabled(LogEventLevel.Error))
                 {
                     _logger.Error($"Couldn't process received BiDi remote message: {ex}");
                 }
