@@ -34,13 +34,13 @@ public abstract class Command
     public string Method { get; }
 
     [JsonPropertyOrder(0)]
-    public int Id { get; internal set; }
+    public long Id { get; internal set; }
 
     [JsonIgnore]
     public Type ResultType { get; }
 }
 
-internal abstract class Command<TCommandParameters, TCommandResult>(TCommandParameters @params, string method) : Command(method, typeof(MessageSuccess<TCommandResult>))
+internal abstract class Command<TCommandParameters, TCommandResult>(TCommandParameters @params, string method) : Command(method, typeof(TCommandResult))
     where TCommandParameters : CommandParameters
     where TCommandResult : EmptyResult
 {

@@ -40,14 +40,7 @@ internal static class JsonExtensions
 
             if (propertyName == name)
             {
-                if (readerClone.TokenType == JsonTokenType.Number)
-                {
-                    discriminator = readerClone.GetInt64().ToString();
-                }
-                else
-                {
-                    discriminator = readerClone.GetString();
-                }
+                discriminator = readerClone.GetString();
 
                 break;
             }
@@ -56,6 +49,6 @@ internal static class JsonExtensions
             readerClone.Read();
         }
 
-        return discriminator ?? throw new JsonException($"Couldn't determine '{name}' descriminator.");
+        return discriminator ?? throw new JsonException($"Couldn't determine '{name}' discriminator.");
     }
 }

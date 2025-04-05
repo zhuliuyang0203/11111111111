@@ -17,20 +17,13 @@
 // under the License.
 // </copyright>
 
-using System;
-
 namespace OpenQA.Selenium.BiDi.Communication;
 
-// https://github.com/dotnet/runtime/issues/72604
-//[JsonPolymorphic(TypeDiscriminatorPropertyName = "type")]
-//[JsonDerivedType(typeof(MessageSuccess), "success")]
-//[JsonDerivedType(typeof(MessageError), "error")]
-//[JsonDerivedType(typeof(MessageEvent), "event")]
 internal abstract record Message;
 
-internal record MessageSuccess<T>(int Id, T Result) : Message;
+internal record MessageSuccess(long Id, EmptyResult Result) : Message;
 
-internal record MessageError(int Id) : Message
+internal record MessageError(long Id) : Message
 {
     public string? Error { get; set; }
 
