@@ -33,7 +33,11 @@ namespace OpenQA.Selenium
     {
         private readonly static JsonSerializerOptions s_jsonSerializerOptions = new()
         {
-            TypeInfoResolver = JsonTypeInfoResolver.Combine(CommandJsonSerializerContext.Default, new DefaultJsonTypeInfoResolver()),
+            TypeInfoResolverChain =
+            {
+                CommandJsonSerializerContext.Default,
+                new DefaultJsonTypeInfoResolver()
+            },
             Converters = { new ResponseValueJsonConverter() }
         };
 
@@ -86,12 +90,14 @@ namespace OpenQA.Selenium
         {
             get
             {
-                if (this.Parameters == null || this.Parameters.Count <= 0)
+                if (this.Parameters != null && this.Parameters.Count > 0)
+                {
+                    return JsonSerializer.Serialize(this.Parameters, s_jsonSerializerOptions);
+                }
+                else
                 {
                     return "{}";
                 }
-
-                return JsonSerializer.Serialize(this.Parameters, s_jsonSerializerOptions);
             }
         }
 

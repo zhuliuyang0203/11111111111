@@ -23,12 +23,8 @@ using System.Text.Json.Serialization;
 namespace OpenQA.Selenium.BiDi.Communication.Json;
 
 #region https://github.com/dotnet/runtime/issues/72604
-[JsonSerializable(typeof(MessageSuccess))]
-[JsonSerializable(typeof(MessageError))]
-[JsonSerializable(typeof(MessageEvent))]
-
-[JsonSerializable(typeof(Modules.Script.EvaluateResult.Success))]
-[JsonSerializable(typeof(Modules.Script.EvaluateResult.Exception))]
+[JsonSerializable(typeof(Modules.Script.EvaluateResultSuccess))]
+[JsonSerializable(typeof(Modules.Script.EvaluateResultException))]
 
 [JsonSerializable(typeof(Modules.Script.NumberRemoteValue))]
 [JsonSerializable(typeof(Modules.Script.BooleanRemoteValue))]
@@ -71,7 +67,7 @@ namespace OpenQA.Selenium.BiDi.Communication.Json;
 #endregion
 
 [JsonSerializable(typeof(Command))]
-[JsonSerializable(typeof(Message))]
+[JsonSerializable(typeof(EmptyResult))]
 
 [JsonSerializable(typeof(Modules.Session.StatusCommand))]
 [JsonSerializable(typeof(Modules.Session.StatusResult))]
@@ -120,7 +116,6 @@ namespace OpenQA.Selenium.BiDi.Communication.Json;
 [JsonSerializable(typeof(Modules.BrowsingContext.UserPromptOpenedEventArgs))]
 [JsonSerializable(typeof(Modules.BrowsingContext.UserPromptClosedEventArgs))]
 
-[JsonSerializable(typeof(Modules.Network.ContinueWithAuthParameters.Default), TypeInfoPropertyName = "Network_ContinueWithAuthParameters_Default")]
 [JsonSerializable(typeof(Modules.Network.AddInterceptCommand))]
 [JsonSerializable(typeof(Modules.Network.AddInterceptResult))]
 [JsonSerializable(typeof(Modules.Network.ContinueRequestCommand))]
