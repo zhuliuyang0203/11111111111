@@ -19,8 +19,6 @@
 
 using System.Collections.Generic;
 
-#nullable enable
-
 namespace OpenQA.Selenium
 {
     /// <summary>
@@ -33,15 +31,6 @@ namespace OpenQA.Selenium
         /// </summary>
         public HttpRequestData()
         {
-        }
-
-        internal HttpRequestData(string? method, string? url, string? postData, Dictionary<string, string>? headers, string? requestId)
-        {
-            this.Method = method;
-            this.Url = url;
-            this.PostData = postData;
-            this.Headers = headers;
-            this.RequestId = requestId;
         }
 
         /// <summary>
@@ -67,6 +56,6 @@ namespace OpenQA.Selenium
         /// <summary>
         /// Gets the ID of the HTTP request.
         /// </summary>
-        public string? RequestId { get; }
+        public string? RequestId { get; internal set; }
     }
 }

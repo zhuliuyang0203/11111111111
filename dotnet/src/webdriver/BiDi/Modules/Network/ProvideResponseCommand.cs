@@ -20,12 +20,10 @@
 using OpenQA.Selenium.BiDi.Communication;
 using System.Collections.Generic;
 
-#nullable enable
-
 namespace OpenQA.Selenium.BiDi.Modules.Network;
 
 internal class ProvideResponseCommand(ProvideResponseCommandParameters @params)
-    : Command<ProvideResponseCommandParameters>(@params, "network.provideResponse");
+    : Command<ProvideResponseCommandParameters, EmptyResult>(@params, "network.provideResponse");
 
 internal record ProvideResponseCommandParameters(Request Request, BytesValue? Body, IEnumerable<SetCookieHeader>? Cookies, IEnumerable<Header>? Headers, string? ReasonPhrase, long? StatusCode) : CommandParameters;
 

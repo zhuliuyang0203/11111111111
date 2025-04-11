@@ -20,8 +20,6 @@
 using System;
 using System.Collections.Generic;
 
-#nullable enable
-
 namespace OpenQA.Selenium
 {
     /// <summary>
@@ -51,12 +49,12 @@ namespace OpenQA.Selenium
         /// <summary>
         /// Gets the request ID of the network request that generated this response.
         /// </summary>
-        public string RequestId { get; }
+        public string? RequestId { get; }
 
         /// <summary>
         /// Gets the URL of the network response.
         /// </summary>
-        public string ResponseUrl { get; }
+        public string? ResponseUrl { get; }
 
         /// <summary>
         /// Gets the HTTP status code of the network response.
@@ -79,7 +77,7 @@ namespace OpenQA.Selenium
         /// <summary>
         /// Gets the type of resource of the network response.
         /// </summary>
-        public string ResponseResourceType { get; }
+        public string? ResponseResourceType { get; }
 
         /// <summary>
         /// Gets the headers associated with this network response.

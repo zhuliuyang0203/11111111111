@@ -17,8 +17,8 @@
 // under the License.
 // </copyright>
 
-#nullable enable
+using OpenQA.Selenium.BiDi.Communication;
 
 namespace OpenQA.Selenium.BiDi.Modules.Browser;
 
-public record UserContextInfo(UserContext UserContext);
+public record UserContextInfo(UserContext UserContext) : EmptyResult;

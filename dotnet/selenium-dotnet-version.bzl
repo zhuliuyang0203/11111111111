@@ -1,14 +1,13 @@
 # BUILD FILE SYNTAX: STARLARK
 
-SE_VERSION = "4.29.0-nightly202501201850"
+SE_VERSION = "4.32.0-nightly202504060755"
 ASSEMBLY_VERSION = "4.0.0.0"
 SUPPORTED_NET_STANDARD_VERSIONS = ["netstandard2.0"]
 
 SUPPORTED_DEVTOOLS_VERSIONS = [
-    "v85",
-    "v131",
-    "v132",
-    "v130",
+    "v134",
+    "v135",
+    "v133",
 ]
 
 ASSEMBLY_COMPANY = "Selenium Committers"

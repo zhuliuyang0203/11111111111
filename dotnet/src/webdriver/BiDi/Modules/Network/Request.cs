@@ -19,8 +19,6 @@
 
 using System.Threading.Tasks;
 
-#nullable enable
-
 namespace OpenQA.Selenium.BiDi.Modules.Network;
 
 public class Request
@@ -55,17 +53,17 @@ public class Request
         return _bidi.Network.ContinueResponseAsync(this, options);
     }
 
-    public Task ContinueWithAuthAsync(AuthCredentials credentials, ContinueWithAuthOptions? options = null)
+    public Task ContinueWithAuthAsync(AuthCredentials credentials, ContinueWithAuthCredentialsOptions? options = null)
     {
         return _bidi.Network.ContinueWithAuthAsync(this, credentials, options);
     }
 
-    public Task ContinueWithAuthAsync(ContinueWithDefaultAuthOptions? options = null)
+    public Task ContinueWithAuthAsync(ContinueWithAuthDefaultCredentialsOptions? options = null)
     {
         return _bidi.Network.ContinueWithAuthAsync(this, options);
     }
 
-    public Task ContinueWithAuthAsync(ContinueWithCancelledAuthOptions? options = null)
+    public Task ContinueWithAuthAsync(ContinueWithAuthCancelCredentialsOptions? options = null)
     {
         return _bidi.Network.ContinueWithAuthAsync(this, options);
     }
