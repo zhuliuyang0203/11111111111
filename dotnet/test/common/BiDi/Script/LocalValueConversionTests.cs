@@ -162,19 +162,12 @@ class LocalValueConversionTests
     [Test]
     public void CanConvertObjectValue()
     {
-        var my = new MyClass() { IntNumber = 5 };
+        var arg = new { UIntNumber = 5u };
 
-        var value = LocalValue.ConvertFrom(my);
+        var value = LocalValue.ConvertFrom(arg);
 
         Console.WriteLine(value);
 
         Assert.That(value, Is.TypeOf<ObjectLocalValue>());
-    }
-
-    class MyClass
-    {
-        public int IntNumber { get; set; }
-
-        public List<int> ListOfInt { get; set; }
     }
 }
