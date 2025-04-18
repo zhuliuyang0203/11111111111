@@ -17,7 +17,7 @@
 
 package org.openqa.selenium.grid.node.relay;
 
-import static org.openqa.selenium.grid.data.DefaultSlotMatcher.specificRelayCapabilitiesAppMatch;
+import static org.openqa.selenium.grid.data.DefaultSlotMatcher.matchConditionToRemoveCapability;
 import static org.openqa.selenium.remote.RemoteTags.CAPABILITIES;
 import static org.openqa.selenium.remote.RemoteTags.CAPABILITIES_EVENT;
 import static org.openqa.selenium.remote.tracing.AttributeKey.DOWNSTREAM_DIALECT;
@@ -145,7 +145,7 @@ public class RelaySessionFactory implements SessionFactory {
     Remove browserName capability if 'appium:app' (or similar based on driver) is present as it breaks appium tests when app is provided
     they are mutually exclusive
     */
-    if (specificRelayCapabilitiesAppMatch(capabilities)) {
+    if (matchConditionToRemoveCapability(capabilities)) {
       MutableCapabilities filteredStereotype = new MutableCapabilities(capabilities);
       filteredStereotype.setCapability(CapabilityType.BROWSER_NAME, (String) null);
       return filteredStereotype;

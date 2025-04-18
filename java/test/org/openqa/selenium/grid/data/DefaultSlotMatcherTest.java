@@ -66,7 +66,7 @@ class DefaultSlotMatcherTest {
             "Android",
             "appium:automationName",
             "uiautomator2");
-    assertThat(DefaultSlotMatcher.specificRelayCapabilitiesAppMatch(capabilitiesWithApp)).isTrue();
+    assertThat(DefaultSlotMatcher.matchConditionToRemoveCapability(capabilitiesWithApp)).isTrue();
     capabilitiesWithApp =
         new ImmutableCapabilities(
             "browserName",
@@ -77,7 +77,7 @@ class DefaultSlotMatcherTest {
             "Android",
             "appium:automationName",
             "uiautomator2");
-    assertThat(DefaultSlotMatcher.specificRelayCapabilitiesAppMatch(capabilitiesWithApp)).isFalse();
+    assertThat(DefaultSlotMatcher.matchConditionToRemoveCapability(capabilitiesWithApp)).isFalse();
   }
 
   @Test
