@@ -147,8 +147,8 @@ Style/OptionalBooleanParameter:
   Enabled: false
 
 Lint/Debugger:
-  IgnoredMethods:
-    - save_screenshot
+  Exclude:
+    - 'lib/selenium/webdriver/common/driver_extensions/full_page_screenshot.rb'
 
 Lint/UselessConstantScoping:
   Enabled: false
