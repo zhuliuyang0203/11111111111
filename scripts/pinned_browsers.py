@@ -57,8 +57,8 @@ def chromedriver(selected_version):
     sha = calculate_hash(linux)
 
     content = (
-        content
-        + """    http_archive(
+      content
+      + """    http_archive(
         name = "linux_chromedriver",
         url = "%s",
         sha256 = "%s",
@@ -76,14 +76,14 @@ js_library(
 \"\"\",
     )
 """
-        % (linux, sha)
+      % (linux, sha)
     )
 
     mac = [d["url"] for d in drivers if d["platform"] == "mac-x64"][0]
     sha = calculate_hash(mac)
     content = (
-        content
-        + """
+      content
+      + """
     http_archive(
         name = "mac_chromedriver",
         url = "%s",
@@ -102,7 +102,7 @@ js_library(
 \"\"\",
     )
 """
-        % (mac, sha)
+      % (mac, sha)
     )
 
     return content
@@ -286,8 +286,8 @@ def edgedriver():
     linux = "https://msedgedriver.azureedge.net/%s/edgedriver_linux64.zip" % linux_version
     sha = calculate_hash(linux)
     content = (
-        content
-        + """
+      content
+      + """
     http_archive(
         name = "linux_edgedriver",
         url = "%s",
@@ -305,7 +305,7 @@ js_library(
 \"\"\",
     )
 """
-        % (linux, sha)
+      % (linux, sha)
     )
 
     r = http.request("GET", f"https://msedgedriver.azureedge.net/LATEST_RELEASE_{major_version}_MACOS")
@@ -313,8 +313,8 @@ js_library(
     mac = "https://msedgedriver.azureedge.net/%s/edgedriver_mac64.zip" % macos_version
     sha = calculate_hash(mac)
     content = (
-        content
-        + """
+      content
+      + """
     http_archive(
         name = "mac_edgedriver",
         url = "%s",
@@ -332,7 +332,7 @@ js_library(
 \"\"\",
     )
 """
-        % (mac, sha)
+      % (mac, sha)
     )
     return content
 
@@ -346,8 +346,8 @@ def geckodriver():
             url = a["browser_download_url"]
             sha = calculate_hash(url)
             content = (
-                content
-                + """    http_archive(
+              content
+              + """    http_archive(
         name = "linux_geckodriver",
         url = "%s",
         sha256 = "%s",
@@ -364,15 +364,15 @@ js_library(
 \"\"\",
     )
 """
-                % (url, sha)
+              % (url, sha)
             )
 
         if a["name"].endswith("-macos.tar.gz"):
             url = a["browser_download_url"]
             sha = calculate_hash(url)
             content = (
-                content
-                + """
+              content
+              + """
     http_archive(
         name = "mac_geckodriver",
         url = "%s",
@@ -390,7 +390,7 @@ js_library(
 \"\"\",
     )
 """
-                % (url, sha)
+              % (url, sha)
             )
     return content
 
@@ -416,7 +416,12 @@ def firefox_version_data():
 
 
 def firefox_linux(version):
-    return "https://ftp.mozilla.org/pub/firefox/releases/%s/linux-x86_64/en-US/firefox-%s.tar.bz2" % (version, version)
+    if int(version.split(".")[0]) < 135:
+        return "https://ftp.mozilla.org/pub/firefox/releases/%s/linux-x86_64/en-US/firefox-%s.tar.bz2" % (
+            version, version)
+    else:
+        return "https://ftp.mozilla.org/pub/firefox/releases/%s/linux-x86_64/en-US/firefox-%s.tar.xz" % (
+            version, version)
 
 
 def firefox_mac(version):
@@ -427,8 +432,8 @@ def print_firefox(version, workspace_name, sha_linux, sha_mac):
     content = ""
 
     content = (
-        content
-        + f"""    http_archive(
+      content
+      + f"""    http_archive(
         name = "linux_{workspace_name}firefox",
         url = "{firefox_linux(version)}",
         sha256 = "{sha_linux}",
@@ -454,8 +459,8 @@ js_library(
     )
 
     content = (
-        content
-        + f"""    dmg_archive(
+      content
+      + f"""    dmg_archive(
         name = "mac_{workspace_name}firefox",
         url = "{firefox_mac(version)}",
         sha256 = "{sha_mac}",
