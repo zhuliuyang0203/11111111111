@@ -15,6 +15,7 @@
 # specific language governing permissions and limitations
 # under the License.
 
+import collections
 import os
 import re
 import shutil
@@ -47,8 +48,8 @@ class Server:
     log_level : str
         Logging level to control logging output ("INFO" if not specified)
         Available levels: "SEVERE", "WARNING", "INFO", "CONFIG", "FINE", "FINER", "FINEST"
-    env: dict
-        Environment variables passed to server environment
+    env: collections.abc.Mapping
+        Mapping that defines the environment variables for the server process
     """
 
     def __init__(self, host=None, port=4444, path=None, version=None, log_level="INFO", env=None):
@@ -96,8 +97,8 @@ class Server:
         return log_level
 
     def _validate_env(self, env):
-        if env is not None or isinstance(env, dict):
-            raise TypeError("env must be a dict")
+        if env is not None and not isinstance(env, collections.abc.Mapping):
+            raise TypeError("env must be a mapping of environment variables")
         return env
 
     def _wait_for_server(self, timeout=10):
