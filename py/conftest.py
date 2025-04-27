@@ -399,6 +399,13 @@ def clean_driver(request):
 
 @pytest.fixture
 def firefox_options(request):
+    try:
+        driver_option = request.config.option.drivers[0]
+    except (AttributeError, TypeError):
+        raise Exception("This test requires a --driver to be specified")
+    # skip tests in the 'remote' directory if run with a local driver
+    if request.node.path.parts[-2] == "remote" and get_driver_class(driver_option) != "Remote":
+        pytest.skip(f"Remote tests can't be run with driver '{driver_option}'")
     options = webdriver.FirefoxOptions()
     if request.config.option.headless:
         options.add_argument("-headless")
