@@ -28,8 +28,8 @@ import static org.openqa.selenium.remote.tracing.Tags.HTTP_REQUEST_EVENT;
 import static org.openqa.selenium.remote.tracing.Tags.HTTP_RESPONSE;
 import static org.openqa.selenium.remote.tracing.Tags.HTTP_RESPONSE_EVENT;
 
-import com.google.common.cache.Cache;
-import com.google.common.cache.CacheBuilder;
+import com.github.benmanes.caffeine.cache.Cache;
+import com.github.benmanes.caffeine.cache.Caffeine;
 import graphql.ExecutionInput;
 import graphql.ExecutionResult;
 import graphql.GraphQL;
@@ -46,7 +46,6 @@ import java.net.URI;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutionException;
 import org.openqa.selenium.grid.distributor.Distributor;
 import org.openqa.selenium.grid.sessionqueue.NewSessionQueue;
 import org.openqa.selenium.internal.Require;
@@ -84,33 +83,25 @@ public class GraphqlHandler implements HttpHandler {
     this.publicUri = Require.nonNull("Uri", publicUri);
     this.version = Require.nonNull("GridVersion", version);
     this.tracer = Require.nonNull("Tracer", tracer);
+    long maxMemory = Runtime.getRuntime().maxMemory();
+    long cacheSize = maxMemory / 1024 / 1024;
 
     GraphQLSchema schema =
         new SchemaGenerator()
             .makeExecutableSchema(buildTypeDefinitionRegistry(), buildRuntimeWiring());
 
     Cache<String, CompletableFuture<PreparsedDocumentEntry>> cache =
-        CacheBuilder.newBuilder().maximumSize(1024).build();
+        Caffeine.newBuilder().maximumSize(cacheSize).build();
 
     graphQl =
         GraphQL.newGraphQL(schema)
             .preparsedDocumentProvider(
-                (executionInput, computeFunction) -> {
-                  try {
-                    return cache.get(
+                (executionInput, computeFunction) ->
+                    cache.get(
                         executionInput.getQuery(),
-                        () ->
+                        key ->
                             CompletableFuture.supplyAsync(
-                                () -> computeFunction.apply(executionInput)));
-                  } catch (ExecutionException e) {
-                    if (e.getCause() instanceof RuntimeException) {
-                      throw (RuntimeException) e.getCause();
-                    } else if (e.getCause() != null) {
-                      throw new RuntimeException(e.getCause());
-                    }
-                    throw new RuntimeException(e);
-                  }
-                })
+                                () -> computeFunction.apply(executionInput))))
             .build();
   }
 
