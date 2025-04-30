@@ -32,6 +32,8 @@ git_override(
     module_name = "rules_jvm_external",
     remote = "https://github.com/bazel-contrib/rules_jvm_external.git",
     commit = "d8af22108bd8b353a226140570008231f2921931",
+    patch_strip = 1,
+    patches = ["//java:rules_jvm_external_javadoc.patch"],
 )
 
 linter = use_extension("@apple_rules_lint//lint:extensions.bzl", "linter")
