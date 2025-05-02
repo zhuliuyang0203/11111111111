@@ -1,9 +1,7 @@
 ## 4.32.0
 
-- bump versions to nightly
+- [cdp] Add CDP for Chrome 136 and remove 133
 - Set remote active protocol in Firefox to BiDi only
-- update devtools versions
-- bump versions in preparation for release
 
 ## 4.31.0
 
