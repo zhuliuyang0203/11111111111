@@ -353,7 +353,9 @@ def clean_driver(request):
     except (AttributeError, TypeError):
         raise Exception("This test requires a --driver to be specified")
 
+    options = get_options(driver_class, request.config)
     driver_reference = getattr(webdriver, driver_class)
+
     yield driver_reference
 
     if request.node.get_closest_marker("no_driver_after_test"):
