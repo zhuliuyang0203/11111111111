@@ -122,21 +122,21 @@ jobs:
           node-version: ${{ inputs.node-version }}
       - name: Setup Bazel with caching
         if: inputs.caching
-        uses: bazel-contrib/setup-bazel@0.13.0
+        uses: calebzulawski/setup-bazel@feature/disk-cache
         with:
           bazelisk-cache: true
           bazelrc: common --color=yes
-          cache-version: 2
-          disk-cache: ${{ inputs.cache-key }}
+          cache-prefix: 3-${{ github.job }}-${{ inputs.os }}-${{ inputs.cache-key }}
           external-cache: |
             name: ${{ inputs.cache-key }}
             manifest:
               crates: rust/Cargo.Bazel.lock
               rules_ruby++ruby+ruby: ${{ inputs.os == 'windows' && 'false' || 'rb/.ruby-version' }}
+          disk-cache: true
           repository-cache: true
       - name: Setup Bazel without caching
         if: inputs.caching == false
-        uses: bazel-contrib/setup-bazel@0.13.0
+        uses: calebzulawski/setup-bazel@feature/disk-cache
         with:
           bazelrc: common --color=yes
       - name: Setup curl for Ubuntu

@@ -25,15 +25,16 @@ jobs:
         with:
           fetch-depth: 50
       - name: Setup Bazel
-        uses: bazel-contrib/setup-bazel@0.13.0
+        uses: calebzulawski/setup-bazel@feature/disk-cache
         with:
           bazelisk-cache: true
-          cache-version: 2
+          bazelrc: common --color=yes
+          cache-prefix: 3-${{ github.job }}
           external-cache: |
-            name: ci-check
+            name: check
             manifest:
               crates: rust/Cargo.Bazel.lock
-              rules_ruby~~ruby~ruby: rb/.ruby-version
+              rules_ruby++ruby+ruby: ${{ runner.os == 'windows' && 'false' || 'rb/.ruby-version' }}
           repository-cache: true
       - name: Check Bazel targets
         id: check-targets
