@@ -21,12 +21,10 @@ using OpenQA.Selenium.BiDi.Communication;
 using System.Collections;
 using System.Collections.Generic;
 
-#nullable enable
-
 namespace OpenQA.Selenium.BiDi.Modules.Script;
 
 internal class GetRealmsCommand(GetRealmsCommandParameters @params)
-    : Command<GetRealmsCommandParameters>(@params, "script.getRealms");
+    : Command<GetRealmsCommandParameters, GetRealmsResult>(@params, "script.getRealms");
 
 internal record GetRealmsCommandParameters(BrowsingContext.BrowsingContext? Context, RealmType? Type) : CommandParameters;
 
@@ -37,7 +35,7 @@ public record GetRealmsOptions : CommandOptions
     public RealmType? Type { get; set; }
 }
 
-public record GetRealmsResult : IReadOnlyList<RealmInfo>
+public record GetRealmsResult : EmptyResult, IReadOnlyList<RealmInfo>
 {
     private readonly IReadOnlyList<RealmInfo> _realms;
 

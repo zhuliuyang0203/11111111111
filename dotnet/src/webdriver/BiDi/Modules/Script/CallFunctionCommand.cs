@@ -20,12 +20,10 @@
 using OpenQA.Selenium.BiDi.Communication;
 using System.Collections.Generic;
 
-#nullable enable
-
 namespace OpenQA.Selenium.BiDi.Modules.Script;
 
 internal class CallFunctionCommand(CallFunctionCommandParameters @params)
-    : Command<CallFunctionCommandParameters>(@params, "script.callFunction");
+    : Command<CallFunctionCommandParameters, EvaluateResult>(@params, "script.callFunction");
 
 internal record CallFunctionCommandParameters(string FunctionDeclaration, bool AwaitPromise, Target Target, IEnumerable<LocalValue>? Arguments, ResultOwnership? ResultOwnership, SerializationOptions? SerializationOptions, LocalValue? This, bool? UserActivation) : CommandParameters;
 

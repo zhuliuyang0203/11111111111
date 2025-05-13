@@ -19,13 +19,10 @@
 
 using System;
 
-#nullable enable
+namespace OpenQA.Selenium.Internal.Logging;
 
-namespace OpenQA.Selenium.Internal.Logging
-{
-    /// <summary>
-    /// Represents a log handler that writes log events to the given text writer.
-    /// </summary>
-    [Obsolete("Use TextWriterHandler instead, will be removed in v4.32")]
-    public class ConsoleLogHandler() : TextWriterHandler(Console.Error);
-}
+/// <summary>
+/// Represents a log handler that writes log events to the given text writer.
+/// </summary>
+[Obsolete("Use TextWriterHandler instead, will be removed in v4.32")]
+public class ConsoleLogHandler() : TextWriterHandler(Console.Error);

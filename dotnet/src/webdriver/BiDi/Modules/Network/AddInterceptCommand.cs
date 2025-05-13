@@ -20,12 +20,10 @@
 using System.Collections.Generic;
 using OpenQA.Selenium.BiDi.Communication;
 
-#nullable enable
-
 namespace OpenQA.Selenium.BiDi.Modules.Network;
 
 internal class AddInterceptCommand(AddInterceptCommandParameters @params)
-    : Command<AddInterceptCommandParameters>(@params, "network.addIntercept");
+    : Command<AddInterceptCommandParameters, AddInterceptResult>(@params, "network.addIntercept");
 
 internal record AddInterceptCommandParameters(IEnumerable<InterceptPhase> Phases, IEnumerable<BrowsingContext.BrowsingContext>? Contexts, IEnumerable<UrlPattern>? UrlPatterns) : CommandParameters;
 
@@ -48,7 +46,7 @@ public record BrowsingContextAddInterceptOptions
     public IEnumerable<UrlPattern>? UrlPatterns { get; set; }
 }
 
-public record AddInterceptResult(Intercept Intercept);
+public record AddInterceptResult(Intercept Intercept) : EmptyResult;
 
 public enum InterceptPhase
 {
