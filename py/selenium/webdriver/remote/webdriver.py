@@ -35,6 +35,7 @@ from contextlib import asynccontextmanager
 from contextlib import contextmanager
 from importlib import import_module
 from typing import Any
+from typing import Dict
 from typing import List
 from typing import Optional
 from typing import Type
@@ -460,9 +461,7 @@ class WebDriver(BaseWebDriver):
             "executeCdpCommand", {"cmd": cmd, "params": cmd_args}
         )["value"]
 
-    def execute(
-        self, driver_command: str, params: dict[Any, Any] | None = None
-    ) -> dict[Any, Any]:
+    def execute(self, driver_command: str, params: Optional[dict[str, Any]] = None) -> dict[str, Any]:
         """Sends a command to be executed by a command.CommandExecutor.
 
         Parameters:
