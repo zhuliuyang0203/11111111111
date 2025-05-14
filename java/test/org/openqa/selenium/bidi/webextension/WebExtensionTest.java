@@ -40,10 +40,10 @@ public class WebExtensionTest extends JupiterTestBase {
 
     WebExtension extension = new WebExtension(driver);
     var exIn =
-        extension.Install(new InstallExtensionParameters(new ExtensionPath(path.toString())));
+        extension.install(new InstallExtensionParameters(new ExtensionPath(path.toString())));
     assert exIn.get("extension").equals(extensionData.get("id"));
 
-    extension.Uninstall(new UninstallExtensionParameters(exIn));
+    extension.uninstall(new UninstallExtensionParameters(exIn));
   }
 
   @Test
@@ -52,11 +52,11 @@ public class WebExtensionTest extends JupiterTestBase {
 
     WebExtension Extension = new WebExtension(driver);
     var ex =
-        Extension.Install(
+        Extension.install(
             new InstallExtensionParameters(new ExtensionArchivePath(path.toString())));
     assert ex.get("extension").equals(extensionData.get("id"));
 
-    Extension.Uninstall(new UninstallExtensionParameters(ex));
+    Extension.uninstall(new UninstallExtensionParameters(ex));
   }
 
   @Test
@@ -65,12 +65,12 @@ public class WebExtensionTest extends JupiterTestBase {
 
     WebExtension Extension = new WebExtension(driver);
     var ex =
-        Extension.Install(
+        Extension.install(
             new InstallExtensionParameters(
                 new ExtensionBase64Encoded(
                     Base64.getEncoder().encodeToString(Files.readAllBytes(path)))));
     assert ex.get("extension").equals(extensionData.get("id"));
 
-    Extension.Uninstall(new UninstallExtensionParameters(ex));
+    Extension.uninstall(new UninstallExtensionParameters(ex));
   }
 }

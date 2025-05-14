@@ -37,13 +37,13 @@ public class WebExtension {
     this.bidi = ((HasBiDi) driver).getBiDi();
   }
 
-  public Map<String, Object> Install(InstallExtensionParameters parameters) {
+  public Map<String, Object> install(InstallExtensionParameters parameters) {
     Require.nonNull("Install parameters", parameters);
     return bidi.send(
         new Command<>("webExtension.install", parameters.getExtensionData().toMap(), Map.class));
   }
 
-  public Map<String, Object> Uninstall(UninstallExtensionParameters parameters) {
+  public Map<String, Object> uninstall(UninstallExtensionParameters parameters) {
     Require.nonNull("Uninstall parameters", parameters);
     return bidi.send(new Command<>("webExtension.uninstall", parameters.extension, Map.class));
   }
