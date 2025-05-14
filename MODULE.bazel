@@ -8,7 +8,8 @@ bazel_dep(name = "aspect_rules_ts", version = "3.5.3")
 bazel_dep(name = "bazel_features", version = "1.28.0")
 bazel_dep(name = "bazel_skylib", version = "1.7.1")
 bazel_dep(name = "buildifier_prebuilt", version = "8.0.3")
-bazel_dep(name = "contrib_rules_jvm", version = "0.28.0")
+# Hold `contrib_rules_jvm` at 0.27.0 until the next `rules_jvm_external` release is out
+bazel_dep(name = "contrib_rules_jvm", version = "0.27.0")
 bazel_dep(name = "platforms", version = "0.0.11")
 
 # Required for the closure rules
