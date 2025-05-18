@@ -33,7 +33,6 @@ module Selenium
             attr_accessor :extra_headers
             attr_writer :user_agent
 
-            # @rbs () -> String
             def user_agent
               @user_agent ||= "selenium/#{WebDriver::VERSION} (ruby #{Platform.os})"
             end
@@ -50,7 +49,6 @@ module Selenium
           end
 
           # steep:ignore:start
-          # @rbs (Symbol, String, Hash[untyped, untyped]?) -> Selenium::WebDriver::Remote::Response
           def call(verb, url, command_hash)
             url      = server_url.merge(url) unless url.is_a?(URI)
             headers  = common_headers.dup
@@ -73,7 +71,6 @@ module Selenium
 
           private
 
-          # @rbs () -> Hash[untyped, untyped]
           def common_headers
             @common_headers ||= begin
               headers = DEFAULT_HEADERS.dup
@@ -84,7 +81,6 @@ module Selenium
             end
           end
 
-          # @rbs () -> URI::HTTP
           def server_url
             return @server_url if @server_url
 
@@ -95,7 +91,6 @@ module Selenium
             raise NotImplementedError, 'subclass responsibility'
           end
 
-          # @rbs (String, String, String) -> Selenium::WebDriver::Remote::Response
           def create_response(code, body, content_type)
             code = code.to_i
             body = body.to_s.strip

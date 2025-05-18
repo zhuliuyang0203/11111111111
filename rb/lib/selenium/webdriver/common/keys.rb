@@ -111,7 +111,6 @@ module Selenium
       # @api private
       #
 
-      # @rbs (Symbol) -> String
       def self.[](key)
         return KEYS[key] if KEYS[key]
 
@@ -122,7 +121,6 @@ module Selenium
       # @api private
       #
 
-      # @rbs (Array[untyped]) -> Array[untyped]
       def self.encode(keys)
         keys.map { |key| encode_key(key) }
       end
@@ -131,7 +129,6 @@ module Selenium
       # @api private
       #
 
-      # @rbs (String) -> String
       def self.encode_key(key)
         case key
         when Symbol

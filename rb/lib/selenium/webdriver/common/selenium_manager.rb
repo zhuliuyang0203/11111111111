@@ -30,14 +30,12 @@ module Selenium
       class << self
         attr_writer :bin_path
 
-        # @rbs () -> String
         def bin_path
           @bin_path ||= '../../../../../bin'
         end
 
         # @param [Array] arguments what gets sent to to Selenium Manager binary.
         # @return [Hash] paths to the requested assets.
-        # @rbs (*String) -> Hash[untyped, untyped]
         def binary_paths(*arguments)
           arguments += %w[--language-binding ruby]
           arguments += %w[--output json]
@@ -49,7 +47,6 @@ module Selenium
         private
 
         # @return [String] the path to the correct selenium manager
-        # @rbs () -> String
         def binary
           @binary ||= begin
             if (location = ENV.fetch('SE_MANAGER_PATH', nil))
@@ -63,7 +60,6 @@ module Selenium
           end
         end
 
-        # @rbs (*String) -> Hash[untyped, untyped]
         def run(*command)
           stdout, stderr, status = execute_command(*command)
           result = parse_result_and_log(stdout)
@@ -73,7 +69,6 @@ module Selenium
           result
         end
 
-        # @rbs () -> String
         def platform_location
           directory = File.expand_path(bin_path, __FILE__)
           if Platform.windows?
@@ -91,7 +86,6 @@ module Selenium
           end
         end
 
-        # @rbs (*String) -> Array[untyped]
         def execute_command(*command)
           WebDriver.logger.debug("Executing Process #{command}", id: :selenium_manager)
 
@@ -100,7 +94,6 @@ module Selenium
           raise Error::WebDriverError, "Unsuccessful command executed: #{command}; #{e.message}"
         end
 
-        # @rbs (String) -> Hash[untyped, untyped]
         def parse_result_and_log(stdout)
           json_output = stdout.empty? ? {'logs' => [], 'result' => {}} : JSON.parse(stdout)
 
@@ -112,7 +105,6 @@ module Selenium
           json_output['result']
         end
 
-        # @rbs (Array[untyped], Process::Status, Hash[untyped, untyped], String) -> void
         def validate_command_result(command, status, result, stderr)
           if status.nil? || status.exitstatus.nil?
             WebDriver.logger.info("No exit status for: #{command}. Assuming success if result is present.",

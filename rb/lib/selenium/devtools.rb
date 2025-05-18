@@ -22,7 +22,6 @@ module Selenium
     class << self
       attr_accessor :version
 
-      # @rbs () -> void
       def load_version
         require "selenium/devtools/v#{@version}"
       rescue LoadError

@@ -29,7 +29,6 @@ module Selenium
       # @api public
       #
 
-      # @rbs (String, ?full_page: bool) -> File?
       def save_screenshot(png_path, full_page: false)
         extension = File.extname(png_path).downcase
         if extension != '.png'
@@ -50,7 +49,6 @@ module Selenium
       #
       # @api public
 
-      # @rbs (Symbol, ?full_page: bool) -> String?
       def screenshot_as(format, full_page: false)
         if full_page && !respond_to?(:save_full_page_screenshot)
           raise Error::UnsupportedOperationError, "Full Page Screenshots are not supported for #{inspect}"

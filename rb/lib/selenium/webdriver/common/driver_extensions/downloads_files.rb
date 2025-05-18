@@ -27,7 +27,6 @@ module Selenium
         # @param [String] path
         #
 
-        # @rbs (String) -> Hash[untyped, untyped]
         def download_path=(path)
           params = {
             'cmd' => 'Page.setDownloadBehavior',

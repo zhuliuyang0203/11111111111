@@ -27,7 +27,6 @@ module Selenium
         # @return [Hash]
         #
 
-        # @rbs () -> Hash[untyped, untyped]?
         def network_conditions
           @bridge.network_conditions
         end

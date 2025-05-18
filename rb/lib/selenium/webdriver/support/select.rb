@@ -25,7 +25,6 @@ module Selenium
         # @param [Element] element The select element to use
         #
 
-        # @rbs (Selenium::WebDriver::Element) -> void
         def initialize(element)
           tag_name = element.tag_name
 
@@ -52,7 +51,6 @@ module Selenium
         # @return [Array<Element>]
         #
 
-        # @rbs () -> Array[untyped]
         def options
           @element.find_elements tag_name: 'option'
         end
@@ -63,7 +61,6 @@ module Selenium
         # @return [Array<Element>]
         #
 
-        # @rbs () -> Array[untyped]
         def selected_options
           options.select(&:selected?)
         end
@@ -75,7 +72,6 @@ module Selenium
         # @return [Element]
         #
 
-        # @rbs () -> Selenium::WebDriver::Element
         def first_selected_option
           option = options.find(&:selected?)
           return option if option
@@ -103,7 +99,6 @@ module Selenium
         # @param [String] what What value to find the option by.
         #
 
-        # @rbs (Symbol, String | Integer) -> Array[untyped]?
         def select_by(how, what)
           case how
           when :text
@@ -127,7 +122,6 @@ module Selenium
         # @see Select#select_by
         #
 
-        # @rbs (Symbol, String | Integer) -> Array[untyped]?
         def deselect_by(how, what)
           case how
           when :text
@@ -147,7 +141,6 @@ module Selenium
         # @raise [Error::UnsupportedOperationError] if the element does not support multiple selections.
         #
 
-        # @rbs () -> Array[untyped]?
         def select_all
           raise Error::UnsupportedOperationError, 'you may only select all options of a multi-select' unless multiple?
 
@@ -160,7 +153,6 @@ module Selenium
         # @raise [Error::UnsupportedOperationError] if the element does not support multiple selections.
         #
 
-        # @rbs () -> Array[untyped]?
         def deselect_all
           raise Error::UnsupportedOperationError, 'you may only deselect all options of a multi-select' unless multiple?
 
@@ -169,7 +161,6 @@ module Selenium
 
         private
 
-        # @rbs (String) -> Array[untyped]?
         def select_by_text(text)
           opts = find_by_text text
 
@@ -178,7 +169,6 @@ module Selenium
           raise Error::NoSuchElementError, "cannot locate element with text: #{text.inspect}"
         end
 
-        # @rbs (Integer) -> nil
         def select_by_index(index)
           opts = find_by_index index
 
@@ -187,7 +177,6 @@ module Selenium
           raise Error::NoSuchElementError, "cannot locate element with index: #{index.inspect}"
         end
 
-        # @rbs (String) -> Array[untyped]?
         def select_by_value(value)
           opts = find_by_value value
 
@@ -196,7 +185,6 @@ module Selenium
           raise Error::NoSuchElementError, "cannot locate option with value: #{value.inspect}"
         end
 
-        # @rbs (String) -> Array[untyped]?
         def deselect_by_text(text)
           raise Error::UnsupportedOperationError, 'you may only deselect option of a multi-select' unless multiple?
 
@@ -207,7 +195,6 @@ module Selenium
           raise Error::NoSuchElementError, "cannot locate element with text: #{text.inspect}"
         end
 
-        # @rbs (String) -> Array[untyped]?
         def deselect_by_value(value)
           raise Error::UnsupportedOperationError, 'you may only deselect option of a multi-select' unless multiple?
 
@@ -218,7 +205,6 @@ module Selenium
           raise Error::NoSuchElementError, "cannot locate option with value: #{value.inspect}"
         end
 
-        # @rbs (Integer) -> nil
         def deselect_by_index(index)
           raise Error::UnsupportedOperationError, 'you may only deselect option of a multi-select' unless multiple?
 
@@ -229,19 +215,16 @@ module Selenium
           raise Error::NoSuchElementError, "cannot locate option with index: #{index}"
         end
 
-        # @rbs (Selenium::WebDriver::Element) -> nil
         def select_option(option)
           raise Error::UnsupportedOperationError, 'You may not select a disabled option' unless option.enabled?
 
           option.click unless option.selected?
         end
 
-        # @rbs (Selenium::WebDriver::Element) -> nil
         def deselect_option(option)
           option.click if option.selected?
         end
 
-        # @rbs (Array[untyped]) -> Array[untyped]?
         def select_options(opts)
           if multiple?
             opts.each { |o| select_option o }
@@ -250,7 +233,6 @@ module Selenium
           end
         end
 
-        # @rbs (Array[untyped]) -> Array[untyped]
         def deselect_options(opts)
           if multiple?
             opts.each { |o| deselect_option o }
@@ -259,7 +241,6 @@ module Selenium
           end
         end
 
-        # @rbs (String) -> Array[untyped]
         def find_by_text(text)
           xpath = ".//option[normalize-space(.) = #{Escaper.escape text}]"
           opts = @element.find_elements(xpath: xpath)
@@ -279,12 +260,10 @@ module Selenium
           candidates.select { |option| text == option.text }
         end
 
-        # @rbs (Integer) -> Array[untyped]
         def find_by_index(index)
           options.select { |option| option.property(:index) == index }
         end
 
-        # @rbs (String) -> Array[untyped]
         def find_by_value(value)
           @element.find_elements(xpath: ".//option[@value = #{Escaper.escape value}]")
         end

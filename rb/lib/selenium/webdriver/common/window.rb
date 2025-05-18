@@ -24,7 +24,6 @@ module Selenium
       # @api private
       #
 
-      # @rbs (Selenium::WebDriver::Remote::Bridge) -> void
       def initialize(bridge)
         @bridge = bridge
       end
@@ -35,7 +34,6 @@ module Selenium
       # @param [Selenium::WebDriver::Dimension, #width and #height] dimension The new size.
       #
 
-      # @rbs (Selenium::WebDriver::Dimension) -> void
       def size=(dimension)
         unless dimension.respond_to?(:width) && dimension.respond_to?(:height)
           raise ArgumentError, "expected #{dimension.inspect}:#{dimension.class} " \
@@ -51,7 +49,6 @@ module Selenium
       # @return [Selenium::WebDriver::Dimension] The size.
       #
 
-      # @rbs () -> Selenium::WebDriver::Dimension
       def size
         @bridge.window_size
       end
@@ -62,7 +59,6 @@ module Selenium
       # @param [Selenium::WebDriver::Point, #x and #y] point The new position.
       #
 
-      # @rbs (Selenium::WebDriver::Point) -> void
       def position=(point)
         unless point.respond_to?(:x) && point.respond_to?(:y)
           raise ArgumentError, "expected #{point.inspect}:#{point.class} " \
@@ -78,7 +74,6 @@ module Selenium
       # @return [Selenium::WebDriver::Point] The position.
       #
 
-      # @rbs () -> Selenium::WebDriver::Point
       def position
         @bridge.window_position
       end
@@ -89,7 +84,6 @@ module Selenium
       # @param [Selenium::WebDriver::Rectangle, #x, #y, #width, #height] rectangle The new rect.
       #
 
-      # @rbs (Selenium::WebDriver::Rectangle) -> void
       def rect=(rectangle)
         unless %w[x y width height].all? { |val| rectangle.respond_to? val }
           raise ArgumentError, "expected #{rectangle.inspect}:#{rectangle.class} " \
@@ -108,7 +102,6 @@ module Selenium
       # @return [Selenium::WebDriver::Rectangle] The rectangle.
       #
 
-      # @rbs () -> Selenium::WebDriver::Rectangle
       def rect
         @bridge.window_rect
       end
@@ -142,7 +135,6 @@ module Selenium
       # Maximize the current window
       #
 
-      # @rbs () -> void
       def maximize
         @bridge.maximize_window
       end
@@ -151,7 +143,6 @@ module Selenium
       # Minimize the current window
       #
 
-      # @rbs () -> void
       def minimize
         @bridge.minimize_window
       end
@@ -160,7 +151,6 @@ module Selenium
       # Make current window full screen
       #
 
-      # @rbs () -> void
       def full_screen
         @bridge.full_screen_window
       end

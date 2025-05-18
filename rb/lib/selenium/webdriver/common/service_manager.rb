@@ -36,7 +36,6 @@ module Selenium
       # @api private
       #
 
-      # @rbs (Selenium::WebDriver::Chrome::Service) -> void
       def initialize(config)
         @executable_path = config.executable_path
         @host = Platform.localhost
@@ -48,7 +47,6 @@ module Selenium
         raise Error::WebDriverError, "invalid port: #{@port}" if @port < 1
       end
 
-      # @rbs () -> void
       def start
         raise "already started: #{uri.inspect} #{@executable_path.inspect}" if process_running?
 
@@ -61,7 +59,6 @@ module Selenium
         end
       end
 
-      # @rbs () -> void
       def stop
         return unless @shutdown_supported
         return if process_exited?
@@ -74,14 +71,12 @@ module Selenium
         stop_process
       end
 
-      # @rbs () -> URI::HTTP
       def uri
         @uri ||= URI.parse("http://#{@host}:#{@port}")
       end
 
       private
 
-      # @rbs (*String) -> Selenium::WebDriver::ChildProcess
       def build_process(*command)
         WebDriver.logger.debug("Executing Process #{command}", id: :driver_service)
         @process = ChildProcess.build(*command)
@@ -91,7 +86,6 @@ module Selenium
         @process
       end
 
-      # @rbs () -> Net::HTTPOK
       def connect_to_server
         Net::HTTP.start(@host, @port) do |http|
           http.open_timeout = STOP_TIMEOUT / 2
@@ -101,25 +95,21 @@ module Selenium
         end
       end
 
-      # @rbs () -> void
       def find_free_port
         @port = PortProber.above(@port)
       end
 
-      # @rbs () -> void
       def start_process
         @process = build_process(@executable_path, "--port=#{@port}", *@extra_args)
         @process.start
       end
 
-      # @rbs () -> nil
       def stop_process
         return if process_exited?
 
         @process.stop STOP_TIMEOUT
       end
 
-      # @rbs () -> void
       def stop_server
         connect_to_server do |http|
           headers = WebDriver::Remote::Http::Common::DEFAULT_HEADERS.dup
@@ -128,17 +118,14 @@ module Selenium
         end
       end
 
-      # @rbs () -> nil
       def process_running?
         defined?(@process) && @process&.alive?
       end
 
-      # @rbs () -> bool
       def process_exited?
         @process.nil? || @process.exited?
       end
 
-      # @rbs () -> nil
       def connect_until_stable
         socket_poller = SocketPoller.new @host, @port, START_TIMEOUT
         return if socket_poller.connected?
@@ -150,7 +137,6 @@ module Selenium
         "unable to connect to #{@executable_path} #{@host}:#{@port}"
       end
 
-      # @rbs () -> Selenium::WebDriver::SocketLock
       def socket_lock
         @socket_lock ||= SocketLock.new(@port - 1, SOCKET_LOCK_TIMEOUT)
       end

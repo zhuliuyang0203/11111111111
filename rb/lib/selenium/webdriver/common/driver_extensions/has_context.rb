@@ -29,12 +29,10 @@ module Selenium
         # @param [String] value which context gets set (either 'chrome' or 'content')
         #
 
-        # @rbs (String) -> void
         def context=(value)
           @bridge.context = value
         end
 
-        # @rbs () -> String
         def context
           @bridge.context
         end

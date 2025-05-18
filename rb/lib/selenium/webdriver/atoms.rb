@@ -20,7 +20,6 @@
 module Selenium
   module WebDriver
     module Atoms
-      # @rbs (Symbol) -> String
       def atom_script(function_name)
         format("/* #{function_name} */return (%<atom>s).apply(null, arguments)",
                atom: read_atom(function_name))
@@ -28,12 +27,10 @@ module Selenium
 
       private
 
-      # @rbs (Symbol) -> String
       def read_atom(function)
         File.read(File.expand_path("../atoms/#{function}.js", __FILE__))
       end
 
-      # @rbs (Symbol, *untyped) -> bool
       def execute_atom(function_name, *)
         execute_script(atom_script(function_name), *)
       end

@@ -27,14 +27,12 @@ module Selenium
         # @api public
         #
 
-        # @rbs (String) -> File
         def save_full_page_screenshot(path)
           save_screenshot(path, full_page: true)
         end
 
         private
 
-        # @rbs () -> String
         def full_screenshot
           @bridge.full_screenshot
         end

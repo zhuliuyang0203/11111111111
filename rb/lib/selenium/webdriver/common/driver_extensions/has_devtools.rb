@@ -27,7 +27,6 @@ module Selenium
         # @return [DevTools]
         #
 
-        # @rbs (?target_type: String) -> Selenium::WebDriver::DevTools?
         def devtools(target_type: 'page')
           @devtools ||= {}
           @devtools[target_type] ||= begin

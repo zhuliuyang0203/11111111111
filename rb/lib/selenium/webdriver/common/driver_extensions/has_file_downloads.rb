@@ -21,14 +21,12 @@ module Selenium
   module WebDriver
     module DriverExtensions
       module HasFileDownloads
-        # @rbs () -> Array[untyped]?
         def downloadable_files
           verify_enabled
 
           @bridge.downloadable_files['names']
         end
 
-        # @rbs (String, String) -> void
         def download_file(file_name, target_directory)
           verify_enabled
 
@@ -48,7 +46,6 @@ module Selenium
           end
         end
 
-        # @rbs () -> void
         def delete_downloadable_files
           verify_enabled
 
@@ -57,7 +54,6 @@ module Selenium
 
         private
 
-        # @rbs () -> void
         def verify_enabled
           return if capabilities['se:downloadsEnabled']
 

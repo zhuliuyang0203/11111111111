@@ -31,7 +31,6 @@ module Selenium
                  altitude_angle: {'altitudeAngle' => {min: 0.0, max: (Math::PI / 2)}},
                  azimuth_angle: {'azimuthAngle' => {min: 0.0, max: (Math::PI * 2)}}}.freeze
 
-        # @rbs () -> Hash[untyped, untyped]
         def process_opts
           raise ArgumentError, "Unknown options found: #{@opts.inspect}" unless (@opts.keys - VALID.keys).empty?
 
@@ -46,7 +45,6 @@ module Selenium
 
         private
 
-        # @rbs (Float | Integer, Float | Integer, ?Float | Integer) -> (Float | Integer)
         def assert_number(num, min, max = nil)
           return if num.nil?
 

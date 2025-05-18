@@ -20,7 +20,6 @@
 module Selenium
   module WebDriver
     class Navigation
-      # @rbs (Selenium::WebDriver::Remote::Bridge) -> void
       def initialize(bridge)
         @bridge = bridge
       end
@@ -29,7 +28,6 @@ module Selenium
       # Navigate to the given URL
       #
 
-      # @rbs (String) -> void
       def to(url)
         @bridge.get url
       end
@@ -38,7 +36,6 @@ module Selenium
       # Move back a single entry in the browser's history.
       #
 
-      # @rbs () -> void
       def back
         @bridge.go_back
       end
@@ -47,7 +44,6 @@ module Selenium
       # Move forward a single entry in the browser's history.
       #
 
-      # @rbs () -> void
       def forward
         @bridge.go_forward
       end
@@ -56,7 +52,6 @@ module Selenium
       # Refresh the current page.
       #
 
-      # @rbs () -> void
       def refresh
         @bridge.refresh
       end

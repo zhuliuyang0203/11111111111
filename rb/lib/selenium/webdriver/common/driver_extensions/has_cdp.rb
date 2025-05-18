@@ -27,7 +27,6 @@ module Selenium
         # @return [Hash]
         #
 
-        # @rbs (String, **String) -> Hash[untyped, untyped]
         def execute_cdp(cmd, **params)
           @bridge.send_command(cmd: cmd, params: params)
         end

@@ -24,17 +24,14 @@ module Selenium
       # @api private
       #
 
-      # @rbs (Selenium::WebDriver::Remote::Bridge) -> void
       def initialize(bridge)
         @bridge = bridge
       end
 
-      # @rbs (Symbol) -> Array[untyped]
       def get(type)
         @bridge.log type
       end
 
-      # @rbs () -> Array[untyped]
       def available_types
         @bridge.available_log_types
       end

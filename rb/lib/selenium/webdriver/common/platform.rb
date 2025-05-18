@@ -30,12 +30,10 @@ module Selenium
         @home ||= Dir.home
       end
 
-      # @rbs () -> Symbol
       def engine
         @engine ||= RUBY_ENGINE.to_sym
       end
 
-      # @rbs () -> Symbol
       def os
         host_os = RbConfig::CONFIG['host_os']
         @os ||= case host_os
@@ -52,7 +50,6 @@ module Selenium
                 end
       end
 
-      # @rbs () -> nil
       def ci
         if ENV['TRAVIS']
           :travis
@@ -65,12 +62,10 @@ module Selenium
         end
       end
 
-      # @rbs () -> bool
       def jruby?
         engine == :jruby
       end
 
-      # @rbs () -> bool
       def truffleruby?
         engine == :truffleruby
       end
@@ -79,12 +74,10 @@ module Selenium
         RUBY_VERSION
       end
 
-      # @rbs () -> bool
       def windows?
         os == :windows
       end
 
-      # @rbs () -> bool
       def mac?
         os == :macosx
       end
@@ -106,12 +99,10 @@ module Selenium
         false
       end
 
-      # @rbs () -> bool
       def cygwin?
         RUBY_PLATFORM.include?('cygwin')
       end
 
-      # @rbs () -> String
       def null_device
         File::NULL
       end
@@ -120,7 +111,6 @@ module Selenium
         windows? && !cygwin? ? %("#{str}") : str
       end
 
-      # @rbs (String, ?only_cygwin: bool, **nil) -> String
       def cygwin_path(path, only_cygwin: false, **opts)
         return path if only_cygwin && !cygwin?
 
@@ -142,14 +132,12 @@ module Selenium
         File.chmod 0o766, file
       end
 
-      # @rbs (String) -> void
       def assert_file(path)
         return if File.file? path
 
         raise Error::WebDriverError, "not a file: #{path.inspect}"
       end
 
-      # @rbs (String) -> void
       def assert_executable(path)
         assert_file(path)
 
@@ -158,14 +146,12 @@ module Selenium
         raise Error::WebDriverError, "not executable: #{path.inspect}"
       end
 
-      # @rbs () -> void
       def exit_hook
         pid = Process.pid
 
         at_exit { yield if Process.pid == pid }
       end
 
-      # @rbs () -> String
       def localhost
         info = Socket.getaddrinfo 'localhost', 80, Socket::AF_INET, Socket::SOCK_STREAM
 
@@ -174,7 +160,6 @@ module Selenium
         raise Error::WebDriverError, "unable to translate 'localhost' for TCP + IPv4"
       end
 
-      # @rbs () -> String
       def ip
         orig = Socket.do_not_reverse_lookup
         Socket.do_not_reverse_lookup = true
@@ -191,7 +176,6 @@ module Selenium
         # no external ip
       end
 
-      # @rbs () -> Array[untyped]
       def interfaces
         interfaces = Socket.getaddrinfo('localhost', 8080).map { |e| e[3] }
         interfaces += ['0.0.0.0', Platform.ip]

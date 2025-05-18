@@ -24,7 +24,6 @@ module Selenium
       # @api private
       #
 
-      # @rbs (Selenium::WebDriver::Remote::BiDiBridge) -> void
       def initialize(bridge)
         @bridge = bridge
       end
@@ -43,7 +42,6 @@ module Selenium
       # @raise [ArgumentError] if :name or :value is not specified
       #
 
-      # @rbs (?Hash[untyped, untyped]) -> nil
       def add_cookie(opts = {})
         raise ArgumentError, 'name is required' unless opts[:name]
         raise ArgumentError, 'value is required' unless opts[:value]
@@ -70,7 +68,6 @@ module Selenium
       # @return [Hash] the cookie, or throws a NoSuchCookieError if it wasn't found.
       #
 
-      # @rbs (String) -> Hash[untyped, untyped]?
       def cookie_named(name)
         convert_cookie(@bridge.cookie(name))
       end
@@ -81,7 +78,6 @@ module Selenium
       # @param [String] name the name of the cookie to delete
       #
 
-      # @rbs ((String | Symbol)?) -> nil
       def delete_cookie(name)
         @bridge.delete_cookie name
       end
@@ -90,7 +86,6 @@ module Selenium
       # Delete all cookies
       #
 
-      # @rbs () -> nil
       def delete_all_cookies
         @bridge.delete_all_cookies
       end
@@ -101,17 +96,14 @@ module Selenium
       # @return [Array<Hash>] list of cookies
       #
 
-      # @rbs () -> Array[untyped]
       def all_cookies
         @bridge.cookies.map { |cookie| convert_cookie(cookie) }
       end
 
-      # @rbs () -> Selenium::WebDriver::Timeouts
       def timeouts
         @timeouts ||= Timeouts.new(@bridge)
       end
 
-      # @rbs () -> Selenium::WebDriver::Window
       def window
         @window ||= Window.new(@bridge)
       end
@@ -120,12 +112,10 @@ module Selenium
 
       SECONDS_PER_DAY = 86_400.0
 
-      # @rbs (Integer) -> DateTime
       def datetime_at(int)
         DateTime.civil(1970) + (int / SECONDS_PER_DAY)
       end
 
-      # @rbs (DateTime | Time | Float) -> Float
       def seconds_from(obj)
         case obj
         when Time
@@ -139,12 +129,10 @@ module Selenium
         end
       end
 
-      # @rbs (String) -> String
       def strip_port(str)
         str.split(':', 2).first
       end
 
-      # @rbs (Hash[untyped, untyped]) -> Hash[untyped, untyped]
       def convert_cookie(cookie)
         {
           name: cookie['name'],

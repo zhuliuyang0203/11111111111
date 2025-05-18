@@ -30,20 +30,20 @@ require 'selenium/webdriver/version'
 
 module Selenium
   module WebDriver
-    Point     = Struct.new(:x, :y)
+    Point = Struct.new(:x, :y)
     Dimension = Struct.new(:width, :height)
     Rectangle = Struct.new(:x, :y, :width, :height)
 
-    autoload :BiDi,       'selenium/webdriver/bidi'
-    autoload :Chromium,   'selenium/webdriver/chromium'
-    autoload :Chrome,     'selenium/webdriver/chrome'
-    autoload :DevTools,   'selenium/webdriver/devtools'
-    autoload :Edge,       'selenium/webdriver/edge'
-    autoload :Firefox,    'selenium/webdriver/firefox'
-    autoload :IE,         'selenium/webdriver/ie'
-    autoload :Remote,     'selenium/webdriver/remote'
-    autoload :Safari,     'selenium/webdriver/safari'
-    autoload :Support,    'selenium/webdriver/support'
+    autoload :BiDi, 'selenium/webdriver/bidi'
+    autoload :Chromium, 'selenium/webdriver/chromium'
+    autoload :Chrome, 'selenium/webdriver/chrome'
+    autoload :DevTools, 'selenium/webdriver/devtools'
+    autoload :Edge, 'selenium/webdriver/edge'
+    autoload :Firefox, 'selenium/webdriver/firefox'
+    autoload :IE, 'selenium/webdriver/ie'
+    autoload :Remote, 'selenium/webdriver/remote'
+    autoload :Safari, 'selenium/webdriver/safari'
+    autoload :Support, 'selenium/webdriver/support'
 
     # @api private
 
@@ -94,7 +94,6 @@ module Selenium
     # @return [Logger]
     #
 
-    # @rbs (**untyped) -> Selenium::WebDriver::Logger
     def self.logger(**)
       level = $DEBUG || ENV.key?('DEBUG') ? :debug : :info
       @logger ||= WebDriver::Logger.new('Selenium', default_level: level, **)

@@ -29,7 +29,6 @@ module Selenium
         class GuardCondition
           attr_accessor :name, :execution
 
-          # @rbs (Symbol, ?Symbol | bool) -> void
           def initialize(name, condition = nil, &blk)
             @name = name
             @execution = if blk
@@ -39,7 +38,6 @@ module Selenium
                          end
           end
 
-          # @rbs (Selenium::WebDriver::Support::Guards::Guard) -> bool
           def satisfied?(guard)
             list = Array(guard.guarded[@name])
 

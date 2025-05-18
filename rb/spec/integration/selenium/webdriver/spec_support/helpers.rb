@@ -21,12 +21,10 @@ module Selenium
   module WebDriver
     module SpecSupport
       module Helpers
-        # @rbs () -> Selenium::WebDriver::Chrome::Driver
         def driver
           GlobalTestEnv.driver_instance
         end
 
-        # @rbs (*untyped, **untyped) -> bool
         def reset_driver!(...)
           GlobalTestEnv.reset_driver!(...)
         end
@@ -39,7 +37,6 @@ module Selenium
           GlobalTestEnv.create_driver!(...)
         end
 
-        # @rbs (String) -> String
         def url_for(filename)
           GlobalTestEnv.url_for filename
         end

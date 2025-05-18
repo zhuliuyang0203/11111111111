@@ -37,7 +37,6 @@ module Selenium
           end
         end
 
-        # @rbs (String) -> nil
         def stringified?(str)
           str =~ /^".*"$/
         end

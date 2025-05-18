@@ -32,7 +32,6 @@ module Selenium
 
       MAX_LOG_MESSAGE_SIZE = 9999
 
-      # @rbs (url: String) -> void
       def initialize(url:)
         @callback_threads = ThreadGroup.new
 
@@ -43,25 +42,21 @@ module Selenium
         @socket_thread = attach_socket_listener
       end
 
-      # @rbs () -> nil
       def close
         @callback_threads.list.each(&:exit)
         @socket_thread.exit
         socket.close
       end
 
-      # @rbs () -> Hash[untyped, untyped]
       def callbacks
         @callbacks ||= Hash.new { |callbacks, event| callbacks[event] = [] }
       end
 
-      # @rbs (String) -> Integer
       def add_callback(event, &block)
         callbacks[event] << block
         block.object_id
       end
 
-      # @rbs (String, Integer) -> nil
       def remove_callback(event, id)
         return if callbacks[event].reject! { |callback| callback.object_id == id }
 
@@ -69,7 +64,6 @@ module Selenium
         raise Error::WebDriverError, "Callback with ID #{id} does not exist for event #{event}: #{ids}"
       end
 
-      # @rbs (**String | Hash[untyped, untyped]) -> Hash[untyped, untyped]
       def send_cmd(**payload)
         id = next_id
         data = payload.merge(id: id)
@@ -91,13 +85,11 @@ module Selenium
         @messages ||= {}
       end
 
-      # @rbs () -> void
       def process_handshake
         socket.print(ws.to_s)
         ws << socket.readpartial(1024)
       end
 
-      # @rbs () -> Thread
       def attach_socket_listener
         Thread.new do
           Thread.current.abort_on_exception = true
@@ -121,12 +113,10 @@ module Selenium
         end
       end
 
-      # @rbs () -> WebSocket::Frame::Incoming::Client
       def incoming_frame
         @incoming_frame ||= WebSocket::Frame::Incoming::Client.new(version: ws.version)
       end
 
-      # @rbs (WebSocket::Frame::Incoming::Client) -> Hash[untyped, untyped]
       def process_frame(frame)
         message = frame.to_s
 
@@ -140,7 +130,6 @@ module Selenium
         message
       end
 
-      # @rbs (Hash[untyped, untyped]) -> Thread
       def callback_thread(params)
         Thread.new do
           Thread.current.abort_on_exception = true
@@ -158,12 +147,10 @@ module Selenium
         end
       end
 
-      # @rbs () -> Selenium::WebDriver::Wait
       def wait
         @wait ||= Wait.new(timeout: RESPONSE_WAIT_TIMEOUT, interval: RESPONSE_WAIT_INTERVAL)
       end
 
-      # @rbs () -> TCPSocket
       def socket
         @socket ||= if URI(@url).scheme == 'wss'
                       socket = TCPSocket.new(ws.host, ws.port)
@@ -177,12 +164,10 @@ module Selenium
                     end
       end
 
-      # @rbs () -> WebSocket::Handshake::Client
       def ws
         @ws ||= WebSocket::Handshake::Client.new(url: @url)
       end
 
-      # @rbs () -> Integer
       def next_id
         @id ||= 0
         @id += 1

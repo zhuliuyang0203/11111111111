@@ -21,7 +21,6 @@ module Selenium
   module WebDriver
     module DriverExtensions
       module HasLogs
-        # @rbs () -> Selenium::WebDriver::Logs
         def logs
           @logs ||= Logs.new(@bridge)
         end

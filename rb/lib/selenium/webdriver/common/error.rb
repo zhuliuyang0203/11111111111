@@ -25,7 +25,6 @@ module Selenium
       # @param [String, nil] error
       #
 
-      # @rbs (nil) -> nil
       def self.for_error(error)
         return if error.nil?
 
@@ -53,7 +52,6 @@ module Selenium
         end
 
         # steep:ignore:start
-        # @rbs () -> Symbol
         def class_name
           self.class.name.split('::')&.last&.to_sym
         end

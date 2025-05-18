@@ -20,7 +20,6 @@
 module Selenium
   module WebDriver
     class PortProber
-      # @rbs (Integer) -> Integer
       def self.above(port)
         port += 1 until free? port
         port
@@ -31,7 +30,6 @@ module Selenium
         arr << Errno::EACCES if Platform.windows?
       }.freeze
 
-      # @rbs (Integer) -> bool
       def self.free?(port)
         Platform.interfaces.each do |host|
           TCPServer.new(host, port).close

@@ -34,12 +34,10 @@ module Selenium
       attr_accessor :detach
       attr_writer :io
 
-      # @rbs (*String) -> Selenium::WebDriver::ChildProcess
       def self.build(*command)
         new(*command)
       end
 
-      # @rbs (*String) -> void
       def initialize(*command)
         @command = command
         @detach = false
@@ -47,12 +45,10 @@ module Selenium
         @status = nil
       end
 
-      # @rbs () -> String
       def io
         @io ||= Platform.null_device
       end
 
-      # @rbs () -> nil
       def start
         options = {%i[out err] => io}
         options[:pgroup] = true unless Platform.windows? # NOTE: this is a bug only in Windows 7
@@ -64,7 +60,6 @@ module Selenium
         Process.detach(@pid) if detach
       end
 
-      # @rbs (?Integer) -> nil
       def stop(timeout = 3)
         return unless @pid
         return if exited?
@@ -96,7 +91,6 @@ module Selenium
         true
       end
 
-      # @rbs (Integer) -> nil
       def poll_for_exit(timeout)
         WebDriver.logger.debug("Polling #{timeout} seconds for exit of #{@pid}", id: :process)
 
@@ -114,7 +108,6 @@ module Selenium
 
       private
 
-      # @rbs (Integer) -> nil
       def terminate_and_wait_else_kill(timeout)
         WebDriver.logger.debug("Sending TERM to process: #{@pid}", id: :process)
         terminate(@pid)
@@ -128,7 +121,6 @@ module Selenium
         WebDriver.logger.debug("      -> killed #{@pid}", id: :process)
       end
 
-      # @rbs (Integer) -> void
       def terminate(pid)
         Process.kill(SIGTERM, pid)
       end
@@ -137,7 +129,6 @@ module Selenium
         Process.kill(SIGKILL, pid)
       end
 
-      # @rbs (Integer, ?Integer) -> Array[untyped]?
       def waitpid2(pid, flags = 0)
         Process.waitpid2(pid, flags)
       end

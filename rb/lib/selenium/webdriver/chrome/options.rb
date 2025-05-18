@@ -28,12 +28,10 @@ module Selenium
 
         private
 
-        # @rbs (Hash[untyped, untyped]) -> Hash[untyped, untyped]
         def enable_logging(browser_options)
           browser_options['goog:loggingPrefs'] = @logging_prefs
         end
 
-        # @rbs () -> nil
         def binary_path
           Chrome.path
         end

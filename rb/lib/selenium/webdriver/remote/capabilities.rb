@@ -70,7 +70,6 @@ module Selenium
           # @api private
           #
 
-          # @rbs (Hash[untyped, untyped]) -> Selenium::WebDriver::Remote::Capabilities
           def json_create(data)
             data = data.dup
             caps = new
@@ -99,14 +98,12 @@ module Selenium
             caps
           end
 
-          # @rbs (Symbol) -> String
           def camel_case(str_or_sym)
             str_or_sym.to_s.gsub(/_([a-z])/) { Regexp.last_match(1)&.upcase }
           end
 
           private
 
-          # @rbs (Selenium::WebDriver::Remote::Capabilities, Hash[untyped, untyped]) -> void
           def process_timeouts(caps, timeouts)
             return if timeouts.nil?
 
@@ -127,7 +124,6 @@ module Selenium
         # @api public
         #
 
-        # @rbs (?Hash[untyped, untyped]) -> void
         def initialize(opts = {})
           @capabilities = {}
           self.proxy = opts.delete(:proxy) if opts[:proxy]
@@ -138,17 +134,14 @@ module Selenium
         # Allows setting arbitrary capabilities.
         #
 
-        # @rbs (Symbol, String | bool) -> (String | bool)
         def []=(key, value)
           @capabilities[key] = value
         end
 
-        # @rbs (Symbol) -> String
         def [](key)
           @capabilities[key]
         end
 
-        # @rbs (Hash[untyped, untyped]) -> void
         def merge!(other)
           if other.respond_to?(:capabilities, true) && other.capabilities.is_a?(Hash)
             @capabilities.merge! other.capabilities
@@ -159,7 +152,6 @@ module Selenium
           end
         end
 
-        # @rbs () -> nil
         def proxy
           @capabilities[:proxy]
         end
@@ -175,7 +167,6 @@ module Selenium
           end
         end
 
-        # @rbs () -> Hash[untyped, untyped]
         def timeouts
           @capabilities[:timeouts] ||= {}
         end
@@ -184,32 +175,26 @@ module Selenium
           @capabilities[:timeouts] = timeouts
         end
 
-        # @rbs () -> Integer
         def implicit_timeout
           timeouts[:implicit]
         end
 
-        # @rbs (Integer) -> void
         def implicit_timeout=(timeout)
           timeouts[:implicit] = timeout
         end
 
-        # @rbs () -> Integer
         def page_load_timeout
           timeouts[:page_load] || timeouts[:pageLoad]
         end
 
-        # @rbs (Integer) -> void
         def page_load_timeout=(timeout)
           timeouts[:page_load] = timeout
         end
 
-        # @rbs () -> Integer
         def script_timeout
           timeouts[:script]
         end
 
-        # @rbs (Integer) -> Integer
         def script_timeout=(timeout)
           timeouts[:script] = timeout
         end

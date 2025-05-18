@@ -36,12 +36,10 @@ module Selenium
           auth_required: 'authRequired'
         }.freeze
 
-        # @rbs (Selenium::WebDriver::BiDi) -> void
         def initialize(bidi)
           @bidi = bidi
         end
 
-        # @rbs (?phases: Array[untyped], ?contexts: nil, ?url_patterns: Array[untyped], ?pattern_type: nil | Symbol) -> Hash[untyped, untyped]
         def add_intercept(phases: [], contexts: nil, url_patterns: nil, pattern_type: :string)
           url_patterns = url_patterns && pattern_type ? UrlPattern.format_pattern(url_patterns, pattern_type) : nil
           @bidi.send_cmd('network.addIntercept',
@@ -50,12 +48,10 @@ module Selenium
                          urlPatterns: url_patterns)
         end
 
-        # @rbs (String) -> void
         def remove_intercept(intercept)
           @bidi.send_cmd('network.removeIntercept', intercept: intercept)
         end
 
-        # @rbs (String, String, String) -> Hash[untyped, untyped]
         def continue_with_auth(request_id, username, password)
           @bidi.send_cmd(
             'network.continueWithAuth',
@@ -69,7 +65,6 @@ module Selenium
           )
         end
 
-        # @rbs (String) -> Hash[untyped, untyped]
         def continue_without_auth(request_id)
           @bidi.send_cmd(
             'network.continueWithAuth',
@@ -78,7 +73,6 @@ module Selenium
           )
         end
 
-        # @rbs (String) -> Hash[untyped, untyped]
         def cancel_auth(request_id)
           @bidi.send_cmd(
             'network.continueWithAuth',
@@ -87,7 +81,6 @@ module Selenium
           )
         end
 
-        # @rbs (**(String | Array[untyped])? | String | Hash[untyped, untyped] | Array[untyped]) -> Hash[untyped, untyped]?
         def continue_request(**args)
           @bidi.send_cmd(
             'network.continueRequest',
@@ -100,7 +93,6 @@ module Selenium
           )
         end
 
-        # @rbs (String) -> Hash[untyped, untyped]?
         def fail_request(request_id)
           @bidi.send_cmd(
             'network.failRequest',
@@ -108,7 +100,6 @@ module Selenium
           )
         end
 
-        # @rbs (**(String | Array[untyped])? | (String | Array[untyped] | Hash[untyped, untyped])?) -> Hash[untyped, untyped]?
         def continue_response(**args)
           @bidi.send_cmd(
             'network.continueResponse',
@@ -121,7 +112,6 @@ module Selenium
           )
         end
 
-        # @rbs (**(String | Array[untyped] | Hash[untyped, untyped] | Integer)?) -> Hash[untyped, untyped]
         def provide_response(**args)
           @bidi.send_cmd(
             'network.provideResponse',
@@ -134,12 +124,10 @@ module Selenium
           )
         end
 
-        # @rbs (String, *String) -> Hash[untyped, untyped]
         def set_cache_behavior(behavior, *contexts)
           @bidi.send_cmd('network.setCacheBehavior', cacheBehavior: behavior, contexts: contexts)
         end
 
-        # @rbs (Symbol) -> Hash[untyped, untyped]
         def on(event, &block)
           event = EVENTS[event] if event.is_a?(Symbol)
           @bidi.add_callback(event, &block)

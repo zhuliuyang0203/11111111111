@@ -26,30 +26,25 @@ module Selenium
         new(options, service_class.new).driver_path
       end
 
-      # @rbs (Selenium::WebDriver::Chrome::Options, Selenium::WebDriver::Chrome::Service) -> void
       def initialize(options, service)
         @options = options
         @service = service
       end
 
-      # @rbs () -> String
       def browser_path
         paths[:browser_path]
       end
 
-      # @rbs () -> String
       def driver_path
         paths[:driver_path]
       end
 
-      # @rbs () -> bool
       def browser_path?
         !browser_path.nil? && !browser_path.empty?
       end
 
       private
 
-      # @rbs () -> Hash[untyped, untyped]
       def paths
         @paths ||= begin
           path = @service.class.driver_path
@@ -81,7 +76,6 @@ module Selenium
         end
       end
 
-      # @rbs () -> Array[untyped]
       def to_args
         args = ['--browser', @options.browser_name]
         if @options.browser_version

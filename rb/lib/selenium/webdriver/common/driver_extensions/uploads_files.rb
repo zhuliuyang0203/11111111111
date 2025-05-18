@@ -49,7 +49,6 @@ module Selenium
         # @api public
         #
 
-        # @rbs (Proc?) -> Proc?
         def file_detector=(detector)
           raise ArgumentError, 'detector must respond to #call' unless detector.nil? || detector.respond_to?(:call)
 

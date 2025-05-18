@@ -22,7 +22,6 @@ module Selenium
     class LogEntry
       attr_reader :level, :timestamp, :message
 
-      # @rbs (String, Integer, String) -> void
       def initialize(level, timestamp, message)
         @level = level
         @timestamp = timestamp

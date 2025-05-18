@@ -27,7 +27,6 @@ module Selenium
       # It can be overridden with default_move_duration=
       #
 
-      # @rbs () -> Float
       def default_move_duration
         @default_move_duration ||= @duration / 1000.0 # convert ms to seconds
       end
@@ -47,7 +46,6 @@ module Selenium
       # @return [ActionBuilder] A self reference.
       #
 
-      # @rbs (?Symbol, ?device: nil, **untyped) -> Selenium::WebDriver::ActionBuilder
       def pointer_down(button = :left, device: nil, **)
         button_action(button, :create_pointer_down, device: device, **)
       end
@@ -65,7 +63,6 @@ module Selenium
       # @return [ActionBuilder] A self reference.
       #
 
-      # @rbs (?Symbol, ?device: nil, **untyped) -> Selenium::WebDriver::ActionBuilder
       def pointer_up(button = :left, device: nil, **)
         button_action(button, :create_pointer_up, device: device, **)
       end
@@ -97,7 +94,6 @@ module Selenium
       # @return [ActionBuilder] A self reference.
       #
 
-      # @rbs (Selenium::WebDriver::Element, ?Integer?, ?Integer?, **nil) -> Selenium::WebDriver::ActionBuilder
       def move_to(element, right_by = nil, down_by = nil, **opts)
         pointer = pointer_input(opts.delete(:device))
         pointer.create_pointer_move(duration: opts.delete(:duration) || default_move_duration,
@@ -126,7 +122,6 @@ module Selenium
       # @raise [MoveTargetOutOfBoundsError] if the provided offset is outside the document's boundaries.
       #
 
-      # @rbs (Integer, Integer | Float, ?device: nil, ?duration: Float, **untyped) -> Selenium::WebDriver::ActionBuilder
       def move_by(right_by, down_by, device: nil, duration: default_move_duration, **)
         pointer = pointer_input(device)
         pointer.create_pointer_move(duration: duration,
@@ -155,7 +150,6 @@ module Selenium
       # @raise [MoveTargetOutOfBoundsError] if the provided x or y value is outside the document's boundaries.
       #
 
-      # @rbs (Integer, Integer, ?device: nil, ?duration: Float, **untyped) -> Selenium::WebDriver::ActionBuilder
       def move_to_location(x, y, device: nil, duration: default_move_duration, **)
         pointer = pointer_input(device)
         pointer.create_pointer_move(duration: duration,
@@ -183,7 +177,6 @@ module Selenium
       # @return [ActionBuilder] A self reference.
       #
 
-      # @rbs (?Selenium::WebDriver::Element, ?button: nil, ?device: nil) -> Selenium::WebDriver::ActionBuilder
       def click_and_hold(element = nil, button: nil, device: nil)
         move_to(element, device: device) if element
         pointer_down(button || :left, device: device)
@@ -203,7 +196,6 @@ module Selenium
       # @return [ActionBuilder] A self reference.
       #
 
-      # @rbs (?button: nil, ?device: nil) -> void
       def release(button: nil, device: nil)
         pointer_up(button || :left, device: device)
         self
@@ -231,7 +223,6 @@ module Selenium
       # @return [ActionBuilder] A self reference.
       #
 
-      # @rbs (?Selenium::WebDriver::Element?, ?button: nil | Symbol, ?device: nil) -> Selenium::WebDriver::ActionBuilder
       def click(element = nil, button: nil, device: nil)
         move_to(element, device: device) if element
         pointer_down(button || :left, device: device)
@@ -261,7 +252,6 @@ module Selenium
       # @return [ActionBuilder] A self reference.
       #
 
-      # @rbs (?Selenium::WebDriver::Element, ?device: nil) -> Selenium::WebDriver::ActionBuilder
       def double_click(element = nil, device: nil)
         move_to(element, device: device) if element
         click(device: device)
@@ -290,7 +280,6 @@ module Selenium
       # @return [ActionBuilder] A self reference.
       #
 
-      # @rbs (?Selenium::WebDriver::Element, ?device: nil) -> Selenium::WebDriver::ActionBuilder
       def context_click(element = nil, device: nil)
         click(element, button: :right, device: device)
       end
@@ -314,7 +303,6 @@ module Selenium
       # @return [ActionBuilder] A self reference.
       #
 
-      # @rbs (Selenium::WebDriver::Element, Selenium::WebDriver::Element, ?device: nil) -> Selenium::WebDriver::ActionBuilder
       def drag_and_drop(source, target, device: nil)
         click_and_hold(source, device: device)
         move_to(target, device: device)
@@ -339,7 +327,6 @@ module Selenium
       # @return [ActionBuilder] A self reference.
       #
 
-      # @rbs (Selenium::WebDriver::Element, Integer, Integer, ?device: nil) -> Selenium::WebDriver::ActionBuilder
       def drag_and_drop_by(source, right_by, down_by, device: nil)
         click_and_hold(source, device: device)
         move_by(right_by, down_by, device: device)
@@ -349,7 +336,6 @@ module Selenium
 
       private
 
-      # @rbs (Symbol, Symbol, ?device: nil, **untyped) -> Selenium::WebDriver::ActionBuilder
       def button_action(button, action, device: nil, **)
         pointer = pointer_input(device)
         pointer.send(action, button, **)
@@ -357,7 +343,6 @@ module Selenium
         self
       end
 
-      # @rbs (?nil) -> Selenium::WebDriver::Interactions::PointerInput
       def pointer_input(name = nil)
         device(name: name, type: Interactions::POINTER) || add_pointer_input(:mouse, 'mouse')
       end

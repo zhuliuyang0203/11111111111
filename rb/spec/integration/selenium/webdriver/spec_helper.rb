@@ -25,12 +25,11 @@ require 'selenium-webdriver'
 require_relative 'spec_support'
 require_relative '../../../rspec_matchers'
 
-include Selenium # rubocop:disable Style/MixinUsage
+include Selenium
 
 GlobalTestEnv = WebDriver::SpecSupport::TestEnvironment.new
 
 class SeleniumTestListener
-  # @rbs (RSpec::Core::Notifications::ExampleNotification) -> nil
   def example_finished(notification)
     exception = notification.example.exception
     assertion_failed = exception &&
@@ -43,7 +42,6 @@ class SeleniumTestListener
 end
 
 module TraceHelper
-  # @rbs () -> RBS::Trace
   def self.trace
     @trace ||= unless WebDriver::Platform.ci
                  require 'rbs-trace'
@@ -51,7 +49,6 @@ module TraceHelper
                end
   end
 
-  # @rbs () -> bool
   def self.enabled?
     !trace.nil?
   end
@@ -75,7 +72,6 @@ RSpec.configure do |c|
   c.after(:suite) do
     if TraceHelper.enabled?
       TraceHelper.trace.disable
-      TraceHelper.trace.save_comments
       TraceHelper.trace.save_files(out_dir: 'sig/')
     end
     GlobalTestEnv.quit_driver

@@ -33,7 +33,6 @@ module Selenium
           @type = Interactions::WHEEL
         end
 
-        # @rbs (**Selenium::WebDriver::Element | Float | Integer | Float | Integer | Selenium::WebDriver::Element | Float | Integer | Symbol | Float) -> void
         def create_scroll(**opts)
           opts[:source] = self
           add_action(Scroll.new(**opts))

@@ -30,7 +30,6 @@ module Selenium
         # @api public
         #
 
-        # @rbs () -> String
         def session_id
           @bridge.session_id
         end

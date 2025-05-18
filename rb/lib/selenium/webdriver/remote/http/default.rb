@@ -33,21 +33,18 @@ module Selenium
           # Debuggers that freeze the process will not be able to evaluate any operations if that happens.
           # @param [Numeric] open_timeout - Open timeout to apply to HTTP client.
           # @param [Numeric] read_timeout - Read timeout (seconds) to apply to HTTP client.
-          # @rbs (?open_timeout: nil, ?read_timeout: nil) -> void
           def initialize(open_timeout: nil, read_timeout: nil)
             @open_timeout = open_timeout
             @read_timeout = read_timeout
             super()
           end
 
-          # @rbs () -> nil
           def close
             @http&.finish
           end
 
           private
 
-          # @rbs () -> Net::HTTP
           def http
             @http ||= begin
               http = new_http_client
@@ -64,14 +61,12 @@ module Selenium
             end
           end
 
-          # @rbs (Net::HTTP) -> void
           def start(http)
             http.start
           end
 
           MAX_RETRIES = 3
 
-          # @rbs (Symbol, URI::HTTP, Hash[untyped, untyped], String?, ?Integer) -> Selenium::WebDriver::Remote::Response
           def request(verb, url, headers, payload, redirects = 0)
             retries = 0
 
@@ -109,7 +104,6 @@ module Selenium
             end
           end
 
-          # @rbs (Symbol, URI::HTTP, Hash[untyped, untyped], String?) -> (Net::HTTP::Delete | Net::HTTP::Post)
           def new_request_for(verb, url, headers, payload)
             req = Net::HTTP.const_get(verb.to_s.capitalize).new(url.path, headers)
 
@@ -120,12 +114,10 @@ module Selenium
             req
           end
 
-          # @rbs (Net::HTTP::Delete | Net::HTTP::Post) -> Net::HTTPOK
           def response_for(request)
             http.request request
           end
 
-          # @rbs () -> Net::HTTP
           def new_http_client
             if use_proxy?
               url = @proxy.http
@@ -142,7 +134,6 @@ module Selenium
             end
           end
 
-          # @rbs () -> nil
           def proxy
             @proxy ||= begin
               proxy = ENV.fetch('http_proxy', nil) || ENV.fetch('HTTP_PROXY', nil)
@@ -155,7 +146,6 @@ module Selenium
             end
           end
 
-          # @rbs () -> bool
           def use_proxy?
             return false if proxy.nil?
 

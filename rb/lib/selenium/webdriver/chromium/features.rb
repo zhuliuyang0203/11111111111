@@ -35,7 +35,6 @@ module Selenium
           execute :launch_app, {}, {id: id}
         end
 
-        # @rbs () -> Array[untyped]
         def cast_sinks
           execute :get_cast_sinks
         end
@@ -60,38 +59,31 @@ module Selenium
           execute :stop_casting, {}, {sinkName: name}
         end
 
-        # @rbs (String, String) -> nil
         def set_permission(name, value)
           execute :set_permission, {}, {descriptor: {name: name}, state: value}
         end
 
-        # @rbs () -> Hash[untyped, untyped]?
         def network_conditions
           execute :get_network_conditions
         end
 
-        # @rbs (Hash[untyped, untyped]) -> nil
         def network_conditions=(conditions)
           execute :set_network_conditions, {}, {network_conditions: conditions}
         end
 
-        # @rbs () -> nil
         def delete_network_conditions
           execute :delete_network_conditions
         end
 
-        # @rbs (Hash[untyped, untyped]) -> Hash[untyped, untyped]
         def send_command(command_params)
           execute :send_command, {}, command_params
         end
 
-        # @rbs () -> Array[untyped]
         def available_log_types
           types = execute :get_available_log_types
           Array(types).map(&:to_sym)
         end
 
-        # @rbs (Symbol) -> Array[untyped]
         def log(type)
           data = execute :get_log, {}, {type: type.to_s}
 

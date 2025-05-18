@@ -23,7 +23,6 @@ require 'socket'
 module Selenium
   module WebDriver
     class SocketPoller
-      # @rbs (String, Integer, ?Integer, ?Float) -> void
       def initialize(host, port, timeout = 0, interval = 0.25)
         @host     = host
         @port     = Integer(port)
@@ -38,7 +37,6 @@ module Selenium
       # @return [Boolean]
       #
 
-      # @rbs () -> bool
       def connected?
         with_timeout { listening? }
       end
@@ -70,7 +68,6 @@ module Selenium
       if Platform.jruby?
         # we use a plain TCPSocket here since JRuby has issues closing socket
         # see https://github.com/jruby/jruby/issues/5709
-        # @rbs () -> bool
         def listening?
           TCPSocket.new(@host, @port).close
           true
@@ -78,7 +75,6 @@ module Selenium
           false
         end
       else
-        # @rbs () -> bool
         def listening?
           addr     = Socket.getaddrinfo(@host, @port, Socket::AF_INET, Socket::SOCK_STREAM)
           sock     = Socket.new(Socket::AF_INET, Socket::SOCK_STREAM, 0)
@@ -102,17 +98,14 @@ module Selenium
         end
       end
 
-      # @rbs (Socket) -> Socket
       def socket_writable?(sock)
         sock.wait_writable(CONNECT_TIMEOUT)
       end
 
-      # @rbs (Socket) -> bool
       def conn_completed?(sock)
         sock.getsockopt(Socket::SOL_SOCKET, Socket::SO_ERROR).int.zero?
       end
 
-      # @rbs () -> bool
       def with_timeout
         max_time = current_time + @timeout
 
@@ -125,7 +118,6 @@ module Selenium
         false
       end
 
-      # @rbs () -> Float
       def current_time
         Process.clock_gettime(Process::CLOCK_MONOTONIC)
       end

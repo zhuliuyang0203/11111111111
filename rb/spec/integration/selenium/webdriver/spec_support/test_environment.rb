@@ -49,7 +49,6 @@ module Selenium
           puts "\n"
         end
 
-        # @rbs () -> Symbol
         def browser
           if driver == :remote
             ENV.fetch('WD_REMOTE_BROWSER', 'chrome').tr('-', '_').to_sym
@@ -58,7 +57,6 @@ module Selenium
           end
         end
 
-        # @rbs (*untyped, **untyped) -> Selenium::WebDriver::Chrome::Driver
         def driver_instance(...)
           @driver_instance || create_driver!(...)
         end
@@ -80,7 +78,6 @@ module Selenium
           @driver_instance = nil
         end
 
-        # @rbs () -> Selenium::WebDriver::SpecSupport::RackServer
         def app_server
           @app_server ||= begin
             app_server = RackServer.new(root.join('common/src/web').to_s, random_port)
@@ -119,7 +116,6 @@ module Selenium
           File.expand_path(File.read(File.expand_path(ENV.fetch('WD_BAZEL_JAVA_LOCATION'))).chomp)
         end
 
-        # @rbs () -> bool
         def rbe?
           Dir.pwd.start_with?('/mnt/engflow')
         end
@@ -158,12 +154,10 @@ module Selenium
           @driver_instance = @app_server = @remote_server = nil
         end
 
-        # @rbs (String) -> String
         def url_for(filename)
           app_server.where_is filename
         end
 
-        # @rbs () -> Pathname
         def root
           # prefer #realpath over #expand_path to avoid problems with UNC
           # see https://bugs.ruby-lang.org/issues/13515
@@ -310,7 +304,6 @@ module Selenium
           WebDriver::Options.safari(**)
         end
 
-        # @rbs () -> Integer
         def random_port
           addr = Socket.getaddrinfo(Platform.localhost, 0, Socket::AF_INET, Socket::SOCK_STREAM)
           addr = Socket.pack_sockaddr_in(0, addr[0][3])

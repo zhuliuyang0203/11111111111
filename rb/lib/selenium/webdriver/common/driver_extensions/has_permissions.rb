@@ -28,7 +28,6 @@ module Selenium
         # @param [String] value what to set the permission to
         #
 
-        # @rbs (String, String) -> void
         def add_permission(name, value)
           @bridge.set_permission(name, value)
         end
@@ -39,7 +38,6 @@ module Selenium
         # @param [Hash] opt key/value pairs to set permissions
         #
 
-        # @rbs (Hash[untyped, untyped]) -> void
         def add_permissions(opt)
           opt.each do |key, value|
             @bridge.set_permission(key, value)

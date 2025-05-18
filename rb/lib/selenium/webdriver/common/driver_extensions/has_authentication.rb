@@ -39,7 +39,6 @@ module Selenium
         # @param [Regexp] uri to associate the credentials with
         #
 
-        # @rbs (username: String, password: String, ?uri: Regexp) -> void
         def register(username:, password:, uri: //)
           auth_handlers << {username: username, password: password, uri: uri}
 
@@ -55,12 +54,10 @@ module Selenium
 
         private
 
-        # @rbs () -> Array[untyped]
         def auth_handlers
           @auth_handlers ||= []
         end
 
-        # @rbs (String, String) -> Hash[untyped, untyped]
         def authenticate(request_id, url)
           credentials = auth_handlers.find do |handler|
             url.match?(handler[:uri])
