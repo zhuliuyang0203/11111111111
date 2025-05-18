@@ -40,7 +40,6 @@ module Selenium
             end
           end
         end
-
         # steep:ignore:end
 
         # @param [int] id of the handler previously added

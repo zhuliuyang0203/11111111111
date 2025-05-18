@@ -42,7 +42,6 @@ module Selenium
         # @option conditions [Boolean] :offline
         #
 
-        # @rbs (Hash[untyped, untyped]) -> void
         def network_conditions=(conditions)
           conditions[:latency] ||= 0
           unless conditions.key?(:throughput)
@@ -58,7 +57,6 @@ module Selenium
         # Resets Chromium network emulation settings.
         #
 
-        # @rbs () -> void
         def delete_network_conditions
           @bridge.delete_network_conditions
         end

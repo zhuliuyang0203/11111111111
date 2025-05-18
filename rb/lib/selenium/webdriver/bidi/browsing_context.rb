@@ -67,7 +67,7 @@ module Selenium
         #   Defaults to false.
         def reload(context_id: nil, ignore_cache: false)
           context_id ||= @bridge.window_handle
-          params = { context: context_id, ignore_cache: ignore_cache, wait: @readiness }
+          params = {context: context_id, ignore_cache: ignore_cache, wait: @readiness}
           @bidi.send_cmd('browsingContext.reload', **params)
         end
 
@@ -97,7 +97,7 @@ module Selenium
 
         def set_viewport(context_id: nil, width: nil, height: nil, device_pixel_ratio: nil)
           context_id ||= @bridge.window_handle
-          params = { context: context_id, viewport: { width:, height: }, device_pixel_ratio: }
+          params = {context: context_id, viewport: {width:, height:}, device_pixel_ratio:}
           @bidi.send_cmd('browsingContext.setViewport', **params)
         end
 

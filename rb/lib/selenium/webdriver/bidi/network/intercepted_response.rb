@@ -28,7 +28,6 @@ module Selenium
         attr_accessor :reason, :status
         attr_reader :body
 
-        # @rbs (Selenium::WebDriver::BiDi::Network, Hash[untyped, untyped]) -> void
         def initialize(network, request)
           super
           @reason = nil
@@ -36,7 +35,6 @@ module Selenium
           @body = nil
         end
 
-        # @rbs () -> Hash[untyped, untyped]?
         def continue
           network.continue_response(
             id: id,
@@ -48,7 +46,6 @@ module Selenium
           )
         end
 
-        # @rbs () -> Hash[untyped, untyped]
         def provide_response
           network.provide_response(
             id: id,
@@ -60,22 +57,18 @@ module Selenium
           )
         end
 
-        # @rbs (?username: nil, ?password: nil) -> Selenium::WebDriver::BiDi::Credentials
         def credentials(username: nil, password: nil)
           @credentials ||= Credentials.new(username: username, password: password)
         end
 
-        # @rbs () -> Selenium::WebDriver::BiDi::Headers
         def headers
           @headers ||= Headers.new
         end
 
-        # @rbs (?Hash[untyped, untyped]) -> Selenium::WebDriver::BiDi::Cookies
         def cookies(cookies = {})
           @cookies ||= Cookies.new(cookies)
         end
 
-        # @rbs (String) -> void
         def body=(value)
           @body = {
             type: 'string',

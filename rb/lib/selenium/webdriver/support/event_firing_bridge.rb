@@ -112,7 +112,6 @@ module Selenium
           @driver ||= Driver.new(bridge: self)
         end
 
-        # @rbs (Symbol, *untyped) -> nil
         def dispatch(name, *)
           @listener.__send__(:"before_#{name}", *)
           returned = yield

@@ -27,7 +27,6 @@ module Selenium
         attr_accessor :method, :url
         attr_reader :body
 
-        # @rbs (Selenium::WebDriver::BiDi::Network, Hash[untyped, untyped]) -> void
         def initialize(network, request)
           super
           @method = nil
@@ -35,7 +34,6 @@ module Selenium
           @body = nil
         end
 
-        # @rbs () -> Hash[untyped, untyped]?
         def continue
           network.continue_request(
             id: id,
@@ -47,12 +45,10 @@ module Selenium
           )
         end
 
-        # @rbs () -> Hash[untyped, untyped]?
         def fail
           network.fail_request(id)
         end
 
-        # @rbs (Hash[untyped, untyped]) -> void
         def body=(value)
           @body = {
             type: 'string',
@@ -60,12 +56,10 @@ module Selenium
           }
         end
 
-        # @rbs () -> Selenium::WebDriver::BiDi::Headers
         def headers
           @headers ||= Headers.new
         end
 
-        # @rbs (?Hash[untyped, untyped]) -> Selenium::WebDriver::BiDi::Cookies
         def cookies(cookies = {})
           @cookies ||= Cookies.new(cookies)
         end

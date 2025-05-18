@@ -80,7 +80,6 @@ module Selenium
       # We should be thread-safe to use the hash without synchronization
       # because its keys are WebSocket message identifiers and they should be
       # unique within a devtools session.
-      # @rbs () -> Hash[untyped, untyped]
       def messages
         @messages ||= {}
       end

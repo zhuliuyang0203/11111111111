@@ -21,17 +21,14 @@ module Selenium
   module WebDriver
     class BiDi
       class InterceptedAuth < InterceptedItem
-        # @rbs (String, String) -> Hash[untyped, untyped]
         def authenticate(username, password)
           network.continue_with_auth(id, username, password)
         end
 
-        # @rbs () -> Hash[untyped, untyped]
         def skip
           network.continue_without_auth(id)
         end
 
-        # @rbs () -> Hash[untyped, untyped]
         def cancel
           network.cancel_auth(id)
         end

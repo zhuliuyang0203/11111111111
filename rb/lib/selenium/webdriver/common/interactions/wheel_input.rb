@@ -27,7 +27,6 @@ module Selenium
       #
 
       class WheelInput < InputDevice
-        # @rbs (?String) -> void
         def initialize(name = nil)
           super
           @type = Interactions::WHEEL

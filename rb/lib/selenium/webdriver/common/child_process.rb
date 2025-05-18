@@ -74,7 +74,6 @@ module Selenium
         @pid && !exited?
       end
 
-      # @rbs () -> bool
       def exited?
         return false unless @pid
 

@@ -40,7 +40,6 @@ module Selenium
         # @return [Boolean]
         #
 
-        # @rbs () -> bool
         def multiple?
           @multi
         end
