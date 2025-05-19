@@ -112,22 +112,22 @@ public class HttpCommandInfo : CommandInfo
         // Strip the curly braces
         propertyName = propertyName.Substring(1, propertyName.Length - 2);
 
-            if (propertyName == SessionIdPropertyName)
+        if (propertyName == SessionIdPropertyName)
+        {
+            if (commandToExecute.SessionId != null)
             {
-                if (commandToExecute.SessionId != null)
-                {
-                    propertyValue = commandToExecute.SessionId.ToString();
-                }
+                propertyValue = commandToExecute.SessionId.ToString();
             }
-            else if (commandToExecute.HasParameters())
+        }
+        else if (commandToExecute.HasParameters())
+        {
+            // Extract the URL parameter, and remove it from the parameters dictionary
+            // so it doesn't get transmitted as a JSON parameter.
+            if (commandToExecute.TryGetValueAndRemoveIfNotNull(propertyName, out var propertyValueObject))
             {
-                // Extract the URL parameter, and remove it from the parameters dictionary
-                // so it doesn't get transmitted as a JSON parameter.
-                if (commandToExecute.TryGetValueAndRemoveIfNotNull(propertyName, out var propertyValueObject))
-                {
-                    propertyValue = propertyValueObject.ToString()!;
-                }
+                propertyValue = propertyValueObject.ToString()!;
             }
+        }
 
         return propertyValue;
     }
