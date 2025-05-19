@@ -23,6 +23,7 @@ EXTENSION_ID = "webextensions-selenium-example-v3@example.com"
 EXTENSION_PATH = "common/extensions/webextensions-selenium-example-signed"
 EXTENSION_ARCHIVE_PATH = "common/extensions/webextensions-selenium-example.xpi"
 
+
 # Function to find the project root directory
 def find_project_root():
     current_dir = os.path.dirname(os.path.abspath(__file__))
@@ -59,6 +60,7 @@ def test_install_extension_path(driver, locate_project_path):
 
     driver.webextension.uninstall(ex_in)
 
+
 @pytest.mark.xfail_chrome
 @pytest.mark.xfail_edge
 def test_install_archive_extension_path(driver, locate_project_path):
@@ -69,6 +71,7 @@ def test_install_archive_extension_path(driver, locate_project_path):
     assert ex.get("extension") == EXTENSION_ID
 
     driver.webextension.uninstall(ex)
+
 
 @pytest.mark.xfail_chrome
 @pytest.mark.xfail_edge
@@ -83,6 +86,7 @@ def test_install_base64_extension_path(driver, locate_project_path):
     assert ex.get("extension") == EXTENSION_ID
 
     driver.webextension.uninstall(ex)
+
 
 @pytest.mark.xfail_chrome
 @pytest.mark.xfail_edge
