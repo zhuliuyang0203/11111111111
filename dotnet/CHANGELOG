@@ -1,3 +1,9 @@
+v4.33.0
+======
+* [bidi] Support implicit conversion from bytes to network bytes value
+* [bidi] Avoid entities renaming on client and just follow specification
+* update devtools versions
+
 v4.32.0
 ======
 * Add CDP for Chrome 136 and remove 133
