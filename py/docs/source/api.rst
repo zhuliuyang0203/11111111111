@@ -39,6 +39,7 @@ Webdriver.common
    selenium.webdriver.common.bidi.network
    selenium.webdriver.common.bidi.script
    selenium.webdriver.common.bidi.session
+   selenium.webdriver.common.bidi.webextension
    selenium.webdriver.common.by
    selenium.webdriver.common.desired_capabilities
    selenium.webdriver.common.driver_finder
