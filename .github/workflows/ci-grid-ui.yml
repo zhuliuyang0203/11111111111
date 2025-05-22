@@ -1,4 +1,4 @@
-name: Grid UI Component Tests
+name: CI - Grid UI
 
 on:
   pull_request:
@@ -14,8 +14,8 @@ on:
 
 jobs:
   grid-ui-tests:
-    name: Grid UI Component Tests
     runs-on: ubuntu-latest
+    name: Grid UI Component Tests
     steps:
       - name: Checkout source tree
         uses: actions/checkout@v4
@@ -33,6 +33,6 @@ jobs:
         working-directory: javascript/grid-ui
         run: npm install
 
-      - name: Run Jest tests
+      - name: Run component tests
         working-directory: javascript/grid-ui
         run: npm test
