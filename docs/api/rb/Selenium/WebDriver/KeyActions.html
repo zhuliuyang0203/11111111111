@@ -106,7 +106,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#key_down-instance_method" title="#key_down (instance method)">#<strong>key_down</strong>(*args, device: nil)  &#x21d2; ActionBuilder </a>
+      <a href="#key_down-instance_method" title="#key_down (instance method)">#<strong>key_down</strong>(device: nil)  &#x21d2; ActionBuilder </a>
     
 
     
@@ -130,7 +130,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#key_up-instance_method" title="#key_up (instance method)">#<strong>key_up</strong>(*args, device: nil)  &#x21d2; ActionBuilder </a>
+      <a href="#key_up-instance_method" title="#key_up (instance method)">#<strong>key_up</strong>(device: nil)  &#x21d2; ActionBuilder </a>
     
 
     
@@ -388,8 +388,8 @@
     <td>
       <pre class="code"><span class="info file"># File 'rb/lib/selenium/webdriver/common/interactions/key_actions.rb', line 47</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_key_down'>key_down</span><span class='lparen'>(</span><span class='op'>*</span><span class='id identifier rubyid_args'>args</span><span class='comma'>,</span> <span class='label'>device:</span> <span class='kw'>nil</span><span class='rparen'>)</span>
-  <span class='id identifier rubyid_key_action'>key_action</span><span class='lparen'>(</span><span class='op'>*</span><span class='id identifier rubyid_args'>args</span><span class='comma'>,</span> <span class='label'>action:</span> <span class='symbol'>:create_key_down</span><span class='comma'>,</span> <span class='label'>device:</span> <span class='id identifier rubyid_device'>device</span><span class='rparen'>)</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_key_down'>key_down</span><span class='lparen'>(</span><span class='op'>*</span><span class='comma'>,</span> <span class='label'>device:</span> <span class='kw'>nil</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_key_action'>key_action</span><span class='lparen'>(</span><span class='op'>*</span><span class='comma'>,</span> <span class='label'>action:</span> <span class='symbol'>:create_key_down</span><span class='comma'>,</span> <span class='label'>device:</span> <span class='id identifier rubyid_device'>device</span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -600,8 +600,8 @@
     <td>
       <pre class="code"><span class="info file"># File 'rb/lib/selenium/webdriver/common/interactions/key_actions.rb', line 74</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_key_up'>key_up</span><span class='lparen'>(</span><span class='op'>*</span><span class='id identifier rubyid_args'>args</span><span class='comma'>,</span> <span class='label'>device:</span> <span class='kw'>nil</span><span class='rparen'>)</span>
-  <span class='id identifier rubyid_key_action'>key_action</span><span class='lparen'>(</span><span class='op'>*</span><span class='id identifier rubyid_args'>args</span><span class='comma'>,</span> <span class='label'>action:</span> <span class='symbol'>:create_key_up</span><span class='comma'>,</span> <span class='label'>device:</span> <span class='id identifier rubyid_device'>device</span><span class='rparen'>)</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_key_up'>key_up</span><span class='lparen'>(</span><span class='op'>*</span><span class='comma'>,</span> <span class='label'>device:</span> <span class='kw'>nil</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_key_action'>key_action</span><span class='lparen'>(</span><span class='op'>*</span><span class='comma'>,</span> <span class='label'>action:</span> <span class='symbol'>:create_key_up</span><span class='comma'>,</span> <span class='label'>device:</span> <span class='id identifier rubyid_device'>device</span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -840,9 +840,9 @@
 </div>
 
       <div id="footer">
-  Generated on Sat Apr  5 05:07:34 2025 by
+  Generated on Fri May 23 20:16:27 2025 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.37 (ruby-3.1.6).
+  0.9.37 (ruby-3.2.8).
 </div>
 
     </div>

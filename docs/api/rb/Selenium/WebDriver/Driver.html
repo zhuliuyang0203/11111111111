@@ -211,7 +211,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#action-instance_method" title="#action (instance method)">#<strong>action</strong>(**opts)  &#x21d2; ActionBuilder </a>
+      <a href="#action-instance_method" title="#action (instance method)">#<strong>action</strong>  &#x21d2; ActionBuilder </a>
     
 
     
@@ -347,7 +347,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#execute_async_script-instance_method" title="#execute_async_script (instance method)">#<strong>execute_async_script</strong>(script, *args)  &#x21d2; WebDriver::Element, ... </a>
+      <a href="#execute_async_script-instance_method" title="#execute_async_script (instance method)">#<strong>execute_async_script</strong>(script)  &#x21d2; WebDriver::Element, ... </a>
     
 
     
@@ -371,7 +371,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#execute_script-instance_method" title="#execute_script (instance method)">#<strong>execute_script</strong>(script, *args)  &#x21d2; WebDriver::Element, ... </a>
+      <a href="#execute_script-instance_method" title="#execute_script (instance method)">#<strong>execute_script</strong>(script)  &#x21d2; WebDriver::Element, ... </a>
     
 
     
@@ -419,7 +419,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#initialize-instance_method" title="#initialize (instance method)">#<strong>initialize</strong>(bridge: nil, listener: nil, **opts)  &#x21d2; Driver </a>
+      <a href="#initialize-instance_method" title="#initialize (instance method)">#<strong>initialize</strong>(bridge: nil, listener: nil)  &#x21d2; Driver </a>
     
 
     
@@ -771,7 +771,7 @@
     <div class="method_details first">
   <h3 class="signature first" id="initialize-instance_method">
   
-    #<strong>initialize</strong>(bridge: nil, listener: nil, **opts)  &#x21d2; <tt><span class='object_link'><a href="" title="Selenium::WebDriver::Driver (class)">Driver</a></span></tt> 
+    #<strong>initialize</strong>(bridge: nil, listener: nil)  &#x21d2; <tt><span class='object_link'><a href="" title="Selenium::WebDriver::Driver (class)">Driver</a></span></tt> 
   
 
   
@@ -808,9 +808,9 @@
     <td>
       <pre class="code"><span class="info file"># File 'rb/lib/selenium/webdriver/common/driver.rb', line 71</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='label'>bridge:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>listener:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_opts'>opts</span><span class='rparen'>)</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='label'>bridge:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>listener:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='op'>**</span><span class='rparen'>)</span>
   <span class='ivar'>@devtools</span> <span class='op'>=</span> <span class='kw'>nil</span>
-  <span class='id identifier rubyid_bridge'>bridge</span> <span class='op'>||=</span> <span class='id identifier rubyid_create_bridge'>create_bridge</span><span class='lparen'>(</span><span class='op'>**</span><span class='id identifier rubyid_opts'>opts</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_bridge'>bridge</span> <span class='op'>||=</span> <span class='id identifier rubyid_create_bridge'>create_bridge</span><span class='lparen'>(</span><span class='op'>**</span><span class='rparen'>)</span>
   <span class='ivar'>@bridge</span> <span class='op'>=</span> <span class='id identifier rubyid_listener'>listener</span> <span class='op'>?</span> <span class='const'><span class='object_link'><a href="Support.html" title="Selenium::WebDriver::Support (module)">Support</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Support/EventFiringBridge.html" title="Selenium::WebDriver::Support::EventFiringBridge (class)">EventFiringBridge</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="Support/EventFiringBridge.html#initialize-instance_method" title="Selenium::WebDriver::Support::EventFiringBridge#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_bridge'>bridge</span><span class='comma'>,</span> <span class='id identifier rubyid_listener'>listener</span><span class='rparen'>)</span> <span class='op'>:</span> <span class='id identifier rubyid_bridge'>bridge</span>
   <span class='id identifier rubyid_add_extensions'>add_extensions</span><span class='lparen'>(</span><span class='ivar'>@bridge</span><span class='period'>.</span><span class='id identifier rubyid_browser'>browser</span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
@@ -1012,7 +1012,7 @@
       <div class="method_details ">
   <h3 class="signature " id="action-instance_method">
   
-    #<strong>action</strong>(**opts)  &#x21d2; <tt><span class='object_link'><a href="ActionBuilder.html" title="Selenium::WebDriver::ActionBuilder (class)">ActionBuilder</a></span></tt> 
+    #<strong>action</strong>  &#x21d2; <tt><span class='object_link'><a href="ActionBuilder.html" title="Selenium::WebDriver::ActionBuilder (class)">ActionBuilder</a></span></tt> 
   
 
   
@@ -1060,8 +1060,8 @@
     <td>
       <pre class="code"><span class="info file"># File 'rb/lib/selenium/webdriver/common/driver.rb', line 134</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_action'>action</span><span class='lparen'>(</span><span class='op'>**</span><span class='id identifier rubyid_opts'>opts</span><span class='rparen'>)</span>
-  <span class='id identifier rubyid_bridge'>bridge</span><span class='period'>.</span><span class='id identifier rubyid_action'>action</span><span class='lparen'>(</span><span class='op'>**</span><span class='id identifier rubyid_opts'>opts</span><span class='rparen'>)</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_action'>action</span><span class='lparen'>(</span><span class='op'>**</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_bridge'>bridge</span><span class='period'>.</span><span class='id identifier rubyid_action'>action</span><span class='lparen'>(</span><span class='op'>**</span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -1285,7 +1285,7 @@
       <div class="method_details ">
   <h3 class="signature " id="execute_async_script-instance_method">
   
-    #<strong>execute_async_script</strong>(script, *args)  &#x21d2; <tt><span class='object_link'><a href="Element.html" title="Selenium::WebDriver::Element (class)">WebDriver::Element</a></span></tt>, ... 
+    #<strong>execute_async_script</strong>(script)  &#x21d2; <tt><span class='object_link'><a href="Element.html" title="Selenium::WebDriver::Element (class)">WebDriver::Element</a></span></tt>, ... 
   
 
   
@@ -1364,8 +1364,8 @@
     <td>
       <pre class="code"><span class="info file"># File 'rb/lib/selenium/webdriver/common/driver.rb', line 247</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_execute_async_script'>execute_async_script</span><span class='lparen'>(</span><span class='id identifier rubyid_script'>script</span><span class='comma'>,</span> <span class='op'>*</span><span class='id identifier rubyid_args'>args</span><span class='rparen'>)</span>
-  <span class='id identifier rubyid_bridge'>bridge</span><span class='period'>.</span><span class='id identifier rubyid_execute_async_script'>execute_async_script</span><span class='lparen'>(</span><span class='id identifier rubyid_script'>script</span><span class='comma'>,</span> <span class='op'>*</span><span class='id identifier rubyid_args'>args</span><span class='rparen'>)</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_execute_async_script'>execute_async_script</span><span class='lparen'>(</span><span class='id identifier rubyid_script'>script</span><span class='comma'>,</span> <span class='op'>*</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_bridge'>bridge</span><span class='period'>.</span><span class='id identifier rubyid_execute_async_script'>execute_async_script</span><span class='lparen'>(</span><span class='id identifier rubyid_script'>script</span><span class='comma'>,</span> <span class='op'>*</span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -1375,7 +1375,7 @@
       <div class="method_details ">
   <h3 class="signature " id="execute_script-instance_method">
   
-    #<strong>execute_script</strong>(script, *args)  &#x21d2; <tt><span class='object_link'><a href="Element.html" title="Selenium::WebDriver::Element (class)">WebDriver::Element</a></span></tt>, ... 
+    #<strong>execute_script</strong>(script)  &#x21d2; <tt><span class='object_link'><a href="Element.html" title="Selenium::WebDriver::Element (class)">WebDriver::Element</a></span></tt>, ... 
   
 
   
@@ -1459,8 +1459,8 @@
     <td>
       <pre class="code"><span class="info file"># File 'rb/lib/selenium/webdriver/common/driver.rb', line 228</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_execute_script'>execute_script</span><span class='lparen'>(</span><span class='id identifier rubyid_script'>script</span><span class='comma'>,</span> <span class='op'>*</span><span class='id identifier rubyid_args'>args</span><span class='rparen'>)</span>
-  <span class='id identifier rubyid_bridge'>bridge</span><span class='period'>.</span><span class='id identifier rubyid_execute_script'>execute_script</span><span class='lparen'>(</span><span class='id identifier rubyid_script'>script</span><span class='comma'>,</span> <span class='op'>*</span><span class='id identifier rubyid_args'>args</span><span class='rparen'>)</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_execute_script'>execute_script</span><span class='lparen'>(</span><span class='id identifier rubyid_script'>script</span><span class='comma'>,</span> <span class='op'>*</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_bridge'>bridge</span><span class='period'>.</span><span class='id identifier rubyid_execute_script'>execute_script</span><span class='lparen'>(</span><span class='id identifier rubyid_script'>script</span><span class='comma'>,</span> <span class='op'>*</span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -2214,9 +2214,9 @@
 </div>
 
       <div id="footer">
-  Generated on Sat Apr  5 05:07:35 2025 by
+  Generated on Fri May 23 20:16:28 2025 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.37 (ruby-3.1.6).
+  0.9.37 (ruby-3.2.8).
 </div>
 
     </div>
