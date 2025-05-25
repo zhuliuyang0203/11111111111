@@ -63,7 +63,7 @@ def test_webextension_initialized(driver):
 def test_install_extension_path(driver, pages):
     """Test installing an extension from a directory path.
 
-    Note: For Chrome adn Edge, webextensions are enabled when BiDi is used from conftest.py for this test.
+    Note: For Chrome and Edge, webextensions are enabled when BiDi is used from conftest.py for this test.
     You can also manually enable them using:
 
     from selenium.webdriver.chrome.options import Options
@@ -84,7 +84,7 @@ def test_install_extension_path(driver, pages):
     """
     path = os.path.join(extensions, EXTENSION_PATH)
 
-    if driver.capabilities["browserName"].lower() in ["chrome", "microsoftedge"]:
+    if driver.capabilities["browserName"].lower() in ("chrome", "microsoftedge"):
         # chrome/edge does not uses extension id from manifest.json so we cannot assert the id
         ext_info = driver.webextension.install(path=path)
     else:
