@@ -60,11 +60,10 @@ def test_webextension_initialized(driver):
     assert driver.webextension is not None
 
 
-@pytest.mark.xfail_edge
 def test_install_extension_path(driver, pages):
     """Test installing an extension from a directory path.
 
-    Note: For Chrome, webextensions are enabled when BiDi is used from conftest.py for this test.
+    Note: For Chrome adn Edge, webextensions are enabled when BiDi is used from conftest.py for this test.
     You can also manually enable them using:
 
     from selenium.webdriver.chrome.options import Options
@@ -85,8 +84,8 @@ def test_install_extension_path(driver, pages):
     """
     path = os.path.join(extensions, EXTENSION_PATH)
 
-    if driver.capabilities["browserName"].lower() == "chrome":
-        # chrome does not uses extension id from manifest.json so we cannot assert the id
+    if driver.capabilities["browserName"].lower() in ["chrome", "microsoftedge"]:
+        # chrome/edge does not uses extension id from manifest.json so we cannot assert the id
         ext_info = driver.webextension.install(path=path)
     else:
         ext_info = install_extension(driver, path=path)

@@ -237,8 +237,8 @@ def get_options(driver_class, config):
         options.web_socket_url = True
         options.unhandled_prompt_behavior = "ignore"
 
-        # Enable webextensions for Chrome when BiDi is enabled
-        if driver_class == "Chrome" and hasattr(options, "enable_webextensions"):
+        # Enable webextensions for Chromium-based browsers when BiDi is enabled
+        if driver_class in ("Chrome", "Edge") and hasattr(options, "enable_webextensions"):
             options.enable_webextensions = True
 
     return options
