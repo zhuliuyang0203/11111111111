@@ -85,6 +85,13 @@ def pytest_addoption(parser):
     )
 
 
+def pytest_configure(config):
+    """Add custom markers for tests."""
+    config.addinivalue_line(
+        "markers", "webextension: mark test as requiring webextension support (for chromium based browsers)"
+    )
+
+
 def pytest_ignore_collect(collection_path, config):
     drivers_opt = config.getoption("drivers")
     _drivers = set(drivers).difference(drivers_opt or drivers)
@@ -167,21 +174,21 @@ def driver(request):
     global driver_instance
     if driver_instance is None:
         if driver_class == "Firefox":
-            options = get_options(driver_class, request.config)
+            options = get_options(driver_class, request.config, request)
             if platform.system() == "Linux":
                 # There are issues with window size/position when running Firefox
                 # under Wayland, so we use XWayland instead.
                 os.environ["MOZ_ENABLE_WAYLAND"] = "0"
         if driver_class == "Chrome":
-            options = get_options(driver_class, request.config)
+            options = get_options(driver_class, request.config, request)
         if driver_class == "Edge":
-            options = get_options(driver_class, request.config)
+            options = get_options(driver_class, request.config, request)
         if driver_class == "WebKitGTK":
-            options = get_options(driver_class, request.config)
+            options = get_options(driver_class, request.config, request)
         if driver_class == "WPEWebKit":
-            options = get_options(driver_class, request.config)
+            options = get_options(driver_class, request.config, request)
         if driver_class == "Remote":
-            options = get_options("Firefox", request.config) or webdriver.FirefoxOptions()
+            options = get_options("Firefox", request.config, request) or webdriver.FirefoxOptions()
             options.set_capability("moz:firefoxOptions", {})
             options.enable_downloads = True
         if driver_path is not None:
@@ -210,7 +217,7 @@ def driver(request):
         driver_instance = None
 
 
-def get_options(driver_class, config):
+def get_options(driver_class, config, request=None):
     browser_path = config.option.binary
     browser_args = config.option.args
     headless = config.option.headless
@@ -237,8 +244,13 @@ def get_options(driver_class, config):
         options.web_socket_url = True
         options.unhandled_prompt_behavior = "ignore"
 
-        # Enable webextensions for Chromium-based browsers when BiDi is enabled
-        if driver_class in ("Chrome", "Edge") and hasattr(options, "enable_webextensions"):
+        # Only enable webextensions for Chromium-based browsers when the test is marked with @pytest.mark.webextension
+        if (
+            request
+            and request.node.get_closest_marker("webextension")
+            and driver_class in ("Chrome", "Edge")
+            and hasattr(options, "enable_webextensions")
+        ):
             options.enable_webextensions = True
 
     return options
@@ -358,7 +370,7 @@ def clean_service(request):
 @pytest.fixture(scope="function")
 def clean_options(request):
     driver_class = get_driver_class(request.config.option.drivers[0])
-    yield get_options(driver_class, request.config)
+    yield get_options(driver_class, request.config, request)
 
 
 @pytest.fixture

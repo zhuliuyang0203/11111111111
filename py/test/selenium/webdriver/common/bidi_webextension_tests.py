@@ -60,10 +60,11 @@ def test_webextension_initialized(driver):
     assert driver.webextension is not None
 
 
+@pytest.mark.webextension
 def test_install_extension_path(driver, pages):
     """Test installing an extension from a directory path.
 
-    Note: For Chrome and Edge, webextensions are enabled when BiDi is used from conftest.py for this test.
+    Note: For Chrome and Edge, webextensions are enabled when the test is marked with @pytest.mark.webextension.
     You can also manually enable them using:
 
     from selenium.webdriver.chrome.options import Options
@@ -121,6 +122,7 @@ def test_install_base64_extension_path(driver, pages):
     uninstall_extension_and_verify_extension_uninstalled(driver, ext_info)
 
 
+@pytest.mark.webextension
 def test_install_unsigned_extension(driver, pages):
     """Test installing an unsigned extension."""
     path = os.path.join(extensions, "webextensions-selenium-example")
@@ -133,6 +135,7 @@ def test_install_unsigned_extension(driver, pages):
     uninstall_extension_and_verify_extension_uninstalled(driver, ext_info)
 
 
+@pytest.mark.webextension
 def test_install_with_extension_id_uninstall(driver, pages):
     """Test uninstalling an extension using just the extension ID."""
     path = os.path.join(extensions, EXTENSION_PATH)
