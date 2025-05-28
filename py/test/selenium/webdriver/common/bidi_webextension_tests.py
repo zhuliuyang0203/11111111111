@@ -119,15 +119,11 @@ class TestChromiumWebExtension:
     """Chrome/Edge-specific WebExtension tests with custom driver."""
 
     @pytest.fixture
-    def pages_chromium(self, chromium_driver, pages):
-        class ChromiumPages:
-            def url(self, name, localhost=False):
-                return pages.url(name, localhost)
-
+    def pages_chromium(self, webserver, chromium_driver):
+        class Pages:
             def load(self, name):
-                chromium_driver.get(self.url(name))
-
-        return ChromiumPages()
+                chromium_driver.get(webserver.where_is(name, localhost=False))
+        return Pages()
 
     @pytest.fixture
     def chromium_driver(self, request):
