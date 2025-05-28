@@ -20,7 +20,9 @@ import os
 
 import pytest
 from python.runfiles import Runfiles
-
+from selenium import webdriver
+from selenium.webdriver.chrome.options import Options as ChromeOptions
+from selenium.webdriver.edge.options import Options as EdgeOptions
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 
@@ -60,92 +62,105 @@ def test_webextension_initialized(driver):
     assert driver.webextension is not None
 
 
-@pytest.mark.webextension
-def test_install_extension_path(driver, pages):
-    """Test installing an extension from a directory path.
-
-    Note: For Chrome and Edge, webextensions are enabled when the test is marked with @pytest.mark.webextension.
-    You can also manually enable them using:
-
-    from selenium.webdriver.chrome.options import Options
-    options = Options()
-    options.enable_webextensions = True
-    driver = webdriver.Chrome(options=options)
-
-    Or directly pass the required flags when creating the driver:
-
-    from selenium import webdriver
-    from selenium.webdriver.chrome.options import Options
-
-    options = Options()
-    options.add_argument("--remote-debugging-pipe")
-    options.add_argument("--enable-unsafe-extension-debugging")
-
-    driver = webdriver.Chrome(options=options)
-    """
-    path = os.path.join(extensions, EXTENSION_PATH)
-
-    if driver.capabilities["browserName"].lower() in ("chrome", "microsoftedge"):
-        # chrome/edge does not uses extension id from manifest.json so we cannot assert the id
-        ext_info = driver.webextension.install(path=path)
-    else:
-        ext_info = install_extension(driver, path=path)
-    verify_extension_injection(driver, pages)
-    uninstall_extension_and_verify_extension_uninstalled(driver, ext_info)
-
-
 @pytest.mark.xfail_chrome
 @pytest.mark.xfail_edge
-def test_install_archive_extension_path(driver, pages):
-    """Test installing an extension from an archive path."""
-    path = os.path.join(extensions, EXTENSION_ARCHIVE_PATH)
+class TestFirefoxWebExtension:
+    """Firefox-specific WebExtension tests."""
 
-    ext_info = install_extension(driver, archive_path=path)
-    verify_extension_injection(driver, pages)
-    uninstall_extension_and_verify_extension_uninstalled(driver, ext_info)
+    def test_install_extension_path(self, driver, pages):
+        """Test installing an extension from a directory path."""
 
-
-@pytest.mark.xfail_chrome
-@pytest.mark.xfail_edge
-def test_install_base64_extension_path(driver, pages):
-    """Test installing an extension from a base64 encoded string."""
-    path = os.path.join(extensions, EXTENSION_ARCHIVE_PATH)
-
-    with open(path, "rb") as file:
-        base64_encoded = base64.b64encode(file.read()).decode("utf-8")
-
-    ext_info = install_extension(driver, base64_value=base64_encoded)
-
-    # TODO: the extension is installed but the script is not injected, check and fix
-    # verify_extension_injection(driver, pages)
-
-    uninstall_extension_and_verify_extension_uninstalled(driver, ext_info)
-
-
-@pytest.mark.webextension
-def test_install_unsigned_extension(driver, pages):
-    """Test installing an unsigned extension."""
-    path = os.path.join(extensions, "webextensions-selenium-example")
-
-    if driver.capabilities["browserName"].lower() in ["chrome", "microsoftedge"]:
-        ext_info = driver.webextension.install(path=path)
-    else:
+        path = os.path.join(extensions, EXTENSION_PATH)
         ext_info = install_extension(driver, path=path)
-    verify_extension_injection(driver, pages)
-    uninstall_extension_and_verify_extension_uninstalled(driver, ext_info)
+        verify_extension_injection(driver, pages)
+        uninstall_extension_and_verify_extension_uninstalled(driver, ext_info)
 
+    def test_install_archive_extension_path(self, driver, pages):
+        """Test installing an extension from an archive path."""
 
-@pytest.mark.webextension
-def test_install_with_extension_id_uninstall(driver, pages):
-    """Test uninstalling an extension using just the extension ID."""
-    path = os.path.join(extensions, EXTENSION_PATH)
+        path = os.path.join(extensions, EXTENSION_ARCHIVE_PATH)
+        ext_info = install_extension(driver, archive_path=path)
+        verify_extension_injection(driver, pages)
+        uninstall_extension_and_verify_extension_uninstalled(driver, ext_info)
 
-    if driver.capabilities["browserName"].lower() in ["chrome", "microsoftedge"]:
-        ext_info = driver.webextension.install(path=path)
-    else:
+    def test_install_base64_extension_path(self, driver, pages):
+        """Test installing an extension from a base64 encoded string."""
+
+        path = os.path.join(extensions, EXTENSION_ARCHIVE_PATH)
+        with open(path, "rb") as file:
+            base64_encoded = base64.b64encode(file.read()).decode("utf-8")
+        ext_info = install_extension(driver, base64_value=base64_encoded)
+        # TODO: the extension is installed but the script is not injected, check and fix
+        # verify_extension_injection(driver, pages)
+        uninstall_extension_and_verify_extension_uninstalled(driver, ext_info)
+
+    def test_install_unsigned_extension(self, driver, pages):
+        """Test installing an unsigned extension."""
+
+        path = os.path.join(extensions, "webextensions-selenium-example")
         ext_info = install_extension(driver, path=path)
+        verify_extension_injection(driver, pages)
+        uninstall_extension_and_verify_extension_uninstalled(driver, ext_info)
 
-    extension_id = ext_info.get("extension")
+    def test_install_with_extension_id_uninstall(self, driver, pages):
+        """Test uninstalling an extension using just the extension ID."""
 
-    # Uninstall using the extension ID
-    uninstall_extension_and_verify_extension_uninstalled(driver, extension_id)
+        path = os.path.join(extensions, EXTENSION_PATH)
+        ext_info = install_extension(driver, path=path)
+        extension_id = ext_info.get("extension")
+        # Uninstall using the extension ID
+        uninstall_extension_and_verify_extension_uninstalled(driver, extension_id)
+
+
+@pytest.mark.xfail_firefox
+class TestChromiumWebExtension:
+    """Chrome/Edge-specific WebExtension tests with custom driver."""
+
+    @pytest.fixture
+    def chromium_driver(self, request):
+        driver_option = request.config.option.drivers[0].lower()
+
+        if driver_option == "chrome":
+            options = ChromeOptions()
+            browser_class = webdriver.Chrome
+        elif driver_option == "edge":
+            options = EdgeOptions()
+            browser_class = webdriver.Edge
+        else:
+            pytest.skip(f"This test requires Chrome or Edge, got {driver_option}")
+
+        options.enable_bidi = True
+        options.enable_webextensions = True
+
+        driver = browser_class(options=options)
+
+        yield driver
+        driver.quit()
+
+    def test_install_extension_path(self, chromium_driver, pages):
+        """Test installing an extension from a directory path."""
+        path = os.path.join(extensions, EXTENSION_PATH)
+        ext_info = chromium_driver.webextension.install(path=path)
+
+        chromium_driver.get("https://www.webpagetest.org/blank.html")
+
+        verify_extension_injection(chromium_driver, pages)
+        uninstall_extension_and_verify_extension_uninstalled(chromium_driver, ext_info)
+
+    def test_install_unsigned_extension(self, chromium_driver, pages):
+        """Test installing an unsigned extension."""
+        path = os.path.join(extensions, "webextensions-selenium-example")
+        ext_info = chromium_driver.webextension.install(path=path)
+
+        chromium_driver.get("https://www.webpagetest.org/blank.html")
+
+        verify_extension_injection(chromium_driver, pages)
+        uninstall_extension_and_verify_extension_uninstalled(chromium_driver, ext_info)
+
+    def test_install_with_extension_id_uninstall(self, chromium_driver, pages):
+        """Test uninstalling an extension using just the extension ID."""
+        path = os.path.join(extensions, EXTENSION_PATH)
+        ext_info = chromium_driver.webextension.install(path=path)
+        extension_id = ext_info.get("extension")
+        # Uninstall using the extension ID
+        uninstall_extension_and_verify_extension_uninstalled(chromium_driver, extension_id)
