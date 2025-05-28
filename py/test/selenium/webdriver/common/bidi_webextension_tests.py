@@ -23,9 +23,7 @@ import pytest
 from python.runfiles import Runfiles
 
 from selenium import webdriver
-from selenium.webdriver.chrome.options import Options as ChromeOptions
 from selenium.webdriver.common.by import By
-from selenium.webdriver.edge.options import Options as EdgeOptions
 from selenium.webdriver.support.wait import WebDriverWait
 
 EXTENSION_ID = "webextensions-selenium-example-v3@example.com"
@@ -123,31 +121,29 @@ class TestChromiumWebExtension:
         class Pages:
             def load(self, name):
                 chromium_driver.get(webserver.where_is(name, localhost=False))
+
         return Pages()
 
     @pytest.fixture
-    def chromium_driver(self, request):
+    def chromium_driver(self, chromium_options, request):
+        """Create a Chrome/Edge driver with webextension support enabled."""
         driver_option = request.config.option.drivers[0].lower()
 
         if driver_option == "chrome":
-            options = ChromeOptions()
             browser_class = webdriver.Chrome
         elif driver_option == "edge":
-            options = EdgeOptions()
             browser_class = webdriver.Edge
-        else:
-            pytest.skip(f"This test requires Chrome or Edge, got {driver_option}")
 
         temp_dir = tempfile.mkdtemp()
 
-        options.enable_bidi = True
-        options.enable_webextensions = True
-        options.add_argument(f"--user-data-dir={temp_dir}")
+        chromium_options.enable_bidi = True
+        chromium_options.enable_webextensions = True
+        chromium_options.add_argument(f"--user-data-dir={temp_dir}")
 
-        driver = browser_class(options=options)
+        chromium_driver = browser_class(options=chromium_options)
 
-        yield driver
-        driver.quit()
+        yield chromium_driver
+        chromium_driver.quit()
 
     def test_install_extension_path(self, chromium_driver, pages_chromium):
         """Test installing an extension from a directory path."""
