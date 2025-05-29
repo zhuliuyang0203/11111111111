@@ -17,7 +17,6 @@
 
 import base64
 import os
-import tempfile
 
 import pytest
 from python.runfiles import Runfiles
@@ -134,11 +133,8 @@ class TestChromiumWebExtension:
         elif driver_option == "edge":
             browser_class = webdriver.Edge
 
-        temp_dir = tempfile.mkdtemp()
-
         chromium_options.enable_bidi = True
         chromium_options.enable_webextensions = True
-        chromium_options.add_argument(f"--user-data-dir={temp_dir}")
 
         chromium_driver = browser_class(options=chromium_options)
 
