@@ -229,7 +229,7 @@ def get_options(driver_class, config):
 
     if headless:
         if driver_class == "Chrome" or driver_class == "Edge":
-            options.add_argument("--headless=new")
+            options.add_argument("--headless")
         if driver_class == "Firefox":
             options.add_argument("-headless")
 
