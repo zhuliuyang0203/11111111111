@@ -84,12 +84,19 @@ class Cookie:
         -------
             Cookie: A new instance of Cookie.
         """
+        # Validation for empty strings
+        name = data.get("name")
+        if not name:
+            raise ValueError("name is required and cannot be empty")
+        domain = data.get("domain") 
+        if not domain:
+            raise ValueError("domain is required and cannot be empty")
+        
         value = BytesValue(data.get("value", {}).get("type"), data.get("value", {}).get("value"))
-
         return cls(
-            name=str(data.get("name") or ""),
+            name=str(name),
             value=value,
-            domain=str(data.get("domain") or ""),
+            domain=str(domain),
             path=data.get("path"),
             size=data.get("size"),
             http_only=data.get("httpOnly"),
