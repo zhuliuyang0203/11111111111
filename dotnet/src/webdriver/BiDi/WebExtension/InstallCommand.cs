@@ -27,6 +27,7 @@ internal class InstallCommand(InstallCommandParameters @params)
 
 internal record InstallCommandParameters(ExtensionData ExtensionData) : CommandParameters;
 
+[JsonPolymorphic(TypeDiscriminatorPropertyName = "type")]
 [JsonDerivedType(typeof(ExtensionArchivePath), "archivePath")]
 [JsonDerivedType(typeof(ExtensionBase64Encoded), "base64")]
 [JsonDerivedType(typeof(ExtensionPath), "path")]
@@ -40,7 +41,4 @@ public record ExtensionPath(string Path) : ExtensionData;
 
 public record InstallCommandOptions : CommandOptions;
 
-public record InstallResult : EmptyResult
-{
-
-}
+public record InstallResult(Extension Extension) : EmptyResult;
