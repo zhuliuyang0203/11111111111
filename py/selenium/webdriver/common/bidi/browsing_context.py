@@ -67,12 +67,23 @@ class NavigationInfo:
         -------
             NavigationInfo: A new instance of NavigationInfo.
         """
-        return cls(
-            context=str(json.get("context", "")),
-            navigation=json.get("navigation"),
-            timestamp=int(json.get("timestamp", 0)),
-            url=str(json.get("url", "")),
-        )
+        context = json.get("context")
+        if context is None or not isinstance(context, str):
+            raise ValueError("context is required and must be a string")
+
+        navigation = json.get("navigation")
+        if navigation is not None and not isinstance(navigation, str):
+            raise ValueError("navigation must be a string")
+
+        timestamp = json.get("timestamp")
+        if timestamp is None or not isinstance(timestamp, int):
+            raise ValueError("timestamp is required and must be an integer")
+
+        url = json.get("url")
+        if url is None or not isinstance(url, str):
+            raise ValueError("url is required and must be a string")
+
+        return cls(context, navigation, timestamp, url)
 
 
 class BrowsingContextInfo:
@@ -117,10 +128,17 @@ class BrowsingContextInfo:
                     children.append(BrowsingContextInfo.from_json(child))
                 else:
                     warnings.warn(f"Unexpected child type in browsing context: {type(child)}")
+        context = json.get("context")
+        if context is None or not isinstance(context, str):
+            raise ValueError("context is required and must be a string")
+
+        url = json.get("url")
+        if url is None or not isinstance(url, str):
+            raise ValueError("url is required and must be a string")
 
         return cls(
-            context=str(json.get("context", "")),
-            url=str(json.get("url", "")),
+            context=context,
+            url=url,
             children=children,
             parent=json.get("parent"),
             user_context=json.get("userContext"),
@@ -155,12 +173,32 @@ class DownloadWillBeginParams(NavigationInfo):
         -------
             DownloadWillBeginParams: A new instance of DownloadWillBeginParams.
         """
+        context = json.get("context")
+        if context is None or not isinstance(context, str):
+            raise ValueError("context is required and must be a string")
+
+        navigation = json.get("navigation")
+        if navigation is not None and not isinstance(navigation, str):
+            raise ValueError("navigation must be a string")
+
+        timestamp = json.get("timestamp")
+        if timestamp is None or not isinstance(timestamp, int):
+            raise ValueError("timestamp is required and must be an integer")
+
+        url = json.get("url")
+        if url is None or not isinstance(url, str):
+            raise ValueError("url is required and must be a string")
+
+        suggested_filename = json.get("suggestedFilename")
+        if suggested_filename is None or not isinstance(suggested_filename, str):
+            raise ValueError("suggestedFilename is required and must be a string")
+
         return cls(
-            context=str(json.get("context", "")),
-            navigation=json.get("navigation"),
-            timestamp=int(json.get("timestamp", 0)),
-            url=str(json.get("url", "")),
-            suggested_filename=str(json.get("suggestedFilename", "")),
+            context=context,
+            navigation=navigation,
+            timestamp=timestamp,
+            url=url,
+            suggested_filename=suggested_filename,
         )
 
 
@@ -249,11 +287,27 @@ class UserPromptClosedParams:
         -------
             UserPromptClosedParams: A new instance of UserPromptClosedParams.
         """
+        context = json.get("context")
+        if context is None or not isinstance(context, str):
+            raise ValueError("context is required and must be a string")
+
+        accepted = json.get("accepted")
+        if accepted is None or not isinstance(accepted, bool):
+            raise ValueError("accepted is required and must be a boolean")
+
+        type_value = json.get("type")
+        if type_value is None or not isinstance(type_value, str):
+            raise ValueError("type is required and must be a string")
+
+        user_text = json.get("userText")
+        if user_text is not None and not isinstance(user_text, str):
+            raise ValueError("userText must be a string if provided")
+
         return cls(
-            context=str(json.get("context", "")),
-            accepted=bool(json.get("accepted", False)),
-            type=str(json.get("type", "")),
-            user_text=str(json.get("userText", "")),
+            context=context,
+            accepted=accepted,
+            type=type_value,
+            user_text=user_text,
         )
 
 
@@ -280,9 +334,17 @@ class HistoryUpdatedParams:
         -------
             HistoryUpdatedParams: A new instance of HistoryUpdatedParams.
         """
+        context = json.get("context")
+        if context is None or not isinstance(context, str):
+            raise ValueError("context is required and must be a string")
+
+        url = json.get("url")
+        if url is None or not isinstance(url, str):
+            raise ValueError("url is required and must be a string")
+
         return cls(
-            context=str(json.get("context", "")),
-            url=str(json.get("url", "")),
+            context=context,
+            url=url,
         )
 
 
@@ -305,7 +367,11 @@ class BrowsingContextEvent:
         -------
             BrowsingContextEvent: A new instance of BrowsingContextEvent.
         """
-        return cls(event_class=str(json.get("event_class", "")), **json)
+        event_class = json.get("event_class")
+        if event_class is None or not isinstance(event_class, str):
+            raise ValueError("event_class is required and must be a string")
+
+        return cls(event_class=event_class, **json)
 
 
 class BrowsingContext:
