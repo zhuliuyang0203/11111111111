@@ -1340,6 +1340,26 @@ class WebDriver(BaseWebDriver):
 
         return self._storage
 
+     @property
+    def permissions(self):
+        """Returns a permissions module object for BiDi permissions commands.
+        Returns:
+        --------
+        Permissions: an object containing access to BiDi permissions commands.
+        Examples:
+        ---------
+        >>> from selenium.webdriver.common.bidi.permissions import PermissionDescriptor, PermissionState
+        >>> descriptor = PermissionDescriptor("geolocation")
+        >>> driver.permissions.set_permission(descriptor, PermissionState.GRANTED, "https://example.com")
+        """
+        if not self._websocket_connection:
+            self._start_bidi()
+
+        if self._permissions is None:
+            self._permissions = Permissions(self._websocket_connection)
+
+        return self._permissions
+
     @property
     def webextension(self):
         """Returns a webextension module object for BiDi webextension commands.
