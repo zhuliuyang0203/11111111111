@@ -150,7 +150,7 @@ def test_add_preload_script(driver, pages):
     """Test adding a preload script."""
     function_declaration = "() => { window.preloadExecuted = true; }"
 
-    script_id = driver.script.add_preload_script(function_declaration)
+    script_id = driver.script._add_preload_script(function_declaration)
     assert script_id is not None
     assert isinstance(script_id, str)
 
@@ -158,7 +158,7 @@ def test_add_preload_script(driver, pages):
     pages.load("blank.html")
 
     # Check if the preload script was executed
-    result = driver.script.evaluate(
+    result = driver.script._evaluate(
         "window.preloadExecuted", {"context": driver.current_window_handle}, await_promise=False
     )
     assert result.result["value"] is True
@@ -170,12 +170,12 @@ def test_add_preload_script_with_arguments(driver, pages):
 
     arguments = [{"type": "channel", "value": {"channel": "test-channel", "ownership": "root"}}]
 
-    script_id = driver.script.add_preload_script(function_declaration, arguments=arguments)
+    script_id = driver.script._add_preload_script(function_declaration, arguments=arguments)
     assert script_id is not None
 
     pages.load("blank.html")
 
-    result = driver.script.evaluate(
+    result = driver.script._evaluate(
         "window.preloadValue", {"context": driver.current_window_handle}, await_promise=False
     )
     assert result.result["value"] == "received"
@@ -186,12 +186,12 @@ def test_add_preload_script_with_contexts(driver, pages):
     function_declaration = "() => { window.contextSpecific = true; }"
     contexts = [driver.current_window_handle]
 
-    script_id = driver.script.add_preload_script(function_declaration, contexts=contexts)
+    script_id = driver.script._add_preload_script(function_declaration, contexts=contexts)
     assert script_id is not None
 
     pages.load("blank.html")
 
-    result = driver.script.evaluate(
+    result = driver.script._evaluate(
         "window.contextSpecific", {"context": driver.current_window_handle}, await_promise=False
     )
     assert result.result["value"] is True
@@ -207,12 +207,12 @@ def test_add_preload_script_with_user_contexts(driver, pages):
 
     user_contexts = [user_context]
 
-    script_id = driver.script.add_preload_script(function_declaration, user_contexts=user_contexts)
+    script_id = driver.script._add_preload_script(function_declaration, user_contexts=user_contexts)
     assert script_id is not None
 
     pages.load("blank.html")
 
-    result = driver.script.evaluate(
+    result = driver.script._evaluate(
         "window.contextSpecific", {"context": driver.current_window_handle}, await_promise=False
     )
     assert result.result["value"] is True
@@ -222,19 +222,19 @@ def test_add_preload_script_with_sandbox(driver, pages):
     """Test adding a preload script with sandbox."""
     function_declaration = "() => { window.sandboxScript = true; }"
 
-    script_id = driver.script.add_preload_script(function_declaration, sandbox="test-sandbox")
+    script_id = driver.script._add_preload_script(function_declaration, sandbox="test-sandbox")
     assert script_id is not None
 
     pages.load("blank.html")
 
     # calling evaluate without sandbox should return undefined
-    result = driver.script.evaluate(
+    result = driver.script._evaluate(
         "window.sandboxScript", {"context": driver.current_window_handle}, await_promise=False
     )
     assert result.result["type"] == "undefined"
 
     # calling evaluate within the sandbox should return True
-    result = driver.script.evaluate(
+    result = driver.script._evaluate(
         "window.sandboxScript",
         {"context": driver.current_window_handle, "sandbox": "test-sandbox"},
         await_promise=False,
@@ -247,21 +247,21 @@ def test_add_preload_script_invalid_arguments(driver):
     function_declaration = "() => {}"
 
     with pytest.raises(ValueError, match="Cannot specify both contexts and user_contexts"):
-        driver.script.add_preload_script(function_declaration, contexts=["context1"], user_contexts=["user1"])
+        driver.script._add_preload_script(function_declaration, contexts=["context1"], user_contexts=["user1"])
 
 
 def test_remove_preload_script(driver, pages):
     """Test removing a preload script."""
     function_declaration = "() => { window.removableScript = true; }"
 
-    script_id = driver.script.add_preload_script(function_declaration)
-    driver.script.remove_preload_script(script_id=script_id)
+    script_id = driver.script._add_preload_script(function_declaration)
+    driver.script._remove_preload_script(script_id=script_id)
 
     # Navigate to a page after removing the script
     pages.load("blank.html")
 
     # The script should not have executed
-    result = driver.script.evaluate(
+    result = driver.script._evaluate(
         "typeof window.removableScript", {"context": driver.current_window_handle}, await_promise=False
     )
     assert result.result["value"] == "undefined"
@@ -271,7 +271,7 @@ def test_evaluate_expression(driver, pages):
     """Test evaluating a simple expression."""
     pages.load("blank.html")
 
-    result = driver.script.evaluate("1 + 2", {"context": driver.current_window_handle}, await_promise=False)
+    result = driver.script._evaluate("1 + 2", {"context": driver.current_window_handle}, await_promise=False)
 
     assert result.realm is not None
     assert result.result["type"] == "number"
@@ -283,7 +283,7 @@ def test_evaluate_with_await_promise(driver, pages):
     """Test evaluating an expression that returns a promise."""
     pages.load("blank.html")
 
-    result = driver.script.evaluate(
+    result = driver.script._evaluate(
         "Promise.resolve(42)", {"context": driver.current_window_handle}, await_promise=True
     )
 
@@ -295,7 +295,7 @@ def test_evaluate_with_exception(driver, pages):
     """Test evaluating an expression that throws an exception."""
     pages.load("blank.html")
 
-    result = driver.script.evaluate(
+    result = driver.script._evaluate(
         "throw new Error('Test error')", {"context": driver.current_window_handle}, await_promise=False
     )
 
@@ -308,7 +308,7 @@ def test_evaluate_with_result_ownership(driver, pages):
     pages.load("blank.html")
 
     # Test with ROOT ownership
-    result = driver.script.evaluate(
+    result = driver.script._evaluate(
         "({ test: 'value' })",
         {"context": driver.current_window_handle},
         await_promise=False,
@@ -319,7 +319,7 @@ def test_evaluate_with_result_ownership(driver, pages):
     assert "handle" in result.result
 
     # Test with NONE ownership
-    result = driver.script.evaluate(
+    result = driver.script._evaluate(
         "({ test: 'value' })",
         {"context": driver.current_window_handle},
         await_promise=False,
@@ -336,7 +336,7 @@ def test_evaluate_with_serialization_options(driver, pages):
 
     serialization_options = {"maxDomDepth": 2, "maxObjectDepth": 2, "includeShadowTree": "all"}
 
-    result = driver.script.evaluate(
+    result = driver.script._evaluate(
         "document.body",
         {"context": driver.current_window_handle},
         await_promise=False,
@@ -354,7 +354,7 @@ def test_evaluate_with_user_activation(driver, pages):
     """Test evaluating with user activation."""
     pages.load("blank.html")
 
-    result = driver.script.evaluate(
+    result = driver.script._evaluate(
         "navigator.userActivation ? navigator.userActivation.isActive : false",
         {"context": driver.current_window_handle},
         await_promise=False,
@@ -369,7 +369,7 @@ def test_call_function(driver, pages):
     """Test calling a function."""
     pages.load("blank.html")
 
-    result = driver.script.call_function(
+    result = driver.script._call_function(
         "(a, b) => a + b",
         await_promise=False,
         target={"context": driver.current_window_handle},
@@ -385,11 +385,11 @@ def test_call_function_with_this(driver, pages):
     pages.load("blank.html")
 
     # First set up an object
-    driver.script.evaluate(
+    driver.script._evaluate(
         "window.testObj = { value: 10 }", {"context": driver.current_window_handle}, await_promise=False
     )
 
-    result = driver.script.call_function(
+    result = driver.script._call_function(
         "function() { return this.value; }",
         await_promise=False,
         target={"context": driver.current_window_handle},
@@ -404,7 +404,7 @@ def test_call_function_with_user_activation(driver, pages):
     """Test calling a function with user activation."""
     pages.load("blank.html")
 
-    result = driver.script.call_function(
+    result = driver.script._call_function(
         "() => navigator.userActivation ? navigator.userActivation.isActive : false",
         await_promise=False,
         target={"context": driver.current_window_handle},
@@ -421,7 +421,7 @@ def test_call_function_with_serialization_options(driver, pages):
 
     serialization_options = {"maxDomDepth": 2, "maxObjectDepth": 2, "includeShadowTree": "all"}
 
-    result = driver.script.call_function(
+    result = driver.script._call_function(
         "() => document.body",
         await_promise=False,
         target={"context": driver.current_window_handle},
@@ -440,7 +440,7 @@ def test_call_function_with_exception(driver, pages):
     """Test calling a function that throws an exception."""
     pages.load("blank.html")
 
-    result = driver.script.call_function(
+    result = driver.script._call_function(
         "() => { throw new Error('Function error'); }",
         await_promise=False,
         target={"context": driver.current_window_handle},
@@ -454,7 +454,7 @@ def test_call_function_with_await_promise(driver, pages):
     """Test calling a function that returns a promise."""
     pages.load("blank.html")
 
-    result = driver.script.call_function(
+    result = driver.script._call_function(
         "() => Promise.resolve('async result')", await_promise=True, target={"context": driver.current_window_handle}
     )
 
@@ -467,10 +467,10 @@ def test_call_function_with_result_ownership(driver, pages):
     pages.load("blank.html")
 
     # Call a function that returns an object with ownership "root"
-    result = driver.script.call_function(
+    result = driver.script._call_function(
         "function() { return { greet: 'Hi', number: 42 }; }",
-        target={"context": driver.current_window_handle},
         await_promise=False,
+        target={"context": driver.current_window_handle},
         result_ownership="root",
     )
 
@@ -480,10 +480,10 @@ def test_call_function_with_result_ownership(driver, pages):
     handle = result.result["handle"]
 
     # Use the handle in another function call
-    result2 = driver.script.call_function(
+    result2 = driver.script._call_function(
         "function() { return this.number + 1; }",
-        target={"context": driver.current_window_handle},
         await_promise=False,
+        target={"context": driver.current_window_handle},
         this={"handle": handle},
     )
 
@@ -495,7 +495,7 @@ def test_get_realms(driver, pages):
     """Test getting all realms."""
     pages.load("blank.html")
 
-    realms = driver.script.get_realms()
+    realms = driver.script._get_realms()
 
     assert len(realms) > 0
     assert all(hasattr(realm, "realm") for realm in realms)
@@ -507,7 +507,7 @@ def test_get_realms_filtered_by_context(driver, pages):
     """Test getting realms filtered by context."""
     pages.load("blank.html")
 
-    realms = driver.script.get_realms(context=driver.current_window_handle)
+    realms = driver.script._get_realms(context=driver.current_window_handle)
 
     assert len(realms) > 0
     # All realms should be associated with the specified context
@@ -520,7 +520,7 @@ def test_get_realms_filtered_by_type(driver, pages):
     """Test getting realms filtered by type."""
     pages.load("blank.html")
 
-    realms = driver.script.get_realms(type=RealmType.WINDOW)
+    realms = driver.script._get_realms(type=RealmType.WINDOW)
 
     assert len(realms) > 0
     # All realms should be of the WINDOW type
@@ -533,7 +533,7 @@ def test_disown_handles(driver, pages):
     pages.load("blank.html")
 
     # Create an object with root ownership (this will return a handle)
-    result = driver.script.evaluate(
+    result = driver.script._evaluate(
         "({foo: 'bar'})", target={"context": driver.current_window_handle}, await_promise=False, result_ownership="root"
     )
 
@@ -541,7 +541,7 @@ def test_disown_handles(driver, pages):
     assert handle is not None
 
     # Use the handle in a function call (this should succeed)
-    result_before = driver.script.call_function(
+    result_before = driver.script._call_function(
         "function(obj) { return obj.foo; }",
         await_promise=False,
         target={"context": driver.current_window_handle},
@@ -551,11 +551,11 @@ def test_disown_handles(driver, pages):
     assert result_before.result["value"] == "bar"
 
     # Disown the handle
-    driver.script.disown(handles=[handle], target={"context": driver.current_window_handle})
+    driver.script._disown(handles=[handle], target={"context": driver.current_window_handle})
 
     # Try using the disowned handle (this should fail)
     with pytest.raises(Exception):
-        driver.script.call_function(
+        driver.script._call_function(
             "function(obj) { return obj.foo; }",
             await_promise=False,
             target={"context": driver.current_window_handle},

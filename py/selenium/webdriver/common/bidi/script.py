@@ -258,7 +258,8 @@ class Script:
 
     remove_javascript_error_handler = remove_console_message_handler
 
-    def add_preload_script(
+    # low-level APIs for script module
+    def _add_preload_script(
         self,
         function_declaration: str,
         arguments: Optional[List[Dict[str, Any]]] = None,
@@ -301,7 +302,7 @@ class Script:
         result = self.conn.execute(command_builder("script.addPreloadScript", params))
         return result["script"]
 
-    def remove_preload_script(self, script_id: str) -> None:
+    def _remove_preload_script(self, script_id: str) -> None:
         """Removes a preload script.
 
         Parameters:
@@ -311,7 +312,7 @@ class Script:
         params = {"script": script_id}
         self.conn.execute(command_builder("script.removePreloadScript", params))
 
-    def disown(self, handles: List[str], target: dict) -> None:
+    def _disown(self, handles: List[str], target: dict) -> None:
         """Disowns the given handles.
 
         Parameters:
@@ -325,7 +326,7 @@ class Script:
         }
         self.conn.execute(command_builder("script.disown", params))
 
-    def call_function(
+    def _call_function(
         self,
         function_declaration: str,
         await_promise: bool,
@@ -372,7 +373,7 @@ class Script:
         result = self.conn.execute(command_builder("script.callFunction", params))
         return EvaluateResult.from_json(result)
 
-    def evaluate(
+    def _evaluate(
         self,
         expression: str,
         target: dict,
@@ -411,7 +412,7 @@ class Script:
         result = self.conn.execute(command_builder("script.evaluate", params))
         return EvaluateResult.from_json(result)
 
-    def get_realms(
+    def _get_realms(
         self,
         context: Optional[str] = None,
         type: Optional[str] = None,
