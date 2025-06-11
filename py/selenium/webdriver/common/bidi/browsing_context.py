@@ -15,7 +15,6 @@
 # specific language governing permissions and limitations
 # under the License.
 
-import warnings
 from typing import Any, Callable, Optional, Union
 
 from selenium.webdriver.common.bidi.common import command_builder
@@ -94,10 +93,10 @@ class BrowsingContextInfo:
         context: str,
         url: str,
         children: Optional[list["BrowsingContextInfo"]],
+        client_window: str,
+        user_context: str,
         parent: Optional[str] = None,
-        user_context: Optional[str] = None,
         original_opener: Optional[str] = None,
-        client_window: Optional[str] = None,
     ):
         self.context = context
         self.url = url
@@ -122,15 +121,14 @@ class BrowsingContextInfo:
         children = None
         raw_children = json.get("children")
         if raw_children is not None:
-            if isinstance(raw_children, list):
-                children = []
-                for child in raw_children:
-                    if isinstance(child, dict):
-                        children.append(BrowsingContextInfo.from_json(child))
-                    else:
-                        warnings.warn(f"Unexpected child type in browsing context: {type(child)}")
-            else:
-                warnings.warn(f"'children' should be a list, got {type(raw_children)}")
+            if not isinstance(raw_children, list):
+                raise ValueError("children must be a list if provided")
+
+            children = []
+            for child in raw_children:
+                if not isinstance(child, dict):
+                    raise ValueError(f"Each child must be a dictionary, got {type(child)}")
+                children.append(BrowsingContextInfo.from_json(child))
 
         context = json.get("context")
         if context is None or not isinstance(context, str):
@@ -142,28 +140,28 @@ class BrowsingContextInfo:
 
         parent = json.get("parent")
         if parent is not None and not isinstance(parent, str):
-            warnings.warn(f"'parent' should be a string, got {type(parent)}")
+            raise ValueError("parent must be a string if provided")
 
         user_context = json.get("userContext")
-        if user_context is not None and not isinstance(user_context, str):
-            warnings.warn(f"'userContext' should be a string, got {type(user_context)}")
+        if user_context is None or not isinstance(user_context, str):
+            raise ValueError("userContext is required and must be a string")
 
         original_opener = json.get("originalOpener")
         if original_opener is not None and not isinstance(original_opener, str):
-            warnings.warn(f"'originalOpener' should be a string, got {type(original_opener)}")
+            raise ValueError("originalOpener must be a string if provided")
 
         client_window = json.get("clientWindow")
-        if client_window is not None and not isinstance(client_window, str):
-            warnings.warn(f"'clientWindow' should be a string, got {type(client_window)}")
+        if client_window is None or not isinstance(client_window, str):
+            raise ValueError("clientWindow is required and must be a string")
 
         return cls(
             context=context,
             url=url,
             children=children,
-            parent=parent,
-            user_context=user_context,
-            original_opener=original_opener,
             client_window=client_window,
+            user_context=user_context,
+            parent=parent,
+            original_opener=original_opener,
         )
 
 
