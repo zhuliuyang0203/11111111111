@@ -392,11 +392,8 @@ class BrowsingContextEvent:
         -------
             BrowsingContextEvent: A new instance of BrowsingContextEvent.
         """
-        event_class = json.get("event_class")
-        if event_class is None or not isinstance(event_class, str):
-            raise ValueError("event_class is required and must be a string")
-
-        return cls(event_class=event_class, **json)
+        event_data = type("EventData", (), {"params": json})()
+        return event_data
 
 
 class BrowsingContext:
@@ -739,13 +736,14 @@ class BrowsingContext:
         result = self.conn.execute(command_builder("browsingContext.traverseHistory", params))
         return result
 
-    def _on_event(self, event_name: str, callback: Callable) -> int:
+    def _on_event(self, event_name: str, callback: Callable, contexts: Optional[list[str]] = None) -> int:
         """Set a callback function to subscribe to a browsing context event.
 
         Parameters:
         ----------
             event_name: The event to subscribe to.
             callback: The callback function to execute on event.
+            contexts: The browsing context IDs to filter.
 
         Returns:
         -------
@@ -754,25 +752,25 @@ class BrowsingContext:
         event = BrowsingContextEvent(event_name)
 
         def _callback(event_data):
-            if event_name == self.EVENTS["context_created"] or event_name == self.EVENTS["context_destroyed"]:
-                info = BrowsingContextInfo.from_json(event_data.params)
-                callback(info)
-            elif event_name == self.EVENTS["download_will_begin"]:
-                params = DownloadWillBeginParams.from_json(event_data.params)
-                callback(params)
-            elif event_name == self.EVENTS["user_prompt_opened"]:
-                params = UserPromptOpenedParams.from_json(event_data.params)
-                callback(params)
-            elif event_name == self.EVENTS["user_prompt_closed"]:
-                params = UserPromptClosedParams.from_json(event_data.params)
-                callback(params)
-            elif event_name == self.EVENTS["history_updated"]:
-                params = HistoryUpdatedParams.from_json(event_data.params)
-                callback(params)
-            else:
-                # For navigation events
-                info = NavigationInfo.from_json(event_data.params)
-                callback(info)
+            events = {
+                self.EVENTS["context_created"]: BrowsingContextInfo,
+                self.EVENTS["context_destroyed"]: BrowsingContextInfo,
+                self.EVENTS["download_will_begin"]: DownloadWillBeginParams,
+                self.EVENTS["user_prompt_opened"]: UserPromptOpenedParams,
+                self.EVENTS["user_prompt_closed"]: UserPromptClosedParams,
+                self.EVENTS["history_updated"]: HistoryUpdatedParams,
+            }
+
+            # default to NavigationInfo for other events
+            parser_class = events.get(event_name, NavigationInfo)
+            parsed_data = parser_class.from_json(event_data.params)
+            event_context = parsed_data.context
+
+            # Apply context filtering
+            if contexts is not None and event_context not in contexts:
+                return  # Skip this event as it's not for the specified contexts
+
+            callback(parsed_data)
 
         callback_id = self.conn.add_callback(event, _callback)
 
@@ -801,16 +799,16 @@ class BrowsingContext:
         except KeyError:
             raise Exception(f"Event {event} not found")
 
-        callback_id = self._on_event(event_name, callback)
+        callback_id = self._on_event(event_name, callback, contexts)
 
         if event_name in self.subscriptions:
             self.subscriptions[event_name].append(callback_id)
         else:
-            params = {"events": [event_name]}
-            if contexts is not None:
-                params["browsingContexts"] = contexts
             session = Session(self.conn)
-            self.conn.execute(session.subscribe(**params))
+            if contexts is not None:
+                self.conn.execute(session.subscribe(event_name, browsing_contexts=contexts))
+            else:
+                self.conn.execute(session.subscribe(event_name))
             self.subscriptions[event_name] = [callback_id]
 
         return callback_id
@@ -836,9 +834,8 @@ class BrowsingContext:
             if callback_id in callbacks:
                 callbacks.remove(callback_id)
                 if not callbacks:
-                    params = {"events": [event_name]}
                     session = Session(self.conn)
-                    self.conn.execute(session.unsubscribe(**params))
+                    self.conn.execute(session.unsubscribe(event_name))
                     del self.subscriptions[event_name]
 
     def clear_event_handlers(self) -> None:
@@ -847,7 +844,86 @@ class BrowsingContext:
             event = BrowsingContextEvent(event_name)
             for callback_id in self.subscriptions[event_name]:
                 self.conn.remove_callback(event, callback_id)
-            params = {"events": [event_name]}
             session = Session(self.conn)
-            self.conn.execute(session.unsubscribe(**params))
+            self.conn.execute(session.unsubscribe(event_name))
         self.subscriptions = {}
+
+    # Event handlers
+
+    def on_browsing_context_created(
+        self, callback: Callable[[BrowsingContextInfo], None], contexts: Optional[list[str]] = None
+    ) -> int:
+        """Subscribe to browsing context created events."""
+        return self.add_event_handler("context_created", callback, contexts)
+
+    def on_browsing_context_destroyed(
+        self, callback: Callable[[BrowsingContextInfo], None], contexts: Optional[list[str]] = None
+    ) -> int:
+        """Subscribe to browsing context destroyed events."""
+        return self.add_event_handler("context_destroyed", callback, contexts)
+
+    def on_navigation_started(
+        self, callback: Callable[[NavigationInfo], None], contexts: Optional[list[str]] = None
+    ) -> int:
+        """Subscribe to navigation started events."""
+        return self.add_event_handler("navigation_started", callback, contexts)
+
+    def on_fragment_navigated(
+        self, callback: Callable[[NavigationInfo], None], contexts: Optional[list[str]] = None
+    ) -> int:
+        """Subscribe to fragment navigated events."""
+        return self.add_event_handler("fragment_navigated", callback, contexts)
+
+    def on_dom_content_loaded(
+        self, callback: Callable[[NavigationInfo], None], contexts: Optional[list[str]] = None
+    ) -> int:
+        """Subscribe to DOM content loaded events."""
+        return self.add_event_handler("dom_content_loaded", callback, contexts)
+
+    def on_browsing_context_loaded(
+        self, callback: Callable[[NavigationInfo], None], contexts: Optional[list[str]] = None
+    ) -> int:
+        """Subscribe to browsing context loaded events."""
+        return self.add_event_handler("load", callback, contexts)
+
+    def on_download_will_begin(
+        self, callback: Callable[[DownloadWillBeginParams], None], contexts: Optional[list[str]] = None
+    ) -> int:
+        """Subscribe to download will begin events."""
+        return self.add_event_handler("download_will_begin", callback, contexts)
+
+    def on_navigation_aborted(
+        self, callback: Callable[[NavigationInfo], None], contexts: Optional[list[str]] = None
+    ) -> int:
+        """Subscribe to navigation aborted events."""
+        return self.add_event_handler("navigation_aborted", callback, contexts)
+
+    def on_navigation_failed(
+        self, callback: Callable[[NavigationInfo], None], contexts: Optional[list[str]] = None
+    ) -> int:
+        """Subscribe to navigation failed events."""
+        return self.add_event_handler("navigation_failed", callback, contexts)
+
+    def on_navigation_committed(
+        self, callback: Callable[[NavigationInfo], None], contexts: Optional[list[str]] = None
+    ) -> int:
+        """Subscribe to navigation committed events."""
+        return self.add_event_handler("navigation_committed", callback, contexts)
+
+    def on_user_prompt_closed(
+        self, callback: Callable[[UserPromptClosedParams], None], contexts: Optional[list[str]] = None
+    ) -> int:
+        """Subscribe to user prompt closed events."""
+        return self.add_event_handler("user_prompt_closed", callback, contexts)
+
+    def on_user_prompt_opened(
+        self, callback: Callable[[UserPromptOpenedParams], None], contexts: Optional[list[str]] = None
+    ) -> int:
+        """Subscribe to user prompt opened events."""
+        return self.add_event_handler("user_prompt_opened", callback, contexts)
+
+    def on_history_updated(
+        self, callback: Callable[[HistoryUpdatedParams], None], contexts: Optional[list[str]] = None
+    ) -> int:
+        """Subscribe to history updated events."""
+        return self.add_event_handler("history_updated", callback, contexts)
