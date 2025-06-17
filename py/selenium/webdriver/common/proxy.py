@@ -70,7 +70,7 @@ class _ProxyTypeDescriptor:
             # TODO: Remove ftpProxy in future version and remove deprecation warning
             # https://github.com/SeleniumHQ/selenium/issues/15905
             warnings.warn(
-                "ftpProxy is deprecated and will be removed in the future. Browsers no longer support FTP proxies.",
+                "ftpProxy is deprecated and will be removed in the future",
                 DeprecationWarning,
                 stacklevel=2,
             )
@@ -257,7 +257,14 @@ class Proxy:
             if "proxyType" in raw and raw["proxyType"]:
                 self.proxy_type = ProxyType.load(raw["proxyType"])
             # TODO: Remove ftpProxy in future version and remove deprecation warning
+            # https://github.com/SeleniumHQ/selenium/issues/15905
             if "ftpProxy" in raw and raw["ftpProxy"]:
+                if self.name == "ftpProxy":
+                    warnings.warn(
+                        "ftpProxy is deprecated and will be removed in the future",
+                        DeprecationWarning,
+                        stacklevel=2,
+                    )
                 self.ftp_proxy = raw["ftpProxy"]
             if "httpProxy" in raw and raw["httpProxy"]:
                 self.http_proxy = raw["httpProxy"]
