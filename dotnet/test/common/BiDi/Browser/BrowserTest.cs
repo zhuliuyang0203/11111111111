@@ -76,7 +76,7 @@ class BrowserTest : BiDiTestFixture
     {
         var clientWindows = await bidi.Browser.GetClientWindowsAsync();
 
-        var clientWindowInfo = await clientWindows[0].ClientWindow.SetStateAsync(Modules.Browser.ClientWindowNamedState.Fullscreen);
+        var clientWindowInfo = await clientWindows[0].ClientWindow.SetStateAsync(ClientWindowNamedState.Fullscreen);
 
         // TODO: Make assertion meaningfull
         Assert.That(clientWindowInfo, Is.Not.Null);

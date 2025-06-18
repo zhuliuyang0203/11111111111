@@ -20,7 +20,7 @@
 using OpenQA.Selenium.BiDi.Communication;
 using System.Text.Json.Serialization;
 
-namespace OpenQA.Selenium.BiDi.Modules.Browser;
+namespace OpenQA.Selenium.BiDi.Browser;
 
 internal class SetClientWindowStateCommand(SetClientWindowStateCommandParameters @params)
     : Command<SetClientWindowStateCommandParameters, ClientWindowInfo>(@params, "browser.setClientWindowState");
