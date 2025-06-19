@@ -358,4 +358,4 @@ def _pin_browsers_extension_impl(_ctx):
 
 pin_browsers_extension = module_extension(
     implementation = _pin_browsers_extension_impl,
-)bazel run pinned_browsers:.
+)
