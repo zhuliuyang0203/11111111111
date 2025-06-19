@@ -15,6 +15,7 @@
 # specific language governing permissions and limitations
 # under the License.
 
+
 # -----------------------------------------------------------------
 # This script recursively scans the `selenium` package directory
 # to find all modules, then generates the `py/docs/source/api.rst`
@@ -47,8 +48,8 @@ if __name__ == "__main__":
     package_name = "selenium"
     output_file = os.path.join("docs", "source", "api.rst")
     print(f"generating module list for sphinx autodoc in: {output_file}\n")
-    modules = find_modules(package_name)
-    base_modules = [mod for mod in sorted(set(module.rsplit(".", 1)[0] for module in modules)) if mod != package_name]
+    modules = [module for module in find_modules(package_name) if ".devtools." not in module]
+    base_modules = [mod for mod in sorted({module.rsplit(".", 1)[0] for module in modules}) if mod != package_name]
     print("found sections:")
     for base_module in base_modules:
         print(f"    {base_module}")
