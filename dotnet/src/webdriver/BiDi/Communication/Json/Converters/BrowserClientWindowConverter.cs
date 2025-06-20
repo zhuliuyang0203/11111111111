@@ -26,11 +26,18 @@ namespace OpenQA.Selenium.BiDi.Communication.Json.Converters;
 
 internal class BrowserClientWindowConverter : JsonConverter<ClientWindow>
 {
+    private readonly BiDi _bidi;
+
+    public BrowserClientWindowConverter(BiDi bidi)
+    {
+        _bidi = bidi;
+    }
+
     public override ClientWindow? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
         var id = reader.GetString();
 
-        return new ClientWindow(id!);
+        return new ClientWindow(_bidi, id!);
     }
 
     public override void Write(Utf8JsonWriter writer, ClientWindow value, JsonSerializerOptions options)

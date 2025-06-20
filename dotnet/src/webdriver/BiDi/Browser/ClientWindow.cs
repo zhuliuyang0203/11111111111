@@ -17,14 +17,29 @@
 // under the License.
 // </copyright>
 
+using System.Threading.Tasks;
+
 namespace OpenQA.Selenium.BiDi.Browser;
 
 public record ClientWindow
 {
-    internal ClientWindow(string id)
+    internal ClientWindow(BiDi bidi, string id)
     {
+        BiDi = bidi;
         Id = id;
     }
 
+    internal BiDi BiDi { get; }
+
     internal string Id { get; }
+
+    public Task<ClientWindowInfo> SetStateAsync(ClientWindowNamedState state, SetClientWindowNamedStateOptions? options = null)
+    {
+        return BiDi.Browser.SetClientWindowStateAsync(this, state, options);
+    }
+
+    public Task<ClientWindowInfo> SetStateAsync(SetClientWindowRectStateOptions? options = null)
+    {
+        return BiDi.Browser.SetClientWindowStateAsync(this, options);
+    }
 }
