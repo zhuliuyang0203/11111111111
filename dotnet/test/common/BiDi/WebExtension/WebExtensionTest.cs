@@ -34,6 +34,7 @@ class WebExtensionTest : BiDiTestFixture
         var result = await bidi.WebExtension.InstallAsync(new ExtensionPath(path));
 
         Assert.That(result, Is.Not.Null);
+        Assert.That(result.Extension, Is.Not.Null);
     }
 
     [Test]
@@ -46,6 +47,7 @@ class WebExtensionTest : BiDiTestFixture
         var result = await bidi.WebExtension.InstallAsync(new ExtensionArchivePath(path));
 
         Assert.That(result, Is.Not.Null);
+        Assert.That(result.Extension, Is.Not.Null);
     }
 
     [Test]
@@ -60,6 +62,7 @@ class WebExtensionTest : BiDiTestFixture
         var result = await bidi.WebExtension.InstallAsync(new ExtensionBase64Encoded(base64));
 
         Assert.That(result, Is.Not.Null);
+        Assert.That(result.Extension, Is.Not.Null);
     }
 
     [Test]
