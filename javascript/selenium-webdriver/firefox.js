@@ -125,6 +125,12 @@ const { findFreePort } = require('./net/portprober')
 const FIREFOX_CAPABILITY_KEY = 'moz:firefoxOptions'
 
 /**
+ * Environment variable that defines the location of the GeckoDriver executable.
+ * @const {string}
+ */
+const GECKO_DRIVER_EXE_ENV_VAR = 'SE_GECKODRIVER'
+
+/**
  * Thrown when there an add-on is malformed.
  * @final
  */
@@ -489,10 +495,11 @@ function configureExecutor(executor) {
 class ServiceBuilder extends remote.DriverService.Builder {
   /**
    * @param {string=} opt_exe Path to the server executable to use. If omitted,
-   *     the builder will attempt to locate the geckodriver on the system PATH.
+   *     the builder will attempt to use the geckodriver path from the
+   *     SE_GECKODRIVER environment variable, then locate the geckodriver on the system PATH.
    */
   constructor(opt_exe) {
-    super(opt_exe)
+    super(opt_exe || process.env[GECKO_DRIVER_EXE_ENV_VAR])
     this.setLoopback(true) // Required.
   }
 
