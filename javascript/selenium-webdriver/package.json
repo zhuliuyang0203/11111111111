@@ -46,7 +46,7 @@
     "multer": "1.4.5-lts.1",
     "prettier": "^3.4.2",
     "serve-index": "^1.9.1",
-    "sinon": "^19.0.2",
+    "sinon": "^19.0.5",
     "supports-color": "^10.0.0"
   },
   "scripts": {
