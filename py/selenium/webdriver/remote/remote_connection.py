@@ -440,7 +440,7 @@ class RemoteConnection:
             if statuscode == 401:
                 return {"status": statuscode, "value": "Authorization Required"}
             if statuscode >= 400:
-                return {"status": statuscode, "value": f"{response.reason}" if not data else data.strip()}
+                return {"status": statuscode, "value": response.reason if not data else data.strip()}
             content_type = []
             if response.headers.get("Content-Type", None):
                 content_type = response.headers.get("Content-Type", None).split(";")
