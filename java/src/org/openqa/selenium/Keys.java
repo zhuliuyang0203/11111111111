@@ -24,16 +24,21 @@ import org.jspecify.annotations.Nullable;
 /**
  * Representations of pressable keys that aren't text. These are stored in the Unicode PUA (Private
  * Use Area) code points, 0xE000–0xF8FF. These values are used internally by WebDriver to simulate
- * keyboard input where standard Unicode characters are insufficient, such as modifier and control keys.
+ * keyboard input where standard Unicode characters are insufficient, such as modifier and control
+ * keys.
  *
- * The codes follow conventions partially established by the W3C WebDriver specification and the Selenium project.
- * Some values (e.g., RIGHT_SHIFT, RIGHT_COMMAND) are used in ChromeDriver but are not currently part of the W3C spec.
- * Others (e.g., OPTION, FN) are symbolic and reserved for possible future mapping.
+ * <p>The codes follow conventions partially established by the W3C WebDriver specification and the
+ * Selenium project. Some values (e.g., RIGHT_SHIFT, RIGHT_COMMAND) are used in ChromeDriver but are
+ * not currently part of the W3C spec. Others (e.g., OPTION, FN) are symbolic and reserved for
+ * possible future mapping.
  *
- * For consistency across platforms and drivers, values should be verified before assuming native support.
+ * <p>For consistency across platforms and drivers, values should be verified before assuming native
+ * support.
  *
- * @see <a href="https://www.w3.org/TR/webdriver/#keyboard-actions">W3C WebDriver Keyboard Actions</a>
- * @see <a href="http://www.google.com.au/search?&q=unicode+pua&btnK=Search">Unicode PUA Overview</a>
+ * @see <a href="https://www.w3.org/TR/webdriver/#keyboard-actions">W3C WebDriver Keyboard
+ *     Actions</a>
+ * @see <a href="http://www.google.com.au/search?&q=unicode+pua&btnK=Search">Unicode PUA
+ *     Overview</a>
  */
 @NullMarked
 public enum Keys implements CharSequence {
@@ -115,7 +120,7 @@ public enum Keys implements CharSequence {
 
   // Symbolic macOS keys not yet standardized
   OPTION('\uE050'), // TODO: verify Unicode value with WebDriver spec
-  FN('\uE051'),     // TODO: symbolic only; confirm or remove in future
+  FN('\uE051'), // TODO: symbolic only; confirm or remove in future
 
   ZENKAKU_HANKAKU('\uE040');
 
@@ -162,8 +167,8 @@ public enum Keys implements CharSequence {
   }
 
   /**
-   * Simulate pressing many keys at once in a "chord".
-   * Takes a sequence of Keys.XXXX or strings; appends each to a string, adds the chord termination key (Keys.NULL), and returns it.
+   * Simulate pressing many keys at once in a "chord". Takes a sequence of Keys.XXXX or strings;
+   * appends each to a string, adds the chord termination key (Keys.NULL), and returns it.
    *
    * <p>Note: Keys.NULL signals release of modifier keys like CTRL/ALT/SHIFT via keyup events.
    *
