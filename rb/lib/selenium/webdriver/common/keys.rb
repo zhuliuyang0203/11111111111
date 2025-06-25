@@ -95,6 +95,8 @@ module Selenium
         right_control: "\ue051",
         right_alt: "\ue052",
         right_meta: "\ue053",
+        options: "\ue050", # macOS Options key, same as right_shift
+        function: "\ue051", # macOS Function key, same as right_control
         numpad_page_up: "\ue054",
         numpad_page_down: "\ue055",
         numpad_end: "\ue056",
