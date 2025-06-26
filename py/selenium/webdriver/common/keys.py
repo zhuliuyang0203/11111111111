@@ -16,6 +16,8 @@
 # under the License.
 """The Keys implementation."""
 
+import sys
+
 
 class Keys:
     """Set of special keys codes."""
@@ -88,3 +90,5 @@ class Keys:
     META = "\ue03d"
     COMMAND = "\ue03d"
     ZENKAKU_HANKAKU = "\ue040"
+
+    COMMAND_OR_CONTROL = COMMAND if sys.platform == "darwin" else CONTROL
