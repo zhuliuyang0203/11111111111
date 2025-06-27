@@ -1,5 +1,6 @@
 v4.34.0
 ======
+* Add CDP for Chrome 138 and remove 135
 * [bidi] Add AcceptInsecureCerts and Proxy options when create new user context (#15795)
 * [bidi] Actively use TryGetValue while processing incoming messages
 * [bidi] Declare allowed nullable objects in constructors type (#15809)
@@ -11,7 +12,6 @@ v4.34.0
 * [bidi] Add OnHistoryUpdated event (#15916)
 * Mark FTP proxy support as deprecated (#15925)
 * [bidi] Protect DTO types from inheritance (#15919)
-* update devtools versions
 
 v4.33.0
 ======
