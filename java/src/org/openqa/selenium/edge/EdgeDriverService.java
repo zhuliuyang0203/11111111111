@@ -34,6 +34,7 @@ import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.chromium.ChromiumDriverLogLevel;
 import org.openqa.selenium.remote.service.DriverFinder;
 import org.openqa.selenium.remote.service.DriverService;
+import org.jspecify.annotations.Nullable;
 
 /** Manages the life and death of the MSEdgeDriver */
 public class EdgeDriverService extends DriverService {
@@ -139,13 +140,13 @@ public class EdgeDriverService extends DriverService {
   @AutoService(DriverService.Builder.class)
   public static class Builder extends DriverService.Builder<EdgeDriverService, Builder> {
 
-    private Boolean disableBuildCheck;
-    private Boolean readableTimestamp;
-    private Boolean appendLog;
-    private Boolean verbose;
-    private Boolean silent;
-    private String allowedListIps;
-    private ChromiumDriverLogLevel logLevel;
+    @Nullable private Boolean disableBuildCheck;
+    @Nullable private Boolean readableTimestamp;
+    @Nullable private Boolean appendLog;
+    @Nullable private Boolean verbose;
+    @Nullable private Boolean silent;
+    @Nullable private String allowedListIps;
+    @Nullable private ChromiumDriverLogLevel logLevel;
 
     @Override
     public int score(Capabilities capabilities) {
