@@ -29,13 +29,14 @@ _is_connectable_exceptions = (socket.error, ConnectionResetError)
 def free_port() -> int:
     """Determines a free port using sockets.
 
-    First try IPv4, but use IPv6 if it doesn't exist (IPv6-only system).
+    First try IPv4, but use IPv6 if it can't bind (IPv6-only system).
     """
     try:
         # IPv4
         free_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         free_socket.bind(("127.0.0.1", 0))
     except OSError:
+        # IPv6
         free_socket = socket.socket(socket.AF_INET6, socket.SOCK_STREAM)
         free_socket.bind(("::1", 0))
     free_socket.listen(5)
