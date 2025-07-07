@@ -1,5 +1,5 @@
 {
-  "checksum": "dd811f46a9dd905b5c4f6d1fb616249948c79cf27b1fb3f936f59ae2a0a23e44",
+  "checksum": "214047952643d09574cbb6375717826662389beb2222da2e472f8d7ef5fc65ab",
   "crates": {
     "addr2line 0.21.0": {
       "name": "addr2line",
@@ -255,7 +255,7 @@
         "deps": {
           "common": [
             {
-              "id": "libc 0.2.168",
+              "id": "libc 0.2.174",
               "target": "libc"
             }
           ],
@@ -691,7 +691,7 @@
               "target": "cpio_archive"
             },
             {
-              "id": "flate2 1.1.1",
+              "id": "flate2 1.1.2",
               "target": "flate2"
             },
             {
@@ -785,7 +785,7 @@
               "target": "digest"
             },
             {
-              "id": "flate2 1.1.1",
+              "id": "flate2 1.1.2",
               "target": "flate2"
             },
             {
@@ -801,7 +801,7 @@
               "target": "rand"
             },
             {
-              "id": "reqwest 0.12.15",
+              "id": "reqwest 0.12.22",
               "target": "reqwest"
             },
             {
@@ -1062,7 +1062,7 @@
           "selects": {
             "cfg(any())": [
               {
-                "id": "libc 0.2.168",
+                "id": "libc 0.2.174",
                 "target": "libc"
               }
             ]
@@ -1195,7 +1195,7 @@
                 "target": "addr2line"
               },
               {
-                "id": "libc 0.2.168",
+                "id": "libc 0.2.174",
                 "target": "libc"
               },
               {
@@ -1542,10 +1542,84 @@
           "**"
         ],
         "crate_features": {
-          "common": [
-            "std"
-          ],
-          "selects": {}
+          "common": [],
+          "selects": {
+            "aarch64-apple-darwin": [
+              "std"
+            ],
+            "aarch64-apple-ios": [
+              "std"
+            ],
+            "aarch64-apple-ios-sim": [
+              "std"
+            ],
+            "aarch64-linux-android": [
+              "std"
+            ],
+            "aarch64-unknown-fuchsia": [
+              "std"
+            ],
+            "aarch64-unknown-linux-gnu": [
+              "std"
+            ],
+            "aarch64-unknown-nixos-gnu": [
+              "std"
+            ],
+            "aarch64-unknown-nto-qnx710": [
+              "std"
+            ],
+            "arm-unknown-linux-gnueabi": [
+              "std"
+            ],
+            "armv7-linux-androideabi": [
+              "std"
+            ],
+            "armv7-unknown-linux-gnueabi": [
+              "std"
+            ],
+            "i686-apple-darwin": [
+              "std"
+            ],
+            "i686-linux-android": [
+              "std"
+            ],
+            "i686-unknown-freebsd": [
+              "std"
+            ],
+            "i686-unknown-linux-gnu": [
+              "std"
+            ],
+            "powerpc-unknown-linux-gnu": [
+              "std"
+            ],
+            "s390x-unknown-linux-gnu": [
+              "std"
+            ],
+            "wasm32-wasip1": [
+              "std"
+            ],
+            "x86_64-apple-darwin": [
+              "std"
+            ],
+            "x86_64-apple-ios": [
+              "std"
+            ],
+            "x86_64-linux-android": [
+              "std"
+            ],
+            "x86_64-unknown-freebsd": [
+              "std"
+            ],
+            "x86_64-unknown-fuchsia": [
+              "std"
+            ],
+            "x86_64-unknown-linux-gnu": [
+              "std"
+            ],
+            "x86_64-unknown-nixos-gnu": [
+              "std"
+            ]
+          }
         },
         "edition": "2021",
         "version": "2.5.0"
@@ -1838,7 +1912,7 @@
               "target": "bzip2_sys"
             },
             {
-              "id": "libc 0.2.168",
+              "id": "libc 0.2.174",
               "target": "libc"
             }
           ],
@@ -1854,14 +1928,14 @@
       ],
       "license_file": "LICENSE-APACHE"
     },
-    "bzip2 0.5.2": {
+    "bzip2 0.6.0": {
       "name": "bzip2",
-      "version": "0.5.2",
+      "version": "0.6.0",
       "package_url": "https://github.com/trifectatechfoundation/bzip2-rs",
       "repository": {
         "Http": {
-          "url": "https://static.crates.io/crates/bzip2/0.5.2/download",
-          "sha256": "49ecfb22d906f800d4fe833b6282cf4dc1c298f5057ca0b5445e5c209735ca47"
+          "url": "https://static.crates.io/crates/bzip2/0.6.0/download",
+          "sha256": "bea8dcd42434048e4f7a304411d9273a411f647446c1234a65ce0554923f4cff"
         }
       },
       "targets": [
@@ -1892,14 +1966,14 @@
         "deps": {
           "common": [
             {
-              "id": "bzip2-sys 0.1.13+1.0.8",
-              "target": "bzip2_sys"
+              "id": "libbz2-rs-sys 0.2.1",
+              "target": "libbz2_rs_sys"
             }
           ],
           "selects": {}
         },
         "edition": "2021",
-        "version": "0.5.2"
+        "version": "0.6.0"
       },
       "license": "MIT OR Apache-2.0",
       "license_ids": [
@@ -2032,7 +2106,7 @@
               "target": "jobserver"
             },
             {
-              "id": "libc 0.2.168",
+              "id": "libc 0.2.174",
               "target": "libc"
             },
             {
@@ -2406,14 +2480,14 @@
       ],
       "license_file": "LICENSE.txt"
     },
-    "clap 4.5.37": {
+    "clap 4.5.40": {
       "name": "clap",
-      "version": "4.5.37",
+      "version": "4.5.40",
       "package_url": "https://github.com/clap-rs/clap",
       "repository": {
         "Http": {
-          "url": "https://static.crates.io/crates/clap/4.5.37/download",
-          "sha256": "eccb054f56cbd38340b380d4a8e69ef1f02f1af43db2f0cc817a4774d80ae071"
+          "url": "https://static.crates.io/crates/clap/4.5.40/download",
+          "sha256": "40b6887a1d8685cebccf115538db5c0efe625ccac9696ad45c409d96566e910f"
         }
       },
       "targets": [
@@ -2452,7 +2526,7 @@
         "deps": {
           "common": [
             {
-              "id": "clap_builder 4.5.37",
+              "id": "clap_builder 4.5.40",
               "target": "clap_builder"
             }
           ],
@@ -2462,13 +2536,13 @@
         "proc_macro_deps": {
           "common": [
             {
-              "id": "clap_derive 4.5.32",
+              "id": "clap_derive 4.5.40",
               "target": "clap_derive"
             }
           ],
           "selects": {}
         },
-        "version": "4.5.37"
+        "version": "4.5.40"
       },
       "license": "MIT OR Apache-2.0",
       "license_ids": [
@@ -2477,14 +2551,14 @@
       ],
       "license_file": "LICENSE-APACHE"
     },
-    "clap_builder 4.5.37": {
+    "clap_builder 4.5.40": {
       "name": "clap_builder",
-      "version": "4.5.37",
+      "version": "4.5.40",
       "package_url": "https://github.com/clap-rs/clap",
       "repository": {
         "Http": {
-          "url": "https://static.crates.io/crates/clap_builder/4.5.37/download",
-          "sha256": "efd9466fac8543255d3b1fcad4762c5e116ffe808c8a3043d4263cd4fd4862a2"
+          "url": "https://static.crates.io/crates/clap_builder/4.5.40/download",
+          "sha256": "e0c66c08ce9f0c698cbce5c0279d0bb6ac936d8674174fe48f736533b964f59e"
         }
       },
       "targets": [
@@ -2540,7 +2614,7 @@
           "selects": {}
         },
         "edition": "2021",
-        "version": "4.5.37"
+        "version": "4.5.40"
       },
       "license": "MIT OR Apache-2.0",
       "license_ids": [
@@ -2549,14 +2623,14 @@
       ],
       "license_file": "LICENSE-APACHE"
     },
-    "clap_derive 4.5.32": {
+    "clap_derive 4.5.40": {
       "name": "clap_derive",
-      "version": "4.5.32",
+      "version": "4.5.40",
       "package_url": "https://github.com/clap-rs/clap",
       "repository": {
         "Http": {
-          "url": "https://static.crates.io/crates/clap_derive/4.5.32/download",
-          "sha256": "09176aae279615badda0765c0c0b3f6ed53f4709118af73cf4655d85d1530cd7"
+          "url": "https://static.crates.io/crates/clap_derive/4.5.40/download",
+          "sha256": "d2c7947ae4cc3d851207c1adb5b5e260ff0cca11446b1d6d1423788e442257ce"
         }
       },
       "targets": [
@@ -2606,7 +2680,7 @@
           "selects": {}
         },
         "edition": "2021",
-        "version": "4.5.32"
+        "version": "4.5.40"
       },
       "license": "MIT OR Apache-2.0",
       "license_ids": [
@@ -2871,25 +2945,25 @@
           "selects": {
             "aarch64-linux-android": [
               {
-                "id": "libc 0.2.168",
+                "id": "libc 0.2.174",
                 "target": "libc"
               }
             ],
             "cfg(all(target_arch = \"aarch64\", target_os = \"linux\"))": [
               {
-                "id": "libc 0.2.168",
+                "id": "libc 0.2.174",
                 "target": "libc"
               }
             ],
             "cfg(all(target_arch = \"aarch64\", target_vendor = \"apple\"))": [
               {
-                "id": "libc 0.2.168",
+                "id": "libc 0.2.174",
                 "target": "libc"
               }
             ],
             "cfg(all(target_arch = \"loongarch64\", target_os = \"linux\"))": [
               {
-                "id": "libc 0.2.168",
+                "id": "libc 0.2.174",
                 "target": "libc"
               }
             ]
@@ -3164,7 +3238,7 @@
               "target": "pem"
             },
             {
-              "id": "reqwest 0.12.15",
+              "id": "reqwest 0.12.22",
               "target": "reqwest"
             },
             {
@@ -3235,7 +3309,7 @@
               "target": "bzip2"
             },
             {
-              "id": "flate2 1.1.1",
+              "id": "flate2 1.1.2",
               "target": "flate2"
             },
             {
@@ -3639,7 +3713,7 @@
             ],
             "cfg(unix)": [
               {
-                "id": "libc 0.2.168",
+                "id": "libc 0.2.174",
                 "target": "libc"
               }
             ],
@@ -4034,19 +4108,19 @@
           "selects": {
             "cfg(target_os = \"hermit\")": [
               {
-                "id": "libc 0.2.168",
+                "id": "libc 0.2.174",
                 "target": "libc"
               }
             ],
             "cfg(target_os = \"wasi\")": [
               {
-                "id": "libc 0.2.168",
+                "id": "libc 0.2.174",
                 "target": "libc"
               }
             ],
             "cfg(unix)": [
               {
-                "id": "libc 0.2.168",
+                "id": "libc 0.2.174",
                 "target": "libc"
               }
             ],
@@ -4198,7 +4272,7 @@
             ],
             "cfg(unix)": [
               {
-                "id": "libc 0.2.168",
+                "id": "libc 0.2.174",
                 "target": "libc"
               }
             ],
@@ -4279,14 +4353,14 @@
       ],
       "license_file": "LICENSE-APACHE"
     },
-    "flate2 1.1.1": {
+    "flate2 1.1.2": {
       "name": "flate2",
-      "version": "1.1.1",
+      "version": "1.1.2",
       "package_url": "https://github.com/rust-lang/flate2-rs",
       "repository": {
         "Http": {
-          "url": "https://static.crates.io/crates/flate2/1.1.1/download",
-          "sha256": "7ced92e76e966ca2fd84c8f7aa01a4aea65b0eb6648d72f7c8f3e2764a67fece"
+          "url": "https://static.crates.io/crates/flate2/1.1.2/download",
+          "sha256": "4a3d7db9596fecd151c5f638c0ee5d5bd487b6e0ea232e5dc96d5250f6f94b1d"
         }
       },
       "targets": [
@@ -4338,7 +4412,7 @@
           "selects": {}
         },
         "edition": "2018",
-        "version": "1.1.1"
+        "version": "1.1.2"
       },
       "license": "MIT OR Apache-2.0",
       "license_ids": [
@@ -4483,7 +4557,7 @@
           "selects": {
             "cfg(unix)": [
               {
-                "id": "libc 0.2.168",
+                "id": "libc 0.2.174",
                 "target": "libc"
               }
             ],
@@ -5465,7 +5539,7 @@
             ],
             "cfg(unix)": [
               {
-                "id": "libc 0.2.168",
+                "id": "libc 0.2.174",
                 "target": "libc"
               }
             ]
@@ -5536,7 +5610,7 @@
           "selects": {
             "cfg(all(any(target_os = \"linux\", target_os = \"android\"), not(any(getrandom_backend = \"custom\", getrandom_backend = \"rdrand\", getrandom_backend = \"rndr\"))))": [
               {
-                "id": "libc 0.2.168",
+                "id": "libc 0.2.174",
                 "target": "libc"
               }
             ],
@@ -5554,43 +5628,43 @@
             ],
             "cfg(any(target_os = \"dragonfly\", target_os = \"freebsd\", target_os = \"hurd\", target_os = \"illumos\", all(target_os = \"horizon\", target_arch = \"arm\")))": [
               {
-                "id": "libc 0.2.168",
+                "id": "libc 0.2.174",
                 "target": "libc"
               }
             ],
             "cfg(any(target_os = \"haiku\", target_os = \"redox\", target_os = \"nto\", target_os = \"aix\"))": [
               {
-                "id": "libc 0.2.168",
+                "id": "libc 0.2.174",
                 "target": "libc"
               }
             ],
             "cfg(any(target_os = \"ios\", target_os = \"visionos\", target_os = \"watchos\", target_os = \"tvos\"))": [
               {
-                "id": "libc 0.2.168",
+                "id": "libc 0.2.174",
                 "target": "libc"
               }
             ],
             "cfg(any(target_os = \"macos\", target_os = \"openbsd\", target_os = \"vita\", target_os = \"emscripten\"))": [
               {
-                "id": "libc 0.2.168",
+                "id": "libc 0.2.174",
                 "target": "libc"
               }
             ],
             "cfg(target_os = \"netbsd\")": [
               {
-                "id": "libc 0.2.168",
+                "id": "libc 0.2.174",
                 "target": "libc"
               }
             ],
             "cfg(target_os = \"solaris\")": [
               {
-                "id": "libc 0.2.168",
+                "id": "libc 0.2.174",
                 "target": "libc"
               }
             ],
             "cfg(target_os = \"vxworks\")": [
               {
-                "id": "libc 0.2.168",
+                "id": "libc 0.2.174",
                 "target": "libc"
               }
             ]
@@ -6085,14 +6159,14 @@
       ],
       "license_file": null
     },
-    "httparse 1.8.0": {
+    "httparse 1.10.1": {
       "name": "httparse",
-      "version": "1.8.0",
+      "version": "1.10.1",
       "package_url": "https://github.com/seanmonstar/httparse",
       "repository": {
         "Http": {
-          "url": "https://static.crates.io/crates/httparse/1.8.0/download",
-          "sha256": "d897f394bad6a705d5f4104762e116a75639e470d80901eed05a860a95cb1904"
+          "url": "https://static.crates.io/crates/httparse/1.10.1/download",
+          "sha256": "6dbf3de79e51f3d586ab4cb9d5c3e2c14aa28ed23d180cf89b4df0454a69cc87"
         }
       },
       "targets": [
@@ -6136,14 +6210,14 @@
         "deps": {
           "common": [
             {
-              "id": "httparse 1.8.0",
+              "id": "httparse 1.10.1",
               "target": "build_script_build"
             }
           ],
           "selects": {}
         },
         "edition": "2018",
-        "version": "1.8.0"
+        "version": "1.10.1"
       },
       "build_script_attrs": {
         "compile_data_glob": [
@@ -6153,21 +6227,21 @@
           "**"
         ]
       },
-      "license": "MIT/Apache-2.0",
+      "license": "MIT OR Apache-2.0",
       "license_ids": [
         "Apache-2.0",
         "MIT"
       ],
       "license_file": "LICENSE-APACHE"
     },
-    "hyper 1.5.2": {
+    "hyper 1.6.0": {
       "name": "hyper",
-      "version": "1.5.2",
+      "version": "1.6.0",
       "package_url": "https://github.com/hyperium/hyper",
       "repository": {
         "Http": {
-          "url": "https://static.crates.io/crates/hyper/1.5.2/download",
-          "sha256": "256fb8d4bd6413123cc9d91832d78325c48ff41677595be797d90f42969beae0"
+          "url": "https://static.crates.io/crates/hyper/1.6.0/download",
+          "sha256": "cc2b571658e38e0c01b1fdca3bbbe93c00d3d71693ff2770043f8c29bc7d6f80"
         }
       },
       "targets": [
@@ -6220,7 +6294,7 @@
               "target": "http_body"
             },
             {
-              "id": "httparse 1.8.0",
+              "id": "httparse 1.10.1",
               "target": "httparse"
             },
             {
@@ -6236,7 +6310,7 @@
               "target": "smallvec"
             },
             {
-              "id": "tokio 1.45.0",
+              "id": "tokio 1.46.1",
               "target": "tokio"
             },
             {
@@ -6247,7 +6321,7 @@
           "selects": {}
         },
         "edition": "2021",
-        "version": "1.5.2"
+        "version": "1.6.0"
       },
       "license": "MIT",
       "license_ids": [
@@ -6305,11 +6379,11 @@
               "target": "http"
             },
             {
-              "id": "hyper 1.5.2",
+              "id": "hyper 1.6.0",
               "target": "hyper"
             },
             {
-              "id": "hyper-util 0.1.10",
+              "id": "hyper-util 0.1.14",
               "target": "hyper_util"
             },
             {
@@ -6317,12 +6391,12 @@
               "target": "rustls"
             },
             {
-              "id": "rustls-pki-types 1.7.0",
+              "id": "rustls-pki-types 1.12.0",
               "target": "rustls_pki_types",
               "alias": "pki_types"
             },
             {
-              "id": "tokio 1.45.0",
+              "id": "tokio 1.46.1",
               "target": "tokio"
             },
             {
@@ -6351,14 +6425,14 @@
       ],
       "license_file": "LICENSE"
     },
-    "hyper-util 0.1.10": {
+    "hyper-util 0.1.14": {
       "name": "hyper-util",
-      "version": "0.1.10",
+      "version": "0.1.14",
       "package_url": "https://github.com/hyperium/hyper-util",
       "repository": {
         "Http": {
-          "url": "https://static.crates.io/crates/hyper-util/0.1.10/download",
-          "sha256": "df2dcfbe0677734ab2f3ffa7fa7bfd4706bfdc1ef393f2ee30184aed67e631b4"
+          "url": "https://static.crates.io/crates/hyper-util/0.1.14/download",
+          "sha256": "dc2fdfdbff08affe55bb779f33b053aa1fe5dd5b54c257343c17edfa55711bdb"
         }
       },
       "targets": [
@@ -6384,6 +6458,7 @@
           "common": [
             "client",
             "client-legacy",
+            "client-proxy",
             "default",
             "http1",
             "tokio"
@@ -6393,12 +6468,20 @@
         "deps": {
           "common": [
             {
+              "id": "base64 0.22.1",
+              "target": "base64"
+            },
+            {
               "id": "bytes 1.9.0",
               "target": "bytes"
             },
             {
               "id": "futures-channel 0.3.30",
               "target": "futures_channel"
+            },
+            {
+              "id": "futures-core 0.3.30",
+              "target": "futures_core"
             },
             {
               "id": "futures-util 0.3.30",
@@ -6413,19 +6496,31 @@
               "target": "http_body"
             },
             {
-              "id": "hyper 1.5.2",
+              "id": "hyper 1.6.0",
               "target": "hyper"
+            },
+            {
+              "id": "ipnet 2.9.0",
+              "target": "ipnet"
+            },
+            {
+              "id": "libc 0.2.174",
+              "target": "libc"
+            },
+            {
+              "id": "percent-encoding 2.3.1",
+              "target": "percent_encoding"
             },
             {
               "id": "pin-project-lite 0.2.14",
               "target": "pin_project_lite"
             },
             {
-              "id": "socket2 0.5.7",
+              "id": "socket2 0.5.10",
               "target": "socket2"
             },
             {
-              "id": "tokio 1.45.0",
+              "id": "tokio 1.46.1",
               "target": "tokio"
             },
             {
@@ -6440,7 +6535,7 @@
           "selects": {}
         },
         "edition": "2021",
-        "version": "0.1.10"
+        "version": "0.1.14"
       },
       "license": "MIT",
       "license_ids": [
@@ -7636,6 +7731,86 @@
       ],
       "license_file": "LICENSE"
     },
+    "io-uring 0.7.8": {
+      "name": "io-uring",
+      "version": "0.7.8",
+      "package_url": "https://github.com/tokio-rs/io-uring",
+      "repository": {
+        "Http": {
+          "url": "https://static.crates.io/crates/io-uring/0.7.8/download",
+          "sha256": "b86e202f00093dcba4275d4636b93ef9dd75d025ae560d2521b45ea28ab49013"
+        }
+      },
+      "targets": [
+        {
+          "Library": {
+            "crate_name": "io_uring",
+            "crate_root": "src/lib.rs",
+            "srcs": {
+              "allow_empty": true,
+              "include": [
+                "**/*.rs"
+              ]
+            }
+          }
+        },
+        {
+          "BuildScript": {
+            "crate_name": "build_script_build",
+            "crate_root": "build.rs",
+            "srcs": {
+              "allow_empty": true,
+              "include": [
+                "**/*.rs"
+              ]
+            }
+          }
+        }
+      ],
+      "library_target_name": "io_uring",
+      "common_attrs": {
+        "compile_data_glob": [
+          "**"
+        ],
+        "deps": {
+          "common": [
+            {
+              "id": "bitflags 2.5.0",
+              "target": "bitflags"
+            },
+            {
+              "id": "cfg-if 1.0.0",
+              "target": "cfg_if"
+            },
+            {
+              "id": "io-uring 0.7.8",
+              "target": "build_script_build"
+            },
+            {
+              "id": "libc 0.2.174",
+              "target": "libc"
+            }
+          ],
+          "selects": {}
+        },
+        "edition": "2021",
+        "version": "0.7.8"
+      },
+      "build_script_attrs": {
+        "compile_data_glob": [
+          "**"
+        ],
+        "data_glob": [
+          "**"
+        ]
+      },
+      "license": "MIT OR Apache-2.0",
+      "license_ids": [
+        "Apache-2.0",
+        "MIT"
+      ],
+      "license_file": "LICENSE-APACHE"
+    },
     "ipnet 2.9.0": {
       "name": "ipnet",
       "version": "2.9.0",
@@ -7681,6 +7856,53 @@
         "MIT"
       ],
       "license_file": "LICENSE-APACHE"
+    },
+    "iri-string 0.7.8": {
+      "name": "iri-string",
+      "version": "0.7.8",
+      "package_url": "https://github.com/lo48576/iri-string",
+      "repository": {
+        "Http": {
+          "url": "https://static.crates.io/crates/iri-string/0.7.8/download",
+          "sha256": "dbc5ebe9c3a1a7a5127f920a418f7585e9e758e911d0466ed004f393b0e380b2"
+        }
+      },
+      "targets": [
+        {
+          "Library": {
+            "crate_name": "iri_string",
+            "crate_root": "src/lib.rs",
+            "srcs": {
+              "allow_empty": true,
+              "include": [
+                "**/*.rs"
+              ]
+            }
+          }
+        }
+      ],
+      "library_target_name": "iri_string",
+      "common_attrs": {
+        "compile_data_glob": [
+          "**"
+        ],
+        "crate_features": {
+          "common": [
+            "alloc",
+            "default",
+            "std"
+          ],
+          "selects": {}
+        },
+        "edition": "2021",
+        "version": "0.7.8"
+      },
+      "license": "MIT OR Apache-2.0",
+      "license_ids": [
+        "Apache-2.0",
+        "MIT"
+      ],
+      "license_file": "LICENSE-APACHE.txt"
     },
     "is_executable 1.0.4": {
       "name": "is_executable",
@@ -7978,7 +8200,7 @@
           "selects": {
             "cfg(unix)": [
               {
-                "id": "libc 0.2.168",
+                "id": "libc 0.2.174",
                 "target": "libc"
               }
             ]
@@ -8053,14 +8275,58 @@
       ],
       "license_file": "LICENSE-APACHE"
     },
-    "libc 0.2.168": {
+    "libbz2-rs-sys 0.2.1": {
+      "name": "libbz2-rs-sys",
+      "version": "0.2.1",
+      "package_url": "https://github.com/trifectatechfoundation/libbzip2-rs",
+      "repository": {
+        "Http": {
+          "url": "https://static.crates.io/crates/libbz2-rs-sys/0.2.1/download",
+          "sha256": "775bf80d5878ab7c2b1080b5351a48b2f737d9f6f8b383574eebcc22be0dfccb"
+        }
+      },
+      "targets": [
+        {
+          "Library": {
+            "crate_name": "libbz2_rs_sys",
+            "crate_root": "src/lib.rs",
+            "srcs": {
+              "allow_empty": true,
+              "include": [
+                "**/*.rs"
+              ]
+            }
+          }
+        }
+      ],
+      "library_target_name": "libbz2_rs_sys",
+      "common_attrs": {
+        "compile_data_glob": [
+          "**"
+        ],
+        "crate_features": {
+          "common": [
+            "rust-allocator"
+          ],
+          "selects": {}
+        },
+        "edition": "2021",
+        "version": "0.2.1"
+      },
+      "license": "bzip2-1.0.6",
+      "license_ids": [
+        "bzip2-1.0.6"
+      ],
+      "license_file": "LICENSE"
+    },
+    "libc 0.2.174": {
       "name": "libc",
-      "version": "0.2.168",
+      "version": "0.2.174",
       "package_url": "https://github.com/rust-lang/libc",
       "repository": {
         "Http": {
-          "url": "https://static.crates.io/crates/libc/0.2.168/download",
-          "sha256": "5aaeb2981e0606ca11d79718f8bb01164f1d6ed75080182d3abf017e6d244b6d"
+          "url": "https://static.crates.io/crates/libc/0.2.174/download",
+          "sha256": "1171693293099992e19cddea4e8b849964e9846f4acee11b3948bcc337be8776"
         }
       },
       "targets": [
@@ -8156,14 +8422,14 @@
         "deps": {
           "common": [
             {
-              "id": "libc 0.2.168",
+              "id": "libc 0.2.174",
               "target": "build_script_build"
             }
           ],
           "selects": {}
         },
         "edition": "2021",
-        "version": "0.2.168"
+        "version": "0.2.174"
       },
       "build_script_attrs": {
         "compile_data_glob": [
@@ -8216,7 +8482,7 @@
               "target": "bitflags"
             },
             {
-              "id": "libc 0.2.168",
+              "id": "libc 0.2.174",
               "target": "libc"
             }
           ],
@@ -8642,7 +8908,7 @@
         "deps": {
           "common": [
             {
-              "id": "libc 0.2.168",
+              "id": "libc 0.2.174",
               "target": "libc"
             },
             {
@@ -8789,45 +9055,6 @@
         "Unlicense"
       ],
       "license_file": "LICENSE-MIT"
-    },
-    "mime 0.3.17": {
-      "name": "mime",
-      "version": "0.3.17",
-      "package_url": "https://github.com/hyperium/mime",
-      "repository": {
-        "Http": {
-          "url": "https://static.crates.io/crates/mime/0.3.17/download",
-          "sha256": "6877bb514081ee2a7ff5ef9de3281f14a4dd4bceac4c09388074a6b5df8a139a"
-        }
-      },
-      "targets": [
-        {
-          "Library": {
-            "crate_name": "mime",
-            "crate_root": "src/lib.rs",
-            "srcs": {
-              "allow_empty": true,
-              "include": [
-                "**/*.rs"
-              ]
-            }
-          }
-        }
-      ],
-      "library_target_name": "mime",
-      "common_attrs": {
-        "compile_data_glob": [
-          "**"
-        ],
-        "edition": "2015",
-        "version": "0.3.17"
-      },
-      "license": "MIT OR Apache-2.0",
-      "license_ids": [
-        "Apache-2.0",
-        "MIT"
-      ],
-      "license_file": "LICENSE-APACHE"
     },
     "miniz_oxide 0.7.2": {
       "name": "miniz_oxide",
@@ -8982,7 +9209,7 @@
             ],
             "cfg(target_os = \"wasi\")": [
               {
-                "id": "libc 0.2.168",
+                "id": "libc 0.2.174",
                 "target": "libc"
               },
               {
@@ -8992,7 +9219,7 @@
             ],
             "cfg(unix)": [
               {
-                "id": "libc 0.2.168",
+                "id": "libc 0.2.174",
                 "target": "libc"
               }
             ],
@@ -10264,7 +10491,7 @@
               "target": "rustc_hash"
             },
             {
-              "id": "socket2 0.5.7",
+              "id": "socket2 0.5.10",
               "target": "socket2"
             },
             {
@@ -10272,7 +10499,7 @@
               "target": "thiserror"
             },
             {
-              "id": "tokio 1.45.0",
+              "id": "tokio 1.46.1",
               "target": "tokio"
             },
             {
@@ -10396,11 +10623,11 @@
         "deps": {
           "common": [
             {
-              "id": "libc 0.2.168",
+              "id": "libc 0.2.174",
               "target": "libc"
             },
             {
-              "id": "socket2 0.5.7",
+              "id": "socket2 0.5.10",
               "target": "socket2"
             }
           ],
@@ -10537,145 +10764,145 @@
           "selects": {
             "aarch64-apple-darwin": [
               {
-                "id": "libc 0.2.168",
+                "id": "libc 0.2.174",
                 "target": "libc"
               }
             ],
             "aarch64-apple-ios": [
               {
-                "id": "libc 0.2.168",
+                "id": "libc 0.2.174",
                 "target": "libc"
               }
             ],
             "aarch64-apple-ios-sim": [
               {
-                "id": "libc 0.2.168",
+                "id": "libc 0.2.174",
                 "target": "libc"
               }
             ],
             "aarch64-linux-android": [
               {
-                "id": "libc 0.2.168",
+                "id": "libc 0.2.174",
                 "target": "libc"
               }
             ],
             "aarch64-unknown-fuchsia": [
               {
-                "id": "libc 0.2.168",
+                "id": "libc 0.2.174",
                 "target": "libc"
               }
             ],
             "aarch64-unknown-linux-gnu": [
               {
-                "id": "libc 0.2.168",
+                "id": "libc 0.2.174",
                 "target": "libc"
               }
             ],
             "aarch64-unknown-nixos-gnu": [
               {
-                "id": "libc 0.2.168",
+                "id": "libc 0.2.174",
                 "target": "libc"
               }
             ],
             "aarch64-unknown-nto-qnx710": [
               {
-                "id": "libc 0.2.168",
+                "id": "libc 0.2.174",
                 "target": "libc"
               }
             ],
             "arm-unknown-linux-gnueabi": [
               {
-                "id": "libc 0.2.168",
+                "id": "libc 0.2.174",
                 "target": "libc"
               }
             ],
             "armv7-linux-androideabi": [
               {
-                "id": "libc 0.2.168",
+                "id": "libc 0.2.174",
                 "target": "libc"
               }
             ],
             "armv7-unknown-linux-gnueabi": [
               {
-                "id": "libc 0.2.168",
+                "id": "libc 0.2.174",
                 "target": "libc"
               }
             ],
             "i686-apple-darwin": [
               {
-                "id": "libc 0.2.168",
+                "id": "libc 0.2.174",
                 "target": "libc"
               }
             ],
             "i686-linux-android": [
               {
-                "id": "libc 0.2.168",
+                "id": "libc 0.2.174",
                 "target": "libc"
               }
             ],
             "i686-unknown-freebsd": [
               {
-                "id": "libc 0.2.168",
+                "id": "libc 0.2.174",
                 "target": "libc"
               }
             ],
             "i686-unknown-linux-gnu": [
               {
-                "id": "libc 0.2.168",
+                "id": "libc 0.2.174",
                 "target": "libc"
               }
             ],
             "powerpc-unknown-linux-gnu": [
               {
-                "id": "libc 0.2.168",
+                "id": "libc 0.2.174",
                 "target": "libc"
               }
             ],
             "s390x-unknown-linux-gnu": [
               {
-                "id": "libc 0.2.168",
+                "id": "libc 0.2.174",
                 "target": "libc"
               }
             ],
             "x86_64-apple-darwin": [
               {
-                "id": "libc 0.2.168",
+                "id": "libc 0.2.174",
                 "target": "libc"
               }
             ],
             "x86_64-apple-ios": [
               {
-                "id": "libc 0.2.168",
+                "id": "libc 0.2.174",
                 "target": "libc"
               }
             ],
             "x86_64-linux-android": [
               {
-                "id": "libc 0.2.168",
+                "id": "libc 0.2.174",
                 "target": "libc"
               }
             ],
             "x86_64-unknown-freebsd": [
               {
-                "id": "libc 0.2.168",
+                "id": "libc 0.2.174",
                 "target": "libc"
               }
             ],
             "x86_64-unknown-fuchsia": [
               {
-                "id": "libc 0.2.168",
+                "id": "libc 0.2.174",
                 "target": "libc"
               }
             ],
             "x86_64-unknown-linux-gnu": [
               {
-                "id": "libc 0.2.168",
+                "id": "libc 0.2.174",
                 "target": "libc"
               }
             ],
             "x86_64-unknown-nixos-gnu": [
               {
-                "id": "libc 0.2.168",
+                "id": "libc 0.2.174",
                 "target": "libc"
               }
             ]
@@ -11172,14 +11399,14 @@
       ],
       "license_file": null
     },
-    "reqwest 0.12.15": {
+    "reqwest 0.12.22": {
       "name": "reqwest",
-      "version": "0.12.15",
+      "version": "0.12.22",
       "package_url": "https://github.com/seanmonstar/reqwest",
       "repository": {
         "Http": {
-          "url": "https://static.crates.io/crates/reqwest/0.12.15/download",
-          "sha256": "d19c46a6fdd48bc4dab94b6103fccc55d34c67cc0ad04653aad4ea2a07cd7bbb"
+          "url": "https://static.crates.io/crates/reqwest/0.12.22/download",
+          "sha256": "cbc931937e6ca3a06e3b6c0aa7841849b160a90351d6ab467a8b9b9959767531"
         }
       },
       "targets": [
@@ -11271,11 +11498,7 @@
                 "target": "rustls"
               },
               {
-                "id": "rustls-pemfile 2.1.2",
-                "target": "rustls_pemfile"
-              },
-              {
-                "id": "rustls-pki-types 1.7.0",
+                "id": "rustls-pki-types 1.12.0",
                 "target": "rustls_pki_types"
               },
               {
@@ -11283,7 +11506,7 @@
                 "target": "tokio_rustls"
               },
               {
-                "id": "webpki-roots 0.26.1",
+                "id": "webpki-roots 1.0.1",
                 "target": "webpki_roots"
               }
             ],
@@ -11301,11 +11524,7 @@
                 "target": "rustls"
               },
               {
-                "id": "rustls-pemfile 2.1.2",
-                "target": "rustls_pemfile"
-              },
-              {
-                "id": "rustls-pki-types 1.7.0",
+                "id": "rustls-pki-types 1.12.0",
                 "target": "rustls_pki_types"
               },
               {
@@ -11313,7 +11532,7 @@
                 "target": "tokio_rustls"
               },
               {
-                "id": "webpki-roots 0.26.1",
+                "id": "webpki-roots 1.0.1",
                 "target": "webpki_roots"
               }
             ],
@@ -11331,11 +11550,7 @@
                 "target": "rustls"
               },
               {
-                "id": "rustls-pemfile 2.1.2",
-                "target": "rustls_pemfile"
-              },
-              {
-                "id": "rustls-pki-types 1.7.0",
+                "id": "rustls-pki-types 1.12.0",
                 "target": "rustls_pki_types"
               },
               {
@@ -11343,7 +11558,7 @@
                 "target": "tokio_rustls"
               },
               {
-                "id": "webpki-roots 0.26.1",
+                "id": "webpki-roots 1.0.1",
                 "target": "webpki_roots"
               }
             ],
@@ -11361,11 +11576,7 @@
                 "target": "rustls"
               },
               {
-                "id": "rustls-pemfile 2.1.2",
-                "target": "rustls_pemfile"
-              },
-              {
-                "id": "rustls-pki-types 1.7.0",
+                "id": "rustls-pki-types 1.12.0",
                 "target": "rustls_pki_types"
               },
               {
@@ -11373,7 +11584,7 @@
                 "target": "tokio_rustls"
               },
               {
-                "id": "webpki-roots 0.26.1",
+                "id": "webpki-roots 1.0.1",
                 "target": "webpki_roots"
               }
             ],
@@ -11391,11 +11602,7 @@
                 "target": "rustls"
               },
               {
-                "id": "rustls-pemfile 2.1.2",
-                "target": "rustls_pemfile"
-              },
-              {
-                "id": "rustls-pki-types 1.7.0",
+                "id": "rustls-pki-types 1.12.0",
                 "target": "rustls_pki_types"
               },
               {
@@ -11403,7 +11610,7 @@
                 "target": "tokio_rustls"
               },
               {
-                "id": "webpki-roots 0.26.1",
+                "id": "webpki-roots 1.0.1",
                 "target": "webpki_roots"
               }
             ],
@@ -11421,11 +11628,7 @@
                 "target": "rustls"
               },
               {
-                "id": "rustls-pemfile 2.1.2",
-                "target": "rustls_pemfile"
-              },
-              {
-                "id": "rustls-pki-types 1.7.0",
+                "id": "rustls-pki-types 1.12.0",
                 "target": "rustls_pki_types"
               },
               {
@@ -11433,7 +11636,7 @@
                 "target": "tokio_rustls"
               },
               {
-                "id": "webpki-roots 0.26.1",
+                "id": "webpki-roots 1.0.1",
                 "target": "webpki_roots"
               }
             ],
@@ -11451,11 +11654,7 @@
                 "target": "rustls"
               },
               {
-                "id": "rustls-pemfile 2.1.2",
-                "target": "rustls_pemfile"
-              },
-              {
-                "id": "rustls-pki-types 1.7.0",
+                "id": "rustls-pki-types 1.12.0",
                 "target": "rustls_pki_types"
               },
               {
@@ -11463,7 +11662,7 @@
                 "target": "tokio_rustls"
               },
               {
-                "id": "webpki-roots 0.26.1",
+                "id": "webpki-roots 1.0.1",
                 "target": "webpki_roots"
               }
             ],
@@ -11481,11 +11680,7 @@
                 "target": "rustls"
               },
               {
-                "id": "rustls-pemfile 2.1.2",
-                "target": "rustls_pemfile"
-              },
-              {
-                "id": "rustls-pki-types 1.7.0",
+                "id": "rustls-pki-types 1.12.0",
                 "target": "rustls_pki_types"
               },
               {
@@ -11493,7 +11688,7 @@
                 "target": "tokio_rustls"
               },
               {
-                "id": "webpki-roots 0.26.1",
+                "id": "webpki-roots 1.0.1",
                 "target": "webpki_roots"
               }
             ],
@@ -11511,11 +11706,7 @@
                 "target": "rustls"
               },
               {
-                "id": "rustls-pemfile 2.1.2",
-                "target": "rustls_pemfile"
-              },
-              {
-                "id": "rustls-pki-types 1.7.0",
+                "id": "rustls-pki-types 1.12.0",
                 "target": "rustls_pki_types"
               },
               {
@@ -11523,7 +11714,7 @@
                 "target": "tokio_rustls"
               },
               {
-                "id": "webpki-roots 0.26.1",
+                "id": "webpki-roots 1.0.1",
                 "target": "webpki_roots"
               }
             ],
@@ -11541,11 +11732,7 @@
                 "target": "rustls"
               },
               {
-                "id": "rustls-pemfile 2.1.2",
-                "target": "rustls_pemfile"
-              },
-              {
-                "id": "rustls-pki-types 1.7.0",
+                "id": "rustls-pki-types 1.12.0",
                 "target": "rustls_pki_types"
               },
               {
@@ -11553,7 +11740,7 @@
                 "target": "tokio_rustls"
               },
               {
-                "id": "webpki-roots 0.26.1",
+                "id": "webpki-roots 1.0.1",
                 "target": "webpki_roots"
               }
             ],
@@ -11571,11 +11758,7 @@
                 "target": "rustls"
               },
               {
-                "id": "rustls-pemfile 2.1.2",
-                "target": "rustls_pemfile"
-              },
-              {
-                "id": "rustls-pki-types 1.7.0",
+                "id": "rustls-pki-types 1.12.0",
                 "target": "rustls_pki_types"
               },
               {
@@ -11583,7 +11766,7 @@
                 "target": "tokio_rustls"
               },
               {
-                "id": "webpki-roots 0.26.1",
+                "id": "webpki-roots 1.0.1",
                 "target": "webpki_roots"
               }
             ],
@@ -11601,11 +11784,7 @@
                 "target": "rustls"
               },
               {
-                "id": "rustls-pemfile 2.1.2",
-                "target": "rustls_pemfile"
-              },
-              {
-                "id": "rustls-pki-types 1.7.0",
+                "id": "rustls-pki-types 1.12.0",
                 "target": "rustls_pki_types"
               },
               {
@@ -11613,7 +11792,7 @@
                 "target": "tokio_rustls"
               },
               {
-                "id": "webpki-roots 0.26.1",
+                "id": "webpki-roots 1.0.1",
                 "target": "webpki_roots"
               }
             ],
@@ -11627,28 +11806,16 @@
                 "target": "http_body_util"
               },
               {
-                "id": "hyper 1.5.2",
+                "id": "hyper 1.6.0",
                 "target": "hyper"
               },
               {
-                "id": "hyper-util 0.1.10",
+                "id": "hyper-util 0.1.14",
                 "target": "hyper_util"
-              },
-              {
-                "id": "ipnet 2.9.0",
-                "target": "ipnet"
               },
               {
                 "id": "log 0.4.27",
                 "target": "log"
-              },
-              {
-                "id": "mime 0.3.17",
-                "target": "mime"
-              },
-              {
-                "id": "once_cell 1.19.0",
-                "target": "once_cell"
               },
               {
                 "id": "percent-encoding 2.3.1",
@@ -11659,12 +11826,16 @@
                 "target": "pin_project_lite"
               },
               {
-                "id": "tokio 1.45.0",
+                "id": "tokio 1.46.1",
                 "target": "tokio"
               },
               {
                 "id": "tower 0.5.2",
                 "target": "tower"
+              },
+              {
+                "id": "tower-http 0.6.6",
+                "target": "tower_http"
               }
             ],
             "cfg(target_arch = \"wasm32\")": [
@@ -11689,12 +11860,6 @@
                 "target": "web_sys"
               }
             ],
-            "cfg(windows)": [
-              {
-                "id": "windows-registry 0.4.0",
-                "target": "windows_registry"
-              }
-            ],
             "i686-apple-darwin": [
               {
                 "id": "futures-channel 0.3.30",
@@ -11709,11 +11874,7 @@
                 "target": "rustls"
               },
               {
-                "id": "rustls-pemfile 2.1.2",
-                "target": "rustls_pemfile"
-              },
-              {
-                "id": "rustls-pki-types 1.7.0",
+                "id": "rustls-pki-types 1.12.0",
                 "target": "rustls_pki_types"
               },
               {
@@ -11721,7 +11882,7 @@
                 "target": "tokio_rustls"
               },
               {
-                "id": "webpki-roots 0.26.1",
+                "id": "webpki-roots 1.0.1",
                 "target": "webpki_roots"
               }
             ],
@@ -11739,11 +11900,7 @@
                 "target": "rustls"
               },
               {
-                "id": "rustls-pemfile 2.1.2",
-                "target": "rustls_pemfile"
-              },
-              {
-                "id": "rustls-pki-types 1.7.0",
+                "id": "rustls-pki-types 1.12.0",
                 "target": "rustls_pki_types"
               },
               {
@@ -11751,7 +11908,7 @@
                 "target": "tokio_rustls"
               },
               {
-                "id": "webpki-roots 0.26.1",
+                "id": "webpki-roots 1.0.1",
                 "target": "webpki_roots"
               }
             ],
@@ -11769,11 +11926,7 @@
                 "target": "rustls"
               },
               {
-                "id": "rustls-pemfile 2.1.2",
-                "target": "rustls_pemfile"
-              },
-              {
-                "id": "rustls-pki-types 1.7.0",
+                "id": "rustls-pki-types 1.12.0",
                 "target": "rustls_pki_types"
               },
               {
@@ -11781,7 +11934,7 @@
                 "target": "tokio_rustls"
               },
               {
-                "id": "webpki-roots 0.26.1",
+                "id": "webpki-roots 1.0.1",
                 "target": "webpki_roots"
               }
             ],
@@ -11799,11 +11952,7 @@
                 "target": "rustls"
               },
               {
-                "id": "rustls-pemfile 2.1.2",
-                "target": "rustls_pemfile"
-              },
-              {
-                "id": "rustls-pki-types 1.7.0",
+                "id": "rustls-pki-types 1.12.0",
                 "target": "rustls_pki_types"
               },
               {
@@ -11811,7 +11960,7 @@
                 "target": "tokio_rustls"
               },
               {
-                "id": "webpki-roots 0.26.1",
+                "id": "webpki-roots 1.0.1",
                 "target": "webpki_roots"
               }
             ],
@@ -11829,11 +11978,7 @@
                 "target": "rustls"
               },
               {
-                "id": "rustls-pemfile 2.1.2",
-                "target": "rustls_pemfile"
-              },
-              {
-                "id": "rustls-pki-types 1.7.0",
+                "id": "rustls-pki-types 1.12.0",
                 "target": "rustls_pki_types"
               },
               {
@@ -11841,7 +11986,7 @@
                 "target": "tokio_rustls"
               },
               {
-                "id": "webpki-roots 0.26.1",
+                "id": "webpki-roots 1.0.1",
                 "target": "webpki_roots"
               }
             ],
@@ -11859,11 +12004,7 @@
                 "target": "rustls"
               },
               {
-                "id": "rustls-pemfile 2.1.2",
-                "target": "rustls_pemfile"
-              },
-              {
-                "id": "rustls-pki-types 1.7.0",
+                "id": "rustls-pki-types 1.12.0",
                 "target": "rustls_pki_types"
               },
               {
@@ -11871,7 +12012,7 @@
                 "target": "tokio_rustls"
               },
               {
-                "id": "webpki-roots 0.26.1",
+                "id": "webpki-roots 1.0.1",
                 "target": "webpki_roots"
               }
             ],
@@ -11889,11 +12030,7 @@
                 "target": "rustls"
               },
               {
-                "id": "rustls-pemfile 2.1.2",
-                "target": "rustls_pemfile"
-              },
-              {
-                "id": "rustls-pki-types 1.7.0",
+                "id": "rustls-pki-types 1.12.0",
                 "target": "rustls_pki_types"
               },
               {
@@ -11901,7 +12038,7 @@
                 "target": "tokio_rustls"
               },
               {
-                "id": "webpki-roots 0.26.1",
+                "id": "webpki-roots 1.0.1",
                 "target": "webpki_roots"
               }
             ],
@@ -11919,11 +12056,7 @@
                 "target": "rustls"
               },
               {
-                "id": "rustls-pemfile 2.1.2",
-                "target": "rustls_pemfile"
-              },
-              {
-                "id": "rustls-pki-types 1.7.0",
+                "id": "rustls-pki-types 1.12.0",
                 "target": "rustls_pki_types"
               },
               {
@@ -11931,7 +12064,7 @@
                 "target": "tokio_rustls"
               },
               {
-                "id": "webpki-roots 0.26.1",
+                "id": "webpki-roots 1.0.1",
                 "target": "webpki_roots"
               }
             ],
@@ -11949,11 +12082,7 @@
                 "target": "rustls"
               },
               {
-                "id": "rustls-pemfile 2.1.2",
-                "target": "rustls_pemfile"
-              },
-              {
-                "id": "rustls-pki-types 1.7.0",
+                "id": "rustls-pki-types 1.12.0",
                 "target": "rustls_pki_types"
               },
               {
@@ -11961,7 +12090,7 @@
                 "target": "tokio_rustls"
               },
               {
-                "id": "webpki-roots 0.26.1",
+                "id": "webpki-roots 1.0.1",
                 "target": "webpki_roots"
               }
             ],
@@ -11979,11 +12108,7 @@
                 "target": "rustls"
               },
               {
-                "id": "rustls-pemfile 2.1.2",
-                "target": "rustls_pemfile"
-              },
-              {
-                "id": "rustls-pki-types 1.7.0",
+                "id": "rustls-pki-types 1.12.0",
                 "target": "rustls_pki_types"
               },
               {
@@ -11991,7 +12116,7 @@
                 "target": "tokio_rustls"
               },
               {
-                "id": "webpki-roots 0.26.1",
+                "id": "webpki-roots 1.0.1",
                 "target": "webpki_roots"
               }
             ],
@@ -12009,11 +12134,7 @@
                 "target": "rustls"
               },
               {
-                "id": "rustls-pemfile 2.1.2",
-                "target": "rustls_pemfile"
-              },
-              {
-                "id": "rustls-pki-types 1.7.0",
+                "id": "rustls-pki-types 1.12.0",
                 "target": "rustls_pki_types"
               },
               {
@@ -12021,7 +12142,7 @@
                 "target": "tokio_rustls"
               },
               {
-                "id": "webpki-roots 0.26.1",
+                "id": "webpki-roots 1.0.1",
                 "target": "webpki_roots"
               }
             ],
@@ -12039,11 +12160,7 @@
                 "target": "rustls"
               },
               {
-                "id": "rustls-pemfile 2.1.2",
-                "target": "rustls_pemfile"
-              },
-              {
-                "id": "rustls-pki-types 1.7.0",
+                "id": "rustls-pki-types 1.12.0",
                 "target": "rustls_pki_types"
               },
               {
@@ -12051,7 +12168,7 @@
                 "target": "tokio_rustls"
               },
               {
-                "id": "webpki-roots 0.26.1",
+                "id": "webpki-roots 1.0.1",
                 "target": "webpki_roots"
               }
             ],
@@ -12069,11 +12186,7 @@
                 "target": "rustls"
               },
               {
-                "id": "rustls-pemfile 2.1.2",
-                "target": "rustls_pemfile"
-              },
-              {
-                "id": "rustls-pki-types 1.7.0",
+                "id": "rustls-pki-types 1.12.0",
                 "target": "rustls_pki_types"
               },
               {
@@ -12081,7 +12194,7 @@
                 "target": "tokio_rustls"
               },
               {
-                "id": "webpki-roots 0.26.1",
+                "id": "webpki-roots 1.0.1",
                 "target": "webpki_roots"
               }
             ],
@@ -12099,11 +12212,7 @@
                 "target": "rustls"
               },
               {
-                "id": "rustls-pemfile 2.1.2",
-                "target": "rustls_pemfile"
-              },
-              {
-                "id": "rustls-pki-types 1.7.0",
+                "id": "rustls-pki-types 1.12.0",
                 "target": "rustls_pki_types"
               },
               {
@@ -12111,7 +12220,7 @@
                 "target": "tokio_rustls"
               },
               {
-                "id": "webpki-roots 0.26.1",
+                "id": "webpki-roots 1.0.1",
                 "target": "webpki_roots"
               }
             ],
@@ -12129,11 +12238,7 @@
                 "target": "rustls"
               },
               {
-                "id": "rustls-pemfile 2.1.2",
-                "target": "rustls_pemfile"
-              },
-              {
-                "id": "rustls-pki-types 1.7.0",
+                "id": "rustls-pki-types 1.12.0",
                 "target": "rustls_pki_types"
               },
               {
@@ -12141,7 +12246,7 @@
                 "target": "tokio_rustls"
               },
               {
-                "id": "webpki-roots 0.26.1",
+                "id": "webpki-roots 1.0.1",
                 "target": "webpki_roots"
               }
             ],
@@ -12159,11 +12264,7 @@
                 "target": "rustls"
               },
               {
-                "id": "rustls-pemfile 2.1.2",
-                "target": "rustls_pemfile"
-              },
-              {
-                "id": "rustls-pki-types 1.7.0",
+                "id": "rustls-pki-types 1.12.0",
                 "target": "rustls_pki_types"
               },
               {
@@ -12171,7 +12272,7 @@
                 "target": "tokio_rustls"
               },
               {
-                "id": "webpki-roots 0.26.1",
+                "id": "webpki-roots 1.0.1",
                 "target": "webpki_roots"
               }
             ],
@@ -12189,11 +12290,7 @@
                 "target": "rustls"
               },
               {
-                "id": "rustls-pemfile 2.1.2",
-                "target": "rustls_pemfile"
-              },
-              {
-                "id": "rustls-pki-types 1.7.0",
+                "id": "rustls-pki-types 1.12.0",
                 "target": "rustls_pki_types"
               },
               {
@@ -12201,7 +12298,7 @@
                 "target": "tokio_rustls"
               },
               {
-                "id": "webpki-roots 0.26.1",
+                "id": "webpki-roots 1.0.1",
                 "target": "webpki_roots"
               }
             ],
@@ -12219,11 +12316,7 @@
                 "target": "rustls"
               },
               {
-                "id": "rustls-pemfile 2.1.2",
-                "target": "rustls_pemfile"
-              },
-              {
-                "id": "rustls-pki-types 1.7.0",
+                "id": "rustls-pki-types 1.12.0",
                 "target": "rustls_pki_types"
               },
               {
@@ -12231,7 +12324,7 @@
                 "target": "tokio_rustls"
               },
               {
-                "id": "webpki-roots 0.26.1",
+                "id": "webpki-roots 1.0.1",
                 "target": "webpki_roots"
               }
             ],
@@ -12249,11 +12342,7 @@
                 "target": "rustls"
               },
               {
-                "id": "rustls-pemfile 2.1.2",
-                "target": "rustls_pemfile"
-              },
-              {
-                "id": "rustls-pki-types 1.7.0",
+                "id": "rustls-pki-types 1.12.0",
                 "target": "rustls_pki_types"
               },
               {
@@ -12261,7 +12350,7 @@
                 "target": "tokio_rustls"
               },
               {
-                "id": "webpki-roots 0.26.1",
+                "id": "webpki-roots 1.0.1",
                 "target": "webpki_roots"
               }
             ],
@@ -12279,11 +12368,7 @@
                 "target": "rustls"
               },
               {
-                "id": "rustls-pemfile 2.1.2",
-                "target": "rustls_pemfile"
-              },
-              {
-                "id": "rustls-pki-types 1.7.0",
+                "id": "rustls-pki-types 1.12.0",
                 "target": "rustls_pki_types"
               },
               {
@@ -12291,14 +12376,14 @@
                 "target": "tokio_rustls"
               },
               {
-                "id": "webpki-roots 0.26.1",
+                "id": "webpki-roots 1.0.1",
                 "target": "webpki_roots"
               }
             ]
           }
         },
         "edition": "2021",
-        "version": "0.12.15"
+        "version": "0.12.22"
       },
       "license": "MIT OR Apache-2.0",
       "license_ids": [
@@ -12378,7 +12463,7 @@
           "selects": {
             "cfg(all(any(target_os = \"android\", target_os = \"linux\"), any(target_arch = \"aarch64\", target_arch = \"arm\")))": [
               {
-                "id": "libc 0.2.168",
+                "id": "libc 0.2.174",
                 "target": "libc"
               }
             ],
@@ -12799,7 +12884,7 @@
                 "alias": "libc_errno"
               },
               {
-                "id": "libc 0.2.168",
+                "id": "libc 0.2.174",
                 "target": "libc"
               }
             ],
@@ -12810,7 +12895,7 @@
                 "alias": "libc_errno"
               },
               {
-                "id": "libc 0.2.168",
+                "id": "libc 0.2.174",
                 "target": "libc"
               }
             ],
@@ -12821,7 +12906,7 @@
                 "alias": "libc_errno"
               },
               {
-                "id": "libc 0.2.168",
+                "id": "libc 0.2.174",
                 "target": "libc"
               }
             ],
@@ -12832,7 +12917,7 @@
                 "alias": "libc_errno"
               },
               {
-                "id": "libc 0.2.168",
+                "id": "libc 0.2.174",
                 "target": "libc"
               }
             ],
@@ -12843,7 +12928,7 @@
                 "alias": "libc_errno"
               },
               {
-                "id": "libc 0.2.168",
+                "id": "libc 0.2.174",
                 "target": "libc"
               }
             ],
@@ -12854,7 +12939,7 @@
                 "alias": "libc_errno"
               },
               {
-                "id": "libc 0.2.168",
+                "id": "libc 0.2.174",
                 "target": "libc"
               }
             ],
@@ -12865,7 +12950,7 @@
                 "alias": "libc_errno"
               },
               {
-                "id": "libc 0.2.168",
+                "id": "libc 0.2.174",
                 "target": "libc"
               }
             ],
@@ -12888,7 +12973,7 @@
                 "alias": "libc_errno"
               },
               {
-                "id": "libc 0.2.168",
+                "id": "libc 0.2.174",
                 "target": "libc"
               }
             ],
@@ -12910,7 +12995,7 @@
                 "alias": "libc_errno"
               },
               {
-                "id": "libc 0.2.168",
+                "id": "libc 0.2.174",
                 "target": "libc"
               }
             ],
@@ -12921,7 +13006,7 @@
                 "alias": "libc_errno"
               },
               {
-                "id": "libc 0.2.168",
+                "id": "libc 0.2.174",
                 "target": "libc"
               }
             ],
@@ -12932,7 +13017,7 @@
                 "alias": "libc_errno"
               },
               {
-                "id": "libc 0.2.168",
+                "id": "libc 0.2.174",
                 "target": "libc"
               }
             ],
@@ -12943,7 +13028,7 @@
                 "alias": "libc_errno"
               },
               {
-                "id": "libc 0.2.168",
+                "id": "libc 0.2.174",
                 "target": "libc"
               }
             ],
@@ -12954,7 +13039,7 @@
                 "alias": "libc_errno"
               },
               {
-                "id": "libc 0.2.168",
+                "id": "libc 0.2.174",
                 "target": "libc"
               }
             ],
@@ -12965,7 +13050,7 @@
                 "alias": "libc_errno"
               },
               {
-                "id": "libc 0.2.168",
+                "id": "libc 0.2.174",
                 "target": "libc"
               }
             ],
@@ -12976,7 +13061,7 @@
                 "alias": "libc_errno"
               },
               {
-                "id": "libc 0.2.168",
+                "id": "libc 0.2.174",
                 "target": "libc"
               }
             ],
@@ -12987,7 +13072,7 @@
                 "alias": "libc_errno"
               },
               {
-                "id": "libc 0.2.168",
+                "id": "libc 0.2.174",
                 "target": "libc"
               }
             ],
@@ -12998,7 +13083,7 @@
                 "alias": "libc_errno"
               },
               {
-                "id": "libc 0.2.168",
+                "id": "libc 0.2.174",
                 "target": "libc"
               }
             ],
@@ -13009,7 +13094,7 @@
                 "alias": "libc_errno"
               },
               {
-                "id": "libc 0.2.168",
+                "id": "libc 0.2.174",
                 "target": "libc"
               }
             ]
@@ -13102,7 +13187,7 @@
                 "alias": "libc_errno"
               },
               {
-                "id": "libc 0.2.168",
+                "id": "libc 0.2.174",
                 "target": "libc"
               }
             ],
@@ -13113,7 +13198,7 @@
                 "alias": "libc_errno"
               },
               {
-                "id": "libc 0.2.168",
+                "id": "libc 0.2.174",
                 "target": "libc"
               }
             ],
@@ -13124,7 +13209,7 @@
                 "alias": "libc_errno"
               },
               {
-                "id": "libc 0.2.168",
+                "id": "libc 0.2.174",
                 "target": "libc"
               }
             ],
@@ -13135,7 +13220,7 @@
                 "alias": "libc_errno"
               },
               {
-                "id": "libc 0.2.168",
+                "id": "libc 0.2.174",
                 "target": "libc"
               }
             ],
@@ -13146,7 +13231,7 @@
                 "alias": "libc_errno"
               },
               {
-                "id": "libc 0.2.168",
+                "id": "libc 0.2.174",
                 "target": "libc"
               }
             ],
@@ -13157,7 +13242,7 @@
                 "alias": "libc_errno"
               },
               {
-                "id": "libc 0.2.168",
+                "id": "libc 0.2.174",
                 "target": "libc"
               }
             ],
@@ -13168,7 +13253,7 @@
                 "alias": "libc_errno"
               },
               {
-                "id": "libc 0.2.168",
+                "id": "libc 0.2.174",
                 "target": "libc"
               }
             ],
@@ -13191,7 +13276,7 @@
                 "alias": "libc_errno"
               },
               {
-                "id": "libc 0.2.168",
+                "id": "libc 0.2.174",
                 "target": "libc"
               }
             ],
@@ -13213,7 +13298,7 @@
                 "alias": "libc_errno"
               },
               {
-                "id": "libc 0.2.168",
+                "id": "libc 0.2.174",
                 "target": "libc"
               }
             ],
@@ -13224,7 +13309,7 @@
                 "alias": "libc_errno"
               },
               {
-                "id": "libc 0.2.168",
+                "id": "libc 0.2.174",
                 "target": "libc"
               }
             ],
@@ -13235,7 +13320,7 @@
                 "alias": "libc_errno"
               },
               {
-                "id": "libc 0.2.168",
+                "id": "libc 0.2.174",
                 "target": "libc"
               }
             ],
@@ -13246,7 +13331,7 @@
                 "alias": "libc_errno"
               },
               {
-                "id": "libc 0.2.168",
+                "id": "libc 0.2.174",
                 "target": "libc"
               }
             ],
@@ -13257,7 +13342,7 @@
                 "alias": "libc_errno"
               },
               {
-                "id": "libc 0.2.168",
+                "id": "libc 0.2.174",
                 "target": "libc"
               }
             ],
@@ -13268,7 +13353,7 @@
                 "alias": "libc_errno"
               },
               {
-                "id": "libc 0.2.168",
+                "id": "libc 0.2.174",
                 "target": "libc"
               }
             ],
@@ -13279,7 +13364,7 @@
                 "alias": "libc_errno"
               },
               {
-                "id": "libc 0.2.168",
+                "id": "libc 0.2.174",
                 "target": "libc"
               }
             ],
@@ -13290,7 +13375,7 @@
                 "alias": "libc_errno"
               },
               {
-                "id": "libc 0.2.168",
+                "id": "libc 0.2.174",
                 "target": "libc"
               }
             ],
@@ -13301,7 +13386,7 @@
                 "alias": "libc_errno"
               },
               {
-                "id": "libc 0.2.168",
+                "id": "libc 0.2.174",
                 "target": "libc"
               }
             ],
@@ -13312,7 +13397,7 @@
                 "alias": "libc_errno"
               },
               {
-                "id": "libc 0.2.168",
+                "id": "libc 0.2.174",
                 "target": "libc"
               }
             ],
@@ -13323,7 +13408,7 @@
                 "alias": "libc_errno"
               },
               {
-                "id": "libc 0.2.168",
+                "id": "libc 0.2.174",
                 "target": "libc"
               }
             ]
@@ -13411,7 +13496,7 @@
               "target": "build_script_build"
             },
             {
-              "id": "rustls-pki-types 1.7.0",
+              "id": "rustls-pki-types 1.12.0",
               "target": "rustls_pki_types",
               "alias": "pki_types"
             },
@@ -13458,75 +13543,14 @@
       ],
       "license_file": "LICENSE-APACHE"
     },
-    "rustls-pemfile 2.1.2": {
-      "name": "rustls-pemfile",
-      "version": "2.1.2",
-      "package_url": "https://github.com/rustls/pemfile",
-      "repository": {
-        "Http": {
-          "url": "https://static.crates.io/crates/rustls-pemfile/2.1.2/download",
-          "sha256": "29993a25686778eb88d4189742cd713c9bce943bc54251a33509dc63cbacf73d"
-        }
-      },
-      "targets": [
-        {
-          "Library": {
-            "crate_name": "rustls_pemfile",
-            "crate_root": "src/lib.rs",
-            "srcs": {
-              "allow_empty": true,
-              "include": [
-                "**/*.rs"
-              ]
-            }
-          }
-        }
-      ],
-      "library_target_name": "rustls_pemfile",
-      "common_attrs": {
-        "compile_data_glob": [
-          "**"
-        ],
-        "crate_features": {
-          "common": [
-            "default",
-            "std"
-          ],
-          "selects": {}
-        },
-        "deps": {
-          "common": [
-            {
-              "id": "base64 0.22.1",
-              "target": "base64"
-            },
-            {
-              "id": "rustls-pki-types 1.7.0",
-              "target": "rustls_pki_types",
-              "alias": "pki_types"
-            }
-          ],
-          "selects": {}
-        },
-        "edition": "2018",
-        "version": "2.1.2"
-      },
-      "license": "Apache-2.0 OR ISC OR MIT",
-      "license_ids": [
-        "Apache-2.0",
-        "ISC",
-        "MIT"
-      ],
-      "license_file": "LICENSE"
-    },
-    "rustls-pki-types 1.7.0": {
+    "rustls-pki-types 1.12.0": {
       "name": "rustls-pki-types",
-      "version": "1.7.0",
+      "version": "1.12.0",
       "package_url": "https://github.com/rustls/pki-types",
       "repository": {
         "Http": {
-          "url": "https://static.crates.io/crates/rustls-pki-types/1.7.0/download",
-          "sha256": "976295e77ce332211c0d24d92c0e83e50f5c5f046d11082cea19f3df13a3562d"
+          "url": "https://static.crates.io/crates/rustls-pki-types/1.12.0/download",
+          "sha256": "229a4a4c221013e7e1f1a043678c5cc39fe5171437c88fb47151a21e6f5b5c79"
         }
       },
       "targets": [
@@ -13556,8 +13580,17 @@
           ],
           "selects": {}
         },
+        "deps": {
+          "common": [
+            {
+              "id": "zeroize 1.8.1",
+              "target": "zeroize"
+            }
+          ],
+          "selects": {}
+        },
         "edition": "2021",
-        "version": "1.7.0"
+        "version": "1.12.0"
       },
       "license": "MIT OR Apache-2.0",
       "license_ids": [
@@ -13610,7 +13643,7 @@
               "target": "ring"
             },
             {
-              "id": "rustls-pki-types 1.7.0",
+              "id": "rustls-pki-types 1.12.0",
               "target": "rustls_pki_types",
               "alias": "pki_types"
             },
@@ -13932,11 +13965,11 @@
               "target": "apple_flat_package"
             },
             {
-              "id": "bzip2 0.5.2",
+              "id": "bzip2 0.6.0",
               "target": "bzip2"
             },
             {
-              "id": "clap 4.5.37",
+              "id": "clap 4.5.40",
               "target": "clap"
             },
             {
@@ -13956,7 +13989,7 @@
               "target": "exitcode"
             },
             {
-              "id": "flate2 1.1.1",
+              "id": "flate2 1.1.2",
               "target": "flate2"
             },
             {
@@ -13980,7 +14013,7 @@
               "target": "regex"
             },
             {
-              "id": "reqwest 0.12.15",
+              "id": "reqwest 0.12.22",
               "target": "reqwest"
             },
             {
@@ -14000,15 +14033,15 @@
               "target": "tar"
             },
             {
-              "id": "tempfile 3.19.1",
+              "id": "tempfile 3.20.0",
               "target": "tempfile"
             },
             {
-              "id": "tokio 1.45.0",
+              "id": "tokio 1.46.1",
               "target": "tokio"
             },
             {
-              "id": "toml 0.8.22",
+              "id": "toml 0.8.23",
               "target": "toml"
             },
             {
@@ -14436,14 +14469,14 @@
       ],
       "license_file": "LICENSE-APACHE"
     },
-    "serde_spanned 0.6.8": {
+    "serde_spanned 0.6.9": {
       "name": "serde_spanned",
-      "version": "0.6.8",
+      "version": "0.6.9",
       "package_url": "https://github.com/toml-rs/toml",
       "repository": {
         "Http": {
-          "url": "https://static.crates.io/crates/serde_spanned/0.6.8/download",
-          "sha256": "87607cb1398ed59d48732e575a4c28a7a8ebf2454b964fe3f224f2afc07909e1"
+          "url": "https://static.crates.io/crates/serde_spanned/0.6.9/download",
+          "sha256": "bf41e0cfaf7226dca15e8197172c295a782857fcb97fad1808a166870dee75a3"
         }
       },
       "targets": [
@@ -14481,7 +14514,7 @@
           "selects": {}
         },
         "edition": "2021",
-        "version": "0.6.8"
+        "version": "0.6.9"
       },
       "license": "MIT OR Apache-2.0",
       "license_ids": [
@@ -15171,14 +15204,14 @@
       ],
       "license_file": "LICENSE-APACHE"
     },
-    "socket2 0.5.7": {
+    "socket2 0.5.10": {
       "name": "socket2",
-      "version": "0.5.7",
+      "version": "0.5.10",
       "package_url": "https://github.com/rust-lang/socket2",
       "repository": {
         "Http": {
-          "url": "https://static.crates.io/crates/socket2/0.5.7/download",
-          "sha256": "ce305eb0b4296696835b71df73eb912e0f1ffd2556a501fcede6e0c50349191c"
+          "url": "https://static.crates.io/crates/socket2/0.5.10/download",
+          "sha256": "e22376abed350d73dd1cd119b57ffccad95b4e585a7cda43e286245ce23c0678"
         }
       },
       "targets": [
@@ -15211,7 +15244,7 @@
           "selects": {
             "cfg(unix)": [
               {
-                "id": "libc 0.2.168",
+                "id": "libc 0.2.174",
                 "target": "libc"
               }
             ],
@@ -15224,7 +15257,7 @@
           }
         },
         "edition": "2021",
-        "version": "0.5.7"
+        "version": "0.5.10"
       },
       "license": "MIT OR Apache-2.0",
       "license_ids": [
@@ -15752,7 +15785,7 @@
             ],
             "cfg(unix)": [
               {
-                "id": "libc 0.2.168",
+                "id": "libc 0.2.174",
                 "target": "libc"
               }
             ],
@@ -15846,14 +15879,14 @@
       ],
       "license_file": "LICENSE-APACHE"
     },
-    "tempfile 3.19.1": {
+    "tempfile 3.20.0": {
       "name": "tempfile",
-      "version": "3.19.1",
+      "version": "3.20.0",
       "package_url": "https://github.com/Stebalien/tempfile",
       "repository": {
         "Http": {
-          "url": "https://static.crates.io/crates/tempfile/3.19.1/download",
-          "sha256": "7437ac7763b9b123ccf33c338a5cc1bac6f69b45a136c19bdd8a65e3916435bf"
+          "url": "https://static.crates.io/crates/tempfile/3.20.0/download",
+          "sha256": "e8a64e3985349f2441a1a9ef0b853f869006c3855f2cda6862a94d26ebb9d6a1"
         }
       },
       "targets": [
@@ -16077,7 +16110,7 @@
           }
         },
         "edition": "2021",
-        "version": "3.19.1"
+        "version": "3.20.0"
       },
       "license": "MIT OR Apache-2.0",
       "license_ids": [
@@ -16708,14 +16741,14 @@
       ],
       "license_file": "LICENSE-APACHE.md"
     },
-    "tokio 1.45.0": {
+    "tokio 1.46.1": {
       "name": "tokio",
-      "version": "1.45.0",
+      "version": "1.46.1",
       "package_url": "https://github.com/tokio-rs/tokio",
       "repository": {
         "Http": {
-          "url": "https://static.crates.io/crates/tokio/1.45.0/download",
-          "sha256": "2513ca694ef9ede0fb23fe71a4ee4107cb102b9dc1930f6d0fd77aae068ae165"
+          "url": "https://static.crates.io/crates/tokio/1.46.1/download",
+          "sha256": "0cc3a2344dafbe23a245241fe8b09735b521110d30fcefbbd5feb1797ca35d17"
         }
       },
       "targets": [
@@ -16996,11 +17029,11 @@
                 "target": "bytes"
               },
               {
-                "id": "libc 0.2.168",
+                "id": "libc 0.2.174",
                 "target": "libc"
               },
               {
-                "id": "socket2 0.5.7",
+                "id": "socket2 0.5.10",
                 "target": "socket2"
               }
             ],
@@ -17010,11 +17043,11 @@
                 "target": "bytes"
               },
               {
-                "id": "libc 0.2.168",
+                "id": "libc 0.2.174",
                 "target": "libc"
               },
               {
-                "id": "socket2 0.5.7",
+                "id": "socket2 0.5.10",
                 "target": "socket2"
               }
             ],
@@ -17024,11 +17057,11 @@
                 "target": "bytes"
               },
               {
-                "id": "libc 0.2.168",
+                "id": "libc 0.2.174",
                 "target": "libc"
               },
               {
-                "id": "socket2 0.5.7",
+                "id": "socket2 0.5.10",
                 "target": "socket2"
               }
             ],
@@ -17038,11 +17071,11 @@
                 "target": "bytes"
               },
               {
-                "id": "libc 0.2.168",
+                "id": "libc 0.2.174",
                 "target": "libc"
               },
               {
-                "id": "socket2 0.5.7",
+                "id": "socket2 0.5.10",
                 "target": "socket2"
               }
             ],
@@ -17052,7 +17085,7 @@
                 "target": "bytes"
               },
               {
-                "id": "socket2 0.5.7",
+                "id": "socket2 0.5.10",
                 "target": "socket2"
               },
               {
@@ -17066,11 +17099,11 @@
                 "target": "bytes"
               },
               {
-                "id": "libc 0.2.168",
+                "id": "libc 0.2.174",
                 "target": "libc"
               },
               {
-                "id": "socket2 0.5.7",
+                "id": "socket2 0.5.10",
                 "target": "socket2"
               }
             ],
@@ -17080,11 +17113,11 @@
                 "target": "bytes"
               },
               {
-                "id": "libc 0.2.168",
+                "id": "libc 0.2.174",
                 "target": "libc"
               },
               {
-                "id": "socket2 0.5.7",
+                "id": "socket2 0.5.10",
                 "target": "socket2"
               }
             ],
@@ -17094,11 +17127,11 @@
                 "target": "bytes"
               },
               {
-                "id": "libc 0.2.168",
+                "id": "libc 0.2.174",
                 "target": "libc"
               },
               {
-                "id": "socket2 0.5.7",
+                "id": "socket2 0.5.10",
                 "target": "socket2"
               }
             ],
@@ -17108,11 +17141,11 @@
                 "target": "bytes"
               },
               {
-                "id": "libc 0.2.168",
+                "id": "libc 0.2.174",
                 "target": "libc"
               },
               {
-                "id": "socket2 0.5.7",
+                "id": "socket2 0.5.10",
                 "target": "socket2"
               }
             ],
@@ -17122,11 +17155,11 @@
                 "target": "bytes"
               },
               {
-                "id": "libc 0.2.168",
+                "id": "libc 0.2.174",
                 "target": "libc"
               },
               {
-                "id": "socket2 0.5.7",
+                "id": "socket2 0.5.10",
                 "target": "socket2"
               }
             ],
@@ -17136,11 +17169,11 @@
                 "target": "bytes"
               },
               {
-                "id": "libc 0.2.168",
+                "id": "libc 0.2.174",
                 "target": "libc"
               },
               {
-                "id": "socket2 0.5.7",
+                "id": "socket2 0.5.10",
                 "target": "socket2"
               }
             ],
@@ -17150,12 +17183,26 @@
                 "target": "bytes"
               },
               {
-                "id": "libc 0.2.168",
+                "id": "libc 0.2.174",
                 "target": "libc"
               },
               {
-                "id": "socket2 0.5.7",
+                "id": "socket2 0.5.10",
                 "target": "socket2"
+              }
+            ],
+            "cfg(all(tokio_uring, target_os = \"linux\"))": [
+              {
+                "id": "io-uring 0.7.8",
+                "target": "io_uring"
+              },
+              {
+                "id": "libc 0.2.174",
+                "target": "libc"
+              },
+              {
+                "id": "slab 0.4.9",
+                "target": "slab"
               }
             ],
             "cfg(tokio_taskdump)": [
@@ -17170,11 +17217,11 @@
                 "target": "bytes"
               },
               {
-                "id": "libc 0.2.168",
+                "id": "libc 0.2.174",
                 "target": "libc"
               },
               {
-                "id": "socket2 0.5.7",
+                "id": "socket2 0.5.10",
                 "target": "socket2"
               }
             ],
@@ -17184,11 +17231,11 @@
                 "target": "bytes"
               },
               {
-                "id": "libc 0.2.168",
+                "id": "libc 0.2.174",
                 "target": "libc"
               },
               {
-                "id": "socket2 0.5.7",
+                "id": "socket2 0.5.10",
                 "target": "socket2"
               }
             ],
@@ -17198,7 +17245,7 @@
                 "target": "bytes"
               },
               {
-                "id": "socket2 0.5.7",
+                "id": "socket2 0.5.10",
                 "target": "socket2"
               },
               {
@@ -17212,11 +17259,11 @@
                 "target": "bytes"
               },
               {
-                "id": "libc 0.2.168",
+                "id": "libc 0.2.174",
                 "target": "libc"
               },
               {
-                "id": "socket2 0.5.7",
+                "id": "socket2 0.5.10",
                 "target": "socket2"
               }
             ],
@@ -17226,11 +17273,11 @@
                 "target": "bytes"
               },
               {
-                "id": "libc 0.2.168",
+                "id": "libc 0.2.174",
                 "target": "libc"
               },
               {
-                "id": "socket2 0.5.7",
+                "id": "socket2 0.5.10",
                 "target": "socket2"
               }
             ],
@@ -17240,11 +17287,11 @@
                 "target": "bytes"
               },
               {
-                "id": "libc 0.2.168",
+                "id": "libc 0.2.174",
                 "target": "libc"
               },
               {
-                "id": "socket2 0.5.7",
+                "id": "socket2 0.5.10",
                 "target": "socket2"
               }
             ],
@@ -17254,7 +17301,7 @@
                 "target": "bytes"
               },
               {
-                "id": "socket2 0.5.7",
+                "id": "socket2 0.5.10",
                 "target": "socket2"
               }
             ],
@@ -17264,7 +17311,7 @@
                 "target": "bytes"
               },
               {
-                "id": "socket2 0.5.7",
+                "id": "socket2 0.5.10",
                 "target": "socket2"
               }
             ],
@@ -17274,11 +17321,11 @@
                 "target": "bytes"
               },
               {
-                "id": "libc 0.2.168",
+                "id": "libc 0.2.174",
                 "target": "libc"
               },
               {
-                "id": "socket2 0.5.7",
+                "id": "socket2 0.5.10",
                 "target": "socket2"
               }
             ],
@@ -17288,7 +17335,7 @@
                 "target": "bytes"
               },
               {
-                "id": "socket2 0.5.7",
+                "id": "socket2 0.5.10",
                 "target": "socket2"
               }
             ],
@@ -17298,7 +17345,7 @@
                 "target": "bytes"
               },
               {
-                "id": "socket2 0.5.7",
+                "id": "socket2 0.5.10",
                 "target": "socket2"
               }
             ],
@@ -17308,11 +17355,11 @@
                 "target": "bytes"
               },
               {
-                "id": "libc 0.2.168",
+                "id": "libc 0.2.174",
                 "target": "libc"
               },
               {
-                "id": "socket2 0.5.7",
+                "id": "socket2 0.5.10",
                 "target": "socket2"
               }
             ],
@@ -17322,11 +17369,11 @@
                 "target": "bytes"
               },
               {
-                "id": "libc 0.2.168",
+                "id": "libc 0.2.174",
                 "target": "libc"
               },
               {
-                "id": "socket2 0.5.7",
+                "id": "socket2 0.5.10",
                 "target": "socket2"
               }
             ],
@@ -17336,11 +17383,11 @@
                 "target": "bytes"
               },
               {
-                "id": "libc 0.2.168",
+                "id": "libc 0.2.174",
                 "target": "libc"
               },
               {
-                "id": "socket2 0.5.7",
+                "id": "socket2 0.5.10",
                 "target": "socket2"
               }
             ],
@@ -17350,7 +17397,7 @@
                 "target": "bytes"
               },
               {
-                "id": "socket2 0.5.7",
+                "id": "socket2 0.5.10",
                 "target": "socket2"
               },
               {
@@ -17364,11 +17411,11 @@
                 "target": "bytes"
               },
               {
-                "id": "libc 0.2.168",
+                "id": "libc 0.2.174",
                 "target": "libc"
               },
               {
-                "id": "socket2 0.5.7",
+                "id": "socket2 0.5.10",
                 "target": "socket2"
               }
             ],
@@ -17378,11 +17425,11 @@
                 "target": "bytes"
               },
               {
-                "id": "libc 0.2.168",
+                "id": "libc 0.2.174",
                 "target": "libc"
               },
               {
-                "id": "socket2 0.5.7",
+                "id": "socket2 0.5.10",
                 "target": "socket2"
               }
             ],
@@ -17392,11 +17439,11 @@
                 "target": "bytes"
               },
               {
-                "id": "libc 0.2.168",
+                "id": "libc 0.2.174",
                 "target": "libc"
               },
               {
-                "id": "socket2 0.5.7",
+                "id": "socket2 0.5.10",
                 "target": "socket2"
               }
             ],
@@ -17406,11 +17453,11 @@
                 "target": "bytes"
               },
               {
-                "id": "libc 0.2.168",
+                "id": "libc 0.2.174",
                 "target": "libc"
               },
               {
-                "id": "socket2 0.5.7",
+                "id": "socket2 0.5.10",
                 "target": "socket2"
               }
             ],
@@ -17420,7 +17467,7 @@
                 "target": "bytes"
               },
               {
-                "id": "socket2 0.5.7",
+                "id": "socket2 0.5.10",
                 "target": "socket2"
               }
             ]
@@ -17436,7 +17483,7 @@
           ],
           "selects": {}
         },
-        "version": "1.45.0"
+        "version": "1.46.1"
       },
       "license": "MIT",
       "license_ids": [
@@ -17542,12 +17589,12 @@
               "target": "rustls"
             },
             {
-              "id": "rustls-pki-types 1.7.0",
+              "id": "rustls-pki-types 1.12.0",
               "target": "rustls_pki_types",
               "alias": "pki_types"
             },
             {
-              "id": "tokio 1.45.0",
+              "id": "tokio 1.46.1",
               "target": "tokio"
             }
           ],
@@ -17563,14 +17610,14 @@
       ],
       "license_file": "LICENSE-APACHE"
     },
-    "toml 0.8.22": {
+    "toml 0.8.23": {
       "name": "toml",
-      "version": "0.8.22",
+      "version": "0.8.23",
       "package_url": "https://github.com/toml-rs/toml",
       "repository": {
         "Http": {
-          "url": "https://static.crates.io/crates/toml/0.8.22/download",
-          "sha256": "05ae329d1f08c4d17a59bed7ff5b5a769d062e64a62d34a3261b219e62cd5aae"
+          "url": "https://static.crates.io/crates/toml/0.8.23/download",
+          "sha256": "dc1beb996b9d83529a9e75c17a1686767d148d70663143c7854d8b4a09ced362"
         }
       },
       "targets": [
@@ -17607,22 +17654,22 @@
               "target": "serde"
             },
             {
-              "id": "serde_spanned 0.6.8",
+              "id": "serde_spanned 0.6.9",
               "target": "serde_spanned"
             },
             {
-              "id": "toml_datetime 0.6.9",
+              "id": "toml_datetime 0.6.11",
               "target": "toml_datetime"
             },
             {
-              "id": "toml_edit 0.22.26",
+              "id": "toml_edit 0.22.27",
               "target": "toml_edit"
             }
           ],
           "selects": {}
         },
         "edition": "2021",
-        "version": "0.8.22"
+        "version": "0.8.23"
       },
       "license": "MIT OR Apache-2.0",
       "license_ids": [
@@ -17631,14 +17678,14 @@
       ],
       "license_file": "LICENSE-APACHE"
     },
-    "toml_datetime 0.6.9": {
+    "toml_datetime 0.6.11": {
       "name": "toml_datetime",
-      "version": "0.6.9",
+      "version": "0.6.11",
       "package_url": "https://github.com/toml-rs/toml",
       "repository": {
         "Http": {
-          "url": "https://static.crates.io/crates/toml_datetime/0.6.9/download",
-          "sha256": "3da5db5a963e24bc68be8b17b6fa82814bb22ee8660f192bb182771d498f09a3"
+          "url": "https://static.crates.io/crates/toml_datetime/0.6.11/download",
+          "sha256": "22cddaf88f4fbc13c51aebbf5f8eceb5c7c5a9da2ac40a13519eb5b0a0e8f11c"
         }
       },
       "targets": [
@@ -17676,7 +17723,7 @@
           "selects": {}
         },
         "edition": "2021",
-        "version": "0.6.9"
+        "version": "0.6.11"
       },
       "license": "MIT OR Apache-2.0",
       "license_ids": [
@@ -17685,14 +17732,14 @@
       ],
       "license_file": "LICENSE-APACHE"
     },
-    "toml_edit 0.22.26": {
+    "toml_edit 0.22.27": {
       "name": "toml_edit",
-      "version": "0.22.26",
+      "version": "0.22.27",
       "package_url": "https://github.com/toml-rs/toml",
       "repository": {
         "Http": {
-          "url": "https://static.crates.io/crates/toml_edit/0.22.26/download",
-          "sha256": "310068873db2c5b3e7659d2cc35d21855dbafa50d1ce336397c666e3cb08137e"
+          "url": "https://static.crates.io/crates/toml_edit/0.22.27/download",
+          "sha256": "41fe8c660ae4257887cf66394862d21dbca4a6ddd26f04a3560410406a2f819a"
         }
       },
       "targets": [
@@ -17733,15 +17780,15 @@
               "target": "serde"
             },
             {
-              "id": "serde_spanned 0.6.8",
+              "id": "serde_spanned 0.6.9",
               "target": "serde_spanned"
             },
             {
-              "id": "toml_datetime 0.6.9",
+              "id": "toml_datetime 0.6.11",
               "target": "toml_datetime"
             },
             {
-              "id": "toml_write 0.1.1",
+              "id": "toml_write 0.1.2",
               "target": "toml_write"
             },
             {
@@ -17752,7 +17799,7 @@
           "selects": {}
         },
         "edition": "2021",
-        "version": "0.22.26"
+        "version": "0.22.27"
       },
       "license": "MIT OR Apache-2.0",
       "license_ids": [
@@ -17761,14 +17808,14 @@
       ],
       "license_file": "LICENSE-APACHE"
     },
-    "toml_write 0.1.1": {
+    "toml_write 0.1.2": {
       "name": "toml_write",
-      "version": "0.1.1",
+      "version": "0.1.2",
       "package_url": "https://github.com/toml-rs/toml",
       "repository": {
         "Http": {
-          "url": "https://static.crates.io/crates/toml_write/0.1.1/download",
-          "sha256": "bfb942dfe1d8e29a7ee7fcbde5bd2b9a25fb89aa70caea2eba3bee836ff41076"
+          "url": "https://static.crates.io/crates/toml_write/0.1.2/download",
+          "sha256": "5d99f8c9a7727884afe522e9bd5edbfc91a3312b36a77b5fb8926e4c31a41801"
         }
       },
       "targets": [
@@ -17799,7 +17846,7 @@
           "selects": {}
         },
         "edition": "2021",
-        "version": "0.1.1"
+        "version": "0.1.2"
       },
       "license": "MIT OR Apache-2.0",
       "license_ids": [
@@ -17869,7 +17916,7 @@
               "target": "sync_wrapper"
             },
             {
-              "id": "tokio 1.45.0",
+              "id": "tokio 1.46.1",
               "target": "tokio"
             },
             {
@@ -17885,6 +17932,98 @@
         },
         "edition": "2018",
         "version": "0.5.2"
+      },
+      "license": "MIT",
+      "license_ids": [
+        "MIT"
+      ],
+      "license_file": "LICENSE"
+    },
+    "tower-http 0.6.6": {
+      "name": "tower-http",
+      "version": "0.6.6",
+      "package_url": "https://github.com/tower-rs/tower-http",
+      "repository": {
+        "Http": {
+          "url": "https://static.crates.io/crates/tower-http/0.6.6/download",
+          "sha256": "adc82fd73de2a9722ac5da747f12383d2bfdb93591ee6c58486e0097890f05f2"
+        }
+      },
+      "targets": [
+        {
+          "Library": {
+            "crate_name": "tower_http",
+            "crate_root": "src/lib.rs",
+            "srcs": {
+              "allow_empty": true,
+              "include": [
+                "**/*.rs"
+              ]
+            }
+          }
+        }
+      ],
+      "library_target_name": "tower_http",
+      "common_attrs": {
+        "compile_data_glob": [
+          "**"
+        ],
+        "crate_features": {
+          "common": [
+            "follow-redirect",
+            "futures-util",
+            "iri-string",
+            "tower"
+          ],
+          "selects": {}
+        },
+        "deps": {
+          "common": [
+            {
+              "id": "bitflags 2.5.0",
+              "target": "bitflags"
+            },
+            {
+              "id": "bytes 1.9.0",
+              "target": "bytes"
+            },
+            {
+              "id": "futures-util 0.3.30",
+              "target": "futures_util"
+            },
+            {
+              "id": "http 1.1.0",
+              "target": "http"
+            },
+            {
+              "id": "http-body 1.0.0",
+              "target": "http_body"
+            },
+            {
+              "id": "iri-string 0.7.8",
+              "target": "iri_string"
+            },
+            {
+              "id": "pin-project-lite 0.2.14",
+              "target": "pin_project_lite"
+            },
+            {
+              "id": "tower 0.5.2",
+              "target": "tower"
+            },
+            {
+              "id": "tower-layer 0.3.3",
+              "target": "tower_layer"
+            },
+            {
+              "id": "tower-service 0.3.3",
+              "target": "tower_service"
+            }
+          ],
+          "selects": {}
+        },
+        "edition": "2018",
+        "version": "0.6.6"
       },
       "license": "MIT",
       "license_ids": [
@@ -18568,7 +18707,7 @@
           "selects": {
             "cfg(unix)": [
               {
-                "id": "libc 0.2.168",
+                "id": "libc 0.2.174",
                 "target": "libc"
               }
             ]
@@ -19304,7 +19443,7 @@
         "deps": {
           "common": [
             {
-              "id": "rustls-pki-types 1.7.0",
+              "id": "rustls-pki-types 1.12.0",
               "target": "rustls_pki_types",
               "alias": "pki_types"
             }
@@ -19317,6 +19456,54 @@
       "license": "MPL-2.0",
       "license_ids": [
         "MPL-2.0"
+      ],
+      "license_file": "LICENSE"
+    },
+    "webpki-roots 1.0.1": {
+      "name": "webpki-roots",
+      "version": "1.0.1",
+      "package_url": "https://github.com/rustls/webpki-roots",
+      "repository": {
+        "Http": {
+          "url": "https://static.crates.io/crates/webpki-roots/1.0.1/download",
+          "sha256": "8782dd5a41a24eed3a4f40b606249b3e236ca61adf1f25ea4d45c73de122b502"
+        }
+      },
+      "targets": [
+        {
+          "Library": {
+            "crate_name": "webpki_roots",
+            "crate_root": "src/lib.rs",
+            "srcs": {
+              "allow_empty": true,
+              "include": [
+                "**/*.rs"
+              ]
+            }
+          }
+        }
+      ],
+      "library_target_name": "webpki_roots",
+      "common_attrs": {
+        "compile_data_glob": [
+          "**"
+        ],
+        "deps": {
+          "common": [
+            {
+              "id": "rustls-pki-types 1.12.0",
+              "target": "rustls_pki_types",
+              "alias": "pki_types"
+            }
+          ],
+          "selects": {}
+        },
+        "edition": "2021",
+        "version": "1.0.1"
+      },
+      "license": "CDLA-Permissive-2.0",
+      "license_ids": [
+        "CDLA-Permissive-2.0"
       ],
       "license_file": "LICENSE"
     },
@@ -19975,216 +20162,6 @@
       ],
       "license_file": "license-apache-2.0"
     },
-    "windows-link 0.1.1": {
-      "name": "windows-link",
-      "version": "0.1.1",
-      "package_url": "https://github.com/microsoft/windows-rs",
-      "repository": {
-        "Http": {
-          "url": "https://static.crates.io/crates/windows-link/0.1.1/download",
-          "sha256": "76840935b766e1b0a05c0066835fb9ec80071d4c09a16f6bd5f7e655e3c14c38"
-        }
-      },
-      "targets": [
-        {
-          "Library": {
-            "crate_name": "windows_link",
-            "crate_root": "src/lib.rs",
-            "srcs": {
-              "allow_empty": true,
-              "include": [
-                "**/*.rs"
-              ]
-            }
-          }
-        }
-      ],
-      "library_target_name": "windows_link",
-      "common_attrs": {
-        "compile_data_glob": [
-          "**"
-        ],
-        "edition": "2021",
-        "version": "0.1.1"
-      },
-      "license": "MIT OR Apache-2.0",
-      "license_ids": [
-        "Apache-2.0",
-        "MIT"
-      ],
-      "license_file": "license-apache-2.0"
-    },
-    "windows-registry 0.4.0": {
-      "name": "windows-registry",
-      "version": "0.4.0",
-      "package_url": "https://github.com/microsoft/windows-rs",
-      "repository": {
-        "Http": {
-          "url": "https://static.crates.io/crates/windows-registry/0.4.0/download",
-          "sha256": "4286ad90ddb45071efd1a66dfa43eb02dd0dfbae1545ad6cc3c51cf34d7e8ba3"
-        }
-      },
-      "targets": [
-        {
-          "Library": {
-            "crate_name": "windows_registry",
-            "crate_root": "src/lib.rs",
-            "srcs": {
-              "allow_empty": true,
-              "include": [
-                "**/*.rs"
-              ]
-            }
-          }
-        }
-      ],
-      "library_target_name": "windows_registry",
-      "common_attrs": {
-        "compile_data_glob": [
-          "**"
-        ],
-        "crate_features": {
-          "common": [
-            "default",
-            "std"
-          ],
-          "selects": {}
-        },
-        "deps": {
-          "common": [
-            {
-              "id": "windows-result 0.3.2",
-              "target": "windows_result"
-            },
-            {
-              "id": "windows-strings 0.3.1",
-              "target": "windows_strings"
-            },
-            {
-              "id": "windows-targets 0.53.0",
-              "target": "windows_targets"
-            }
-          ],
-          "selects": {}
-        },
-        "edition": "2021",
-        "version": "0.4.0"
-      },
-      "license": "MIT OR Apache-2.0",
-      "license_ids": [
-        "Apache-2.0",
-        "MIT"
-      ],
-      "license_file": "license-apache-2.0"
-    },
-    "windows-result 0.3.2": {
-      "name": "windows-result",
-      "version": "0.3.2",
-      "package_url": "https://github.com/microsoft/windows-rs",
-      "repository": {
-        "Http": {
-          "url": "https://static.crates.io/crates/windows-result/0.3.2/download",
-          "sha256": "c64fd11a4fd95df68efcfee5f44a294fe71b8bc6a91993e2791938abcc712252"
-        }
-      },
-      "targets": [
-        {
-          "Library": {
-            "crate_name": "windows_result",
-            "crate_root": "src/lib.rs",
-            "srcs": {
-              "allow_empty": true,
-              "include": [
-                "**/*.rs"
-              ]
-            }
-          }
-        }
-      ],
-      "library_target_name": "windows_result",
-      "common_attrs": {
-        "compile_data_glob": [
-          "**"
-        ],
-        "crate_features": {
-          "common": [
-            "std"
-          ],
-          "selects": {}
-        },
-        "deps": {
-          "common": [
-            {
-              "id": "windows-link 0.1.1",
-              "target": "windows_link"
-            }
-          ],
-          "selects": {}
-        },
-        "edition": "2021",
-        "version": "0.3.2"
-      },
-      "license": "MIT OR Apache-2.0",
-      "license_ids": [
-        "Apache-2.0",
-        "MIT"
-      ],
-      "license_file": "license-apache-2.0"
-    },
-    "windows-strings 0.3.1": {
-      "name": "windows-strings",
-      "version": "0.3.1",
-      "package_url": "https://github.com/microsoft/windows-rs",
-      "repository": {
-        "Http": {
-          "url": "https://static.crates.io/crates/windows-strings/0.3.1/download",
-          "sha256": "87fa48cc5d406560701792be122a10132491cff9d0aeb23583cc2dcafc847319"
-        }
-      },
-      "targets": [
-        {
-          "Library": {
-            "crate_name": "windows_strings",
-            "crate_root": "src/lib.rs",
-            "srcs": {
-              "allow_empty": true,
-              "include": [
-                "**/*.rs"
-              ]
-            }
-          }
-        }
-      ],
-      "library_target_name": "windows_strings",
-      "common_attrs": {
-        "compile_data_glob": [
-          "**"
-        ],
-        "crate_features": {
-          "common": [
-            "std"
-          ],
-          "selects": {}
-        },
-        "deps": {
-          "common": [
-            {
-              "id": "windows-link 0.1.1",
-              "target": "windows_link"
-            }
-          ],
-          "selects": {}
-        },
-        "edition": "2021",
-        "version": "0.3.1"
-      },
-      "license": "MIT OR Apache-2.0",
-      "license_ids": [
-        "Apache-2.0",
-        "MIT"
-      ],
-      "license_file": "license-apache-2.0"
-    },
     "windows-sys 0.52.0": {
       "name": "windows-sys",
       "version": "0.52.0",
@@ -20415,98 +20392,6 @@
       ],
       "license_file": "license-apache-2.0"
     },
-    "windows-targets 0.53.0": {
-      "name": "windows-targets",
-      "version": "0.53.0",
-      "package_url": "https://github.com/microsoft/windows-rs",
-      "repository": {
-        "Http": {
-          "url": "https://static.crates.io/crates/windows-targets/0.53.0/download",
-          "sha256": "b1e4c7e8ceaaf9cb7d7507c974735728ab453b67ef8f18febdd7c11fe59dca8b"
-        }
-      },
-      "targets": [
-        {
-          "Library": {
-            "crate_name": "windows_targets",
-            "crate_root": "src/lib.rs",
-            "srcs": {
-              "allow_empty": true,
-              "include": [
-                "**/*.rs"
-              ]
-            }
-          }
-        }
-      ],
-      "library_target_name": "windows_targets",
-      "common_attrs": {
-        "compile_data_glob": [
-          "**"
-        ],
-        "deps": {
-          "common": [],
-          "selects": {
-            "aarch64-pc-windows-gnullvm": [
-              {
-                "id": "windows_aarch64_gnullvm 0.53.0",
-                "target": "windows_aarch64_gnullvm"
-              }
-            ],
-            "cfg(all(any(target_arch = \"x86_64\", target_arch = \"arm64ec\"), target_env = \"msvc\", not(windows_raw_dylib)))": [
-              {
-                "id": "windows_x86_64_msvc 0.53.0",
-                "target": "windows_x86_64_msvc"
-              }
-            ],
-            "cfg(all(target_arch = \"aarch64\", target_env = \"msvc\", not(windows_raw_dylib)))": [
-              {
-                "id": "windows_aarch64_msvc 0.53.0",
-                "target": "windows_aarch64_msvc"
-              }
-            ],
-            "cfg(all(target_arch = \"x86\", target_env = \"gnu\", not(target_abi = \"llvm\"), not(windows_raw_dylib)))": [
-              {
-                "id": "windows_i686_gnu 0.53.0",
-                "target": "windows_i686_gnu"
-              }
-            ],
-            "cfg(all(target_arch = \"x86\", target_env = \"msvc\", not(windows_raw_dylib)))": [
-              {
-                "id": "windows_i686_msvc 0.53.0",
-                "target": "windows_i686_msvc"
-              }
-            ],
-            "cfg(all(target_arch = \"x86_64\", target_env = \"gnu\", not(target_abi = \"llvm\"), not(windows_raw_dylib)))": [
-              {
-                "id": "windows_x86_64_gnu 0.53.0",
-                "target": "windows_x86_64_gnu"
-              }
-            ],
-            "i686-pc-windows-gnullvm": [
-              {
-                "id": "windows_i686_gnullvm 0.53.0",
-                "target": "windows_i686_gnullvm"
-              }
-            ],
-            "x86_64-pc-windows-gnullvm": [
-              {
-                "id": "windows_x86_64_gnullvm 0.53.0",
-                "target": "windows_x86_64_gnullvm"
-              }
-            ]
-          }
-        },
-        "edition": "2021",
-        "version": "0.53.0"
-      },
-      "license": "MIT OR Apache-2.0",
-      "license_ids": [
-        "Apache-2.0",
-        "MIT"
-      ],
-      "license_file": "license-apache-2.0"
-    },
     "windows_aarch64_gnullvm 0.52.6": {
       "name": "windows_aarch64_gnullvm",
       "version": "0.52.6",
@@ -20559,74 +20444,6 @@
         },
         "edition": "2021",
         "version": "0.52.6"
-      },
-      "build_script_attrs": {
-        "compile_data_glob": [
-          "**"
-        ],
-        "data_glob": [
-          "**"
-        ]
-      },
-      "license": "MIT OR Apache-2.0",
-      "license_ids": [
-        "Apache-2.0",
-        "MIT"
-      ],
-      "license_file": "license-apache-2.0"
-    },
-    "windows_aarch64_gnullvm 0.53.0": {
-      "name": "windows_aarch64_gnullvm",
-      "version": "0.53.0",
-      "package_url": "https://github.com/microsoft/windows-rs",
-      "repository": {
-        "Http": {
-          "url": "https://static.crates.io/crates/windows_aarch64_gnullvm/0.53.0/download",
-          "sha256": "86b8d5f90ddd19cb4a147a5fa63ca848db3df085e25fee3cc10b39b6eebae764"
-        }
-      },
-      "targets": [
-        {
-          "Library": {
-            "crate_name": "windows_aarch64_gnullvm",
-            "crate_root": "src/lib.rs",
-            "srcs": {
-              "allow_empty": true,
-              "include": [
-                "**/*.rs"
-              ]
-            }
-          }
-        },
-        {
-          "BuildScript": {
-            "crate_name": "build_script_build",
-            "crate_root": "build.rs",
-            "srcs": {
-              "allow_empty": true,
-              "include": [
-                "**/*.rs"
-              ]
-            }
-          }
-        }
-      ],
-      "library_target_name": "windows_aarch64_gnullvm",
-      "common_attrs": {
-        "compile_data_glob": [
-          "**"
-        ],
-        "deps": {
-          "common": [
-            {
-              "id": "windows_aarch64_gnullvm 0.53.0",
-              "target": "build_script_build"
-            }
-          ],
-          "selects": {}
-        },
-        "edition": "2021",
-        "version": "0.53.0"
       },
       "build_script_attrs": {
         "compile_data_glob": [
@@ -20711,74 +20528,6 @@
       ],
       "license_file": "license-apache-2.0"
     },
-    "windows_aarch64_msvc 0.53.0": {
-      "name": "windows_aarch64_msvc",
-      "version": "0.53.0",
-      "package_url": "https://github.com/microsoft/windows-rs",
-      "repository": {
-        "Http": {
-          "url": "https://static.crates.io/crates/windows_aarch64_msvc/0.53.0/download",
-          "sha256": "c7651a1f62a11b8cbd5e0d42526e55f2c99886c77e007179efff86c2b137e66c"
-        }
-      },
-      "targets": [
-        {
-          "Library": {
-            "crate_name": "windows_aarch64_msvc",
-            "crate_root": "src/lib.rs",
-            "srcs": {
-              "allow_empty": true,
-              "include": [
-                "**/*.rs"
-              ]
-            }
-          }
-        },
-        {
-          "BuildScript": {
-            "crate_name": "build_script_build",
-            "crate_root": "build.rs",
-            "srcs": {
-              "allow_empty": true,
-              "include": [
-                "**/*.rs"
-              ]
-            }
-          }
-        }
-      ],
-      "library_target_name": "windows_aarch64_msvc",
-      "common_attrs": {
-        "compile_data_glob": [
-          "**"
-        ],
-        "deps": {
-          "common": [
-            {
-              "id": "windows_aarch64_msvc 0.53.0",
-              "target": "build_script_build"
-            }
-          ],
-          "selects": {}
-        },
-        "edition": "2021",
-        "version": "0.53.0"
-      },
-      "build_script_attrs": {
-        "compile_data_glob": [
-          "**"
-        ],
-        "data_glob": [
-          "**"
-        ]
-      },
-      "license": "MIT OR Apache-2.0",
-      "license_ids": [
-        "Apache-2.0",
-        "MIT"
-      ],
-      "license_file": "license-apache-2.0"
-    },
     "windows_i686_gnu 0.52.6": {
       "name": "windows_i686_gnu",
       "version": "0.52.6",
@@ -20831,74 +20580,6 @@
         },
         "edition": "2021",
         "version": "0.52.6"
-      },
-      "build_script_attrs": {
-        "compile_data_glob": [
-          "**"
-        ],
-        "data_glob": [
-          "**"
-        ]
-      },
-      "license": "MIT OR Apache-2.0",
-      "license_ids": [
-        "Apache-2.0",
-        "MIT"
-      ],
-      "license_file": "license-apache-2.0"
-    },
-    "windows_i686_gnu 0.53.0": {
-      "name": "windows_i686_gnu",
-      "version": "0.53.0",
-      "package_url": "https://github.com/microsoft/windows-rs",
-      "repository": {
-        "Http": {
-          "url": "https://static.crates.io/crates/windows_i686_gnu/0.53.0/download",
-          "sha256": "c1dc67659d35f387f5f6c479dc4e28f1d4bb90ddd1a5d3da2e5d97b42d6272c3"
-        }
-      },
-      "targets": [
-        {
-          "Library": {
-            "crate_name": "windows_i686_gnu",
-            "crate_root": "src/lib.rs",
-            "srcs": {
-              "allow_empty": true,
-              "include": [
-                "**/*.rs"
-              ]
-            }
-          }
-        },
-        {
-          "BuildScript": {
-            "crate_name": "build_script_build",
-            "crate_root": "build.rs",
-            "srcs": {
-              "allow_empty": true,
-              "include": [
-                "**/*.rs"
-              ]
-            }
-          }
-        }
-      ],
-      "library_target_name": "windows_i686_gnu",
-      "common_attrs": {
-        "compile_data_glob": [
-          "**"
-        ],
-        "deps": {
-          "common": [
-            {
-              "id": "windows_i686_gnu 0.53.0",
-              "target": "build_script_build"
-            }
-          ],
-          "selects": {}
-        },
-        "edition": "2021",
-        "version": "0.53.0"
       },
       "build_script_attrs": {
         "compile_data_glob": [
@@ -20983,74 +20664,6 @@
       ],
       "license_file": "license-apache-2.0"
     },
-    "windows_i686_gnullvm 0.53.0": {
-      "name": "windows_i686_gnullvm",
-      "version": "0.53.0",
-      "package_url": "https://github.com/microsoft/windows-rs",
-      "repository": {
-        "Http": {
-          "url": "https://static.crates.io/crates/windows_i686_gnullvm/0.53.0/download",
-          "sha256": "9ce6ccbdedbf6d6354471319e781c0dfef054c81fbc7cf83f338a4296c0cae11"
-        }
-      },
-      "targets": [
-        {
-          "Library": {
-            "crate_name": "windows_i686_gnullvm",
-            "crate_root": "src/lib.rs",
-            "srcs": {
-              "allow_empty": true,
-              "include": [
-                "**/*.rs"
-              ]
-            }
-          }
-        },
-        {
-          "BuildScript": {
-            "crate_name": "build_script_build",
-            "crate_root": "build.rs",
-            "srcs": {
-              "allow_empty": true,
-              "include": [
-                "**/*.rs"
-              ]
-            }
-          }
-        }
-      ],
-      "library_target_name": "windows_i686_gnullvm",
-      "common_attrs": {
-        "compile_data_glob": [
-          "**"
-        ],
-        "deps": {
-          "common": [
-            {
-              "id": "windows_i686_gnullvm 0.53.0",
-              "target": "build_script_build"
-            }
-          ],
-          "selects": {}
-        },
-        "edition": "2021",
-        "version": "0.53.0"
-      },
-      "build_script_attrs": {
-        "compile_data_glob": [
-          "**"
-        ],
-        "data_glob": [
-          "**"
-        ]
-      },
-      "license": "MIT OR Apache-2.0",
-      "license_ids": [
-        "Apache-2.0",
-        "MIT"
-      ],
-      "license_file": "license-apache-2.0"
-    },
     "windows_i686_msvc 0.52.6": {
       "name": "windows_i686_msvc",
       "version": "0.52.6",
@@ -21103,74 +20716,6 @@
         },
         "edition": "2021",
         "version": "0.52.6"
-      },
-      "build_script_attrs": {
-        "compile_data_glob": [
-          "**"
-        ],
-        "data_glob": [
-          "**"
-        ]
-      },
-      "license": "MIT OR Apache-2.0",
-      "license_ids": [
-        "Apache-2.0",
-        "MIT"
-      ],
-      "license_file": "license-apache-2.0"
-    },
-    "windows_i686_msvc 0.53.0": {
-      "name": "windows_i686_msvc",
-      "version": "0.53.0",
-      "package_url": "https://github.com/microsoft/windows-rs",
-      "repository": {
-        "Http": {
-          "url": "https://static.crates.io/crates/windows_i686_msvc/0.53.0/download",
-          "sha256": "581fee95406bb13382d2f65cd4a908ca7b1e4c2f1917f143ba16efe98a589b5d"
-        }
-      },
-      "targets": [
-        {
-          "Library": {
-            "crate_name": "windows_i686_msvc",
-            "crate_root": "src/lib.rs",
-            "srcs": {
-              "allow_empty": true,
-              "include": [
-                "**/*.rs"
-              ]
-            }
-          }
-        },
-        {
-          "BuildScript": {
-            "crate_name": "build_script_build",
-            "crate_root": "build.rs",
-            "srcs": {
-              "allow_empty": true,
-              "include": [
-                "**/*.rs"
-              ]
-            }
-          }
-        }
-      ],
-      "library_target_name": "windows_i686_msvc",
-      "common_attrs": {
-        "compile_data_glob": [
-          "**"
-        ],
-        "deps": {
-          "common": [
-            {
-              "id": "windows_i686_msvc 0.53.0",
-              "target": "build_script_build"
-            }
-          ],
-          "selects": {}
-        },
-        "edition": "2021",
-        "version": "0.53.0"
       },
       "build_script_attrs": {
         "compile_data_glob": [
@@ -21255,74 +20800,6 @@
       ],
       "license_file": "license-apache-2.0"
     },
-    "windows_x86_64_gnu 0.53.0": {
-      "name": "windows_x86_64_gnu",
-      "version": "0.53.0",
-      "package_url": "https://github.com/microsoft/windows-rs",
-      "repository": {
-        "Http": {
-          "url": "https://static.crates.io/crates/windows_x86_64_gnu/0.53.0/download",
-          "sha256": "2e55b5ac9ea33f2fc1716d1742db15574fd6fc8dadc51caab1c16a3d3b4190ba"
-        }
-      },
-      "targets": [
-        {
-          "Library": {
-            "crate_name": "windows_x86_64_gnu",
-            "crate_root": "src/lib.rs",
-            "srcs": {
-              "allow_empty": true,
-              "include": [
-                "**/*.rs"
-              ]
-            }
-          }
-        },
-        {
-          "BuildScript": {
-            "crate_name": "build_script_build",
-            "crate_root": "build.rs",
-            "srcs": {
-              "allow_empty": true,
-              "include": [
-                "**/*.rs"
-              ]
-            }
-          }
-        }
-      ],
-      "library_target_name": "windows_x86_64_gnu",
-      "common_attrs": {
-        "compile_data_glob": [
-          "**"
-        ],
-        "deps": {
-          "common": [
-            {
-              "id": "windows_x86_64_gnu 0.53.0",
-              "target": "build_script_build"
-            }
-          ],
-          "selects": {}
-        },
-        "edition": "2021",
-        "version": "0.53.0"
-      },
-      "build_script_attrs": {
-        "compile_data_glob": [
-          "**"
-        ],
-        "data_glob": [
-          "**"
-        ]
-      },
-      "license": "MIT OR Apache-2.0",
-      "license_ids": [
-        "Apache-2.0",
-        "MIT"
-      ],
-      "license_file": "license-apache-2.0"
-    },
     "windows_x86_64_gnullvm 0.52.6": {
       "name": "windows_x86_64_gnullvm",
       "version": "0.52.6",
@@ -21391,74 +20868,6 @@
       ],
       "license_file": "license-apache-2.0"
     },
-    "windows_x86_64_gnullvm 0.53.0": {
-      "name": "windows_x86_64_gnullvm",
-      "version": "0.53.0",
-      "package_url": "https://github.com/microsoft/windows-rs",
-      "repository": {
-        "Http": {
-          "url": "https://static.crates.io/crates/windows_x86_64_gnullvm/0.53.0/download",
-          "sha256": "0a6e035dd0599267ce1ee132e51c27dd29437f63325753051e71dd9e42406c57"
-        }
-      },
-      "targets": [
-        {
-          "Library": {
-            "crate_name": "windows_x86_64_gnullvm",
-            "crate_root": "src/lib.rs",
-            "srcs": {
-              "allow_empty": true,
-              "include": [
-                "**/*.rs"
-              ]
-            }
-          }
-        },
-        {
-          "BuildScript": {
-            "crate_name": "build_script_build",
-            "crate_root": "build.rs",
-            "srcs": {
-              "allow_empty": true,
-              "include": [
-                "**/*.rs"
-              ]
-            }
-          }
-        }
-      ],
-      "library_target_name": "windows_x86_64_gnullvm",
-      "common_attrs": {
-        "compile_data_glob": [
-          "**"
-        ],
-        "deps": {
-          "common": [
-            {
-              "id": "windows_x86_64_gnullvm 0.53.0",
-              "target": "build_script_build"
-            }
-          ],
-          "selects": {}
-        },
-        "edition": "2021",
-        "version": "0.53.0"
-      },
-      "build_script_attrs": {
-        "compile_data_glob": [
-          "**"
-        ],
-        "data_glob": [
-          "**"
-        ]
-      },
-      "license": "MIT OR Apache-2.0",
-      "license_ids": [
-        "Apache-2.0",
-        "MIT"
-      ],
-      "license_file": "license-apache-2.0"
-    },
     "windows_x86_64_msvc 0.52.6": {
       "name": "windows_x86_64_msvc",
       "version": "0.52.6",
@@ -21511,74 +20920,6 @@
         },
         "edition": "2021",
         "version": "0.52.6"
-      },
-      "build_script_attrs": {
-        "compile_data_glob": [
-          "**"
-        ],
-        "data_glob": [
-          "**"
-        ]
-      },
-      "license": "MIT OR Apache-2.0",
-      "license_ids": [
-        "Apache-2.0",
-        "MIT"
-      ],
-      "license_file": "license-apache-2.0"
-    },
-    "windows_x86_64_msvc 0.53.0": {
-      "name": "windows_x86_64_msvc",
-      "version": "0.53.0",
-      "package_url": "https://github.com/microsoft/windows-rs",
-      "repository": {
-        "Http": {
-          "url": "https://static.crates.io/crates/windows_x86_64_msvc/0.53.0/download",
-          "sha256": "271414315aff87387382ec3d271b52d7ae78726f5d44ac98b4f4030c91880486"
-        }
-      },
-      "targets": [
-        {
-          "Library": {
-            "crate_name": "windows_x86_64_msvc",
-            "crate_root": "src/lib.rs",
-            "srcs": {
-              "allow_empty": true,
-              "include": [
-                "**/*.rs"
-              ]
-            }
-          }
-        },
-        {
-          "BuildScript": {
-            "crate_name": "build_script_build",
-            "crate_root": "build.rs",
-            "srcs": {
-              "allow_empty": true,
-              "include": [
-                "**/*.rs"
-              ]
-            }
-          }
-        }
-      ],
-      "library_target_name": "windows_x86_64_msvc",
-      "common_attrs": {
-        "compile_data_glob": [
-          "**"
-        ],
-        "deps": {
-          "common": [
-            {
-              "id": "windows_x86_64_msvc 0.53.0",
-              "target": "build_script_build"
-            }
-          ],
-          "selects": {}
-        },
-        "edition": "2021",
-        "version": "0.53.0"
       },
       "build_script_attrs": {
         "compile_data_glob": [
@@ -21975,7 +21316,7 @@
           "selects": {
             "cfg(any(target_os = \"freebsd\", target_os = \"netbsd\"))": [
               {
-                "id": "libc 0.2.168",
+                "id": "libc 0.2.174",
                 "target": "libc"
               }
             ],
@@ -22611,7 +21952,7 @@
               "target": "crc32fast"
             },
             {
-              "id": "flate2 1.1.1",
+              "id": "flate2 1.1.2",
               "target": "flate2"
             },
             {
@@ -22867,7 +22208,7 @@
         "deps": {
           "common": [
             {
-              "id": "libc 0.2.168",
+              "id": "libc 0.2.174",
               "target": "libc"
             },
             {
@@ -23181,6 +22522,7 @@
       "x86_64-unknown-linux-gnu",
       "x86_64-unknown-nixos-gnu"
     ],
+    "cfg(all(tokio_uring, target_os = \"linux\"))": [],
     "cfg(all(windows, not(target_vendor = \"win7\")))": [
       "aarch64-pc-windows-msvc",
       "i686-pc-windows-msvc",
@@ -23537,26 +22879,26 @@
   "direct_deps": [
     "anyhow 1.0.98",
     "apple-flat-package 0.20.0",
-    "bzip2 0.5.2",
-    "clap 4.5.37",
+    "bzip2 0.6.0",
+    "clap 4.5.40",
     "debpkg 0.6.0",
     "directories 6.0.0",
     "env_logger 0.11.8",
     "exitcode 1.1.2",
-    "flate2 1.1.1",
+    "flate2 1.1.2",
     "fs2 0.4.3",
     "fs_extra 1.3.0",
     "infer 0.19.0",
     "log 0.4.27",
     "regex 1.11.1",
-    "reqwest 0.12.15",
+    "reqwest 0.12.22",
     "serde 1.0.219",
     "serde_json 1.0.140",
     "sevenz-rust 0.6.1",
     "tar 0.4.44",
-    "tempfile 3.19.1",
-    "tokio 1.45.0",
-    "toml 0.8.22",
+    "tempfile 3.20.0",
+    "tokio 1.46.1",
+    "toml 0.8.23",
     "walkdir 2.5.0",
     "which 8.0.0",
     "winapi 0.3.9",
