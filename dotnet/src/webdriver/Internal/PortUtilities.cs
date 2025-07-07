@@ -17,6 +17,7 @@
 // under the License.
 // </copyright>
 
+using System;
 using System.Net;
 using System.Net.Sockets;
 
@@ -33,23 +34,17 @@ public static class PortUtilities
     /// <returns>A random, free port to be listened on.</returns>
     public static int FindFreePort()
     {
-        // Locate a free port on the local machine by binding a socket to
-        // an IPEndPoint using IPAddress.Any and port 0. The socket will
-        // select a free port.
-        int listeningPort = 0;
-        Socket portSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+        using var socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+
         try
         {
-            IPEndPoint socketEndPoint = new IPEndPoint(IPAddress.Any, 0);
-            portSocket.Bind(socketEndPoint);
-            socketEndPoint = (IPEndPoint)portSocket.LocalEndPoint!;
-            listeningPort = socketEndPoint.Port;
-        }
-        finally
-        {
-            portSocket.Close();
-        }
+            socket.Bind(new IPEndPoint(IPAddress.Any, 0));
 
-        return listeningPort;
+            return ((IPEndPoint)socket.LocalEndPoint!).Port;
+        }
+        catch (SocketException ex)
+        {
+            throw new InvalidOperationException("Unable to find a free port.", ex);
+        }
     }
 }
