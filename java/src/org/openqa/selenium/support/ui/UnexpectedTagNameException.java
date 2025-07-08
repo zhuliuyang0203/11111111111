@@ -17,14 +17,10 @@
 
 package org.openqa.selenium.support.ui;
 
-import org.jspecify.annotations.NullMarked;
-import org.jspecify.annotations.Nullable;
 import org.openqa.selenium.WebDriverException;
 
-@NullMarked
 public class UnexpectedTagNameException extends WebDriverException {
-  public UnexpectedTagNameException(
-      @Nullable String expectedTagName, @Nullable String actualTagName) {
+  public UnexpectedTagNameException(String expectedTagName, String actualTagName) {
     super(
         String.format(
             "Element should have been \"%s\" but was \"%s\"", expectedTagName, actualTagName));
