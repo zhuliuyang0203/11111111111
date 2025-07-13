@@ -85,7 +85,7 @@ public static class SeleniumManager
                 SupportedPlatform.Linux => Path.Combine(currentDirectory, "runtimes", "linux", "native", "selenium-manager"),
                 SupportedPlatform.MacOS => Path.Combine(currentDirectory, "runtimes", "osx", "native", "selenium-manager"),
                 _ => throw new PlatformNotSupportedException(
-                                        $"Selenium Manager doesn't support your runtime platform: {RuntimeInformation.OSDescription}"),
+                    $"Selenium Manager doesn't support your runtime platform: {RuntimeInformation.OSDescription}"),
             };
         }
 
